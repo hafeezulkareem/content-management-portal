@@ -6,22 +6,16 @@ import { CodeContentEditor } from '../CodeContentEditor'
 import { CodeEditorContainer } from './styledComponents'
 
 type CodeEditorProps = {
-   programmingLanguageDetails: {
-      name: string
-      id: string
-      defaultCode: string
-   }
+   programmingLanguage: string
 }
 
 class CodeEditor extends React.Component<CodeEditorProps> {
    render() {
-      const { programmingLanguageDetails } = this.props
+      const { programmingLanguage } = this.props
       return (
          <CodeEditorContainer>
             <CodeEditorHeader />
-            <CodeContentEditor
-               programmingLanguageDetails={programmingLanguageDetails}
-            />
+            <CodeContentEditor programmingLanguage={programmingLanguage} />
          </CodeEditorContainer>
       )
    }

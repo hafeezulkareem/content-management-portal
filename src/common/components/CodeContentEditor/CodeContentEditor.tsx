@@ -12,15 +12,12 @@ import 'ace-builds/src-noconflict/theme-github'
 import { CodeEditorContainer } from './styledComponents'
 
 type CodeEditorProps = {
-   programmingLanguageDetails: {
-      name: string
-      defaultCode: string
-   }
+   programmingLanguage: string
 }
 
 class CodeContentEditor extends React.Component<CodeEditorProps> {
    render() {
-      const { programmingLanguageDetails } = this.props
+      const { programmingLanguage } = this.props
       return (
          <CodeEditorContainer>
             <AceEditor
@@ -29,12 +26,11 @@ class CodeContentEditor extends React.Component<CodeEditorProps> {
                   height: 'inherit'
                }}
                placeholder=''
-               mode={programmingLanguageDetails.name}
+               mode={programmingLanguage}
                fontSize={14}
                showPrintMargin={true}
                showGutter={true}
                highlightActiveLine={false}
-               value={programmingLanguageDetails.defaultCode}
                setOptions={{
                   enableBasicAutocompletion: false,
                   enableLiveAutocompletion: false,

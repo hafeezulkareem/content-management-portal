@@ -7,10 +7,5 @@ export default {
 }
 
 export const codeEditorDefaultView = () => (
-   <CodeContentEditor
-      programmingLanguageDetails={{
-         name: 'javascript',
-         defaultCode: 'console.log("Hello, World!");'
-      }}
-   />
+   <CodeContentEditor programmingLanguage='javascript' />
 )

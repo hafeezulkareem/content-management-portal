@@ -6,11 +6,4 @@ export default {
    title: 'common/CodeEditor'
 }
 
-export const codeEditor = () => (
-   <CodeEditor
-      programmingLanguageDetails={{
-         name: 'javascript',
-         defaultCode: 'console.log("Hello, World!");'
-      }}
-   />
-)
+export const codeEditor = () => <CodeEditor programmingLanguage='javascript' />

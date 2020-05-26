@@ -25,5 +25,18 @@
          "id": "php"
       },
       { "optionText": "Ruby", "id": "rb" }
-   ]
+   ],
+   "textEditorTypes": [
+      {
+         "optionText": "Text",
+         "id": "text"
+      },
+      { "optionText": "HTML", "id": "html" },
+      { "optionText": "Markdown", "id": "markdown" }
+   ],
+   "commonComponents": {
+      "add": "Add",
+      "save": "Save",
+      "addFiles": "Add Files"
+   }
 }

@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { CodeContentEditor } from './CodeContentEditor'
+import { ContentEditor } from './ContentEditor'
 
 export default {
    title: 'common/CodeContentEditor'
 }
 
 export const codeEditorDefaultView = () => (
-   <CodeContentEditor programmingLanguage='javascript' />
+   <ContentEditor contentType='javascript' />
 )

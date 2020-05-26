@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { CodeEditorHeader } from '../CodeEditorHeader'
-import { CodeContentEditor } from '../CodeContentEditor'
+import { ContentEditor } from '../ContentEditor'
 
 import { CodeEditorContainer } from './styledComponents'
 
@@ -15,7 +15,7 @@ class CodeEditor extends React.Component<CodeEditorProps> {
       return (
          <CodeEditorContainer>
             <CodeEditorHeader />
-            <CodeContentEditor programmingLanguage={programmingLanguage} />
+            <ContentEditor contentType={programmingLanguage} />
          </CodeEditorContainer>
       )
    }

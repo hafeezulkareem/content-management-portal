@@ -9,17 +9,20 @@ import {
 
 type DropDownProps = {
    options: Array<{ optionText: string; id: string }>
+   defaultOption: string
 }
 
 class DropDown extends React.Component<DropDownProps> {
    render() {
-      const { options } = this.props
+      const { options, defaultOption } = this.props
       return (
          <DropDownContainer>
             <DropDownSelect>
-               <DropDownOption hidden={true}>Languages</DropDownOption>
+               {defaultOption ? (
+                  <DropDownOption hidden={true}>Languages</DropDownOption>
+               ) : null}
                {options.map(option => (
-                  <DropDownOption value={options.optionText} key={option.id}>
+                  <DropDownOption value={option.optionText} key={option.id}>
                      {option.optionText}
                   </DropDownOption>
                ))}

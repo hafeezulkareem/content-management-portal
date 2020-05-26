@@ -6,4 +6,4 @@ export default {
    title: 'common/CodeEditor'
 }
 
-export const codeEditor = () => <CodeEditor programmingLanguage='javascript' />
+export const codeEditor = () => <CodeEditor contentType='javascript' />

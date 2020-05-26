@@ -7,26 +7,28 @@ import 'ace-builds/src-noconflict/mode-c_cpp'
 import 'ace-builds/src-noconflict/mode-csharp'
 import 'ace-builds/src-noconflict/mode-php'
 import 'ace-builds/src-noconflict/mode-ruby'
+import 'ace-builds/src-min-noconflict/mode-markdown'
+import 'ace-builds/src-min-noconflict/mode-html'
+import 'ace-builds/src-min-noconflict/mode-text'
 import 'ace-builds/src-noconflict/theme-github'
 
-import { CodeEditorContainer } from './styledComponents'
+import { ContentEditorContainer } from './styledComponents'
 
-type CodeEditorProps = {
-   programmingLanguage: string
+type ContentEditorProps = {
+   contentType: string
 }
 
-class CodeContentEditor extends React.Component<CodeEditorProps> {
+class ContentEditor extends React.Component<ContentEditorProps> {
    render() {
-      const { programmingLanguage } = this.props
+      const { contentType } = this.props
       return (
-         <CodeEditorContainer>
+         <ContentEditorContainer>
             <AceEditor
                style={{
                   width: 'inherit',
                   height: 'inherit'
                }}
-               placeholder=''
-               mode={programmingLanguage}
+               mode={contentType}
                fontSize={14}
                showPrintMargin={true}
                showGutter={true}
@@ -39,9 +41,9 @@ class CodeContentEditor extends React.Component<CodeEditorProps> {
                   tabSize: 3
                }}
             />
-         </CodeEditorContainer>
+         </ContentEditorContainer>
       )
    }
 }
 
-export { CodeContentEditor }
+export { ContentEditor }

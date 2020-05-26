@@ -9,7 +9,7 @@ export const DropDownContainer = styled.div`
 
 export const DropDownSelect = styled.select`
    ${tw`
-      appearance-none w-full h-full px-2 focus:outline-none cursor-pointer
+      appearance-none w-full h-full px-2 focus:outline-none cursor-pointer text-sm
    `}
 `
 

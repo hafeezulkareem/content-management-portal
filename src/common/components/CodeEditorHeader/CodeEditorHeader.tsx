@@ -22,7 +22,10 @@ class CodeEditorHeader extends React.Component {
                <FileNameInputField />
             </HeaderLeftSection>
             <HeaderRightSection>
-               <DropDown options={codeEditorLanguageOptions} />
+               <DropDown
+                  options={codeEditorLanguageOptions}
+                  defaultOption='Languages'
+               />
                <DeleteIcon
                   alt='Delete Icon'
                   src='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/481da5e6-de1f-436e-a6c3-e30e28d220a3.svg'

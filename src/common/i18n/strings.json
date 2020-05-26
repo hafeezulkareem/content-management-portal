@@ -1,0 +1,35 @@
+{
+   "codeEditorLanguageOptions": [
+      {
+         "optionText": "JavaScript",
+         "id": "js",
+         "defaultCode": "console.log('Hello, World!');"
+      },
+      {
+         "optionText": "Python",
+         "id": "py",
+         "defaultCode": "print('Hello, World!')"
+      },
+      {
+         "optionText": "Java",
+         "id": "java",
+         "defaultCode": "System.out.println('This will be printed');"
+      },
+      {
+         "optionText": "C++",
+         "id": "cpp",
+         "defaultCode": "#include <iostream>"
+      },
+      {
+         "optionText": "C#",
+         "id": "cs",
+         "defaultCode": "System.Console.WriteLine('Hello World!');"
+      },
+      {
+         "optionText": "PHP",
+         "id": "php",
+         "defaultCode": "echo 'Hello World!';"
+      },
+      { "optionText": "Ruby", "id": "rb", "defaultCode": "puts 'Hello World!'" }
+   ]
+}

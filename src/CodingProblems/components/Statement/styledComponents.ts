@@ -32,7 +32,7 @@ export const TextLabel = styled.p`
 
 export const ShortTextInputField = styled.input`
    ${tw`
-        border border-solid focus:outline-none p-2 my-2 rounded-sm
+        border border-solid focus:outline-none p-2 my-2 rounded-sm text-sm
     `}
 `
 

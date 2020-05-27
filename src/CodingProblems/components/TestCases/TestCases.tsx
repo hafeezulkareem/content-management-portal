@@ -2,6 +2,8 @@ import React from 'react'
 
 import { NumberButton } from '../../../common/components/NumberButton'
 import { CircleAddButton } from '../../../common/components/CircleAddButton'
+import { ContentEditor } from '../../../common/components/ContentEditor'
+import { SaveButton } from '../../../common/components/SaveButton'
 
 import i18n from '../../i18n/strings.json'
 
@@ -10,9 +12,12 @@ import {
    ButtonsContainer,
    LabelAndEditorContainer,
    TextLabel,
-   ScoreInputField
+   ScoreInputField,
+   CheckboxContainer,
+   Checkbox,
+   CheckboxLabel,
+   SaveButtonContainer
 } from './styledComponents'
-import { ContentEditor } from '../../../common/components/ContentEditor'
 
 class TestCases extends React.Component {
    render() {
@@ -42,6 +47,13 @@ class TestCases extends React.Component {
             </LabelAndEditorContainer>
             <TextLabel>{testCases.score}</TextLabel>
             <ScoreInputField type={testCases.contentType} />
+            <CheckboxContainer>
+               <Checkbox type={testCases.checkboxType} />
+               <CheckboxLabel>{testCases.isHidden}</CheckboxLabel>
+            </CheckboxContainer>
+            <SaveButtonContainer>
+               <SaveButton onClickSaveButton={() => {}} />
+            </SaveButtonContainer>
          </TestCasesContainer>
       )
    }

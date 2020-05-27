@@ -34,3 +34,28 @@ export const ScoreInputField = styled.input`
         w-12 h-12 p-2 border border-solid text-md rounded focus:outline-none
     `}
 `
+
+export const CheckboxContainer = styled.div`
+   ${tw`
+        flex items-center py-4
+    `}
+`
+
+export const Checkbox = styled.input`
+   border-color: ${commonColors.lightBlueGrey40};
+   ${tw`
+        w-4 h-4 border border-solid rounded-sm cursor-pointer
+    `}
+`
+
+export const CheckboxLabel = styled.span`
+   ${tw`
+        ml-2 text-sm
+    `}
+`
+
+export const SaveButtonContainer = styled.div`
+   ${tw`
+        flex justify-end mb-4
+    `}
+`

@@ -10,6 +10,7 @@ export default {
 
 export const numberButton = () => (
    <NumberButton
+      isActive={true}
       onClickNumberButton={action('Number button is clicked')}
       number={number('Number', 1)}
    />

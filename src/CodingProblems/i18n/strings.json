@@ -7,5 +7,17 @@
       "solutionApproach": "SOLUTION APPROACH",
       "cleanSolution": "CLEAN SOLUTION",
       "hints": "HINTS"
+   },
+   "statement": {
+      "shortText": "SHORT TEXT",
+      "shortTextType": "text",
+      "shortTextPlaceHolder": "Enter short text",
+      "problemDescription": "PROBLEM DESCRIPTION"
+   },
+   "testCases": {
+      "input": "INPUT",
+      "output": "OUTPUT",
+      "contentType": "text",
+      "score": "SCORE"
    }
 }

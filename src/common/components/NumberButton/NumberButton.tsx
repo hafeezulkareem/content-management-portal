@@ -5,13 +5,16 @@ import { NumberButtonEl } from './styledComponent'
 type NumberButtonProps = {
    onClickNumberButton: () => void
    number: number
+   isActive: boolean
 }
 
 class NumberButton extends React.Component<NumberButtonProps> {
    render() {
-      const { onClickNumberButton, number } = this.props
+      const { onClickNumberButton, number, isActive } = this.props
       return (
-         <NumberButtonEl onClick={onClickNumberButton}>{number}</NumberButtonEl>
+         <NumberButtonEl onClick={onClickNumberButton} isActive={isActive}>
+            {number}
+         </NumberButtonEl>
       )
    }
 }

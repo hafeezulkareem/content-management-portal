@@ -6,6 +6,6 @@ import colors from '../../themes/Colors'
 export const PreviewerContainer = styled.div`
    background-color: ${colors.lightBlueGrey40};
    ${tw`
-        w-full h-full
+        w-full h-full p-2
     `};
 `

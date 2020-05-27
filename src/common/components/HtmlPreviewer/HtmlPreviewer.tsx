@@ -10,11 +10,9 @@ class HtmlPreviewer extends React.Component<HtmlPreviewerProps> {
    render() {
       const { htmlText } = this.props
       return (
-         <HtmlPreviewerContainer
-            dangerouslySetInnerHTML={{
-               __html: htmlText
-            }}
-         ></HtmlPreviewerContainer>
+         <HtmlPreviewerContainer>
+            <iframe title='htmlPreviewer' srcDoc={htmlText}></iframe>
+         </HtmlPreviewerContainer>
       )
    }
 }

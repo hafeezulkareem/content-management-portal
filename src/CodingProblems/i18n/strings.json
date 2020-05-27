@@ -1,0 +1,11 @@
+{
+   "navigator": {
+      "statement": "STATEMENT",
+      "roughSolution": "ROUGH SOLUTION",
+      "testCases": "TEST CASES",
+      "prefilledCode": "PREFILLED CODE",
+      "solutionApproach": "SOLUTION APPROACH",
+      "cleanSolution": "CLEAN SOLUTION",
+      "hints": "HINTS"
+   }
+}

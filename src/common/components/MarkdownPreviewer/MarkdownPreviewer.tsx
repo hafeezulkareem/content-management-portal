@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 
+import 'github-markdown-css'
+
 import { PreviewerContainer } from './styledComponents'
 
 type MarkdownPreviewerProps = {
@@ -11,7 +13,7 @@ class MarkdownPreviewer extends React.Component<MarkdownPreviewerProps> {
    render() {
       const { markdownText } = this.props
       return (
-         <PreviewerContainer>
+         <PreviewerContainer className='markdown-body'>
             <ReactMarkdown source={markdownText} />
          </PreviewerContainer>
       )

@@ -11,7 +11,7 @@ export const TestCasesContainer = styled.div`
 
 export const ButtonsContainer = styled.div`
    ${tw`
-        py-4 bg-green-100
+        py-4
     `}
 `
 

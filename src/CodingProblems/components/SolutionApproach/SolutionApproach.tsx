@@ -42,7 +42,7 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
 
    render() {
       const { contentType } = this.props
-      const { solutionApproach } = i18n
+      const { solutionApproach } = i18n as any
       return (
          <SolutionApproachContainer>
             <LeftAndRightSections>

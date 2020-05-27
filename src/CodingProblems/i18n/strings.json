@@ -19,5 +19,16 @@
       "output": "OUTPUT",
       "contentType": "text",
       "score": "SCORE"
+   },
+   "hints": {
+      "hints": "HINTS",
+      "title": "TITLE",
+      "description": "DESCRIPTION",
+      "order": "ORDER",
+      "titlePlaceholder": "Ex. Luke S.",
+      "descriptionPlaceholder": "Create a new conversation by writing your message here...",
+      "orderPlaceholder": "5",
+      "titleType": "text",
+      "orderType": "number"
    }
 }

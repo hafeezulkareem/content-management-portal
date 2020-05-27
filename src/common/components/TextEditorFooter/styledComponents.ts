@@ -8,7 +8,7 @@ export const FooterContainer = styled.div`
 `
 export const AttachFileButton = styled.button`
    ${tw`
-        flex items-center px-4 py-2 bg-white
+        flex items-center px-4 py-2 bg-white focus:outline-none
     `}
 `
 export const AttachFileIcon = styled.img`

@@ -5,6 +5,7 @@ import commonI18n from '../../../common/i18n/strings.json'
 import { TextPreviewer } from '../../../common/components/TextPreviewer'
 import { MarkdownPreviewer } from '../../../common/components/MarkdownPreviewer'
 import { HtmlPreviewer } from '../../../common/components/HtmlPreviewer'
+import { SaveButton } from '../../../common/components/SaveButton'
 
 import i18n from '../../i18n/strings.json'
 
@@ -14,7 +15,9 @@ import {
    StatementRightSection,
    TextLabel,
    ShortTextInputField,
-   LeftSectionContainer
+   LeftSectionContainer,
+   SaveButtonContainer,
+   LeftAndRightSections
 } from './styledComponents'
 
 type StatementProps = {
@@ -42,25 +45,30 @@ class Statement extends React.Component<StatementProps> {
       const { textType, onClickAttachFileButton } = this.props
       return (
          <StatementContainer>
-            <StatementLeftSection>
-               <LeftSectionContainer>
-                  <TextLabel>{statement.shortText}</TextLabel>
-                  <ShortTextInputField
-                     type={statement.shortTextType}
-                     placeholder={statement.shortTextPlaceHolder}
-                  />
-               </LeftSectionContainer>
-               <LeftSectionContainer>
-                  <TextLabel>{statement.problemDescription}</TextLabel>
-                  <TextEditor
-                     textType={textType}
-                     onClickAttachFileButton={onClickAttachFileButton}
-                  />
-               </LeftSectionContainer>
-            </StatementLeftSection>
-            <StatementRightSection>
-               {this.renderPreviewer()}
-            </StatementRightSection>
+            <LeftAndRightSections>
+               <StatementLeftSection>
+                  <LeftSectionContainer>
+                     <TextLabel>{statement.shortText}</TextLabel>
+                     <ShortTextInputField
+                        type={statement.shortTextType}
+                        placeholder={statement.shortTextPlaceHolder}
+                     />
+                  </LeftSectionContainer>
+                  <LeftSectionContainer>
+                     <TextLabel>{statement.problemDescription}</TextLabel>
+                     <TextEditor
+                        textType={textType}
+                        onClickAttachFileButton={onClickAttachFileButton}
+                     />
+                  </LeftSectionContainer>
+               </StatementLeftSection>
+               <StatementRightSection>
+                  {this.renderPreviewer()}
+               </StatementRightSection>
+            </LeftAndRightSections>
+            <SaveButtonContainer>
+               <SaveButton onClickSaveButton={() => {}} />
+            </SaveButtonContainer>
          </StatementContainer>
       )
    }

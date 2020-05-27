@@ -6,7 +6,13 @@ import colors from '../../themes/Colors'
 export const StatementContainer = styled.div`
    border-color: ${colors.lightBlueGrey40};
    ${tw`
-        flex w-full bg-white
+        flex flex-col w-full bg-white
+    `}
+`
+
+export const LeftAndRightSections = styled.div`
+   ${tw`
+        flex
     `}
 `
 
@@ -39,5 +45,11 @@ export const ShortTextInputField = styled.input`
 export const StatementRightSection = styled.div`
    ${tw`
         w-1/2 border border-solid rounded-sm
+    `}
+`
+
+export const SaveButtonContainer = styled.div`
+   ${tw`
+        flex justify-end mt-8 mb-6 pr-8
     `}
 `

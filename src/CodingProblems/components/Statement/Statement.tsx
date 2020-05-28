@@ -19,14 +19,68 @@ import {
    ShortTextInputField,
    LeftSectionContainer,
    SaveButtonContainer,
-   LeftAndRightSections
+   LeftAndRightSections,
+   ErrorMessage
 } from './styledComponents'
+
+type StatementProps = {
+   codingProblemsStore: any
+}
+
 @observer
-class Statement extends React.Component {
+class Statement extends React.Component<StatementProps> {
    @observable shortText: string = ''
    @observable text: string = ''
    @observable
    textType: string = commonI18n.textEditorTypes[0].optionText.toLowerCase()
+   @observable shortTextError: string | null = null
+   @observable descriptionError: string | null = null
+
+   init = () => {
+      this.shortText = ''
+      this.text = ''
+      this.textType = commonI18n.textEditorTypes[0].optionText.toLowerCase()
+   }
+
+   onChangeShortText = event => {
+      this.shortTextError = null
+      this.shortText = event.target.value
+   }
+
+   onChangeDescription = updatedValue => {
+      this.descriptionError = null
+      this.text = updatedValue
+   }
+
+   onChangeTextType = event => {
+      this.textType = event.target.value
+   }
+
+   onClickSaveButton = event => {
+      const { codingProblemsStore } = this.props
+      const { postProblemStatement } = codingProblemsStore
+      let statementData
+      if (this.shortText && this.text) {
+         statementData = {
+            question_id: null,
+            short_text: this.shortText,
+            problem_description: {
+               content: this.text,
+               content_type: this.textType.toLowerCase()
+            }
+         }
+         this.init()
+      } else {
+         const { statement } = i18n
+         const { errors } = statement
+         if (!this.shortText) {
+            this.shortTextError = errors.shortTextIsRequired
+         } else {
+            this.descriptionError = errors.descriptionIsRequired
+         }
+      }
+      postProblemStatement(statementData)
+   }
 
    renderPreviewer = () => {
       const { textEditorTypes } = commonI18n
@@ -38,18 +92,6 @@ class Statement extends React.Component {
          case textEditorTypes[2].optionText.toLowerCase():
             return <MarkdownPreviewer markdownText={this.text} />
       }
-   }
-
-   onChangeShortText = event => {
-      this.shortText = event.target.value
-   }
-
-   onChangeDescription = updatedValue => {
-      this.text = updatedValue
-   }
-
-   onChangeTextType = event => {
-      this.textType = event.target.value
    }
 
    render() {
@@ -66,6 +108,9 @@ class Statement extends React.Component {
                         type={this.textType}
                         placeholder={statement.shortTextPlaceHolder}
                      />
+                     {this.shortTextError && (
+                        <ErrorMessage>{this.shortTextError}</ErrorMessage>
+                     )}
                   </LeftSectionContainer>
                   <LeftSectionContainer>
                      <TextLabel>{statement.problemDescription}</TextLabel>
@@ -76,6 +121,9 @@ class Statement extends React.Component {
                         onClickAttachFileButton={() => {}}
                         onChangeTextType={this.onChangeTextType}
                      />
+                     {this.descriptionError && (
+                        <ErrorMessage>{this.descriptionError}</ErrorMessage>
+                     )}
                   </LeftSectionContainer>
                </StatementLeftSection>
                <StatementRightSection>
@@ -83,7 +131,7 @@ class Statement extends React.Component {
                </StatementRightSection>
             </LeftAndRightSections>
             <SaveButtonContainer>
-               <SaveButton onClickSaveButton={() => {}} />
+               <SaveButton onClickSaveButton={this.onClickSaveButton} />
             </SaveButtonContainer>
          </StatementContainer>
       )

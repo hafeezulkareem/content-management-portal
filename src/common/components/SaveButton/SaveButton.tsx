@@ -5,7 +5,7 @@ import i18n from '../../i18n/strings.json'
 import { SaveButtonEl } from './styledComponents'
 
 type SaveButtonProps = {
-   onClickSaveButton: () => void
+   onClickSaveButton: (any) => void
 }
 
 class SaveButton extends React.Component<SaveButtonProps> {

@@ -26,8 +26,12 @@ import {
 import { CodeEditor } from '../../../common/components/CodeEditor'
 import { AddAndSaveButtons } from '../AddAndSaveButtons'
 
+type CreatingFlowProps = {
+   codingProblemsStore: any
+}
+
 @observer
-class CreatingFlow extends React.Component {
+class CreatingFlow extends React.Component<CreatingFlowProps> {
    @observable activeTab: string = STATEMENT
 
    goToCodingProblemsHome = () => {}
@@ -37,6 +41,7 @@ class CreatingFlow extends React.Component {
    }
 
    renderRespectiveTabComponent = () => {
+      const { codingProblemsStore } = this.props
       const {
          statement,
          roughSolution,
@@ -48,7 +53,7 @@ class CreatingFlow extends React.Component {
       } = i18n.navigator
       switch (this.activeTab) {
          case statement:
-            return <Statement />
+            return <Statement codingProblemsStore={codingProblemsStore} />
          case roughSolution:
             return (
                <Wrapper>

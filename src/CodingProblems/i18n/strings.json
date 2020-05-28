@@ -12,7 +12,11 @@
       "shortText": "SHORT TEXT",
       "shortTextType": "text",
       "shortTextPlaceHolder": "Enter short text",
-      "problemDescription": "PROBLEM DESCRIPTION"
+      "problemDescription": "PROBLEM DESCRIPTION",
+      "errors": {
+         "shortTextIsRequired": "Short text is required",
+         "descriptionIsRequired": "Description is required"
+      }
    },
    "testCases": {
       "input": "INPUT",

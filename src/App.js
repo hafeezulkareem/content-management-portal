@@ -2,9 +2,8 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { Provider } from 'mobx-react'
 
-import { CodingProblemsRoute } from './CodingProblems/routes/CodingProblemsRoute'
-import { SignIn } from './Authentication/components/SignIn'
-import HomePage from './common/components/HomePage'
+import { routes as authenticationRoutes } from './Authentication/routes'
+import { routes as codingProblemsRoutes } from './CodingProblems/routes'
 import stores from './common/stores'
 import './App.css'
 
@@ -13,13 +12,8 @@ const App = () => {
       <Provider {...stores}>
          <Router basename={process.env.PUBLIC_URL}>
             <Switch>
-               <Route exact path='/sign-in'>
-                  <SignIn />
-               </Route>
-               <Route path='/'>
-                  {/* <HomePage /> */}
-                  <CodingProblemsRoute />
-               </Route>
+               {codingProblemsRoutes}
+               <Route path='/'>{authenticationRoutes}</Route>
             </Switch>
          </Router>
       </Provider>

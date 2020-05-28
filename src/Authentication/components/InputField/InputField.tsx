@@ -9,8 +9,8 @@ import {
 type InputFieldProps = {
    inputFieldType: string
    inputFieldValue: string
-   onChangeInput: () => void
-   isError: boolean
+   onChangeInput: (any) => void
+   error: string | null
 }
 
 class InputField extends React.Component<InputFieldProps> {
@@ -19,16 +19,16 @@ class InputField extends React.Component<InputFieldProps> {
          inputFieldType,
          onChangeInput,
          inputFieldValue,
-         isError
+         error
       } = this.props
       return (
-         <InputFieldWrapper>
+         <InputFieldWrapper error={error}>
             <InputFieldEl
                value={inputFieldValue}
                onChange={onChangeInput}
                type={inputFieldType}
             />
-            {isError && (
+            {error && (
                <InputFieldErrorIcon
                   alt='Error Icon'
                   src='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/a68ce0bc-26a7-4037-94f4-f8461b2efea8.svg'

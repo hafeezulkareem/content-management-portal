@@ -1,5 +1,10 @@
 {
    "username": "USERNAME",
    "password": "PASSWORD",
-   "login": "Login"
+   "login": "Login",
+   "signInErrors": {
+      "pleasEnterUsername": "Please enter username",
+      "pleaseEnterPassword": "Please enter password",
+      "somethingWentWrong": "Something went wrong. Try Again!"
+   }
 }

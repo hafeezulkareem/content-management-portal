@@ -1,10 +1,16 @@
 import styled from '@emotion/styled'
 import tw from 'tailwind.macro'
 
+import colors from '../../themes/Colors'
+
+type InputFieldWrapperProps = {
+   error: string | null
+}
+
 export const InputFieldWrapper = styled.div`
-   ${tw`
-        w-full border border-solid rounded flex items-center py-2 px-3 text-sm my-2
-    `}
+   ${(props: InputFieldWrapperProps) =>
+      props.error ? `border-color: ${colors.neonRed};` : ''}
+   ${tw`w-full border border-solid rounded flex items-center py-2 px-3 text-sm my-2`}
 `
 export const InputFieldEl = styled.input`
    ${tw`

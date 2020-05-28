@@ -1,11 +1,9 @@
 import React from 'react'
 
-import { AddButton } from '../../../common/components/AddButton'
-import { SaveButton } from '../../../common/components/SaveButton'
-
 import { CleanSolutionCodeEditor } from '../CleanSolutionCodeEditor/CleanSolutionCodeEditor'
+import { AddAndSaveButtons } from '../AddAndSaveButtons'
 
-import { CleanSolutionContainer, ButtonsContainer } from './styledComponents'
+import { CleanSolutionContainer } from './styledComponents'
 
 type CleanSolutionProps = {
    content: string
@@ -21,10 +19,7 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
                contentType={contentType}
                content={content}
             />
-            <ButtonsContainer>
-               <AddButton onClickAddButton={() => {}} />
-               <SaveButton onClickSaveButton={() => {}} />
-            </ButtonsContainer>
+            <AddAndSaveButtons />
          </CleanSolutionContainer>
       )
    }

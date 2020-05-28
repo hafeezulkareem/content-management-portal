@@ -10,16 +10,21 @@ import { PageTitle } from '../../../common/components/PageTitle'
 import i18n from '../../i18n/strings.json'
 import { STATEMENT } from '../../constants/TabConstants'
 
-import { Statement } from '../Statement'
 import { Navigator } from '../Navigator'
+import { Statement } from '../Statement'
 import { TestCases } from '../TestCases'
-import { CodeEditors } from '../CodeEditors'
 import { SolutionApproach } from '../SolutionApproach'
 import { CleanSolution } from '../CleanSolution'
 import { Hints } from '../Hints'
 
-import { AppContainer, ContentContainer } from './styledComponents'
-import { RoughSolution } from '../RoughSolution'
+import {
+   AppContainer,
+   ContentContainer,
+   SectionWrapper,
+   Wrapper
+} from './styledComponents'
+import { CodeEditor } from '../../../common/components/CodeEditor'
+import { AddAndSaveButtons } from '../AddAndSaveButtons'
 
 @observer
 class CreatingFlow extends React.Component {
@@ -45,17 +50,49 @@ class CreatingFlow extends React.Component {
          case statement:
             return <Statement />
          case roughSolution:
-            return <RoughSolution code='' programmingLanguage='javascript' />
+            return (
+               <Wrapper>
+                  <SectionWrapper>
+                     <CodeEditor code='' programmingLanguage='javascript' />
+                     <AddAndSaveButtons />
+                  </SectionWrapper>
+               </Wrapper>
+            )
          case testCases:
-            return <TestCases content='#include <stdio.h>' />
+            return (
+               <Wrapper>
+                  <SectionWrapper>
+                     <TestCases content='#include <stdio.h>' />
+                  </SectionWrapper>
+               </Wrapper>
+            )
          case prefilledCode:
-            return <CodeEditors code='' programmingLanguage='javascript' />
+            return (
+               <Wrapper>
+                  <SectionWrapper>
+                     <CodeEditor code='' programmingLanguage='javascript' />
+                     <AddAndSaveButtons />
+                  </SectionWrapper>
+               </Wrapper>
+            )
          case solutionApproach:
             return <SolutionApproach content='' contentType='text' />
          case cleanSolution:
-            return <CleanSolution content='' contentType='javascript' />
+            return (
+               <Wrapper>
+                  <SectionWrapper>
+                     <CleanSolution content='' contentType='javascript' />
+                  </SectionWrapper>
+               </Wrapper>
+            )
          case hints:
-            return <Hints />
+            return (
+               <Wrapper>
+                  <SectionWrapper>
+                     <Hints />
+                  </SectionWrapper>
+               </Wrapper>
+            )
       }
    }
 

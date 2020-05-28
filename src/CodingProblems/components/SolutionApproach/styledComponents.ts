@@ -7,7 +7,7 @@ import { Typo12HKGroteskSemiBoldSteel } from '../../../styleGuide/Typos'
 
 export const SolutionApproachContainer = styled.div`
    ${tw`
-        my-4 flex flex-col
+        mb-4 flex flex-col
     `}
 `
 export const TextLabel = styled(Typo12HKGroteskSemiBoldSteel)`

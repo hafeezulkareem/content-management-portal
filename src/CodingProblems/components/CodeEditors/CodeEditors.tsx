@@ -1,14 +1,8 @@
 import React from 'react'
 
-import { AddButton } from '../../../common/components/AddButton'
-import { SaveButton } from '../../../common/components/SaveButton'
 import { CodeEditor } from '../../../common/components/CodeEditor'
 
-import {
-   ComponentContainer,
-   ButtonsContainer,
-   CodeEditorsContainer
-} from './styledComponents'
+import { ComponentContainer, CodeEditorsContainer } from './styledComponents'
 
 type RoughSolutionProps = {
    code: string
@@ -27,10 +21,6 @@ class CodeEditors extends React.Component<RoughSolutionProps> {
                   code={code}
                />
             </CodeEditorsContainer>
-            <ButtonsContainer>
-               <AddButton onClickAddButton={() => {}} />
-               <SaveButton onClickSaveButton={() => {}} />
-            </ButtonsContainer>
          </ComponentContainer>
       )
    }

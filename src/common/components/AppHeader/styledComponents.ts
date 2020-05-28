@@ -14,11 +14,14 @@ export const CompanyLogo = styled.img`
    width: 216px;
    height: 36px;
    ${tw`
-
-    `}
+      cursor-pointer
+   `}
 `
 
 export const UserProfilePic = styled.img`
    width: 40px;
    height: 40px;
+   ${tw`
+      cursor-pointer
+   `}
 `

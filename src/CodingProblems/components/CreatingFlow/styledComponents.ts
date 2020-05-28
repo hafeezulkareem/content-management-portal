@@ -12,3 +12,15 @@ export const ContentContainer = styled.div`
         flex flex-col mt-12
     `}
 `
+
+export const Wrapper = styled.div`
+   ${tw`
+        flex justify-center
+    `}
+`
+
+export const SectionWrapper = styled.div`
+   ${tw`
+        flex flex-col
+    `}
+`

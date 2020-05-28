@@ -4,14 +4,15 @@ import tw from 'tailwind.macro'
 import commonColors from '../../../common/themes/Colors'
 
 export const TestCasesContainer = styled.div`
+   width: 625px;
    ${tw`
-        flex flex-col px-16
+        flex flex-col
     `}
 `
 
 export const ButtonsContainer = styled.div`
    ${tw`
-        py-4
+        pb-4
     `}
 `
 

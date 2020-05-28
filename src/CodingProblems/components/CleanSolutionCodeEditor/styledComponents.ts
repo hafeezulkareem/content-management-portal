@@ -6,7 +6,7 @@ import colors from '../../themes/Colors'
 export const CodeEditorContainer = styled.div`
    border-color: ${colors.lightBlueGrey40};
    ${tw`
-        w-1/2 border border-solid rounded-sm relative
+        border border-solid rounded-sm relative
     `}
 `
 

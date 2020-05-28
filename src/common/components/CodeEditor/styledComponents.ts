@@ -4,9 +4,10 @@ import tw from 'tailwind.macro'
 import colors from '../../themes/Colors'
 
 export const CodeEditorContainer = styled.div`
+   width: 565px;
    height: 320px;
    border-color: ${colors.lightBlueGrey40};
    ${tw`
-        w-full flex flex-col border border-solid rounded my-4
+        flex flex-col border border-solid rounded mb-4
     `};
 `

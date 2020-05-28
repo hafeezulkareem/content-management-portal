@@ -12,9 +12,3 @@ export const CodeEditorsContainer = styled.div`
         w-2/4
     `}
 `
-
-export const ButtonsContainer = styled.div`
-   ${tw`
-        w-40 justify-between flex my-6
-    `}
-`

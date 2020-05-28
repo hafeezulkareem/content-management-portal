@@ -5,20 +5,21 @@ import commonColors from '../../../common/themes/Colors'
 import { Typo12HKGroteskSemiBoldSteel } from '../../../styleGuide/Typos'
 
 export const HintsContainer = styled.div`
+   width: 65vw;
    ${tw`
-        flex flex-col px-8
+        flex flex-col
     `}
 `
 
 export const ButtonsContainer = styled.div`
    ${tw`
-        py-4
+        pb-4
     `}
 `
 
 export const FormWithSaveButton = styled.div`
    ${tw`
-        flex flex-col mt-8 px-56
+        flex flex-col mt-8 px-40
     `}
 `
 

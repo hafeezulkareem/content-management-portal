@@ -37,5 +37,13 @@
       "orderPlaceholder": "5",
       "titleType": "text",
       "orderType": "number"
+   },
+   "codingProblemsList": {
+      "questions": "QUESTIONS",
+      "roughSolution": "ROUGH SOLUTION",
+      "testCases": "TEST CASES",
+      "prefilledCode": "PREFILLED CODE",
+      "solutionApproach": "SOLUTION APPROACH",
+      "cleanSolution": "CLEAN SOLUTION"
    }
 }

@@ -1,0 +1,79 @@
+{
+   "total_questions": 10,
+   "offset": 0,
+   "limit": 10,
+   "questions_list": [
+      {
+         "question_id": 0,
+         "statement": "This is coding statement example given by the backend team for content management portal",
+         "rough_solution_status": true,
+         "test_cases_status": true,
+         "prefilled_code_status": false,
+         "solution_approach_status": false,
+         "clean_solution_status": false
+      },
+      {
+         "question_id": 1,
+         "statement": "This is coding statement example given by the backend team for content management portal",
+         "rough_solution_status": true,
+         "test_cases_status": true,
+         "prefilled_code_status": false,
+         "solution_approach_status": true,
+         "clean_solution_status": false
+      },
+      {
+         "question_id": 2,
+         "statement": "This is coding statement example given by the backend team for content management portal",
+         "rough_solution_status": true,
+         "test_cases_status": false,
+         "prefilled_code_status": true,
+         "solution_approach_status": false,
+         "clean_solution_status": false
+      },
+      {
+         "question_id": 3,
+         "statement": "This is coding statement example given by the backend team for content management portal",
+         "rough_solution_status": false,
+         "test_cases_status": false,
+         "prefilled_code_status": false,
+         "solution_approach_status": false,
+         "clean_solution_status": true
+      },
+      {
+         "question_id": 4,
+         "statement": "This is coding statement example given by the backend team for content management portal",
+         "rough_solution_status": false,
+         "test_cases_status": false,
+         "prefilled_code_status": false,
+         "solution_approach_status": true,
+         "clean_solution_status": false
+      },
+      {
+         "question_id": 5,
+         "statement": "This is coding statement example given by the backend team for content management portal",
+         "rough_solution_status": true,
+         "test_cases_status": false,
+         "prefilled_code_status": true,
+         "solution_approach_status": false,
+         "clean_solution_status": true
+      },
+      {
+         "question_id": 6,
+         "statement": "This is coding statement example given by the backend team for content management portal",
+         "rough_solution_status": false,
+         "test_cases_status": false,
+         "prefilled_code_status": true,
+         "solution_approach_status": false,
+         "clean_solution_status": false
+      },
+      {
+         "question_id": 7,
+         "statement": "This is coding statement example given by the backend team for content management portal",
+         "rough_solution_status": false,
+         "test_cases_status": true,
+         "prefilled_code_status": true,
+         "solution_approach_status": true,
+         "clean_solution_status": false
+      }
+   ]
+}

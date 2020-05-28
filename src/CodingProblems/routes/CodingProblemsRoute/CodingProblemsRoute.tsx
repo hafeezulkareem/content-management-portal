@@ -16,7 +16,7 @@ class CodingProblemsRoute extends React.Component<CodingProblemsRouteProps> {
    render() {
       const { codingProblemsStore } = this.props
       // return <CreatingFlow codingProblemsStore={codingProblemsStore} />
-      return <CodingProblemsHome />
+      return <CodingProblemsHome codingProblemsStore={codingProblemsStore} />
    }
 }
 

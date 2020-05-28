@@ -2,13 +2,18 @@ import { action, observable } from 'mobx'
 import { bindPromiseWithOnSuccess } from '@ib/mobx-promise'
 import { API_INITIAL } from '@ib/api-constants'
 
+import { CodingProblemItemModel } from '../models/CodingProblemItemModel'
+
 class CodingProblemsStore {
    @observable postStatementAPIStatus
    @observable postStatementAPIError
    @observable postRoughSolutionAPIStatus
    @observable postRoughSolutionAPIError
+   @observable getCodingProblemsAPIStatus
+   @observable getCodingProblemsAPIError
    codingProblemsAPIService
    codingProblemId
+   @observable codingProblemsList
 
    constructor(service) {
       this.codingProblemsAPIService = service
@@ -20,6 +25,7 @@ class CodingProblemsStore {
       this.postStatementAPIStatus = API_INITIAL
       this.postStatementAPIError = null
       this.codingProblemId = null
+      this.codingProblemsList = new Map()
    }
 
    @action.bound
@@ -77,6 +83,35 @@ class CodingProblemsStore {
       return bindPromiseWithOnSuccess(problemRoughSolutionPromise)
          .to(this.setRoughSolutionAPIStatus, this.setRoughSolutionAPIResponse)
          .catch(this.setRoughSolutionAPIError)
+   }
+
+   @action.bound
+   setCodingProblemsAPIStatus(codingProblemsAPIStatus) {
+      this.getCodingProblemsAPIStatus = codingProblemsAPIStatus
+   }
+
+   @action.bound
+   setCodingProblemsAPIError(codingProblemsAPIError) {
+      this.getCodingProblemsAPIError = codingProblemsAPIError
+   }
+
+   @action.bound
+   setCodingProblemsAPIResponse(codingProblemsAPIResponse) {
+      const { questions_list: codingProblems } = codingProblemsAPIResponse
+      codingProblems.forEach(codingProblem => {
+         this.codingProblemsList.set(
+            codingProblem.question_id,
+            new CodingProblemItemModel(codingProblem)
+         )
+      })
+   }
+
+   @action.bound
+   getCodingProblems() {
+      const codingProblemsPromise = this.codingProblemsAPIService.getCodingProblemsAPI()
+      return bindPromiseWithOnSuccess(codingProblemsPromise)
+         .to(this.setCodingProblemsAPIStatus, this.setCodingProblemsAPIResponse)
+         .catch(this.setCodingProblemsAPIError)
    }
 }
 

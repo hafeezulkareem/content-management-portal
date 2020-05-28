@@ -1,4 +1,5 @@
 import problemStatementResponse from '../../fixtures/postProblemStatementResponse.json'
+import codingProblemsResponse from '../../fixtures/getCodingProblemsResponse.json'
 
 class CodingProblemsFixture {
    postProblemStatementAPI() {
@@ -7,6 +8,10 @@ class CodingProblemsFixture {
 
    postProblemRoughSolutionAPI() {
       return new Promise((resolve, reject) => resolve())
+   }
+
+   getCodingProblemsAPI() {
+      return new Promise((resolve, reject) => resolve(codingProblemsResponse))
    }
 }
 

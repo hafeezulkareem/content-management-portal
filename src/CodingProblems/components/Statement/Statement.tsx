@@ -27,6 +27,7 @@ type StatementProps = {
    codingProblemsStore: any
    onSelectTab: any
    currentTabIndex: number
+   updateDataStatus: any
 }
 
 @observer
@@ -47,15 +48,18 @@ class Statement extends React.Component<StatementProps> {
    onChangeShortText = event => {
       this.shortTextError = null
       this.shortText = event.target.value
+      this.props.updateDataStatus(this.shortText)
    }
 
    onChangeDescription = updatedValue => {
       this.descriptionError = null
       this.text = updatedValue
+      this.props.updateDataStatus(this.text)
    }
 
    onChangeTextType = event => {
       this.textType = event.target.value
+      this.props.updateDataStatus(this.textType)
    }
 
    onClickSaveButton = event => {
@@ -68,12 +72,13 @@ class Statement extends React.Component<StatementProps> {
             short_text: this.shortText,
             problem_description: {
                content: this.text,
-               content_type: this.textType.toLowerCase()
+               content_type: this.textType.toUpperCase()
             }
          }
          postProblemStatement(statementData)
          this.init()
-         const { onSelectTab, currentTabIndex } = this.props
+         const { onSelectTab, currentTabIndex, updateDataStatus } = this.props
+         updateDataStatus(false)
          onSelectTab(currentTabIndex + 1)
       } else {
          const { statement } = i18n

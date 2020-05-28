@@ -14,6 +14,7 @@ type RoughSolutionProps = {
    codingProblemsStore: any
    onSelectTab: any
    currentTabIndex: number
+   updateDataStatus: any
 }
 
 @observer
@@ -53,18 +54,21 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
       const currentCodeEditor = this.codeEditorsList.get(id)
       currentCodeEditor.fileName = updatedValue
       this.errorMessage = null
+      this.props.updateDataStatus(updatedValue)
    }
 
    onChangeProgrammingLanguage = (updatedProgrammingLanguage, id) => {
       const currentCodeEditor = this.codeEditorsList.get(id)
       currentCodeEditor.programmingLanguage = updatedProgrammingLanguage
       this.errorMessage = null
+      this.props.updateDataStatus(updatedProgrammingLanguage)
    }
 
    onChangeContent = (updatedContent, id) => {
       const currentCodeEditor = this.codeEditorsList.get(id)
       currentCodeEditor.content = updatedContent
       this.errorMessage = null
+      this.props.updateDataStatus(updatedContent)
    }
 
    onClickDeleteButton = id => {
@@ -92,7 +96,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
                   this.errorMessage = errors.fillAllTheFields
                } else {
                   roughSolutions.push({
-                     language: codeEditorDetails.programmingLanguage.toLowerCase(),
+                     language: codeEditorDetails.programmingLanguage.toUpperCase(),
                      solution_content: codeEditorDetails.content,
                      file_name: codeEditorDetails.fileName,
                      rough_solution_id: null
@@ -104,7 +108,8 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
       if (!this.errorMessage) {
          postProblemRoughSolution(roughSolutions)
          this.init()
-         const { onSelectTab, currentTabIndex } = this.props
+         const { onSelectTab, currentTabIndex, updateDataStatus } = this.props
+         updateDataStatus(false)
          onSelectTab(currentTabIndex + 1)
       }
    }

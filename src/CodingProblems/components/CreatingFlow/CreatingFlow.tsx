@@ -76,18 +76,28 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
          isSelected: false
       }
    ]
+   isDataSaved: boolean = true
 
    goToCodingProblemsHome = () => {}
 
+   confirmDataStatus = () => {
+      if (!this.isDataSaved) {
+         return window.confirm('Data is not saved. Are you sure want to leave?')
+      }
+   }
+
    onSelectTab = (tabIndex: number) => {
-      this.selectedTabIndex = tabIndex
-      this.tabDetails.forEach((tab, index) => {
-         if (tab.tabIndex === tabIndex) {
-            this.tabDetails[index].isSelected = true
-         } else {
-            this.tabDetails[index].isSelected = false
-         }
-      })
+      if (this.isDataSaved || this.confirmDataStatus()) {
+         this.selectedTabIndex = tabIndex
+         this.tabDetails.forEach((tab, index) => {
+            if (tab.tabIndex === tabIndex) {
+               this.tabDetails[index].isSelected = true
+            } else {
+               this.tabDetails[index].isSelected = false
+            }
+         })
+         this.isDataSaved = true
+      }
    }
 
    renderRespectiveTabComponent = () => {
@@ -99,6 +109,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                   codingProblemsStore={codingProblemsStore}
                   onSelectTab={this.onSelectTab}
                   currentTabIndex={this.selectedTabIndex}
+                  updateDataStatus={this.updateDataStatus}
                />
             )
          case 2:
@@ -110,6 +121,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                         codingProblemsStore={codingProblemsStore}
                         onSelectTab={this.onSelectTab}
                         currentTabIndex={this.selectedTabIndex}
+                        updateDataStatus={this.updateDataStatus}
                      />
                   </SectionWrapper>
                </Wrapper>
@@ -131,6 +143,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                         codingProblemsStore={codingProblemsStore}
                         onSelectTab={this.onSelectTab}
                         currentTabIndex={this.selectedTabIndex}
+                        updateDataStatus={this.updateDataStatus}
                      />
                   </SectionWrapper>
                </Wrapper>
@@ -165,6 +178,14 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
             return word
          })
          .join(' ')
+   }
+
+   updateDataStatus = updatedContent => {
+      if (!updatedContent) {
+         this.isDataSaved = true
+      } else {
+         this.isDataSaved = false
+      }
    }
 
    render() {

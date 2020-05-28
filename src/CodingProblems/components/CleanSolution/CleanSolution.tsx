@@ -19,7 +19,10 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
                contentType={contentType}
                content={content}
             />
-            <AddAndSaveButtons />
+            <AddAndSaveButtons
+               onClickAddButton={() => {}}
+               onClickSaveButton={() => {}}
+            />
          </CleanSolutionContainer>
       )
    }

@@ -5,12 +5,18 @@ import { SaveButton } from '../../../common/components/SaveButton'
 
 import { ButtonsContainer } from './styledComponents'
 
-class AddAndSaveButtons extends React.Component {
+type AddAndSaveButtonsProps = {
+   onClickAddButton: (any) => void
+   onClickSaveButton: (any) => void
+}
+
+class AddAndSaveButtons extends React.Component<AddAndSaveButtonsProps> {
    render() {
+      const { onClickAddButton, onClickSaveButton } = this.props
       return (
          <ButtonsContainer>
-            <AddButton onClickAddButton={() => {}} />
-            <SaveButton onClickSaveButton={() => {}} />
+            <AddButton onClickAddButton={onClickAddButton} />
+            <SaveButton onClickSaveButton={onClickSaveButton} />
          </ButtonsContainer>
       )
    }

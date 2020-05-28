@@ -3,6 +3,6 @@ import tw from 'tailwind.macro'
 
 export const ButtonsContainer = styled.div`
    ${tw`
-        w-40 justify-between flex my-6
+        w-40 justify-between flex my-4
     `}
 `

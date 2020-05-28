@@ -18,6 +18,11 @@
          "descriptionIsRequired": "Description is required"
       }
    },
+   "roughSolution": {
+      "errors": {
+         "fillAllTheFields": "Fill all the fields"
+      }
+   },
    "testCases": {
       "input": "INPUT",
       "output": "OUTPUT",

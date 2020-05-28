@@ -5,6 +5,8 @@ import { API_INITIAL } from '@ib/api-constants'
 class CodingProblemsStore {
    @observable postStatementAPIStatus
    @observable postStatementAPIError
+   @observable postRoughSolutionAPIStatus
+   @observable postRoughSolutionAPIError
    codingProblemsAPIService
    codingProblemId
 
@@ -47,6 +49,34 @@ class CodingProblemsStore {
       return bindPromiseWithOnSuccess(problemStatementPromise)
          .to(this.setStatementAPIStatus, this.setStatementAPIResponse)
          .catch(this.setStatementAPIError)
+   }
+
+   @action.bound
+   setRoughSolutionAPIStatus(roughSolutionAPIStatus) {
+      this.postRoughSolutionAPIStatus = roughSolutionAPIStatus
+   }
+
+   @action.bound
+   setRoughSolutionAPIError(roughSolutionAPIError) {
+      this.postRoughSolutionAPIError = roughSolutionAPIError
+   }
+
+   @action.bound
+   setRoughSolutionAPIResponse(roughSolutionAPIResponse) {
+      const { question_id: questionId } = roughSolutionAPIResponse[0]
+      this.codingProblemId = questionId
+      console.log('Problem Id', this.codingProblemId)
+   }
+
+   @action.bound
+   postProblemRoughSolution(roughSolutionData) {
+      console.log('Rough Solution Data', roughSolutionData)
+      const problemRoughSolutionPromise = this.codingProblemsAPIService.postProblemRoughSolutionAPI(
+         roughSolutionData
+      )
+      return bindPromiseWithOnSuccess(problemRoughSolutionPromise)
+         .to(this.setRoughSolutionAPIStatus, this.setRoughSolutionAPIResponse)
+         .catch(this.setRoughSolutionAPIError)
    }
 }
 

@@ -1,9 +1,11 @@
 import styled from '@emotion/styled'
 import tw from 'tailwind.macro'
 
+import colors from '../../themes/Colors'
+
 export const RoughSolutionContainer = styled.div`
    ${tw`
-        flex flex-col mb-4 -mt-12
+        flex flex-col mb-4
     `}
 `
 
@@ -16,5 +18,12 @@ export const CodeEditorsContainer = styled.div`
 export const ButtonsContainer = styled.div`
    ${tw`
         w-40 justify-between flex my-6
+    `}
+`
+
+export const ErrorMessage = styled.p`
+   color: ${colors.neonRed};
+   ${tw`
+        text-xs text-center my-2
     `}
 `

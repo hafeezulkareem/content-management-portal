@@ -5,7 +5,7 @@ import i18n from '../../i18n/strings.json'
 import { AddButtonEl, PlusImage } from './styledComponents'
 
 type AddButtonProps = {
-   onClickAddButton: () => void
+   onClickAddButton: (any) => void
 }
 
 class AddButton extends React.Component<AddButtonProps> {

@@ -17,7 +17,7 @@ import { ContentEditorContainer } from './styledComponents'
 type ContentEditorProps = {
    content: string
    contentType: string
-   onChangeContent: () => void
+   onChangeContent: any
 }
 
 class ContentEditor extends React.Component<ContentEditorProps> {

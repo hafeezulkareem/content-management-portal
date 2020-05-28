@@ -12,6 +12,7 @@ import { STATEMENT } from '../../constants/TabConstants'
 
 import { Navigator } from '../Navigator'
 import { Statement } from '../Statement'
+import { RoughSolution } from '../RoughSolution'
 import { TestCases } from '../TestCases'
 import { SolutionApproach } from '../SolutionApproach'
 import { CleanSolution } from '../CleanSolution'
@@ -23,8 +24,6 @@ import {
    SectionWrapper,
    Wrapper
 } from './styledComponents'
-import { CodeEditor } from '../../../common/components/CodeEditor'
-import { AddAndSaveButtons } from '../AddAndSaveButtons'
 
 type CreatingFlowProps = {
    codingProblemsStore: any
@@ -58,8 +57,10 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
             return (
                <Wrapper>
                   <SectionWrapper>
-                     <CodeEditor code='' programmingLanguage='javascript' />
-                     <AddAndSaveButtons />
+                     <RoughSolution
+                        key={roughSolution}
+                        codingProblemsStore={codingProblemsStore}
+                     />
                   </SectionWrapper>
                </Wrapper>
             )
@@ -75,8 +76,10 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
             return (
                <Wrapper>
                   <SectionWrapper>
-                     <CodeEditor code='' programmingLanguage='javascript' />
-                     <AddAndSaveButtons />
+                     <RoughSolution
+                        key={prefilledCode}
+                        codingProblemsStore={codingProblemsStore}
+                     />
                   </SectionWrapper>
                </Wrapper>
             )

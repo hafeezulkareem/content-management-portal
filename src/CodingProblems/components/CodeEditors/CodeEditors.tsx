@@ -1,24 +1,72 @@
 import React from 'react'
+import { observer } from 'mobx-react'
+import { observable } from 'mobx'
 
-import { CodeEditor } from '../../../common/components/CodeEditor'
+import { AddAndSaveButtons } from '../AddAndSaveButtons'
 
 import { ComponentContainer, CodeEditorsContainer } from './styledComponents'
+import { CodingEditorModel } from '../../stores/models/CodingEditorModel'
+import { CodeEditor } from '../../../common/components/CodeEditor'
 
-type RoughSolutionProps = {
-   code: string
-   programmingLanguage: string
-}
-
+@observer
 // TODO: onChangeProgrammingLanguage and onClickAddButton methods as props
-class CodeEditors extends React.Component<RoughSolutionProps> {
+class CodeEditors extends React.Component {
+   @observable codeEditorsList: any = new Map()
+   @observable fileName
+   @observable programmingLanguage
+   @observable content
+
+   constructor(props) {
+      super(props)
+      this.setNewCodeEditor()
+      console.log('Code Editors')
+   }
+
+   setNewCodeEditor = () => {
+      const randomId = this.getRandomId()
+      this.codeEditorsList.set(
+         randomId,
+         new CodingEditorModel({
+            id: randomId,
+            programmingLanguage: '',
+            fileName: '',
+            content: ''
+         })
+      )
+   }
+
+   getRandomId = () => {
+      return Math.random().toString()
+   }
+
+   renderCodeEditors = () => {
+      const codeEditors = Array.from(this.codeEditorsList.values())
+      return codeEditors.map((codeEditor: any) => (
+         <CodeEditor
+            code={codeEditor.content}
+            programmingLanguage={codeEditor.programmingLanguage}
+            onChangeFileName={() => {}}
+            codeEditorId='1'
+            fileName=''
+            onChangeProgrammingLanguage={() => {}}
+            onChangeContent={() => {}}
+            onClickDeleteButton={() => {}}
+         />
+      ))
+   }
+
+   onClickAddButton = () => {
+      this.setNewCodeEditor()
+   }
+
    render() {
-      const { code, programmingLanguage } = this.props
       return (
          <ComponentContainer>
             <CodeEditorsContainer>
-               <CodeEditor
-                  programmingLanguage={programmingLanguage}
-                  code={code}
+               {this.renderCodeEditors()}
+               <AddAndSaveButtons
+                  onClickAddButton={this.onClickAddButton}
+                  onClickSaveButton={() => {}}
                />
             </CodeEditorsContainer>
          </ComponentContainer>

@@ -3,7 +3,7 @@ import React from 'react'
 import { PageTitleContainer, PageTitleEl } from './styledComponents'
 
 type PageTitleProps = {
-   title: string
+   title: any
 }
 
 class PageTitle extends React.Component<PageTitleProps> {

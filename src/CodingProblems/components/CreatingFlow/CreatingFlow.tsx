@@ -7,8 +7,15 @@ import { AppHeader } from '../../../common/components/AppHeader'
 import { BackButton } from '../../../common/components/BackButton'
 import { PageTitle } from '../../../common/components/PageTitle'
 
-import i18n from '../../i18n/strings.json'
-import { STATEMENT } from '../../constants/TabConstants'
+import {
+   STATEMENT,
+   ROUGH_SOLUTION,
+   TEST_CASES,
+   PREFILLED_CODE,
+   CLEAN_SOLUTION,
+   HINTS,
+   SOLUTION_APPROACH
+} from '../../constants/TabConstants'
 
 import { Navigator } from '../Navigator'
 import { Statement } from '../Statement'
@@ -31,40 +38,83 @@ type CreatingFlowProps = {
 
 @observer
 class CreatingFlow extends React.Component<CreatingFlowProps> {
-   @observable activeTab: string = STATEMENT
+   @observable selectedTabIndex: number = 1
+   @observable tabDetails = [
+      {
+         tabIndex: 1,
+         tabName: STATEMENT,
+         isSelected: true
+      },
+      {
+         tabIndex: 2,
+         tabName: ROUGH_SOLUTION,
+         isSelected: false
+      },
+      {
+         tabIndex: 3,
+         tabName: TEST_CASES,
+         isSelected: false
+      },
+      {
+         tabIndex: 4,
+         tabName: PREFILLED_CODE,
+         isSelected: false
+      },
+      {
+         tabIndex: 5,
+         tabName: SOLUTION_APPROACH,
+         isSelected: false
+      },
+      {
+         tabIndex: 6,
+         tabName: CLEAN_SOLUTION,
+         isSelected: false
+      },
+      {
+         tabIndex: 7,
+         tabName: HINTS,
+         isSelected: false
+      }
+   ]
 
    goToCodingProblemsHome = () => {}
 
-   onClickTabButton = (newActiveTab: string) => {
-      this.activeTab = newActiveTab
+   onSelectTab = (tabIndex: number) => {
+      this.selectedTabIndex = tabIndex
+      this.tabDetails.forEach((tab, index) => {
+         if (tab.tabIndex === tabIndex) {
+            this.tabDetails[index].isSelected = true
+         } else {
+            this.tabDetails[index].isSelected = false
+         }
+      })
    }
 
    renderRespectiveTabComponent = () => {
       const { codingProblemsStore } = this.props
-      const {
-         statement,
-         roughSolution,
-         testCases,
-         prefilledCode,
-         solutionApproach,
-         cleanSolution,
-         hints
-      } = i18n.navigator
-      switch (this.activeTab) {
-         case statement:
-            return <Statement codingProblemsStore={codingProblemsStore} />
-         case roughSolution:
+      switch (this.selectedTabIndex) {
+         case 1:
+            return (
+               <Statement
+                  codingProblemsStore={codingProblemsStore}
+                  onSelectTab={this.onSelectTab}
+                  currentTabIndex={this.selectedTabIndex}
+               />
+            )
+         case 2:
             return (
                <Wrapper>
                   <SectionWrapper>
                      <RoughSolution
-                        key={roughSolution}
+                        key={ROUGH_SOLUTION}
                         codingProblemsStore={codingProblemsStore}
+                        onSelectTab={this.onSelectTab}
+                        currentTabIndex={this.selectedTabIndex}
                      />
                   </SectionWrapper>
                </Wrapper>
             )
-         case testCases:
+         case 3:
             return (
                <Wrapper>
                   <SectionWrapper>
@@ -72,20 +122,22 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                   </SectionWrapper>
                </Wrapper>
             )
-         case prefilledCode:
+         case 4:
             return (
                <Wrapper>
                   <SectionWrapper>
                      <RoughSolution
-                        key={prefilledCode}
+                        key={PREFILLED_CODE}
                         codingProblemsStore={codingProblemsStore}
+                        onSelectTab={this.onSelectTab}
+                        currentTabIndex={this.selectedTabIndex}
                      />
                   </SectionWrapper>
                </Wrapper>
             )
-         case solutionApproach:
+         case 5:
             return <SolutionApproach content='' contentType='text' />
-         case cleanSolution:
+         case 6:
             return (
                <Wrapper>
                   <SectionWrapper>
@@ -93,7 +145,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                   </SectionWrapper>
                </Wrapper>
             )
-         case hints:
+         case 7:
             return (
                <Wrapper>
                   <SectionWrapper>
@@ -105,9 +157,10 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
    }
 
    getCapitalizedActiveTab = () => {
-      let words = this.activeTab.split(' ')
+      const selectedTab = this.tabDetails.find(tab => tab.isSelected)
+      let words = selectedTab?.tabName.split('_')
       return words
-         .map(word => {
+         ?.map(word => {
             word = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
             return word
          })
@@ -130,8 +183,8 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                />
                <PageTitle title={activeTab} />
                <Navigator
-                  activeButton={this.activeTab}
-                  onClickTabButton={this.onClickTabButton}
+                  tabDetails={this.tabDetails}
+                  onSelectTab={this.onSelectTab}
                />
                {this.renderRespectiveTabComponent()}
             </ContentContainer>

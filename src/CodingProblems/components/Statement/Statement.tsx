@@ -25,6 +25,8 @@ import {
 
 type StatementProps = {
    codingProblemsStore: any
+   onSelectTab: any
+   currentTabIndex: number
 }
 
 @observer
@@ -69,7 +71,10 @@ class Statement extends React.Component<StatementProps> {
                content_type: this.textType.toLowerCase()
             }
          }
+         postProblemStatement(statementData)
          this.init()
+         const { onSelectTab, currentTabIndex } = this.props
+         onSelectTab(currentTabIndex + 1)
       } else {
          const { statement } = i18n
          const { errors } = statement
@@ -79,7 +84,6 @@ class Statement extends React.Component<StatementProps> {
             this.descriptionError = errors.descriptionIsRequired
          }
       }
-      postProblemStatement(statementData)
    }
 
    renderPreviewer = () => {

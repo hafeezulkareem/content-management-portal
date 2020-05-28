@@ -12,6 +12,8 @@ import { RoughSolutionContainer, ErrorMessage } from './styledComponents'
 
 type RoughSolutionProps = {
    codingProblemsStore: any
+   onSelectTab: any
+   currentTabIndex: number
 }
 
 @observer
@@ -102,6 +104,8 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
       if (!this.errorMessage) {
          postProblemRoughSolution(roughSolutions)
          this.init()
+         const { onSelectTab, currentTabIndex } = this.props
+         onSelectTab(currentTabIndex + 1)
       }
    }
 

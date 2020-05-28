@@ -15,20 +15,24 @@ import 'ace-builds/src-noconflict/theme-github'
 import { ContentEditorContainer } from './styledComponents'
 
 type ContentEditorProps = {
+   content: string
    contentType: string
+   onChangeContent: () => void
 }
 
 class ContentEditor extends React.Component<ContentEditorProps> {
    render() {
-      const { contentType } = this.props
+      const { content, contentType, onChangeContent } = this.props
       return (
          <ContentEditorContainer>
             <AceEditor
+               value={content}
+               onChange={onChangeContent}
                style={{
                   width: 'inherit',
                   height: 'inherit'
                }}
-               mode={contentType}
+               mode={contentType.toLowerCase()}
                fontSize={14}
                showPrintMargin={true}
                showGutter={true}

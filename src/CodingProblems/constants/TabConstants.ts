@@ -1,0 +1,7 @@
+export const STATEMENT = 'STATEMENT'
+export const ROUGH_SOLUTION = 'ROUGH_SOLUTION'
+export const TEST_CASES = 'TEST_CASES'
+export const PREFILLED_CODE = 'PREFILLED_CODE'
+export const SOLUTION_APPROACH = 'SOLUTION_APPROACH'
+export const CLEAN_SOLUTION = 'CLEAN_SOLUTION'
+export const HINTS = 'HINTS'

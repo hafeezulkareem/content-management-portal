@@ -8,15 +8,19 @@ import { CleanSolutionCodeEditor } from '../CleanSolutionCodeEditor/CleanSolutio
 import { CleanSolutionContainer, ButtonsContainer } from './styledComponents'
 
 type CleanSolutionProps = {
+   content: string
    contentType: string
 }
 
 class CleanSolution extends React.Component<CleanSolutionProps> {
    render() {
-      const { contentType } = this.props
+      const { content, contentType } = this.props
       return (
          <CleanSolutionContainer>
-            <CleanSolutionCodeEditor contentType={contentType} />
+            <CleanSolutionCodeEditor
+               contentType={contentType}
+               content={content}
+            />
             <ButtonsContainer>
                <AddButton onClickAddButton={() => {}} />
                <SaveButton onClickSaveButton={() => {}} />

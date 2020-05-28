@@ -6,16 +6,21 @@ import { ContentEditor } from '../ContentEditor'
 import { CodeEditorContainer } from './styledComponents'
 
 type CodeEditorProps = {
+   code: string
    programmingLanguage: string
 }
 
 class CodeEditor extends React.Component<CodeEditorProps> {
    render() {
-      const { programmingLanguage } = this.props
+      const { code, programmingLanguage } = this.props
       return (
          <CodeEditorContainer>
             <CodeEditorHeader />
-            <ContentEditor contentType={programmingLanguage} />
+            <ContentEditor
+               content={code}
+               contentType={programmingLanguage}
+               onChangeContent={() => {}}
+            />
          </CodeEditorContainer>
       )
    }

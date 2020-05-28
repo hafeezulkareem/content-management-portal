@@ -14,6 +14,7 @@ import {
 } from './styledComponents'
 
 type CleanSolutionCodeEditorProps = {
+   content: string
    contentType: string
 }
 
@@ -21,7 +22,7 @@ class CleanSolutionCodeEditor extends React.Component<
    CleanSolutionCodeEditorProps
 > {
    render() {
-      const { contentType } = this.props
+      const { content, contentType } = this.props
       return (
          <CodeEditorContainer>
             <HeaderContainer>
@@ -32,12 +33,18 @@ class CleanSolutionCodeEditor extends React.Component<
                />
             </HeaderContainer>
             <EditorContainer>
-               <ContentEditor contentType={contentType} />
+               <ContentEditor
+                  contentType={contentType}
+                  content={content}
+                  onChangeContent={() => {}}
+               />
             </EditorContainer>
             <DropDownContainer>
                <DropDown
                   defaultOption='languages'
                   options={commonI18n.codeEditorLanguageOptions}
+                  onChangeType={() => {}}
+                  selectedOption=''
                />
             </DropDownContainer>
          </CodeEditorContainer>

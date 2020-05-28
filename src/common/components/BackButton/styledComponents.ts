@@ -12,7 +12,7 @@ export const BackButtonContainer = styled.div`
 export const BackButtonEl = styled.button`
    color: ${colors.steel};
    ${tw`
-        flex items-center text-xs
+        flex items-center text-xs focus:outline-none
     `}
 `
 

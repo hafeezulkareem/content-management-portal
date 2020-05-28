@@ -10,14 +10,21 @@ import {
 type DropDownProps = {
    options: Array<{ optionText: string; id: string }>
    defaultOption: string
+   onChangeType: any
+   selectedOption: string
 }
 
 class DropDown extends React.Component<DropDownProps> {
    render() {
-      const { options, defaultOption } = this.props
+      const {
+         options,
+         defaultOption,
+         onChangeType,
+         selectedOption
+      } = this.props
       return (
          <DropDownContainer>
-            <DropDownSelect>
+            <DropDownSelect onChange={onChangeType} value={selectedOption}>
                {defaultOption ? (
                   <DropDownOption hidden={true}>Languages</DropDownOption>
                ) : null}

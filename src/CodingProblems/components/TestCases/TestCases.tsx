@@ -19,8 +19,13 @@ import {
    SaveButtonContainer
 } from './styledComponents'
 
-class TestCases extends React.Component {
+type TestCasesProps = {
+   content: string
+}
+
+class TestCases extends React.Component<TestCasesProps> {
    render() {
+      const { content } = this.props
       const { testCases } = i18n
       return (
          <TestCasesContainer>
@@ -39,11 +44,19 @@ class TestCases extends React.Component {
             </ButtonsContainer>
             <LabelAndEditorContainer>
                <TextLabel>{testCases.input}</TextLabel>
-               <ContentEditor contentType={testCases.contentType} />
+               <ContentEditor
+                  content={content}
+                  contentType={testCases.contentType}
+                  onChangeContent={() => {}}
+               />
             </LabelAndEditorContainer>
             <LabelAndEditorContainer>
                <TextLabel>{testCases.output}</TextLabel>
-               <ContentEditor contentType={testCases.contentType} />
+               <ContentEditor
+                  content={content}
+                  contentType={testCases.contentType}
+                  onChangeContent={() => {}}
+               />
             </LabelAndEditorContainer>
             <TextLabel>{testCases.score}</TextLabel>
             <ScoreInputField type={testCases.contentType} />

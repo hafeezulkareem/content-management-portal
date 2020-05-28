@@ -1,4 +1,6 @@
 import React from 'react'
+import { observer } from 'mobx-react'
+import { observable } from 'mobx'
 
 import { TextEditor } from '../../../common/components/TextEditor'
 import commonI18n from '../../../common/i18n/strings.json'
@@ -19,30 +21,39 @@ import {
    SaveButtonContainer,
    LeftAndRightSections
 } from './styledComponents'
+@observer
+class Statement extends React.Component {
+   @observable shortText: string = ''
+   @observable text: string = ''
+   @observable
+   textType: string = commonI18n.textEditorTypes[0].optionText.toLowerCase()
 
-type StatementProps = {
-   text: string
-   textType: string
-   onClickAttachFileButton: () => {}
-}
-
-class Statement extends React.Component<StatementProps> {
    renderPreviewer = () => {
-      const { textType, text } = this.props
       const { textEditorTypes } = commonI18n
-      switch (textType) {
+      switch (this.textType.toLowerCase()) {
          case textEditorTypes[0].optionText.toLowerCase():
-            return <TextPreviewer text={text} />
+            return <TextPreviewer text={this.text} />
          case textEditorTypes[1].optionText.toLowerCase():
-            return <HtmlPreviewer htmlText={text} />
+            return <HtmlPreviewer htmlText={this.text} />
          case textEditorTypes[2].optionText.toLowerCase():
-            return <MarkdownPreviewer markdownText={text} />
+            return <MarkdownPreviewer markdownText={this.text} />
       }
+   }
+
+   onChangeShortText = event => {
+      this.shortText = event.target.value
+   }
+
+   onChangeDescription = updatedValue => {
+      this.text = updatedValue
+   }
+
+   onChangeTextType = event => {
+      this.textType = event.target.value
    }
 
    render() {
       const { statement } = i18n
-      const { textType, onClickAttachFileButton } = this.props
       return (
          <StatementContainer>
             <LeftAndRightSections>
@@ -50,15 +61,20 @@ class Statement extends React.Component<StatementProps> {
                   <LeftSectionContainer>
                      <TextLabel>{statement.shortText}</TextLabel>
                      <ShortTextInputField
-                        type={statement.shortTextType}
+                        onChange={this.onChangeShortText}
+                        value={this.shortText}
+                        type={this.textType}
                         placeholder={statement.shortTextPlaceHolder}
                      />
                   </LeftSectionContainer>
                   <LeftSectionContainer>
                      <TextLabel>{statement.problemDescription}</TextLabel>
                      <TextEditor
-                        textType={textType}
-                        onClickAttachFileButton={onClickAttachFileButton}
+                        text={this.text}
+                        textType={this.textType}
+                        onChangeDescription={this.onChangeDescription}
+                        onClickAttachFileButton={() => {}}
+                        onChangeTextType={this.onChangeTextType}
                      />
                   </LeftSectionContainer>
                </StatementLeftSection>

@@ -25,6 +25,8 @@ class CodeEditorHeader extends React.Component {
                <DropDown
                   options={codeEditorLanguageOptions}
                   defaultOption='Languages'
+                  onChangeType={() => {}}
+                  selectedOption=''
                />
                <DeleteIcon
                   alt='Delete Icon'

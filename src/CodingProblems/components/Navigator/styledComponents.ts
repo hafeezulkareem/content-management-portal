@@ -6,7 +6,7 @@ import colors from '../../themes/Colors'
 export const NavigatorContainer = styled.div`
    border-color: ${colors.lightBlueGrey};
    ${tw`
-        flex mx-20 border-b border-solid
+        flex mx-20 mb-12 border-b border-solid
     `};
 `
 

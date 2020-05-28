@@ -3,7 +3,7 @@ import tw from 'tailwind.macro'
 
 export const RoughSolutionContainer = styled.div`
    ${tw`
-        flex flex-col mt-8 mb-4 px-16
+        flex flex-col mb-4
     `}
 `
 

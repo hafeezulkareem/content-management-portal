@@ -11,17 +11,21 @@ import {
 } from './styledComponents'
 
 type RoughSolutionProps = {
+   code: string
    programmingLanguage: string
 }
 
 // TODO: onChangeProgrammingLanguage and onClickAddButton methods as props
 class CodeEditors extends React.Component<RoughSolutionProps> {
    render() {
-      const { programmingLanguage } = this.props
+      const { code, programmingLanguage } = this.props
       return (
          <ComponentContainer>
             <CodeEditorsContainer>
-               <CodeEditor programmingLanguage={programmingLanguage} />
+               <CodeEditor
+                  programmingLanguage={programmingLanguage}
+                  code={code}
+               />
             </CodeEditorsContainer>
             <ButtonsContainer>
                <AddButton onClickAddButton={() => {}} />

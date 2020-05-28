@@ -18,7 +18,7 @@ import {
    TextEditorContainer,
    TitleInputField,
    SaveButtonContainer,
-   LeftAndRightSections,
+   LeftAndRightSections
 } from './styledComponents'
 
 type SolutionApproachProps = {
@@ -41,7 +41,7 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
    }
 
    render() {
-      const { contentType } = this.props
+      const { content, contentType } = this.props
       const { solutionApproach } = i18n as any
       return (
          <SolutionApproachContainer>
@@ -54,13 +54,27 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
                   />
                   <TextLabel>{solutionApproach.description}</TextLabel>
                   <TextEditorContainer>
-                     <TextEditorHeader />
-                     <ContentEditor contentType={contentType} />
+                     <TextEditorHeader
+                        onChangeTextType={() => {}}
+                        selectedOption='Text'
+                     />
+                     <ContentEditor
+                        contentType={contentType}
+                        content={content}
+                        onChangeContent={() => {}}
+                     />
                   </TextEditorContainer>
                   <TextLabel>{solutionApproach.complexityAnalysis}</TextLabel>
                   <TextEditorContainer>
-                     <TextEditorHeader />
-                     <ContentEditor contentType={contentType} />
+                     <TextEditorHeader
+                        onChangeTextType={() => {}}
+                        selectedOption='Text'
+                     />
+                     <ContentEditor
+                        contentType={contentType}
+                        content={content}
+                        onChangeContent={() => {}}
+                     />
                   </TextEditorContainer>
                </SolutionApproachLeftSection>
                <SolutionApproachRightSection>

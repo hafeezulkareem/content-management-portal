@@ -5,7 +5,7 @@ import colors from '../../themes/Colors'
 
 export const PageTitleContainer = styled.div`
    ${tw`
-        flex mx-20 mt-6 mb-20
+        flex mx-20 mt-6 mb-8
     `}
 `
 

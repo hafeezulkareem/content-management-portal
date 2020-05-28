@@ -6,7 +6,8 @@ import colors from '../../themes/Colors'
 export const HtmlPreviewerContainer = styled.div`
    background-color: ${colors.lightBlueGrey40};
    border-color: ${colors.lightBlueGrey40};
+   height: 565px;
    ${tw`
-        w-full h-full border border-solid p-2
+        w-full border border-solid p-2 overflow-auto
    `};
 `

@@ -5,12 +5,15 @@ import HomePage from './common/components/HomePage'
 
 import './App.css'
 
+import { CodingProblemsRoute } from './CodingProblems/routes/CodingProblemsRoute'
+
 const App = () => {
    return (
       <Router basename={process.env.PUBLIC_URL}>
          <Switch>
             <Route path='/'>
-               <HomePage />
+               {/* <HomePage /> */}
+               <CodingProblemsRoute />
             </Route>
          </Switch>
       </Router>

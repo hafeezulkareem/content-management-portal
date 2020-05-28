@@ -41,5 +41,9 @@
    },
    "commonLabels": {
       "backToList": "Back to List"
+   },
+   "navigator": {
+      "mcqsList": "MCQs List",
+      "codingQuestionsList": "Coding Questions List"
    }
 }

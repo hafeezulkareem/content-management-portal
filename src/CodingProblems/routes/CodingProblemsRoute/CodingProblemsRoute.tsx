@@ -2,6 +2,7 @@ import React from 'react'
 import { observer, inject } from 'mobx-react'
 
 import { CreatingFlow } from '../../components/CreatingFlow'
+import { CodingProblemsHome } from '../../components/CodingProblemsHome'
 
 type CodingProblemsRouteProps = {
    codingProblemsStore: any
@@ -14,7 +15,8 @@ class CodingProblemsRoute extends React.Component<CodingProblemsRouteProps> {
 
    render() {
       const { codingProblemsStore } = this.props
-      return <CreatingFlow codingProblemsStore={codingProblemsStore} />
+      // return <CreatingFlow codingProblemsStore={codingProblemsStore} />
+      return <CodingProblemsHome />
    }
 }
 

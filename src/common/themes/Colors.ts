@@ -3,5 +3,6 @@ export default {
    lightBlueGrey40: 'rgba(215, 223, 233, 0.4)',
    steel: '#7e858e',
    darkBlueGrey: '#171f46',
-   brightBlue: '#0b69ff'
+   brightBlue: '#0b69ff',
+   lightBlueGrey24: 'rgba(215, 223, 233, 0.24)'
 }

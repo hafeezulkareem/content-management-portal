@@ -9,16 +9,16 @@
    },
    "rough_solutions": [
       {
-         "languages": "PYTHON",
+         "language": "PYTHON",
          "solution_content": "import math\\ndef find_max(a, b):\\n\\treturn a if a > b else b\\nprint(find_max(1, 5))",
          "file_name": "sample.py",
          "rough_solution_id": 0
       },
       {
-         "languages": "PYTHON",
+         "language": "PYTHON",
          "solution_content": "import math\\ndef find_max(a, b):\\n\\treturn a if a > b else b\\nprint(find_max(1, 5))",
          "file_name": "sample.py",
-         "rough_solution_id": 0
+         "rough_solution_id": 1
       }
    ],
    "test_cases": [],

@@ -1,1 +1,1 @@
-export { CreatingFlow } from './CreatingFlow'
+export { CreatingFlowWithRouter as CreatingFlow } from './CreatingFlow'

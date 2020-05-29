@@ -13,6 +13,12 @@ export const ContentContainer = styled.div`
     `}
 `
 
+export const BackButtonContainer = styled.div`
+   ${tw`
+        mx-16
+    `}
+`
+
 export const Wrapper = styled.div`
    ${tw`
         flex justify-center

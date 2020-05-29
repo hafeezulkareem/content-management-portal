@@ -3,20 +3,20 @@ import tw from 'tailwind.macro'
 
 import colors from '../../themes/Colors'
 
-export const BackButtonContainer = styled.div`
+export const ButtonContainer = styled.div`
    ${tw`
-        flex mx-20
+        flex
     `}
 `
 
-export const BackButtonEl = styled.button`
+export const ButtonEl = styled.button`
    color: ${colors.steel};
    ${tw`
-        flex items-center text-xs focus:outline-none
+        flex items-center p-2 text-xs focus:outline-none
     `}
 `
 
-export const BackButtonIcon = styled.img`
+export const ButtonIcon = styled.img`
    ${tw`
         w-4 h-4 mr-1
     `}

@@ -1,11 +1,14 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { observable } from 'mobx'
+import { withRouter } from 'react-router-dom'
+import { History } from 'history'
 
 import commonI18n from '../../../common/i18n/strings.json'
 import { AppHeader } from '../../../common/components/AppHeader'
-import { BackButton } from '../../../common/components/BackButton'
+import { ButtonWithIcon } from '../../../common/components/ButtonWithIcon'
 import { PageTitle } from '../../../common/components/PageTitle'
+import { CODING_PROBLEMS_PATH } from '../../../common/constants/RouteConstants'
 
 import {
    STATEMENT,
@@ -29,11 +32,13 @@ import {
    AppContainer,
    ContentContainer,
    SectionWrapper,
-   Wrapper
+   Wrapper,
+   BackButtonContainer
 } from './styledComponents'
 
 type CreatingFlowProps = {
    codingProblemsStore: any
+   history: History
 }
 
 @observer
@@ -78,7 +83,10 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
    ]
    isDataSaved: boolean = true
 
-   goToCodingProblemsHome = () => {}
+   goToCodingProblemsHome = () => {
+      const { history } = this.props
+      history.push(CODING_PROBLEMS_PATH)
+   }
 
    confirmDataStatus = () => {
       if (!this.isDataSaved) {
@@ -198,10 +206,14 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                userProfilePicLink='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/696fd949-70d2-4be4-b1ef-a5065b1b1a11@3x.png'
             />
             <ContentContainer>
-               <BackButton
-                  buttonText={commonLabels.backToList}
-                  onClickBackButton={this.goToCodingProblemsHome}
-               />
+               <BackButtonContainer>
+                  <ButtonWithIcon
+                     iconURL='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/18d0b955-8ee4-4ac5-a029-92cda10c871e.svg'
+                     iconAltText='Back Arrow Icon'
+                     buttonText={commonLabels.backToList}
+                     onClickButton={this.goToCodingProblemsHome}
+                  />
+               </BackButtonContainer>
                <PageTitle title={activeTab} />
                <Navigator
                   tabDetails={this.tabDetails}
@@ -214,4 +226,6 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
    }
 }
 
-export { CreatingFlow }
+const CreatingFlowWithRouter = withRouter(CreatingFlow)
+
+export { CreatingFlowWithRouter }

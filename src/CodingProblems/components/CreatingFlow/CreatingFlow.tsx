@@ -84,15 +84,6 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
    ]
    isDataSaved: boolean = true
 
-   componentDidMount() {
-      const {
-         match: {
-            params: { codingProblemId }
-         }
-      } = this.props
-      console.log(codingProblemId)
-   }
-
    goToCodingProblemsHome = () => {
       const { history } = this.props
       history.push(CODING_PROBLEMS_PATH)

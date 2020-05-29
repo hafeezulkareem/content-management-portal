@@ -12,6 +12,8 @@ import {
 
 type CodingAndMCQsNavigatorProps = {
    activeSection: string
+   onClickMCQsButton: any
+   onClickCodingButton: any
 }
 
 class CodingAndMCQsNavigator extends React.Component<
@@ -19,14 +21,24 @@ class CodingAndMCQsNavigator extends React.Component<
 > {
    render() {
       const { navigator } = i18n
-      const { activeSection } = this.props
+      const {
+         activeSection,
+         onClickMCQsButton,
+         onClickCodingButton
+      } = this.props
       return (
          <NavigatorContainer>
             <ButtonsContainer>
-               <MCQsButton isActive={activeSection === MCQS_LIST}>
+               <MCQsButton
+                  isActive={activeSection === MCQS_LIST}
+                  onClick={onClickMCQsButton}
+               >
                   {navigator.mcqsList}
                </MCQsButton>
-               <CodingProblemsButton isActive={activeSection === CODING_LIST}>
+               <CodingProblemsButton
+                  isActive={activeSection === CODING_LIST}
+                  onClick={onClickCodingButton}
+               >
                   {navigator.codingQuestionsList}
                </CodingProblemsButton>
             </ButtonsContainer>

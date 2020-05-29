@@ -26,7 +26,7 @@ class CleanSolutionCodeEditor extends React.Component<
       return (
          <CodeEditorContainer>
             <HeaderContainer>
-               <FileNameInputField />
+               <FileNameInputField fileName='' onChangeFileName={() => {}} />
                <DeleteIcon
                   alt='Delete Icon'
                   src='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/9e4cde90-c30c-4e52-8af4-e8f699efa24b.svg'

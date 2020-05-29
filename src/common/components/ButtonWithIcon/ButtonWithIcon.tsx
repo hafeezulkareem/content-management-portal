@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { BUTTON_WITH_ICON_TEST_ID } from '../../constants/IdConstants'
+
 import { ButtonContainer, ButtonEl, ButtonIcon } from './styledComponents'
 
 type ButtonWithIconProps = {
@@ -14,7 +16,10 @@ class ButtonWithIcon extends React.Component<ButtonWithIconProps> {
       const { buttonText, iconURL, iconAltText, onClickButton } = this.props
       return (
          <ButtonContainer>
-            <ButtonEl onClick={onClickButton}>
+            <ButtonEl
+               onClick={onClickButton}
+               data-testid={BUTTON_WITH_ICON_TEST_ID}
+            >
                <ButtonIcon alt={iconAltText} src={iconURL} />
                {buttonText}
             </ButtonEl>

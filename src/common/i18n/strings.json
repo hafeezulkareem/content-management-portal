@@ -46,5 +46,9 @@
       "mcqsList": "MCQs List",
       "codingQuestionsList": "Coding Questions List"
    },
-   "selectAll": "Select All"
+   "selectAll": "Select All",
+   "fileNameInputField": {
+      "type": "text",
+      "placeholder": "File name include extension"
+   }
 }

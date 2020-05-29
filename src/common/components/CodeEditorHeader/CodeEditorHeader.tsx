@@ -4,14 +4,14 @@ import { observer } from 'mobx-react'
 import i18n from '../../i18n/strings.json'
 
 import { DropDown } from '../DropDown'
+import { FileNameInputField } from '../FileNameInputField'
 
 import {
    HeaderContainer,
    HeaderRightSection,
    HeaderLeftSection,
    DeleteIcon,
-   EditIcon,
-   InputField
+   EditIcon
 } from './styledComponents'
 
 type CodeEditorHeaderProps = {
@@ -46,11 +46,15 @@ class CodeEditorHeader extends React.Component<CodeEditorHeaderProps> {
       return (
          <HeaderContainer>
             <HeaderLeftSection>
-               <InputField
+               {/* <InputField
                   value={fileName}
                   onChange={this.onChangeFileName}
                   type='text'
                   placeholder='File name include extension'
+               /> */}
+               <FileNameInputField
+                  onChangeFileName={this.onChangeFileName}
+                  fileName={fileName}
                />
             </HeaderLeftSection>
             <HeaderRightSection>

@@ -27,6 +27,12 @@ class CodingProblemsStore {
    init() {
       this.postStatementAPIStatus = API_INITIAL
       this.postStatementAPIError = null
+      this.postRoughSolutionAPIStatus = API_INITIAL
+      this.postRoughSolutionAPIError = null
+      this.getCodingProblemsAPIStatus = API_INITIAL
+      this.getCodingProblemsAPIError = null
+      this.getCodingProblemDetailsAPIStatus = API_INITIAL
+      this.getCodingProblemDetailsAPIError = null
       this.codingProblemId = null
       this.codingProblemsList = new Map()
       this.codingProblemDetails = undefined
@@ -50,16 +56,13 @@ class CodingProblemsStore {
    setStatementAPIResponse(statementAPIResponse) {
       const { question_id: questionId } = statementAPIResponse
       this.codingProblemId = questionId
-      console.log('ProductId', this.codingProblemId)
    }
 
    @action.bound
    postProblemStatement(statementData) {
-      console.log('Statement Data', statementData)
       const problemStatementPromise = this.codingProblemsAPIService.postProblemStatementAPI(
          statementData
       )
-
       return bindPromiseWithOnSuccess(problemStatementPromise)
          .to(this.setStatementAPIStatus, this.setStatementAPIResponse)
          .catch(this.setStatementAPIError)
@@ -79,12 +82,10 @@ class CodingProblemsStore {
    setRoughSolutionAPIResponse(roughSolutionAPIResponse) {
       const { question_id: questionId } = roughSolutionAPIResponse[0]
       this.codingProblemId = questionId
-      console.log('Problem Id', this.codingProblemId)
    }
 
    @action.bound
    postProblemRoughSolution(roughSolutionData) {
-      console.log('Rough Solution Data', roughSolutionData)
       const problemRoughSolutionPromise = this.codingProblemsAPIService.postProblemRoughSolutionAPI(
          roughSolutionData
       )
@@ -137,7 +138,6 @@ class CodingProblemsStore {
    @action.bound
    setCodingProblemDetailsAPIResponse(codingProblemDetailsAPIResponse) {
       this.codingProblemDetails = codingProblemDetailsAPIResponse
-      console.log('Coding Problem Details', codingProblemDetailsAPIResponse)
    }
 
    @action.bound

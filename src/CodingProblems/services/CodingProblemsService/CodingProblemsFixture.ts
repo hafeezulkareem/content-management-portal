@@ -4,11 +4,11 @@ import codingProblemsResponse from '../../fixtures/getCodingProblemsResponse.jso
 import codingProblemDetailsResponse from '../../fixtures/getCodingProblemDetailsResponse.json'
 
 class CodingProblemsFixture {
-   postProblemStatementAPI() {
+   postProblemStatementAPI(dataObject) {
       return new Promise((resolve, reject) => resolve(problemStatementResponse))
    }
 
-   postProblemRoughSolutionAPI() {
+   postProblemRoughSolutionAPI(dataObject) {
       return new Promise((resolve, reject) =>
          resolve(problemRoughSolutionResponse)
       )

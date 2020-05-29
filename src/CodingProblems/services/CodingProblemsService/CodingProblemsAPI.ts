@@ -20,6 +20,23 @@ class CodingProblemsAPI {
          apiMethods.post
       )
    }
+
+   postProblemRoughSolutionAPI(roughSolutionsData) {
+      return networkCallWithApisauce(
+         this.api,
+         '',
+         roughSolutionsData,
+         apiMethods.post
+      )
+   }
+
+   getCodingProblemsAPI() {
+      return networkCallWithApisauce(this.api, '', {}, apiMethods.get)
+   }
+
+   getCodingProblemDetailsAPI() {
+      return networkCallWithApisauce(this.api, '', {}, apiMethods.get)
+   }
 }
 
 export { CodingProblemsAPI }

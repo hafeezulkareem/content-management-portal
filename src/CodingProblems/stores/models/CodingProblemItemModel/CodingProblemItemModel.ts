@@ -1,6 +1,7 @@
 import { observable, action } from 'mobx'
 
 class CodingProblemItemModel {
+   uniqueId: string
    id: string
    problemStatement: string
    isRoughSolutionCompleted: boolean
@@ -10,8 +11,9 @@ class CodingProblemItemModel {
    isCleanSolutionCompleted: boolean
    @observable isSelected: boolean
 
-   constructor(codingProblemDetails) {
-      this.id = Math.random().toString()
+   constructor(codingProblemDetails, uniqueId) {
+      this.uniqueId = uniqueId
+      this.id = codingProblemDetails.question_id
       this.problemStatement = codingProblemDetails.statement
       this.isRoughSolutionCompleted = codingProblemDetails.rough_solution_status
       this.isTestCasesCompleted = codingProblemDetails.test_cases_status

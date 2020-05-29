@@ -1,0 +1,29 @@
+{
+   "question_id": 0,
+   "statement": {
+      "short_text": "This is short text",
+      "problem_description": {
+         "content": "I can write whatever I want",
+         "content_type": "Markdown"
+      }
+   },
+   "rough_solutions": [
+      {
+         "languages": "PYTHON",
+         "solution_content": "import math\\ndef find_max(a, b):\\n\\treturn a if a > b else b\\nprint(find_max(1, 5))",
+         "file_name": "sample.py",
+         "rough_solution_id": 0
+      },
+      {
+         "languages": "PYTHON",
+         "solution_content": "import math\\ndef find_max(a, b):\\n\\treturn a if a > b else b\\nprint(find_max(1, 5))",
+         "file_name": "sample.py",
+         "rough_solution_id": 0
+      }
+   ],
+   "test_cases": [],
+   "prefilled_codes": [],
+   "solution_approach": {},
+   "clean_solutions": [],
+   "hints": []
+}

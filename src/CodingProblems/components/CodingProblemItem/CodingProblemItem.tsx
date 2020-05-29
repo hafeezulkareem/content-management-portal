@@ -1,4 +1,7 @@
 import React from 'react'
+import { observer } from 'mobx-react'
+import { withRouter } from 'react-router-dom'
+import { History } from 'history'
 
 import {
    FirstColumn,
@@ -15,12 +18,20 @@ import {
    Icon,
    QuestionText
 } from './styledComponents'
+import { CODING_PROBLEMS_PATH } from '../../../common/constants/RouteConstants'
 
 type CodingProblemItemProps = {
    codingProblem: any
+   history: History
 }
 
+@observer
 class CodingProblemItem extends React.Component<CodingProblemItemProps> {
+   navigateToCodingProblemDetailsPage = codingProblemId => {
+      const { history } = this.props
+      history.push(`${CODING_PROBLEMS_PATH}${codingProblemId}`)
+   }
+
    render() {
       const { codingProblem } = this.props
       let { problemStatement } = codingProblem
@@ -29,7 +40,11 @@ class CodingProblemItem extends React.Component<CodingProblemItemProps> {
             ? problemStatement.slice(0, 62) + '...'
             : problemStatement
       return (
-         <CodingQuestionItem>
+         <CodingQuestionItem
+            onClick={() =>
+               this.navigateToCodingProblemDetailsPage(codingProblem.id)
+            }
+         >
             <FirstColumn>
                <DummyCheckbox>
                   <Icon
@@ -109,4 +124,6 @@ class CodingProblemItem extends React.Component<CodingProblemItemProps> {
    }
 }
 
-export { CodingProblemItem }
+const CodingProblemItemWithRouter = withRouter(CodingProblemItem)
+
+export { CodingProblemItemWithRouter }

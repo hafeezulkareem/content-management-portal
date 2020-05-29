@@ -7,7 +7,7 @@ import colors from '../../themes/Colors'
 
 export const CodingQuestionItem = styled.div`
    ${tw`
-        flex items-center py-3 border-t
+        flex items-center py-3 border-t cursor-pointer hover:bg-gray-300
     `}
 `
 

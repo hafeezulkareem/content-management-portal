@@ -8,7 +8,10 @@ import { CodingProblemsHome } from '../../components/CodingProblemsHome'
 import { CODING_LIST } from '../../../common/constants/SectionConstants'
 import { CODING_PROBLEMS_PATH } from '../../../common/constants/RouteConstants'
 
-import { CODING_PROBLEM_CREATE_PATH } from '../../constants/RouteConstants'
+import {
+   CODING_PROBLEM_CREATE_PATH,
+   CODING_PROBLEM_DETAILS_PATH
+} from '../../constants/RouteConstants'
 
 type CodingProblemsRouteProps = {
    codingProblemsStore: any
@@ -19,13 +22,15 @@ type CodingProblemsRouteProps = {
 class CodingProblemsRoute extends React.Component<CodingProblemsRouteProps> {
    @observable activeSection: string = CODING_LIST
 
-   onClickAttachFileButton = () => {}
+   getCodingProblemDetails = () => {}
 
    render() {
       const { codingProblemsStore } = this.props
-      // return <CreatingFlow codingProblemsStore={codingProblemsStore} />
       return (
          <Switch>
+            <Route exact path={CODING_PROBLEM_DETAILS_PATH}>
+               <CreatingFlow codingProblemsStore={codingProblemsStore} />
+            </Route>
             <Route exact path={CODING_PROBLEM_CREATE_PATH}>
                <CreatingFlow codingProblemsStore={codingProblemsStore} />
             </Route>

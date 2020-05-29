@@ -39,6 +39,7 @@ import {
 type CreatingFlowProps = {
    codingProblemsStore: any
    history: History
+   match: any
 }
 
 @observer
@@ -82,6 +83,15 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
       }
    ]
    isDataSaved: boolean = true
+
+   componentDidMount() {
+      const {
+         match: {
+            params: { codingProblemId }
+         }
+      } = this.props
+      console.log(codingProblemId)
+   }
 
    goToCodingProblemsHome = () => {
       const { history } = this.props

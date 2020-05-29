@@ -29,7 +29,7 @@ class CodingProblemsList extends React.Component<CodingProblemsListProps> {
       return codingProblemsList.map(codingProblem => {
          return (
             <CodingProblemItem
-               key={codingProblem.id}
+               key={codingProblem.uniqueId}
                codingProblem={codingProblem}
             />
          )

@@ -11,9 +11,12 @@ class CodingProblemsStore {
    @observable postRoughSolutionAPIError
    @observable getCodingProblemsAPIStatus
    @observable getCodingProblemsAPIError
+   @observable getCodingProblemDetailsAPIStatus
+   @observable getCodingProblemDetailsAPIError
    codingProblemsAPIService
    codingProblemId
    @observable codingProblemsList
+   @observable codingProblemDetails: object | undefined
 
    constructor(service) {
       this.codingProblemsAPIService = service
@@ -26,6 +29,11 @@ class CodingProblemsStore {
       this.postStatementAPIError = null
       this.codingProblemId = null
       this.codingProblemsList = new Map()
+      this.codingProblemDetails = undefined
+   }
+
+   getRandomId() {
+      return Math.random().toString()
    }
 
    @action.bound
@@ -97,11 +105,13 @@ class CodingProblemsStore {
 
    @action.bound
    setCodingProblemsAPIResponse(codingProblemsAPIResponse) {
+      this.codingProblemsList = new Map()
       const { questions_list: codingProblems } = codingProblemsAPIResponse
       codingProblems.forEach(codingProblem => {
+         const randomId = this.getRandomId()
          this.codingProblemsList.set(
-            codingProblem.question_id,
-            new CodingProblemItemModel(codingProblem)
+            randomId,
+            new CodingProblemItemModel(codingProblem, randomId)
          )
       })
    }
@@ -112,6 +122,33 @@ class CodingProblemsStore {
       return bindPromiseWithOnSuccess(codingProblemsPromise)
          .to(this.setCodingProblemsAPIStatus, this.setCodingProblemsAPIResponse)
          .catch(this.setCodingProblemsAPIError)
+   }
+
+   @action.bound
+   setCodingProblemDetailsAPIStatus(codingProblemDetailsAPIStatus) {
+      this.getCodingProblemDetailsAPIStatus = codingProblemDetailsAPIStatus
+   }
+
+   @action.bound
+   setCodingProblemDetailsAPIError(codingProblemDetailsAPIError) {
+      this.getCodingProblemDetailsAPIError = codingProblemDetailsAPIError
+   }
+
+   @action.bound
+   setCodingProblemDetailsAPIResponse(codingProblemDetailsAPIResponse) {
+      this.codingProblemDetails = codingProblemDetailsAPIResponse
+      console.log('Coding Problem Details', codingProblemDetailsAPIResponse)
+   }
+
+   @action.bound
+   getCodingProblemDetails() {
+      const codingProblemDetailsPromise = this.codingProblemsAPIService.getCodingProblemDetailsAPI()
+      return bindPromiseWithOnSuccess(codingProblemDetailsPromise)
+         .to(
+            this.setCodingProblemDetailsAPIStatus,
+            this.setCodingProblemDetailsAPIResponse
+         )
+         .catch(this.setCodingProblemDetailsAPIError)
    }
 }
 

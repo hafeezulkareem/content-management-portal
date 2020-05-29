@@ -101,6 +101,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
                      file_name: codeEditorDetails.fileName,
                      rough_solution_id: null
                   })
+                  console.log(codeEditorDetails.content)
                }
             }
          )

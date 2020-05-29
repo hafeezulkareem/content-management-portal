@@ -75,7 +75,8 @@ class SignInRoute extends React.Component<SignInRouteProps> {
    }
 
    render() {
-      console.log('SignIn Route')
+      const { authStore } = this.props
+      const { postSignInAPIStatus } = authStore
       if (isSignedIn()) {
          return <Redirect to={CODING_PROBLEMS_PATH} />
       }
@@ -89,6 +90,7 @@ class SignInRoute extends React.Component<SignInRouteProps> {
             onChangePassword={this.onChangePassword}
             onSubmitSignInForm={this.onSubmitSignInForm}
             signInFailureError={this.signInFailureError}
+            postSignInAPIStatus={postSignInAPIStatus}
          />
       )
    }

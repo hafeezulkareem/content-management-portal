@@ -2,6 +2,7 @@ import React from 'react'
 import { observer } from 'mobx-react'
 
 import i18n from '../../i18n/strings.json'
+import { DELETE_ICON_TEST_ID } from '../../constants/IdConstants'
 
 import { DropDown } from '../DropDown'
 import { FileNameInputField } from '../FileNameInputField'
@@ -46,12 +47,6 @@ class CodeEditorHeader extends React.Component<CodeEditorHeaderProps> {
       return (
          <HeaderContainer>
             <HeaderLeftSection>
-               {/* <InputField
-                  value={fileName}
-                  onChange={this.onChangeFileName}
-                  type='text'
-                  placeholder='File name include extension'
-               /> */}
                <FileNameInputField
                   onChangeFileName={this.onChangeFileName}
                   fileName={fileName}
@@ -65,6 +60,7 @@ class CodeEditorHeader extends React.Component<CodeEditorHeaderProps> {
                   selectedOption={programmingLanguage}
                />
                <DeleteIcon
+                  data-testid={DELETE_ICON_TEST_ID}
                   onClick={this.onClickDeleteButton}
                   alt='Delete Icon'
                   src='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/481da5e6-de1f-436e-a6c3-e30e28d220a3.svg'

@@ -19,6 +19,7 @@ class Navigator extends React.Component<NavigatorProps> {
       const { tabDetails } = this.props
       return tabDetails.map(tab => (
          <NavigationButton
+            data-testid={tab.tabName}
             key={tab.tabIndex}
             isActive={tab.isSelected}
             onClick={() => this.onSelectTab(tab.tabIndex)}

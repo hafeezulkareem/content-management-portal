@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { PAGE_TITLE_TEST_ID } from '../../constants/IdConstants'
+
 import { PageTitleContainer, PageTitleEl } from './styledComponents'
 
 type PageTitleProps = {
@@ -11,7 +13,7 @@ class PageTitle extends React.Component<PageTitleProps> {
       const { title } = this.props
       return (
          <PageTitleContainer>
-            <PageTitleEl>{title}</PageTitleEl>
+            <PageTitleEl data-testid={PAGE_TITLE_TEST_ID}>{title}</PageTitleEl>
          </PageTitleContainer>
       )
    }

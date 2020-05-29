@@ -3,6 +3,10 @@ import { observer } from 'mobx-react'
 import { withRouter } from 'react-router-dom'
 import { History } from 'history'
 
+import { CODING_PROBLEMS_PATH } from '../../../common/constants/RouteConstants'
+
+import { CODING_PROBLEM_ITEM_TEST_ID } from '../../constants/IdConstants'
+
 import {
    FirstColumn,
    SecondColumn,
@@ -18,7 +22,6 @@ import {
    Icon,
    QuestionText
 } from './styledComponents'
-import { CODING_PROBLEMS_PATH } from '../../../common/constants/RouteConstants'
 
 type CodingProblemItemProps = {
    codingProblem: any
@@ -44,6 +47,7 @@ class CodingProblemItem extends React.Component<CodingProblemItemProps> {
             onClick={() =>
                this.navigateToCodingProblemDetailsPage(codingProblem.id)
             }
+            data-testid={CODING_PROBLEM_ITEM_TEST_ID}
          >
             <FirstColumn>
                <DummyCheckbox>

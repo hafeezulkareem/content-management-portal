@@ -12,6 +12,8 @@ import 'ace-builds/src-min-noconflict/mode-html'
 import 'ace-builds/src-min-noconflict/mode-text'
 import 'ace-builds/src-noconflict/theme-github'
 
+import { CONTENT_EDITOR_TEST_ID } from '../../constants/IdConstants'
+
 import { ContentEditorContainer } from './styledComponents'
 
 type ContentEditorProps = {
@@ -24,7 +26,7 @@ class ContentEditor extends React.Component<ContentEditorProps> {
    render() {
       const { content, contentType, onChangeContent } = this.props
       return (
-         <ContentEditorContainer>
+         <ContentEditorContainer data-testid={CONTENT_EDITOR_TEST_ID}>
             <AceEditor
                value={content}
                onChange={onChangeContent}

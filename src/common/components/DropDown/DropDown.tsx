@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { DROP_DOWN_SELECT_TEST_ID } from '../../constants/IdConstants'
+
 import {
    DropDownSelect,
    DropDownContainer,
@@ -24,7 +26,11 @@ class DropDown extends React.Component<DropDownProps> {
       } = this.props
       return (
          <DropDownContainer>
-            <DropDownSelect onChange={onChangeType} value={selectedOption}>
+            <DropDownSelect
+               onChange={onChangeType}
+               value={selectedOption}
+               data-testid={DROP_DOWN_SELECT_TEST_ID}
+            >
                {defaultOption ? (
                   <DropDownOption hidden={true}>Languages</DropDownOption>
                ) : null}

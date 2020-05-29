@@ -1,3 +1,7 @@
 export const ADD_BUTTON_TEST_ID = 'add-button'
 export const BUTTON_WITH_ICON_TEST_ID = 'button-with-icon'
 export const CIRCLE_BUTTON_TEST_ID = 'circle-button'
+export const PAGE_TITLE_TEST_ID = 'page-title'
+export const CONTENT_EDITOR_TEST_ID = 'content-editor'
+export const DROP_DOWN_SELECT_TEST_ID = 'drop-down-select'
+export const DELETE_ICON_TEST_ID = 'delete-icon'

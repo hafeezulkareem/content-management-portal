@@ -6,6 +6,7 @@ import { History } from 'history'
 import { AppHeader } from '../../../common/components/AppHeader'
 import { CodingAndMCQsNavigator } from '../../../common/components/CodingAndMCQsNavigator'
 import { FooterNavigation } from '../../../common/components/FooterNavigation'
+import { SelectList } from '../../../common/components/SelectList'
 
 import i18n from '../../i18n/strings.json'
 import { CODING_PROBLEM_CREATE_PATH } from '../../constants/RouteConstants'
@@ -44,6 +45,7 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
                userProfilePicLink='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/696fd949-70d2-4be4-b1ef-a5065b1b1a11@3x.png'
             />
             <CodingAndMCQsNavigator activeSection={activeSection} />
+            <SelectList isSelected={false} onSelect={() => {}} />
             <CodingProblemsList codingProblemsList={codingProblemsListArray} />
             <FooterNavigation
                buttonText={addCodingQuestions}

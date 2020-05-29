@@ -45,5 +45,6 @@
    "navigator": {
       "mcqsList": "MCQs List",
       "codingQuestionsList": "Coding Questions List"
-   }
+   },
+   "selectAll": "Select All"
 }

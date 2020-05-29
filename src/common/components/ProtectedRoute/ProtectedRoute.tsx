@@ -6,7 +6,7 @@ import { isSignedIn } from '../../utils/SignInUtils'
 
 export const ProtectedRoute = ({ component: Component, ...rest }) => {
    if (isSignedIn()) {
-      return <Route exact path={rest.path} component={Component} />
+      return <Route {...rest} component={Component} />
    } else {
       return <Redirect to={SIGN_IN_PATH} />
    }

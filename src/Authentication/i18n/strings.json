@@ -4,7 +4,10 @@
    "login": "Login",
    "signInErrors": {
       "pleasEnterUsername": "Please enter username",
-      "pleaseEnterPassword": "Please enter password",
-      "somethingWentWrong": "Something went wrong. Try Again!"
+      "pleaseEnterPassword": "Please enter password"
+   },
+   "signUpMessages": {
+      "signInfo": "Don't have an account?",
+      "signUp": "Signup"
    }
 }

@@ -1,8 +1,8 @@
 import { CodingProblemsAPI } from '../../CodingProblems/services/CodingProblemsService/CodingProblemsAPI'
 import { CodingProblemsStore } from '../../CodingProblems/stores/CodingProblemsStore'
 import { CodingProblemsFixture } from '../../CodingProblems/services/CodingProblemsService/CodingProblemsFixture'
-import { AuthAPI } from '../../Authentication/services/AuthSerives/AuthAPI'
-import { AuthFixture } from '../../Authentication/services/AuthSerives/AuthFixture'
+import { AuthAPI } from '../../Authentication/services/AuthServices/AuthAPI'
+import { AuthFixture } from '../../Authentication/services/AuthServices/AuthFixture'
 import { AuthStore } from '../../Authentication/stores/AuthStore'
 
 const authAPI = new AuthAPI()

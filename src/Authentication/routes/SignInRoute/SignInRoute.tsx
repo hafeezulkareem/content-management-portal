@@ -49,8 +49,8 @@ class SignInRoute extends React.Component<SignInRouteProps> {
    }
 
    onFailureUserSingIn = () => {
-      const { signInErrors } = i18n
-      this.signInFailureError = signInErrors.somethingWentWrong
+      const { authStore } = this.props
+      this.signInFailureError = authStore.postSignInAPIError
    }
 
    getUserAccessToken = () => {

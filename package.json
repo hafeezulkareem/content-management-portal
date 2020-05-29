@@ -40,7 +40,7 @@
       "eject": "react-app-rewired eject",
       "ts:start": "npm run watch:css & react-scripts start",
       "ts:build": "npm run build:css & react-scripts build",
-      "ts:test": "react-scripts test --env=jest-environment-jsdom-sixteen",
+      "ts:test": "react-app-rewired test --env=jest-environment-jsdom-sixteen",
       "ts:eject": "react-scripts eject",
       "deploy": "export PUBLIC_URL=/2019/$C9_USER/react && npm run build && ./deploy.sh",
       "storybook": "start-storybook -p 8080 -s public",

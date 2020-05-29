@@ -1,6 +1,11 @@
 import React from 'react'
 
 import {
+   INPUT_FIELD_TEST_ID,
+   ERROR_ICON_TEST_ID
+} from '../../constants/IdConstants'
+
+import {
    InputFieldWrapper,
    InputFieldEl,
    InputFieldErrorIcon
@@ -24,12 +29,14 @@ class InputField extends React.Component<InputFieldProps> {
       return (
          <InputFieldWrapper error={error}>
             <InputFieldEl
+               data-testid={INPUT_FIELD_TEST_ID}
                value={inputFieldValue}
                onChange={onChangeInput}
                type={inputFieldType}
             />
             {error && (
                <InputFieldErrorIcon
+                  data-testid={ERROR_ICON_TEST_ID}
                   alt='Error Icon'
                   src='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/a68ce0bc-26a7-4037-94f4-f8461b2efea8.svg'
                />

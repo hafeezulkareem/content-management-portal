@@ -3,6 +3,7 @@ import { API_FETCHING } from '@ib/api-constants'
 import { observer } from 'mobx-react'
 
 import i18n from '../../i18n/strings.json'
+import { SIGN_BUTTON_TEST_ID } from '../../constants/IdConstants'
 
 import { InputField } from '../InputField'
 import { LoadingView } from '../LoadingView'
@@ -48,6 +49,7 @@ class SignIn extends React.Component<SignInProps> {
          signInFailureError,
          postSignInAPIStatus
       } = this.props
+      const { signUpMessages } = i18n
       return (
          <SignInPageWrapper>
             <SignInContainer>
@@ -81,7 +83,10 @@ class SignIn extends React.Component<SignInProps> {
                         <ErrorMessage>{passwordError}</ErrorMessage>
                      )}
                   </FieldWrapper>
-                  <SignInButton disabled={postSignInAPIStatus === API_FETCHING}>
+                  <SignInButton
+                     data-testid={SIGN_BUTTON_TEST_ID}
+                     disabled={postSignInAPIStatus === API_FETCHING}
+                  >
                      {postSignInAPIStatus !== API_FETCHING ? (
                         `${i18n.login.toUpperCase()}`
                      ) : (
@@ -90,7 +95,8 @@ class SignIn extends React.Component<SignInProps> {
                   </SignInButton>
                </SignInForm>
                <SignUpMessage>
-                  Don't have an account? <SignUpLink href=''>Signup</SignUpLink>
+                  {signUpMessages.signInfo}{' '}
+                  <SignUpLink href=''>{signUpMessages.signUp}</SignUpLink>
                </SignUpMessage>
                {signInFailureError && (
                   <SignInErrorMessage>{signInFailureError}</SignInErrorMessage>

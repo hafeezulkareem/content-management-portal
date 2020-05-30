@@ -54,7 +54,14 @@ describe('CodingProblemsStore tests', () => {
          return mockLoadingPromise
       })
 
-      codingProblemsStore.postProblemStatement(statementData)
+      const mockSuccessFunction = jest.fn()
+      const mocFailureFunction = jest.fn()
+
+      codingProblemsStore.postProblemStatement(
+         statementData,
+         mockSuccessFunction,
+         mocFailureFunction
+      )
 
       expect(codingProblemsStore.postStatementAPIStatus).toBe(API_FETCHING)
    })
@@ -67,7 +74,14 @@ describe('CodingProblemsStore tests', () => {
          return mockFailurePromise
       })
 
-      await codingProblemsStore.postProblemStatement(statementData)
+      const mockSuccessFunction = jest.fn()
+      const mocFailureFunction = jest.fn()
+
+      await codingProblemsStore.postProblemStatement(
+         statementData,
+         mockSuccessFunction,
+         mocFailureFunction
+      )
 
       expect(codingProblemsStore.postStatementAPIStatus).toBe(API_FAILED)
       expect(codingProblemsStore.postStatementAPIError).toBe(
@@ -83,7 +97,14 @@ describe('CodingProblemsStore tests', () => {
          return mockSuccessPromise
       })
 
-      await codingProblemsStore.postProblemStatement(statementData)
+      const mockSuccessFunction = jest.fn()
+      const mocFailureFunction = jest.fn()
+
+      await codingProblemsStore.postProblemStatement(
+         statementData,
+         mockSuccessFunction,
+         mocFailureFunction
+      )
 
       expect(codingProblemsStore.postStatementAPIStatus).toBe(API_SUCCESS)
       expect(codingProblemsStore.codingProblemId).toBe(0)
@@ -100,7 +121,14 @@ describe('CodingProblemsStore tests', () => {
          return mockLoadingPromise
       })
 
-      codingProblemsStore.postProblemRoughSolution(roughSolutionsData)
+      const mockSuccessFunction = jest.fn()
+      const mocFailureFunction = jest.fn()
+
+      codingProblemsStore.postProblemRoughSolution(
+         roughSolutionsData,
+         mockSuccessFunction,
+         mocFailureFunction
+      )
 
       expect(codingProblemsStore.postRoughSolutionAPIStatus).toBe(API_FETCHING)
    })
@@ -113,7 +141,14 @@ describe('CodingProblemsStore tests', () => {
          return mockFailurePromise
       })
 
-      await codingProblemsStore.postProblemRoughSolution(roughSolutionsData)
+      const mockSuccessFunction = jest.fn()
+      const mocFailureFunction = jest.fn()
+
+      await codingProblemsStore.postProblemRoughSolution(
+         roughSolutionsData,
+         mockSuccessFunction,
+         mocFailureFunction
+      )
 
       expect(codingProblemsStore.postRoughSolutionAPIStatus).toBe(API_FAILED)
       expect(codingProblemsStore.postRoughSolutionAPIError).toBe(
@@ -129,7 +164,14 @@ describe('CodingProblemsStore tests', () => {
          return mockSuccessPromise
       })
 
-      await codingProblemsStore.postProblemRoughSolution(roughSolutionsData)
+      const mockSuccessFunction = jest.fn()
+      const mocFailureFunction = jest.fn()
+
+      await codingProblemsStore.postProblemRoughSolution(
+         roughSolutionsData,
+         mockSuccessFunction,
+         mocFailureFunction
+      )
 
       expect(codingProblemsStore.postRoughSolutionAPIStatus).toBe(API_SUCCESS)
    })

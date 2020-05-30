@@ -6,18 +6,21 @@ import { CodeEditor } from '../../../common/components/CodeEditor'
 
 import i18n from '../../i18n/strings.json'
 import { CodingEditorModel } from '../../stores/models/CodingEditorModel'
-import { RoughSolutionModel } from '../../stores/models/RoughSolutionModel'
 
 import { AddAndSaveButtons } from '../AddAndSaveButtons'
 
-import { RoughSolutionContainer, ErrorMessage } from './styledComponents'
+import {
+   RoughSolutionContainer,
+   ErrorMessage,
+   PostRoughSolutionsError
+} from './styledComponents'
 
 type RoughSolutionProps = {
    codingProblemsStore: any
    onSelectTab: any
    currentTabIndex: number
    updateDataStatus: any
-   roughSolutions: Array<RoughSolutionModel>
+   roughSolutions: any
    codingProblemId: number | null
 }
 
@@ -26,6 +29,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    @observable codeEditorsList: any = new Map()
    @observable errorMessage: string | null = null
    codingProblemId: number | null
+   @observable postRoughSolutionError
 
    constructor(props) {
       super(props)
@@ -57,6 +61,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    init = () => {
       this.codeEditorsList = new Map()
       this.errorMessage = null
+      this.postRoughSolutionError = null
       this.setNewCodeEditor()
    }
 
@@ -108,40 +113,63 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
       this.setNewCodeEditor()
    }
 
-   onClickSaveButton = () => {
+   prepareRoughSolutionsData = () => {
+      const roughSolutions: any = []
+      Array.from(this.codeEditorsList.values()).forEach(
+         (codeEditorDetails: any) => {
+            if (
+               !codeEditorDetails.fileName ||
+               !codeEditorDetails.programmingLanguage ||
+               !codeEditorDetails.content
+            ) {
+               const { errors } = i18n.roughSolution
+               this.errorMessage = errors.fillAllTheFields
+            } else {
+               roughSolutions.push({
+                  language: codeEditorDetails.programmingLanguage.toUpperCase(),
+                  solution_content: codeEditorDetails.content,
+                  file_name: codeEditorDetails.fileName,
+                  rough_solution_id: codeEditorDetails.roughSolutionId
+               })
+            }
+         }
+      )
+      return roughSolutions
+   }
+
+   onSuccessPostRoughSolutions = () => {
+      this.init()
+      const { onSelectTab, currentTabIndex, updateDataStatus } = this.props
+      updateDataStatus(false)
+      onSelectTab(currentTabIndex + 1)
+   }
+
+   onFailurePostRoughSolutions = () => {
+      const { codingProblemsStore } = this.props
+      this.postRoughSolutionError =
+         codingProblemsStore.postRoughSolutionAPIError
+   }
+
+   postRoughSolutions = roughSolutions => {
       const { codingProblemsStore } = this.props
       const { postProblemRoughSolution } = codingProblemsStore
-      const roughSolutions: any = []
-      if (this.codeEditorsList.size !== 0) {
-         Array.from(this.codeEditorsList.values()).forEach(
-            (codeEditorDetails: any) => {
-               if (
-                  !codeEditorDetails.fileName ||
-                  !codeEditorDetails.programmingLanguage ||
-                  !codeEditorDetails.content
-               ) {
-                  const { errors } = i18n.roughSolution
-                  this.errorMessage = errors.fillAllTheFields
-               } else {
-                  roughSolutions.push({
-                     language: codeEditorDetails.programmingLanguage.toUpperCase(),
-                     solution_content: codeEditorDetails.content,
-                     file_name: codeEditorDetails.fileName,
-                     rough_solution_id: codeEditorDetails.roughSolutionId
-                  })
-               }
-            }
-         )
-      }
-      if (!this.errorMessage) {
-         postProblemRoughSolution({
+      postProblemRoughSolution(
+         {
             question_id: this.codingProblemId,
             rough_solutions: roughSolutions
-         })
-         this.init()
-         const { onSelectTab, currentTabIndex, updateDataStatus } = this.props
-         updateDataStatus(false)
-         onSelectTab(currentTabIndex + 1)
+         },
+         this.onSuccessPostRoughSolutions,
+         this.onFailurePostRoughSolutions
+      )
+   }
+
+   onClickSaveButton = () => {
+      let roughSolutions
+      if (this.codeEditorsList.size !== 0) {
+         roughSolutions = this.prepareRoughSolutionsData()
+      }
+      if (!this.errorMessage) {
+         this.postRoughSolutions(roughSolutions)
       }
    }
 
@@ -167,6 +195,11 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
          <RoughSolutionContainer>
             {this.errorMessage && (
                <ErrorMessage>{this.errorMessage}</ErrorMessage>
+            )}
+            {this.postRoughSolutionError && (
+               <PostRoughSolutionsError>
+                  {this.postRoughSolutionError}
+               </PostRoughSolutionsError>
             )}
             {this.renderCodeEditors()}
             <AddAndSaveButtons

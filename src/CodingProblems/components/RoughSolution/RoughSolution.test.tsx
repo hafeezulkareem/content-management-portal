@@ -26,6 +26,8 @@ describe('RoughSolution tests', () => {
    it('should add code editor on click add button', async () => {
       const { getByTestId, getAllByPlaceholderText } = render(
          <RoughSolution
+            roughSolutions={null}
+            codingProblemId={null}
             codingProblemsStore={codingProblemsStore}
             onSelectTab={() => {}}
             currentTabIndex={2}
@@ -46,6 +48,8 @@ describe('RoughSolution tests', () => {
    it('should remove code editor on click remove button', async () => {
       const { getByTestId, queryByPlaceholderText } = render(
          <RoughSolution
+            roughSolutions={null}
+            codingProblemId={null}
             codingProblemsStore={codingProblemsStore}
             onSelectTab={() => {}}
             currentTabIndex={2}
@@ -66,6 +70,8 @@ describe('RoughSolution tests', () => {
    it('should render file name on change file name', async () => {
       const { getByPlaceholderText } = render(
          <RoughSolution
+            roughSolutions={null}
+            codingProblemId={null}
             codingProblemsStore={codingProblemsStore}
             onSelectTab={() => {}}
             currentTabIndex={2}
@@ -86,6 +92,8 @@ describe('RoughSolution tests', () => {
    it('should render error message on empty fields', async () => {
       const { getByRole, getByText } = render(
          <RoughSolution
+            roughSolutions={null}
+            codingProblemId={null}
             codingProblemsStore={codingProblemsStore}
             onSelectTab={() => {}}
             currentTabIndex={2}

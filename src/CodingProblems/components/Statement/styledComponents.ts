@@ -60,3 +60,10 @@ export const ErrorMessage = styled.p`
         text-xs
     `};
 `
+
+export const PostStatementError = styled.p`
+   color: ${colors.neonRed};
+   ${tw`
+        text-md mx-auto -mt-4 mb-2
+    `}
+`

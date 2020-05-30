@@ -10,7 +10,6 @@ import { HtmlPreviewer } from '../../../common/components/HtmlPreviewer'
 import { SaveButton } from '../../../common/components/SaveButton'
 
 import i18n from '../../i18n/strings.json'
-import { StatementModel } from '../../stores/models/StatementModel'
 
 import {
    StatementContainer,
@@ -21,7 +20,8 @@ import {
    LeftSectionContainer,
    SaveButtonContainer,
    LeftAndRightSections,
-   ErrorMessage
+   ErrorMessage,
+   PostStatementError
 } from './styledComponents'
 
 type StatementProps = {
@@ -29,7 +29,7 @@ type StatementProps = {
    onSelectTab: any
    currentTabIndex: number
    updateDataStatus: any
-   statementDetails: StatementModel
+   statementDetails: any
    codingProblemId: number | null
 }
 
@@ -42,6 +42,7 @@ class Statement extends React.Component<StatementProps> {
    @observable shortTextError: string | null = null
    @observable descriptionError: string | null = null
    codingProblemId: number | null
+   @observable postStatementError
 
    constructor(props) {
       super(props)
@@ -52,6 +53,7 @@ class Statement extends React.Component<StatementProps> {
       this.shortText = ''
       this.text = ''
       this.textType = commonI18n.textEditorTypes[0].optionText.toLowerCase()
+      this.postStatementError = null
    }
 
    componentDidMount() {
@@ -81,6 +83,18 @@ class Statement extends React.Component<StatementProps> {
       this.props.updateDataStatus(this.textType)
    }
 
+   onSuccessPostProblemStatement = () => {
+      this.init()
+      const { onSelectTab, currentTabIndex, updateDataStatus } = this.props
+      updateDataStatus(false)
+      onSelectTab(currentTabIndex + 1)
+   }
+
+   onFailurePostProblemStatement = () => {
+      const { codingProblemsStore } = this.props
+      this.postStatementError = codingProblemsStore.postStatementAPIError
+   }
+
    postProblemStatement = () => {
       const { codingProblemsStore } = this.props
       const { postProblemStatement } = codingProblemsStore
@@ -92,16 +106,16 @@ class Statement extends React.Component<StatementProps> {
             content_type: this.textType.toUpperCase()
          }
       }
-      postProblemStatement(statementData)
+      postProblemStatement(
+         statementData,
+         this.onSuccessPostProblemStatement,
+         this.onFailurePostProblemStatement
+      )
    }
 
    onClickSaveButton = event => {
       if (this.shortText && this.text) {
          this.postProblemStatement()
-         this.init()
-         const { onSelectTab, currentTabIndex, updateDataStatus } = this.props
-         updateDataStatus(false)
-         onSelectTab(currentTabIndex + 1)
       } else {
          const { statement } = i18n
          const { errors } = statement
@@ -129,6 +143,11 @@ class Statement extends React.Component<StatementProps> {
       const { statement } = i18n
       return (
          <StatementContainer>
+            {this.postStatementError && (
+               <PostStatementError>
+                  {this.postStatementError}
+               </PostStatementError>
+            )}
             <LeftAndRightSections>
                <StatementLeftSection>
                   <LeftSectionContainer>

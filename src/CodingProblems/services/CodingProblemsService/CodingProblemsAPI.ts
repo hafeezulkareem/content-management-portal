@@ -34,7 +34,7 @@ class CodingProblemsAPI {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.get)
    }
 
-   getCodingProblemDetailsAPI() {
+   getCodingProblemDetailsAPI(codingProblemId) {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.get)
    }
 }

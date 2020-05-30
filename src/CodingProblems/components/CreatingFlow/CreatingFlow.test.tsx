@@ -35,10 +35,6 @@ describe('CreatingFlow tests', () => {
       codingProblemsStore = new CodingProblemsStore(codingProblemsAPI)
    })
 
-   afterEach(() => {
-      jest.resetAllMocks()
-   })
-
    it('should navigate to coding problem home on back button click', async () => {
       const history = createMemoryHistory()
       history.push(CODING_PROBLEM_CREATE_PATH)
@@ -66,18 +62,32 @@ describe('CreatingFlow tests', () => {
       })
    })
 
-   it('should go to Statement tab by default', () => {
+   it('should go to Statement tab by default', async () => {
+      const mockSuccessPromise = new Promise((resolve, reject) => {
+         resolve('Resolved')
+      })
+      codingProblemsAPI.getCodingProblemDetailsAPI = jest.fn(() => {
+         return mockSuccessPromise
+      })
       const { getByTestId, getByRole } = render(
          <Router history={createMemoryHistory()}>
             <CreatingFlow codingProblemsStore={codingProblemsStore} />
          </Router>
       )
 
-      expect(getByTestId(PAGE_TITLE_TEST_ID)).toHaveTextContent('Statement')
-      expect(getByRole('button', { name: 'Save' })).toBeInTheDocument()
+      await waitFor(() => {
+         expect(getByTestId(PAGE_TITLE_TEST_ID)).toHaveTextContent('Statement')
+         expect(getByRole('button', { name: 'Save' })).toBeInTheDocument()
+      })
    })
 
-   it('should change the tab on click Rough solutions', () => {
+   it('should change the tab on click Rough solutions', async () => {
+      const mockSuccessPromise = new Promise((resolve, reject) => {
+         resolve('Resolved')
+      })
+      codingProblemsAPI.getCodingProblemDetailsAPI = jest.fn(() => {
+         return mockSuccessPromise
+      })
       const { getByTestId, getByRole } = render(
          <Router history={createMemoryHistory()}>
             <CreatingFlow codingProblemsStore={codingProblemsStore} />
@@ -87,13 +97,21 @@ describe('CreatingFlow tests', () => {
       const roughSolutionButton = getByTestId(ROUGH_SOLUTION)
       fireEvent.click(roughSolutionButton)
 
-      expect(getByTestId(PAGE_TITLE_TEST_ID)).toHaveTextContent(
-         'Rough Solution'
-      )
-      expect(getByRole('button', { name: 'Save' })).toBeInTheDocument()
+      await waitFor(() => {
+         expect(getByTestId(PAGE_TITLE_TEST_ID)).toHaveTextContent(
+            'Rough Solution'
+         )
+         expect(getByRole('button', { name: 'Save' })).toBeInTheDocument()
+      })
    })
 
-   it('should change the tab on click Hints', () => {
+   it('should change the tab on click Hints', async () => {
+      const mockSuccessPromise = new Promise((resolve, reject) => {
+         resolve('Resolved')
+      })
+      codingProblemsAPI.getCodingProblemDetailsAPI = jest.fn(() => {
+         return mockSuccessPromise
+      })
       const { getByTestId, getByRole } = render(
          <Router history={createMemoryHistory()}>
             <CreatingFlow codingProblemsStore={codingProblemsStore} />
@@ -103,7 +121,9 @@ describe('CreatingFlow tests', () => {
       const hintsButton = getByTestId(HINTS)
       fireEvent.click(hintsButton)
 
-      expect(getByTestId(PAGE_TITLE_TEST_ID)).toHaveTextContent('Hints')
-      expect(getByRole('button', { name: 'Save' })).toBeInTheDocument()
+      await waitFor(() => {
+         expect(getByTestId(PAGE_TITLE_TEST_ID)).toHaveTextContent('Hints')
+         expect(getByRole('button', { name: 'Save' })).toBeInTheDocument()
+      })
    })
 })

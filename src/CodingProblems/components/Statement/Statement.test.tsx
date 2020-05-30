@@ -21,6 +21,8 @@ describe('CreatingFlow tests', () => {
    it('should show short text empty error message in statement', async () => {
       const { getByRole, getByText } = render(
          <Statement
+            statementDetails={null}
+            codingProblemId={null}
             codingProblemsStore={codingProblemsStore}
             onSelectTab={() => {}}
             currentTabIndex={2}
@@ -39,6 +41,8 @@ describe('CreatingFlow tests', () => {
    it('should show description empty error message in statement', async () => {
       const { getByRole, getByPlaceholderText, getByText } = render(
          <Statement
+            statementDetails={null}
+            codingProblemId={null}
             codingProblemsStore={codingProblemsStore}
             onSelectTab={() => {}}
             currentTabIndex={2}

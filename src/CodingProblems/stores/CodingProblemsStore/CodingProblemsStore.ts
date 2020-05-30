@@ -60,14 +60,24 @@ class CodingProblemsStore {
    }
 
    @action.bound
-   postProblemStatement(statementData) {
+   postProblemStatement(
+      statementData,
+      onSuccessPostProblemStatement,
+      onFailurePostProblemStatement
+   ) {
       console.log('Statement', statementData)
       const problemStatementPromise = this.codingProblemsAPIService.postProblemStatementAPI(
          statementData
       )
       return bindPromiseWithOnSuccess(problemStatementPromise)
-         .to(this.setStatementAPIStatus, this.setStatementAPIResponse)
-         .catch(this.setStatementAPIError)
+         .to(this.setStatementAPIStatus, response => {
+            this.setStatementAPIResponse(response)
+            onSuccessPostProblemStatement()
+         })
+         .catch(error => {
+            this.setStatementAPIError(error)
+            onFailurePostProblemStatement()
+         })
    }
 
    @action.bound
@@ -87,14 +97,24 @@ class CodingProblemsStore {
    }
 
    @action.bound
-   postProblemRoughSolution(roughSolutionData) {
+   postProblemRoughSolution(
+      roughSolutionData,
+      onSuccessPostRoughSolutions,
+      onFailurePostRoughSolutions
+   ) {
       console.log('Rough Solution', roughSolutionData)
       const problemRoughSolutionPromise = this.codingProblemsAPIService.postProblemRoughSolutionAPI(
          roughSolutionData
       )
       return bindPromiseWithOnSuccess(problemRoughSolutionPromise)
-         .to(this.setRoughSolutionAPIStatus, this.setRoughSolutionAPIResponse)
-         .catch(this.setRoughSolutionAPIError)
+         .to(this.setRoughSolutionAPIStatus, response => {
+            this.setRoughSolutionAPIResponse(response)
+            onSuccessPostRoughSolutions()
+         })
+         .catch(error => {
+            this.setRoughSolutionAPIError(error)
+            onFailurePostRoughSolutions()
+         })
    }
 
    @action.bound
@@ -146,8 +166,10 @@ class CodingProblemsStore {
    }
 
    @action.bound
-   getCodingProblemDetails() {
-      const codingProblemDetailsPromise = this.codingProblemsAPIService.getCodingProblemDetailsAPI()
+   getCodingProblemDetails(codingProblemId) {
+      const codingProblemDetailsPromise = this.codingProblemsAPIService.getCodingProblemDetailsAPI(
+         codingProblemId
+      )
       return bindPromiseWithOnSuccess(codingProblemDetailsPromise)
          .to(
             this.setCodingProblemDetailsAPIStatus,

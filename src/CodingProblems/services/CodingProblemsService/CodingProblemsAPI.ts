@@ -30,6 +30,10 @@ class CodingProblemsAPI {
       )
    }
 
+   deleteRoughSolutionAPI(codingProblemId, roughSolutionId) {
+      return networkCallWithApisauce(this.api, '', {}, apiMethods.delete)
+   }
+
    getCodingProblemsAPI() {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.get)
    }

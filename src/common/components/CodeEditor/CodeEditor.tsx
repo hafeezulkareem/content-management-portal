@@ -15,6 +15,7 @@ type CodeEditorProps = {
    onChangeProgrammingLanguage: any
    onChangeContent: any
    onClickDeleteButton: any
+   roughSolutionId: any
 }
 
 @observer
@@ -32,7 +33,8 @@ class CodeEditor extends React.Component<CodeEditorProps> {
          fileName,
          codeEditorId,
          onChangeProgrammingLanguage,
-         onClickDeleteButton
+         onClickDeleteButton,
+         roughSolutionId
       } = this.props
       return (
          <CodeEditorContainer>
@@ -43,6 +45,7 @@ class CodeEditor extends React.Component<CodeEditorProps> {
                onChangeProgrammingLanguage={onChangeProgrammingLanguage}
                programmingLanguage={programmingLanguage}
                onClickDeleteButton={onClickDeleteButton}
+               roughSolutionId={roughSolutionId}
             />
             <ContentEditor
                content={code}

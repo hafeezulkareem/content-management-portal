@@ -10,6 +10,8 @@ class CodingProblemsStore {
    @observable postStatementAPIError
    @observable postRoughSolutionAPIStatus
    @observable postRoughSolutionAPIError
+   @observable deleteRoughSolutionAPIStatus
+   @observable deleteRoughSolutionAPIError
    @observable getCodingProblemsAPIStatus
    @observable getCodingProblemsAPIError
    @observable getCodingProblemDetailsAPIStatus
@@ -30,6 +32,8 @@ class CodingProblemsStore {
       this.postStatementAPIError = null
       this.postRoughSolutionAPIStatus = API_INITIAL
       this.postRoughSolutionAPIError = null
+      this.deleteRoughSolutionAPIStatus = API_INITIAL
+      this.deleteRoughSolutionAPIError = null
       this.getCodingProblemsAPIStatus = API_INITIAL
       this.getCodingProblemsAPIError = null
       this.getCodingProblemDetailsAPIStatus = API_INITIAL
@@ -114,6 +118,37 @@ class CodingProblemsStore {
          .catch(error => {
             this.setRoughSolutionAPIError(error)
             onFailurePostRoughSolutions()
+         })
+   }
+
+   @action.bound
+   setRoughSolutionDeleteAPIStatus(roughSolutionDeleteAPIStatus) {
+      this.deleteRoughSolutionAPIStatus = roughSolutionDeleteAPIStatus
+   }
+
+   @action.bound
+   setRoughSolutionDeleteAPIError(roughSolutionDeleteAPIError) {
+      this.deleteRoughSolutionAPIError = roughSolutionDeleteAPIError
+   }
+
+   @action.bound
+   deleteProblemRoughSolution(
+      codingProblemId,
+      roughSolutionId,
+      onSuccessDeleteRoughSolution,
+      onFailureDeleteRoughSolution
+   ) {
+      const deleteRoughSolutionPromise = this.codingProblemsAPIService.deleteRoughSolutionAPI(
+         codingProblemId,
+         roughSolutionId
+      )
+      return bindPromiseWithOnSuccess(deleteRoughSolutionPromise)
+         .to(this.setRoughSolutionDeleteAPIStatus, () => {
+            onSuccessDeleteRoughSolution()
+         })
+         .catch(error => {
+            this.setRoughSolutionDeleteAPIError(error)
+            onFailureDeleteRoughSolution()
          })
    }
 

@@ -12,7 +12,7 @@ import { AddAndSaveButtons } from '../AddAndSaveButtons'
 import {
    RoughSolutionContainer,
    ErrorMessage,
-   PostRoughSolutionsError
+   RoughSolutionsError
 } from './styledComponents'
 
 type RoughSolutionProps = {
@@ -30,6 +30,8 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    @observable errorMessage: string | null = null
    codingProblemId: number | null
    @observable postRoughSolutionError
+   @observable deleteRoughSolutionError
+   currentCodeEditorId
 
    constructor(props) {
       super(props)
@@ -60,8 +62,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
 
    init = () => {
       this.codeEditorsList = new Map()
-      this.errorMessage = null
-      this.postRoughSolutionError = null
+      this.initializeErrors()
       this.setNewCodeEditor()
    }
 
@@ -83,30 +84,66 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
       return Math.random().toString()
    }
 
+   initializeErrors = () => {
+      this.errorMessage = null
+      this.postRoughSolutionError = null
+      this.deleteRoughSolutionError = null
+   }
+
    onChangeFileName = (updatedValue, id) => {
       const currentCodeEditor = this.codeEditorsList.get(id)
       currentCodeEditor.fileName = updatedValue
-      this.errorMessage = null
+      this.initializeErrors()
       this.props.updateDataStatus(updatedValue)
    }
 
    onChangeProgrammingLanguage = (updatedProgrammingLanguage, id) => {
       const currentCodeEditor = this.codeEditorsList.get(id)
       currentCodeEditor.programmingLanguage = updatedProgrammingLanguage
-      this.errorMessage = null
+      this.initializeErrors()
       this.props.updateDataStatus(updatedProgrammingLanguage)
    }
 
    onChangeContent = (updatedContent, id) => {
       const currentCodeEditor = this.codeEditorsList.get(id)
       currentCodeEditor.content = updatedContent
-      this.errorMessage = null
+      this.initializeErrors()
       this.props.updateDataStatus(updatedContent)
    }
 
-   onClickDeleteButton = id => {
-      this.errorMessage = null
-      this.codeEditorsList.delete(id)
+   onSuccessDeleteRoughSolution = () => {
+      this.deleteCodeEditor(this.currentCodeEditorId)
+   }
+
+   onFailureDeleteRoughSolution = () => {
+      const { codingProblemsStore } = this.props
+      this.deleteRoughSolutionError =
+         codingProblemsStore.deleteRoughSolutionAPIError
+   }
+
+   deleteCodeEditor = codeEditorId => {
+      this.initializeErrors()
+      this.codeEditorsList.delete(codeEditorId)
+   }
+
+   checkCodingProblemIdAndDelete = roughSolutionId => {
+      if (this.codingProblemId) {
+         const { codingProblemsStore } = this.props
+         const { deleteProblemRoughSolution } = codingProblemsStore
+         deleteProblemRoughSolution(
+            this.codingProblemId,
+            roughSolutionId,
+            this.onSuccessDeleteRoughSolution,
+            this.onFailureDeleteRoughSolution
+         )
+      } else {
+         this.deleteCodeEditor(this.currentCodeEditorId)
+      }
+   }
+
+   onClickDeleteButton = (codeEditorId, roughSolutionId) => {
+      this.currentCodeEditorId = codeEditorId
+      this.checkCodingProblemIdAndDelete(roughSolutionId)
    }
 
    onClickAddButton = () => {
@@ -186,6 +223,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
             onChangeProgrammingLanguage={this.onChangeProgrammingLanguage}
             onChangeContent={this.onChangeContent}
             onClickDeleteButton={this.onClickDeleteButton}
+            roughSolutionId={codeEditor.roughSolutionId}
          />
       ))
    }
@@ -197,9 +235,14 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
                <ErrorMessage>{this.errorMessage}</ErrorMessage>
             )}
             {this.postRoughSolutionError && (
-               <PostRoughSolutionsError>
+               <RoughSolutionsError>
                   {this.postRoughSolutionError}
-               </PostRoughSolutionsError>
+               </RoughSolutionsError>
+            )}
+            {this.deleteRoughSolutionError && (
+               <RoughSolutionsError>
+                  {this.deleteRoughSolutionError}
+               </RoughSolutionsError>
             )}
             {this.renderCodeEditors()}
             <AddAndSaveButtons

@@ -28,7 +28,7 @@ export const ErrorMessage = styled.p`
     `}
 `
 
-export const PostRoughSolutionsError = styled.p`
+export const RoughSolutionsError = styled.p`
    color: ${colors.neonRed};
    ${tw`
         text-md mx-auto -mt-4 mb-2

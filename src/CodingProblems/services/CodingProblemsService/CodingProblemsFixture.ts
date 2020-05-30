@@ -14,6 +14,12 @@ class CodingProblemsFixture {
       )
    }
 
+   deleteRoughSolutionAPI() {
+      return new Promise((resolve, reject) => {
+         resolve('Rough solution is deleted')
+      })
+   }
+
    getCodingProblemsAPI() {
       return new Promise((resolve, reject) => resolve(codingProblemsResponse))
    }

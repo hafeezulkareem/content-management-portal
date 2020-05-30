@@ -22,6 +22,7 @@ type CodeEditorHeaderProps = {
    onChangeProgrammingLanguage: any
    programmingLanguage: string
    onClickDeleteButton: any
+   roughSolutionId: any
 }
 
 @observer
@@ -37,8 +38,8 @@ class CodeEditorHeader extends React.Component<CodeEditorHeaderProps> {
    }
 
    onClickDeleteButton = event => {
-      const { onClickDeleteButton, codeEditorId } = this.props
-      onClickDeleteButton(codeEditorId)
+      const { onClickDeleteButton, codeEditorId, roughSolutionId } = this.props
+      onClickDeleteButton(codeEditorId, roughSolutionId)
    }
 
    render() {

@@ -14,6 +14,7 @@ import { CODING_PROBLEM_CREATE_PATH } from '../../constants/RouteConstants'
 import { CodingProblemsList } from '../CodingProblemsList'
 
 import { AppContainer } from './styledComponents'
+import LoadingWrapperWithFailure from '../../../common/components/LoadingWrapperWithFailure'
 
 type CodingProblemsHomeProps = {
    codingProblemsStore: any
@@ -33,10 +34,32 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
       history.push(CODING_PROBLEM_CREATE_PATH)
    }
 
+   getCodingProblemsStore = () => {
+      return this.props.codingProblemsStore
+   }
+
+   getCodingProblems = () => {
+      this.getCodingProblemsStore().getCodingProblems()
+   }
+
+   renderSuccessUI = () => {
+      const { codingProblemsList } = this.getCodingProblemsStore()
+      let codingProblemsListArray = Array.from(codingProblemsList.values())
+      return <CodingProblemsList codingProblemsList={codingProblemsListArray} />
+   }
+
    render() {
       const { codingProblemsStore, activeSection } = this.props
-      const { codingProblemsList } = codingProblemsStore
-      let codingProblemsListArray = Array.from(codingProblemsList.values())
+      const {
+         getCodingProblemsAPIStatus,
+         getCodingProblemsAPIError
+      } = codingProblemsStore
+      console.log(
+         'Status',
+         getCodingProblemsAPIStatus,
+         'Get Coding Problems Error',
+         getCodingProblemsAPIError
+      )
       const { addCodingQuestions } = i18n as any
       return (
          <AppContainer>
@@ -50,7 +73,12 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
                onClickCodingButton={() => {}}
             />
             <SelectList isSelected={false} onSelect={() => {}} />
-            <CodingProblemsList codingProblemsList={codingProblemsListArray} />
+            <LoadingWrapperWithFailure
+               apiStatus={getCodingProblemsAPIStatus}
+               apiError={getCodingProblemsAPIError}
+               onRetryClick={this.getCodingProblems}
+               renderSuccessUI={this.renderSuccessUI}
+            />
             <FooterNavigation
                buttonText={addCodingQuestions}
                onClickAddButton={this.goToCodingProblemCreatingFlow}

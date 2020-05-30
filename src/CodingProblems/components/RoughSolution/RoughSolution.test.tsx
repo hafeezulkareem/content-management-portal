@@ -19,9 +19,9 @@ describe('RoughSolution tests', () => {
       codingProblemsStore = new CodingProblemsStore(codingProblemsAPI)
    })
 
-   afterEach(() => {
-      jest.resetAllMocks()
-   })
+   // afterEach(() => {
+   //    jest.resetAllMocks()
+   // })
 
    it('should add code editor on click add button', async () => {
       const { getByTestId, getAllByPlaceholderText } = render(
@@ -64,6 +64,64 @@ describe('RoughSolution tests', () => {
          expect(
             queryByPlaceholderText(/file name include extension/i)
          ).toBeNull()
+      })
+   })
+
+   // it('should not remove code editor on Delete API fail', async () => {
+   //    const mockFailurePromise = new Promise((resolve, reject) => {
+   //       reject(new Error('Error while deleting'))
+   //    })
+   //    codingProblemsAPI.deleteRoughSolutionAPI = jest.fn(() => {
+   //       return mockFailurePromise
+   //    })
+
+   //    const { getByTestId, getAllByPlaceholderText } = render(
+   //       <RoughSolution
+   //          roughSolutions={null}
+   //          codingProblemId={null}
+   //          codingProblemsStore={codingProblemsStore}
+   //          onSelectTab={() => {}}
+   //          currentTabIndex={2}
+   //          updateDataStatus={() => {}}
+   //       />
+   //    )
+
+   //    const roughSolutionDeleteButton = getByTestId(DELETE_ICON_TEST_ID)
+   //    fireEvent.click(roughSolutionDeleteButton)
+
+   //    await waitFor(() => {
+   //       expect(
+   //          getAllByPlaceholderText(/file name include extension/i).length
+   //       ).toBe(1)
+   //    })
+   // })
+
+   it('should remove code editor on Delete API success', async () => {
+      const { getByTestId, queryAllByPlaceholderText } = render(
+         <RoughSolution
+            roughSolutions={null}
+            codingProblemId={null}
+            codingProblemsStore={codingProblemsStore}
+            onSelectTab={() => {}}
+            currentTabIndex={2}
+            updateDataStatus={() => {}}
+         />
+      )
+
+      const mockSuccessPromise = new Promise((resolve, reject) => {
+         resolve('Code editor deleted successfully')
+      })
+      codingProblemsAPI.deleteRoughSolutionAPI = jest.fn(() => {
+         return mockSuccessPromise
+      })
+
+      const roughSolutionDeleteButton = getByTestId(DELETE_ICON_TEST_ID)
+      fireEvent.click(roughSolutionDeleteButton)
+
+      await waitFor(() => {
+         expect(
+            queryAllByPlaceholderText(/file name include extension/i).length
+         ).toBe(0)
       })
    })
 

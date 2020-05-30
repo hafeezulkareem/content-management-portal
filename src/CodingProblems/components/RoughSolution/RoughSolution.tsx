@@ -5,8 +5,10 @@ import { observer } from 'mobx-react'
 import { CodeEditor } from '../../../common/components/CodeEditor'
 
 import i18n from '../../i18n/strings.json'
-import { AddAndSaveButtons } from '../AddAndSaveButtons'
 import { CodingEditorModel } from '../../stores/models/CodingEditorModel'
+import { RoughSolutionModel } from '../../stores/models/RoughSolutionModel'
+
+import { AddAndSaveButtons } from '../AddAndSaveButtons'
 
 import { RoughSolutionContainer, ErrorMessage } from './styledComponents'
 
@@ -15,16 +17,41 @@ type RoughSolutionProps = {
    onSelectTab: any
    currentTabIndex: number
    updateDataStatus: any
+   roughSolutions: Array<RoughSolutionModel>
+   codingProblemId: number | null
 }
 
 @observer
 class RoughSolution extends React.Component<RoughSolutionProps> {
    @observable codeEditorsList: any = new Map()
    @observable errorMessage: string | null = null
+   codingProblemId: number | null
 
    constructor(props) {
       super(props)
-      this.setNewCodeEditor()
+      this.codingProblemId = null
+   }
+
+   componentDidMount() {
+      const { roughSolutions, codingProblemId } = this.props
+      if (roughSolutions) {
+         this.codingProblemId = codingProblemId
+         roughSolutions.forEach(roughSolution => {
+            const randomId = this.getRandomId()
+            this.codeEditorsList.set(
+               randomId,
+               new CodingEditorModel({
+                  id: randomId,
+                  roughSolutionId: roughSolution.roughSolutionId,
+                  programmingLanguage: roughSolution.language,
+                  fileName: roughSolution.fileName,
+                  content: roughSolution.solutionContent
+               })
+            )
+         })
+      } else {
+         this.setNewCodeEditor()
+      }
    }
 
    init = () => {
@@ -41,7 +68,8 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
             id: randomId,
             programmingLanguage: '',
             fileName: '',
-            content: ''
+            content: '',
+            roughSolutionId: null
          })
       )
    }
@@ -99,14 +127,17 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
                      language: codeEditorDetails.programmingLanguage.toUpperCase(),
                      solution_content: codeEditorDetails.content,
                      file_name: codeEditorDetails.fileName,
-                     rough_solution_id: null
+                     rough_solution_id: codeEditorDetails.roughSolutionId
                   })
                }
             }
          )
       }
       if (!this.errorMessage) {
-         postProblemRoughSolution(roughSolutions)
+         postProblemRoughSolution({
+            question_id: this.codingProblemId,
+            rough_solutions: roughSolutions
+         })
          this.init()
          const { onSelectTab, currentTabIndex, updateDataStatus } = this.props
          updateDataStatus(false)

@@ -10,7 +10,7 @@ class CodingProblemDetailsModel {
    constructor(codingProblemDetails) {
       this.codingProblemId = codingProblemDetails.question_id
       this.statement = new StatementModel(codingProblemDetails.statement)
-      this.roughSolutions = codingProblemDetails.roughSolutions.forEach(
+      this.roughSolutions = codingProblemDetails.rough_solutions.map(
          roughSolution => new RoughSolutionModel(roughSolution)
       )
    }

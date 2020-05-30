@@ -3,6 +3,7 @@ import { observer } from 'mobx-react'
 import { observable } from 'mobx'
 import { withRouter } from 'react-router-dom'
 import { History } from 'history'
+import { API_FETCHING } from '@ib/api-constants'
 
 import commonI18n from '../../../common/i18n/strings.json'
 import { AppHeader } from '../../../common/components/AppHeader'
@@ -19,6 +20,7 @@ import {
    HINTS,
    SOLUTION_APPROACH
 } from '../../constants/TabConstants'
+import i18n from '../../i18n/strings.json'
 
 import { Navigator } from '../Navigator'
 import { Statement } from '../Statement'
@@ -84,6 +86,24 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
    ]
    isDataSaved: boolean = true
 
+   componentDidMount() {
+      const {
+         match: {
+            params: { codingProblemId }
+         }
+      } = this.props
+      const { create } = i18n as any
+      if (codingProblemId !== create) {
+         const { codingProblemsStore } = this.props
+         codingProblemsStore.getCodingProblemDetails(codingProblemId)
+      }
+   }
+
+   componentWillUnmount() {
+      const { codingProblemsStore } = this.props
+      codingProblemsStore.codingProblemDetails = undefined
+   }
+
    goToCodingProblemsHome = () => {
       const { history } = this.props
       history.push(CODING_PROBLEMS_PATH)
@@ -111,10 +131,21 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
 
    renderRespectiveTabComponent = () => {
       const { codingProblemsStore } = this.props
+      const { codingProblemDetails } = codingProblemsStore
+      let codingProblemId: number | null = null,
+         statement,
+         roughSolutions
+      if (codingProblemDetails) {
+         codingProblemId = codingProblemDetails.codingProblemId
+         statement = codingProblemDetails.statement
+         roughSolutions = codingProblemDetails.roughSolutions
+      }
       switch (this.selectedTabIndex) {
          case 1:
             return (
                <Statement
+                  codingProblemId={codingProblemId}
+                  statementDetails={statement}
                   codingProblemsStore={codingProblemsStore}
                   onSelectTab={this.onSelectTab}
                   currentTabIndex={this.selectedTabIndex}
@@ -126,6 +157,8 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                <Wrapper>
                   <SectionWrapper>
                      <RoughSolution
+                        codingProblemId={codingProblemId}
+                        roughSolutions={roughSolutions}
                         key={ROUGH_SOLUTION}
                         codingProblemsStore={codingProblemsStore}
                         onSelectTab={this.onSelectTab}
@@ -148,6 +181,8 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                <Wrapper>
                   <SectionWrapper>
                      <RoughSolution
+                        codingProblemId={codingProblemId}
+                        roughSolutions={roughSolutions}
                         key={PREFILLED_CODE}
                         codingProblemsStore={codingProblemsStore}
                         onSelectTab={this.onSelectTab}
@@ -200,6 +235,8 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
    render() {
       const { commonLabels } = commonI18n
       const activeTab = this.getCapitalizedActiveTab()
+      const { codingProblemsStore } = this.props
+      const { getCodingProblemDetailsAPIStatus } = codingProblemsStore
       return (
          <AppContainer>
             <AppHeader
@@ -220,7 +257,9 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                   tabDetails={this.tabDetails}
                   onSelectTab={this.onSelectTab}
                />
-               {this.renderRespectiveTabComponent()}
+               {getCodingProblemDetailsAPIStatus !== API_FETCHING
+                  ? this.renderRespectiveTabComponent()
+                  : 'Loading...'}
             </ContentContainer>
          </AppContainer>
       )

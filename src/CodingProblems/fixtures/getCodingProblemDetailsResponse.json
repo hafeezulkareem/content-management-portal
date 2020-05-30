@@ -1,10 +1,10 @@
 {
-   "question_id": 0,
+   "question_id": 10,
    "statement": {
       "short_text": "This is short text",
       "problem_description": {
          "content": "I can write whatever I want",
-         "content_type": "Markdown"
+         "content_type": "MARKDOWN"
       }
    },
    "rough_solutions": [

@@ -5,12 +5,20 @@ class CodingEditorModel {
    @observable programmingLanguage
    @observable fileName
    @observable content
+   roughSolutionId
 
-   constructor({ id, programmingLanguage, fileName, content }) {
+   constructor({
+      id,
+      programmingLanguage,
+      fileName,
+      content,
+      roughSolutionId
+   }) {
       this.id = id
       this.programmingLanguage = programmingLanguage
       this.fileName = fileName
       this.content = content
+      this.roughSolutionId = roughSolutionId
    }
 }
 

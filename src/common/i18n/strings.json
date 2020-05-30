@@ -2,37 +2,44 @@
    "codeEditorLanguageOptions": [
       {
          "optionText": "JavaScript",
+         "value": "JAVASCRIPT",
          "id": "js"
       },
       {
          "optionText": "Python",
+         "value": "PYTHON",
          "id": "py"
       },
       {
          "optionText": "Java",
+         "value": "JAVA",
          "id": "java"
       },
       {
          "optionText": "C++",
+         "value": "C++",
          "id": "cpp"
       },
       {
          "optionText": "C#",
+         "value": "C#",
          "id": "cs"
       },
       {
          "optionText": "PHP",
+         "value": "PHP",
          "id": "php"
       },
-      { "optionText": "Ruby", "id": "rb" }
+      { "optionText": "Ruby", "value": "RUBY", "id": "rb" }
    ],
    "textEditorTypes": [
       {
          "optionText": "Text",
+         "value": "TEXT",
          "id": "text"
       },
-      { "optionText": "HTML", "id": "html" },
-      { "optionText": "Markdown", "id": "markdown" }
+      { "optionText": "HTML", "value": "HTML", "id": "html" },
+      { "optionText": "Markdown", "value": "MARKDOWN", "id": "markdown" }
    ],
    "commonComponents": {
       "add": "Add",

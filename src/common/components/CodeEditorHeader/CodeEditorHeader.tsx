@@ -55,7 +55,7 @@ class CodeEditorHeader extends React.Component<CodeEditorHeaderProps> {
             <HeaderRightSection>
                <DropDown
                   options={codeEditorLanguageOptions}
-                  defaultOption='Languages'
+                  defaultOption='languages'
                   onChangeType={this.onChangeProgrammingLanguage}
                   selectedOption={programmingLanguage}
                />

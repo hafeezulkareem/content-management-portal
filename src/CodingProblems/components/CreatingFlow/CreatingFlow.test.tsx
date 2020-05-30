@@ -6,8 +6,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react'
 import { CODING_PROBLEMS_PATH } from '../../../common/constants/RouteConstants'
 import {
    BUTTON_WITH_ICON_TEST_ID,
-   PAGE_TITLE_TEST_ID,
-   CONTENT_EDITOR_TEST_ID
+   PAGE_TITLE_TEST_ID
 } from '../../../common/constants/IdConstants'
 
 import { CODING_PROBLEM_CREATE_PATH } from '../../constants/RouteConstants'

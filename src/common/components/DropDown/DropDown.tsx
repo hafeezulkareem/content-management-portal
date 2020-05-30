@@ -10,7 +10,7 @@ import {
 } from './styledComponents'
 
 type DropDownProps = {
-   options: Array<{ optionText: string; id: string }>
+   options: Array<{ optionText: string; id: string; value: string }>
    defaultOption: string
    onChangeType: any
    selectedOption: string
@@ -28,14 +28,14 @@ class DropDown extends React.Component<DropDownProps> {
          <DropDownContainer>
             <DropDownSelect
                onChange={onChangeType}
-               value={selectedOption}
+               value={selectedOption.toUpperCase()}
                data-testid={DROP_DOWN_SELECT_TEST_ID}
             >
                {defaultOption ? (
                   <DropDownOption hidden={true}>Languages</DropDownOption>
                ) : null}
                {options.map(option => (
-                  <DropDownOption value={option.optionText} key={option.id}>
+                  <DropDownOption value={option.value} key={option.id}>
                      {option.optionText}
                   </DropDownOption>
                ))}

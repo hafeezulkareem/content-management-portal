@@ -10,6 +10,7 @@ import { HtmlPreviewer } from '../../../common/components/HtmlPreviewer'
 import { SaveButton } from '../../../common/components/SaveButton'
 
 import i18n from '../../i18n/strings.json'
+import { StatementModel } from '../../stores/models/StatementModel'
 
 import {
    StatementContainer,
@@ -28,6 +29,8 @@ type StatementProps = {
    onSelectTab: any
    currentTabIndex: number
    updateDataStatus: any
+   statementDetails: StatementModel
+   codingProblemId: number | null
 }
 
 @observer
@@ -38,11 +41,27 @@ class Statement extends React.Component<StatementProps> {
    textType: string = commonI18n.textEditorTypes[0].optionText.toLowerCase()
    @observable shortTextError: string | null = null
    @observable descriptionError: string | null = null
+   codingProblemId: number | null
+
+   constructor(props) {
+      super(props)
+      this.codingProblemId = null
+   }
 
    init = () => {
       this.shortText = ''
       this.text = ''
       this.textType = commonI18n.textEditorTypes[0].optionText.toLowerCase()
+   }
+
+   componentDidMount() {
+      const { codingProblemId, statementDetails } = this.props
+      if (statementDetails) {
+         this.shortText = statementDetails.shortText
+         this.text = statementDetails.content
+         this.textType = statementDetails.contentType
+         this.codingProblemId = codingProblemId
+      }
    }
 
    onChangeShortText = event => {
@@ -62,20 +81,23 @@ class Statement extends React.Component<StatementProps> {
       this.props.updateDataStatus(this.textType)
    }
 
-   onClickSaveButton = event => {
+   postProblemStatement = () => {
       const { codingProblemsStore } = this.props
       const { postProblemStatement } = codingProblemsStore
-      let statementData
-      if (this.shortText && this.text) {
-         statementData = {
-            question_id: null,
-            short_text: this.shortText,
-            problem_description: {
-               content: this.text,
-               content_type: this.textType.toUpperCase()
-            }
+      const statementData = {
+         question_id: this.codingProblemId,
+         short_text: this.shortText,
+         problem_description: {
+            content: this.text,
+            content_type: this.textType.toUpperCase()
          }
-         postProblemStatement(statementData)
+      }
+      postProblemStatement(statementData)
+   }
+
+   onClickSaveButton = event => {
+      if (this.shortText && this.text) {
+         this.postProblemStatement()
          this.init()
          const { onSelectTab, currentTabIndex, updateDataStatus } = this.props
          updateDataStatus(false)

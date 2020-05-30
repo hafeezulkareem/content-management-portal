@@ -3,6 +3,7 @@ import { bindPromiseWithOnSuccess } from '@ib/mobx-promise'
 import { API_INITIAL } from '@ib/api-constants'
 
 import { CodingProblemItemModel } from '../models/CodingProblemItemModel'
+import { CodingProblemDetailsModel } from '../models/CodingProblemDetailsModel'
 
 class CodingProblemsStore {
    @observable postStatementAPIStatus
@@ -60,6 +61,7 @@ class CodingProblemsStore {
 
    @action.bound
    postProblemStatement(statementData) {
+      console.log('Statement', statementData)
       const problemStatementPromise = this.codingProblemsAPIService.postProblemStatementAPI(
          statementData
       )
@@ -86,6 +88,7 @@ class CodingProblemsStore {
 
    @action.bound
    postProblemRoughSolution(roughSolutionData) {
+      console.log('Rough Solution', roughSolutionData)
       const problemRoughSolutionPromise = this.codingProblemsAPIService.postProblemRoughSolutionAPI(
          roughSolutionData
       )
@@ -137,7 +140,9 @@ class CodingProblemsStore {
 
    @action.bound
    setCodingProblemDetailsAPIResponse(codingProblemDetailsAPIResponse) {
-      this.codingProblemDetails = codingProblemDetailsAPIResponse
+      this.codingProblemDetails = new CodingProblemDetailsModel(
+         codingProblemDetailsAPIResponse
+      )
    }
 
    @action.bound

@@ -41,7 +41,7 @@ class CleanSolutionCodeEditor extends React.Component<
             </EditorContainer>
             <DropDownContainer>
                <DropDown
-                  defaultOption='languages'
+                  defaultOption='Languages'
                   options={commonI18n.codeEditorLanguageOptions}
                   onChangeType={() => {}}
                   selectedOption=''

@@ -14,6 +14,9 @@ class CodingProblemsStore {
    @observable deleteRoughSolutionAPIError
    @observable getCodingProblemsAPIStatus
    @observable getCodingProblemsAPIError
+   codingProblemsOffset
+   totalCodingProblems
+   @observable currentCodingProblemsPage
    @observable getCodingProblemDetailsAPIStatus
    @observable getCodingProblemDetailsAPIError
    codingProblemsAPIService
@@ -36,6 +39,9 @@ class CodingProblemsStore {
       this.deleteRoughSolutionAPIError = null
       this.getCodingProblemsAPIStatus = API_INITIAL
       this.getCodingProblemsAPIError = null
+      this.codingProblemsOffset = 1
+      this.currentCodingProblemsPage = 1
+      this.totalCodingProblems = 0
       this.getCodingProblemDetailsAPIStatus = API_INITIAL
       this.getCodingProblemDetailsAPIError = null
       this.codingProblemId = null
@@ -165,7 +171,11 @@ class CodingProblemsStore {
    @action.bound
    setCodingProblemsAPIResponse(codingProblemsAPIResponse) {
       this.codingProblemsList = new Map()
-      const { questions_list: codingProblems } = codingProblemsAPIResponse
+      const {
+         questions_list: codingProblems,
+         total_questions: totalCodingProblems
+      } = codingProblemsAPIResponse
+      this.totalCodingProblems = totalCodingProblems
       codingProblems.forEach(codingProblem => {
          const randomId = this.getRandomId()
          this.codingProblemsList.set(
@@ -176,8 +186,38 @@ class CodingProblemsStore {
    }
 
    @action.bound
+   incrementPageNumber(codingProblemsLimit) {
+      this.currentCodingProblemsPage += 1
+      this.updateCodingProblemsOffsetValue(
+         this.currentCodingProblemsPage,
+         codingProblemsLimit
+      )
+   }
+
+   @action.bound
+   decrementPageNumber(codingProblemsLimit) {
+      this.currentCodingProblemsPage -= 1
+      this.updateCodingProblemsOffsetValue(
+         this.currentCodingProblemsPage,
+         codingProblemsLimit
+      )
+   }
+
+   @action.bound
+   updateCodingProblemsOffsetValue(pageNumber, codingProblemsLimit) {
+      this.currentCodingProblemsPage = pageNumber
+      this.codingProblemsOffset =
+         this.currentCodingProblemsPage * codingProblemsLimit -
+         codingProblemsLimit +
+         1
+      this.getCodingProblems()
+   }
+
+   @action.bound
    getCodingProblems() {
-      const codingProblemsPromise = this.codingProblemsAPIService.getCodingProblemsAPI()
+      const codingProblemsPromise = this.codingProblemsAPIService.getCodingProblemsAPI(
+         this.codingProblemsOffset
+      )
       return bindPromiseWithOnSuccess(codingProblemsPromise)
          .to(this.setCodingProblemsAPIStatus, this.setCodingProblemsAPIResponse)
          .catch(this.setCodingProblemsAPIError)

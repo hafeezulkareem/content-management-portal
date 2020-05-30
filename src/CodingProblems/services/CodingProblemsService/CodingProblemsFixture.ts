@@ -20,7 +20,7 @@ class CodingProblemsFixture {
       })
    }
 
-   getCodingProblemsAPI() {
+   getCodingProblemsAPI(codingProblemsOffset) {
       return new Promise((resolve, reject) => resolve(codingProblemsResponse))
    }
 

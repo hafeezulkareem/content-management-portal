@@ -7,14 +7,15 @@ import { AppHeader } from '../../../common/components/AppHeader'
 import { CodingAndMCQsNavigator } from '../../../common/components/CodingAndMCQsNavigator'
 import { FooterNavigation } from '../../../common/components/FooterNavigation'
 import { SelectList } from '../../../common/components/SelectList'
+import LoadingWrapperWithFailure from '../../../common/components/LoadingWrapperWithFailure'
 
 import i18n from '../../i18n/strings.json'
 import { CODING_PROBLEM_CREATE_PATH } from '../../constants/RouteConstants'
+import { CODING_PROBLEMS_LIMIT_PER_PAGE } from '../../constants/APILimitConstants'
 
 import { CodingProblemsList } from '../CodingProblemsList'
 
 import { AppContainer } from './styledComponents'
-import LoadingWrapperWithFailure from '../../../common/components/LoadingWrapperWithFailure'
 
 type CodingProblemsHomeProps = {
    codingProblemsStore: any
@@ -48,19 +49,36 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
       return <CodingProblemsList codingProblemsList={codingProblemsListArray} />
    }
 
+   onClickPreviousPaginationButton = () => {
+      const { codingProblemsStore } = this.props
+      codingProblemsStore.decrementPageNumber(CODING_PROBLEMS_LIMIT_PER_PAGE)
+   }
+
+   onClickNextPaginationButton = () => {
+      const { codingProblemsStore } = this.props
+      codingProblemsStore.incrementPageNumber(CODING_PROBLEMS_LIMIT_PER_PAGE)
+   }
+
+   onClickPaginationNumberButton = pageNumber => {
+      const { codingProblemsStore } = this.props
+      codingProblemsStore.updateCodingProblemsOffsetValue(
+         pageNumber,
+         CODING_PROBLEMS_LIMIT_PER_PAGE
+      )
+   }
+
    render() {
       const { codingProblemsStore, activeSection } = this.props
       const {
          getCodingProblemsAPIStatus,
-         getCodingProblemsAPIError
+         getCodingProblemsAPIError,
+         totalCodingProblems,
+         currentCodingProblemsPage
       } = codingProblemsStore
-      console.log(
-         'Status',
-         getCodingProblemsAPIStatus,
-         'Get Coding Problems Error',
-         getCodingProblemsAPIError
-      )
       const { addCodingQuestions } = i18n as any
+      const totalCodingProblemsPageCount = Math.ceil(
+         totalCodingProblems / CODING_PROBLEMS_LIMIT_PER_PAGE
+      )
       return (
          <AppContainer>
             <AppHeader
@@ -80,6 +98,15 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
                renderSuccessUI={this.renderSuccessUI}
             />
             <FooterNavigation
+               currentCodingProblemsPage={currentCodingProblemsPage}
+               totalCodingProblemsPageCount={totalCodingProblemsPageCount}
+               onClickPreviousPaginationButton={
+                  this.onClickPreviousPaginationButton
+               }
+               onClickPaginationNumberButton={
+                  this.onClickPaginationNumberButton
+               }
+               onClickNextPaginationButton={this.onClickNextPaginationButton}
                buttonText={addCodingQuestions}
                onClickAddButton={this.goToCodingProblemCreatingFlow}
             />

@@ -1,0 +1,1 @@
+export const CODING_PROBLEMS_LIMIT_PER_PAGE = 7

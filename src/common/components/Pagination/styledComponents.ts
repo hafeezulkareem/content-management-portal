@@ -5,16 +5,21 @@ import colors from '../../themes/Colors'
 
 export const PaginationContainer = styled.div`
    ${tw`
-      w-64 flex items-center justify-between
+      flex items-center
     `}
 `
+
+type PreviousAndNextButtonProps = {
+   isDisabled: boolean
+}
 
 export const PreviousAndNextButton = styled.button`
    border-color: ${colors.lightBlueGrey};
    padding: 7px;
-   ${tw`
-      rounded border border-solid focus:outline-none
-   `};
+   ${(props: PreviousAndNextButtonProps) =>
+      props.isDisabled
+         ? tw`rounded border border-solid focus:outline-none cursor-not-allowed opacity-25`
+         : tw`rounded border border-solid focus:outline-none`}
 `
 
 export const Icon = styled.img`

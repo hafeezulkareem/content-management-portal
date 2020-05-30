@@ -57,5 +57,7 @@
    "fileNameInputField": {
       "type": "text",
       "placeholder": "File name include extension"
-   }
+   },
+   "page": "Page",
+   "of": "of"
 }

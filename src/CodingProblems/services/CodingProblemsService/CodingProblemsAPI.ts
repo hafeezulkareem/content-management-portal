@@ -34,7 +34,7 @@ class CodingProblemsAPI {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.delete)
    }
 
-   getCodingProblemsAPI() {
+   getCodingProblemsAPI(codingProblemsOffset) {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.get)
    }
 

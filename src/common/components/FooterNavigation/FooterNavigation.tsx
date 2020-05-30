@@ -1,8 +1,13 @@
 import React from 'react'
 
 import { ButtonWithIcon } from '../ButtonWithIcon'
+import { Pagination } from '../Pagination'
 
-import { FooterNavigationContainer } from './styledComponents'
+import {
+   FooterNavigationContainer,
+   PageDetailsContainer,
+   PageDetails
+} from './styledComponents'
 
 type FooterNavigationProps = {
    buttonText: string
@@ -20,6 +25,10 @@ class FooterNavigation extends React.Component<FooterNavigationProps> {
                buttonText={buttonText}
                onClickButton={onClickAddButton}
             />
+            <PageDetailsContainer>
+               <PageDetails>Page 1 of 30</PageDetails>
+            </PageDetailsContainer>
+            <Pagination />
          </FooterNavigationContainer>
       )
    }

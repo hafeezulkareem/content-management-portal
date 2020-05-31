@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { DROP_DOWN_SELECT_TEST_ID } from '../../constants/IdConstants'
+import images from '../../themes/Images'
 
 import {
    DropDownSelect,
@@ -40,10 +41,7 @@ class DropDown extends React.Component<DropDownProps> {
                   </DropDownOption>
                ))}
             </DropDownSelect>
-            <DropDownArrow
-               alt='Drop Down Arrow'
-               src='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/a80d2201-07ff-43af-b6e8-ec5e67ed0a72.svg'
-            />
+            <DropDownArrow alt='Drop Down Arrow' src={images.chevronDropDown} />
          </DropDownContainer>
       )
    }

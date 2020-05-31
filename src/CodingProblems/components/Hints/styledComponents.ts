@@ -1,8 +1,7 @@
 import styled from '@emotion/styled'
 import tw from 'tailwind.macro'
 
-import commonColors from '../../../common/themes/Colors'
-import { Typo12HKGroteskSemiBoldSteel } from '../../../styleGuide/Typos'
+import colors from '../../../Common/themes/Colors'
 
 export const HintsContainer = styled.div`
    width: 65vw;
@@ -36,7 +35,7 @@ export const HintsFormHeader = styled.div`
 `
 
 export const HintsTitle = styled.h2`
-   color: ${commonColors.darkBlueGrey};
+   color: ${colors.darkBlueGrey};
    ${tw`
         text-lg
     `}
@@ -49,22 +48,23 @@ export const RemoveIcon = styled.img`
 `
 
 export const InputField = styled.input`
-   border-color: ${commonColors.lightBlueGrey40};
+   border-color: ${colors.lightBlueGrey40};
    ${tw`
         border border-solid rounded-sm py-2 px-4 focus:outline-none text-sm
     `}
 `
 
 export const TextArea = styled.textarea`
-   border-color: ${commonColors.lightBlueGrey40};
+   border-color: ${colors.lightBlueGrey40};
    ${tw`
         h-32 border border-solid rounded-sm text-sm p-2 focus:outline-none resize-none
     `}
 `
 
-export const TextLabel = styled(Typo12HKGroteskSemiBoldSteel)`
+export const TextLabel = styled.span`
+   ${colors.steel}
    ${tw`
-        mt-6 mb-2
+        mt-6 mb-2 text-sm
     `}
 `
 

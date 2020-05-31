@@ -4,8 +4,8 @@ import { observer, inject } from 'mobx-react'
 import { withRouter, Redirect } from 'react-router-dom'
 import { History } from 'history'
 
-import { CODING_PROBLEMS_PATH } from '../../../common/constants/RouteConstants'
-import { isSignedIn } from '../../../common/utils/SignInUtils'
+import { CODING_PROBLEMS_PATH } from '../../../Common/constants/RouteConstants'
+import { isSignedIn } from '../../../Common/utils/SignInUtils'
 
 import { SignIn } from '../../components/SignIn'
 import i18n from '../../i18n/strings.json'

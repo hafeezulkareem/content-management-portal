@@ -2,7 +2,7 @@ import React from 'react'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react'
 
-import { CodeEditor } from '../../../common/components/CodeEditor'
+import { CodeEditor } from '../../../Common/components/CodeEditor'
 
 import i18n from '../../i18n/strings.json'
 import { CodingEditorModel } from '../../stores/models/CodingEditorModel'

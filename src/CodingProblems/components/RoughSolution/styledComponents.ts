@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import tw from 'tailwind.macro'
 
-import colors from '../../themes/Colors'
+import colors from '../../../Common/themes/Colors'
 
 export const RoughSolutionContainer = styled.div`
    ${tw`

@@ -1,9 +1,9 @@
-/* eslint-disable react/jsx-no-undef */
 import React from 'react'
 
-import { NumberButton } from '../../../common/components/NumberButton'
-import { CircleAddButton } from '../../../common/components/CircleAddButton'
-import { SaveButton } from '../../../common/components/SaveButton'
+import { NumberButton } from '../../../Common/components/NumberButton'
+import { CircleAddButton } from '../../../Common/components/CircleAddButton'
+import { SaveButton } from '../../../Common/components/SaveButton'
+import images from '../../../Common/themes/Images'
 
 import i18n from '../../i18n/strings.json'
 
@@ -43,10 +43,7 @@ class Hints extends React.Component {
                <HintsFormContainer>
                   <HintsFormHeader>
                      <HintsTitle>{hints.hints}</HintsTitle>
-                     <RemoveIcon
-                        alt='Remove Icon'
-                        src='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/0ad77906-7f0e-4597-a287-6406fd50f3a9.svg'
-                     />
+                     <RemoveIcon alt='Remove Icon' src={images.close} />
                   </HintsFormHeader>
                   <TextLabel>{hints.title}</TextLabel>
                   <InputField

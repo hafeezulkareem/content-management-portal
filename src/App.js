@@ -4,7 +4,7 @@ import { Provider } from 'mobx-react'
 
 import { routes as authenticationRoutes } from './Authentication/routes'
 import { routes as codingProblemsRoutes } from './CodingProblems/routes'
-import stores from './common/stores'
+import stores from './Common/stores'
 import './App.css'
 
 const App = () => {

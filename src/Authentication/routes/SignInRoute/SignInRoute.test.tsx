@@ -7,7 +7,7 @@ import { Provider } from 'mobx-react'
 import {
    SIGN_IN_PATH,
    CODING_PROBLEMS_PATH
-} from '../../../common/constants/RouteConstants'
+} from '../../../Common/constants/RouteConstants'
 
 import postUserSignInResponse from '../../fixtures/postUserSignInResponse.json'
 import { AuthAPI } from '../../services/AuthServices/AuthAPI'

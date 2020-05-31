@@ -1,12 +1,12 @@
 import React from 'react'
 
-import commonI18n from '../../../common/i18n/strings.json'
-import { TextEditorHeader } from '../../../common/components/TextEditorHeader'
-import { ContentEditor } from '../../../common/components/ContentEditor'
-import { TextPreviewer } from '../../../common/components/TextPreviewer'
-import { HtmlPreviewer } from '../../../common/components/HtmlPreviewer'
-import { MarkdownPreviewer } from '../../../common/components/MarkdownPreviewer'
-import { SaveButton } from '../../../common/components/SaveButton'
+import commonI18n from '../../../Common/i18n/strings.json'
+import { TextEditorHeader } from '../../../Common/components/TextEditorHeader'
+import { ContentEditor } from '../../../Common/components/ContentEditor'
+import { TextPreviewer } from '../../../Common/components/TextPreviewer'
+import { HtmlPreviewer } from '../../../Common/components/HtmlPreviewer'
+import { MarkdownPreviewer } from '../../../Common/components/MarkdownPreviewer'
+import { SaveButton } from '../../../Common/components/SaveButton'
 
 import i18n from '../../i18n/strings.json'
 

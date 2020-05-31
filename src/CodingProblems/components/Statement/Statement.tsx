@@ -2,12 +2,12 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { observable } from 'mobx'
 
-import { TextEditor } from '../../../common/components/TextEditor'
-import commonI18n from '../../../common/i18n/strings.json'
-import { TextPreviewer } from '../../../common/components/TextPreviewer'
-import { MarkdownPreviewer } from '../../../common/components/MarkdownPreviewer'
-import { HtmlPreviewer } from '../../../common/components/HtmlPreviewer'
-import { SaveButton } from '../../../common/components/SaveButton'
+import { TextEditor } from '../../../Common/components/TextEditor'
+import commonI18n from '../../../Common/i18n/strings.json'
+import { TextPreviewer } from '../../../Common/components/TextPreviewer'
+import { MarkdownPreviewer } from '../../../Common/components/MarkdownPreviewer'
+import { HtmlPreviewer } from '../../../Common/components/HtmlPreviewer'
+import { SaveButton } from '../../../Common/components/SaveButton'
 
 import i18n from '../../i18n/strings.json'
 

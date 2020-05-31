@@ -1,6 +1,8 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 
+import images from '../../themes/Images'
+
 import { PaginationButton } from '../PaginationButton.tsx'
 
 import {
@@ -60,10 +62,7 @@ class Pagination extends React.Component<PaginationProps> {
                disabled={currentPageNumber === 1}
                isDisabled={currentPageNumber === 1}
             >
-               <Icon
-                  alt='Chevron Left'
-                  src='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/8f995ad9-c0bd-474d-ae07-43e6c9232c53.svg'
-               />
+               <Icon alt='Chevron Left' src={images.chevronLeft} />
             </PreviousAndNextButton>
             {this.renderFirstTwoPageNumbers()}
             {totalPageCount > 5 ? '...' : null}
@@ -73,10 +72,7 @@ class Pagination extends React.Component<PaginationProps> {
                disabled={currentPageNumber === totalPageCount}
                isDisabled={currentPageNumber === totalPageCount}
             >
-               <Icon
-                  alt='Chevron Right'
-                  src='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/35a62165-9319-4593-8800-bd8263c83919.svg'
-               />
+               <Icon alt='Chevron Right' src={images.chevronRight} />
             </PreviousAndNextButton>
          </PaginationContainer>
       )

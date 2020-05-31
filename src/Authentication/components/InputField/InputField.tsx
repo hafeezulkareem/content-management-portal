@@ -1,5 +1,7 @@
 import React from 'react'
 
+import images from '../../../Common/themes/Images'
+
 import {
    INPUT_FIELD_TEST_ID,
    ERROR_ICON_TEST_ID
@@ -38,7 +40,7 @@ class InputField extends React.Component<InputFieldProps> {
                <InputFieldErrorIcon
                   data-testid={ERROR_ICON_TEST_ID}
                   alt='Error Icon'
-                  src='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/a68ce0bc-26a7-4037-94f4-f8461b2efea8.svg'
+                  src={images.error}
                />
             )}
          </InputFieldWrapper>

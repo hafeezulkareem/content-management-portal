@@ -1,1 +1,1 @@
-export { CodingProblemItemWithRouter as CodingProblemItem } from './CodingProblemItem'
+export { CodingProblemItem } from './CodingProblemItem'

@@ -1,15 +1,14 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { observable } from 'mobx'
-import { withRouter } from 'react-router-dom'
-import { History } from 'history'
 import { API_FETCHING } from '@ib/api-constants'
+import { withRouter } from 'react-router-dom'
 
-import commonI18n from '../../../common/i18n/strings.json'
-import { AppHeader } from '../../../common/components/AppHeader'
-import { ButtonWithIcon } from '../../../common/components/ButtonWithIcon'
-import { PageTitle } from '../../../common/components/PageTitle'
-import { CODING_PROBLEMS_PATH } from '../../../common/constants/RouteConstants'
+import commonI18n from '../../../Common/i18n/strings.json'
+import { AppHeader } from '../../../Common/components/AppHeader'
+import { ButtonWithIcon } from '../../../Common/components/ButtonWithIcon'
+import { PageTitle } from '../../../Common/components/PageTitle'
+import images from '../../../Common/themes/Images'
 
 import {
    STATEMENT,
@@ -40,7 +39,7 @@ import {
 
 type CreatingFlowProps = {
    codingProblemsStore: any
-   history: History
+   navigateToCodingProblemsHome: any
    match: any
 }
 
@@ -102,11 +101,6 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
    componentWillUnmount() {
       const { codingProblemsStore } = this.props
       codingProblemsStore.codingProblemDetails = undefined
-   }
-
-   goToCodingProblemsHome = () => {
-      const { history } = this.props
-      history.push(CODING_PROBLEMS_PATH)
    }
 
    confirmDataStatus = () => {
@@ -235,21 +229,21 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
    render() {
       const { commonLabels } = commonI18n
       const activeTab = this.getCapitalizedActiveTab()
-      const { codingProblemsStore } = this.props
+      const { codingProblemsStore, navigateToCodingProblemsHome } = this.props
       const { getCodingProblemDetailsAPIStatus } = codingProblemsStore
       return (
          <AppContainer>
             <AppHeader
                username='Chi Lee'
-               userProfilePicLink='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/696fd949-70d2-4be4-b1ef-a5065b1b1a11@3x.png'
+               userProfilePicLink={images.testingUserPic}
             />
             <ContentContainer>
                <BackButtonContainer>
                   <ButtonWithIcon
-                     iconURL='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/18d0b955-8ee4-4ac5-a029-92cda10c871e.svg'
+                     iconURL={images.chevronLeft}
                      iconAltText='Back Arrow Icon'
                      buttonText={commonLabels.backToList}
-                     onClickButton={this.goToCodingProblemsHome}
+                     onClickButton={navigateToCodingProblemsHome}
                   />
                </BackButtonContainer>
                <PageTitle title={activeTab} />

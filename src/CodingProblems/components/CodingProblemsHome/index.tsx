@@ -1,1 +1,1 @@
-export { CodingProblemsHomeWithRouter as CodingProblemsHome } from './CodingProblemsHome'
+export { CodingProblemsHome } from './CodingProblemsHome'

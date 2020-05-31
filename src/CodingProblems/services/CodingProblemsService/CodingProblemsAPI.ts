@@ -1,7 +1,7 @@
 import { create } from 'apisauce'
 
-import { networkCallWithApisauce } from '../../../common/utils/APIUtils'
-import { apiMethods } from '../../../common/constants/APIConstants'
+import { networkCallWithApisauce } from '../../../Common/utils/APIUtils'
+import { apiMethods } from '../../../Common/constants/APIConstants'
 
 class CodingProblemsAPI {
    api

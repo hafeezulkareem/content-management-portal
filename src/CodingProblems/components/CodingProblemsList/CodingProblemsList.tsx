@@ -3,6 +3,8 @@ import { observer } from 'mobx-react'
 
 import i18n from '../../i18n/strings.json'
 
+import { CodingProblemItem } from '../CodingProblemItem'
+
 import {
    CodingProblemsListContainer,
    ListHeader,
@@ -16,21 +18,27 @@ import {
    CodingProblemsItemList,
    QuestionsTitle
 } from './styledComponents'
-import { CodingProblemItem } from '../CodingProblemItem'
 
 type CodingProblemsListProps = {
    codingProblemsList: any
+   navigateToCodingProblemDetailsPage: any
 }
 
 @observer
 class CodingProblemsList extends React.Component<CodingProblemsListProps> {
    renderCodingProblems = () => {
-      const { codingProblemsList } = this.props
+      const {
+         codingProblemsList,
+         navigateToCodingProblemDetailsPage
+      } = this.props
       return codingProblemsList.map(codingProblem => {
          return (
             <CodingProblemItem
                key={codingProblem.uniqueId}
                codingProblem={codingProblem}
+               navigateToCodingProblemDetailsPage={
+                  navigateToCodingProblemDetailsPage
+               }
             />
          )
       })

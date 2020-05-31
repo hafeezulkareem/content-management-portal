@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { AddButton } from '../../../common/components/AddButton'
-import { SaveButton } from '../../../common/components/SaveButton'
+import { AddButton } from '../../../Common/components/AddButton'
+import { SaveButton } from '../../../Common/components/SaveButton'
 
 import { ButtonsContainer } from './styledComponents'
 

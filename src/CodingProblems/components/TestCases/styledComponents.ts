@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import tw from 'tailwind.macro'
 
-import commonColors from '../../../common/themes/Colors'
+import colors from '../../../Common/themes/Colors'
 
 export const TestCasesContainer = styled.div`
    width: 625px;
@@ -23,14 +23,14 @@ export const LabelAndEditorContainer = styled.div`
 `
 
 export const TextLabel = styled.span`
-   color: ${commonColors.steel};
+   color: ${colors.steel};
    ${tw`
         text-xs my-3
     `}
 `
 
 export const ScoreInputField = styled.input`
-   border-color: ${commonColors.lightBlueGrey40};
+   border-color: ${colors.lightBlueGrey40};
    ${tw`
         w-12 h-12 p-2 border border-solid text-md rounded focus:outline-none
     `}
@@ -43,7 +43,7 @@ export const CheckboxContainer = styled.div`
 `
 
 export const Checkbox = styled.input`
-   border-color: ${commonColors.lightBlueGrey40};
+   border-color: ${colors.lightBlueGrey40};
    ${tw`
         w-4 h-4 border border-solid rounded-sm cursor-pointer
     `}

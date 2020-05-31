@@ -1,9 +1,10 @@
 import React from 'react'
 
-import { FileNameInputField } from '../../../common/components/FileNameInputField'
-import { ContentEditor } from '../../../common/components/ContentEditor'
-import { DropDown } from '../../../common/components/DropDown'
-import commonI18n from '../../../common/i18n/strings.json'
+import { FileNameInputField } from '../../../Common/components/FileNameInputField'
+import { ContentEditor } from '../../../Common/components/ContentEditor'
+import { DropDown } from '../../../Common/components/DropDown'
+import commonI18n from '../../../Common/i18n/strings.json'
+import images from '../../../Common/themes/Images'
 
 import {
    CodeEditorContainer,
@@ -27,10 +28,7 @@ class CleanSolutionCodeEditor extends React.Component<
          <CodeEditorContainer>
             <HeaderContainer>
                <FileNameInputField fileName='' onChangeFileName={() => {}} />
-               <DeleteIcon
-                  alt='Delete Icon'
-                  src='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/9e4cde90-c30c-4e52-8af4-e8f699efa24b.svg'
-               />
+               <DeleteIcon alt='Delete Icon' src={images.delete} />
             </HeaderContainer>
             <EditorContainer>
                <ContentEditor

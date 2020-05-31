@@ -1,16 +1,14 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import { withRouter } from 'react-router-dom'
-import { History } from 'history'
 
-import { AppHeader } from '../../../common/components/AppHeader'
-import { CodingAndMCQsNavigator } from '../../../common/components/CodingAndMCQsNavigator'
-import { FooterNavigation } from '../../../common/components/FooterNavigation'
-import { SelectList } from '../../../common/components/SelectList'
-import LoadingWrapperWithFailure from '../../../common/components/LoadingWrapperWithFailure'
+import { AppHeader } from '../../../Common/components/AppHeader'
+import { CodingAndMCQsNavigator } from '../../../Common/components/CodingAndMCQsNavigator'
+import { FooterNavigation } from '../../../Common/components/FooterNavigation'
+import { SelectList } from '../../../Common/components/SelectList'
+import LoadingWrapperWithFailure from '../../../Common/components/LoadingWrapperWithFailure'
+import images from '../../../Common/themes/Images'
 
 import i18n from '../../i18n/strings.json'
-import { CODING_PROBLEM_CREATE_PATH } from '../../constants/RouteConstants'
 import { CODING_PROBLEMS_LIMIT_PER_PAGE } from '../../constants/APILimitConstants'
 
 import { CodingProblemsList } from '../CodingProblemsList'
@@ -20,7 +18,8 @@ import { AppContainer } from './styledComponents'
 type CodingProblemsHomeProps = {
    codingProblemsStore: any
    activeSection: string
-   history: History
+   navigateToCodingProblemCreatingFlow: any
+   navigateToCodingProblemDetailsPage: any
 }
 
 @observer
@@ -28,11 +27,6 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
    componentDidMount() {
       const { codingProblemsStore } = this.props
       codingProblemsStore.getCodingProblems()
-   }
-
-   goToCodingProblemCreatingFlow = () => {
-      const { history } = this.props
-      history.push(CODING_PROBLEM_CREATE_PATH)
    }
 
    getCodingProblemsStore = () => {
@@ -45,8 +39,16 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
 
    renderSuccessUI = () => {
       const { codingProblemsList } = this.getCodingProblemsStore()
+      const { navigateToCodingProblemDetailsPage } = this.props
       let codingProblemsListArray = Array.from(codingProblemsList.values())
-      return <CodingProblemsList codingProblemsList={codingProblemsListArray} />
+      return (
+         <CodingProblemsList
+            codingProblemsList={codingProblemsListArray}
+            navigateToCodingProblemDetailsPage={
+               navigateToCodingProblemDetailsPage
+            }
+         />
+      )
    }
 
    onClickPreviousPaginationButton = () => {
@@ -68,7 +70,11 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
    }
 
    render() {
-      const { codingProblemsStore, activeSection } = this.props
+      const {
+         codingProblemsStore,
+         activeSection,
+         navigateToCodingProblemCreatingFlow
+      } = this.props
       const {
          getCodingProblemsAPIStatus,
          getCodingProblemsAPIError,
@@ -83,7 +89,7 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
          <AppContainer>
             <AppHeader
                username='Chi Lee'
-               userProfilePicLink='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/696fd949-70d2-4be4-b1ef-a5065b1b1a11@3x.png'
+               userProfilePicLink={images.testingUserPic}
             />
             <CodingAndMCQsNavigator
                activeSection={activeSection}
@@ -108,13 +114,11 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
                }
                onClickNextPaginationButton={this.onClickNextPaginationButton}
                buttonText={addCodingQuestions}
-               onClickAddButton={this.goToCodingProblemCreatingFlow}
+               onClickAddButton={navigateToCodingProblemCreatingFlow}
             />
          </AppContainer>
       )
    }
 }
 
-const CodingProblemsHomeWithRouter = withRouter(CodingProblemsHome)
-
-export { CodingProblemsHomeWithRouter }
+export { CodingProblemsHome }

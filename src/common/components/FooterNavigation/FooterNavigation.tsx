@@ -2,6 +2,7 @@ import React from 'react'
 import { observer } from 'mobx-react'
 
 import i18n from '../../i18n/strings.json'
+import images from '../../themes/Images'
 
 import { ButtonWithIcon } from '../ButtonWithIcon'
 import { Pagination } from '../Pagination'
@@ -38,7 +39,7 @@ class FooterNavigation extends React.Component<FooterNavigationProps> {
       return (
          <FooterNavigationContainer>
             <ButtonWithIcon
-               iconURL='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/0a1f7418-7e42-43f0-b45a-c0c25eeced7c.svg'
+               iconURL={images.plus}
                iconAltText='Plus Icon'
                buttonText={buttonText}
                onClickButton={onClickAddButton}

@@ -1,5 +1,7 @@
 import React from 'react'
 
+import images from '../../themes/Images'
+
 import {
    AppHeaderContainer,
    CompanyLogo,
@@ -16,10 +18,7 @@ class AppHeader extends React.Component<AppHeaderProps> {
       const { userProfilePicLink, username } = this.props
       return (
          <AppHeaderContainer>
-            <CompanyLogo
-               alt='iB Hubs Logo'
-               src='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/46eea337-9a5d-46c7-95cb-95afaac86764.svg'
-            />
+            <CompanyLogo alt='iB Hubs Logo' src={images.ibHubsHorizontalLogo} />
             <UserProfilePic
                alt={`${username} Profile Pic`}
                src={userProfilePicLink}

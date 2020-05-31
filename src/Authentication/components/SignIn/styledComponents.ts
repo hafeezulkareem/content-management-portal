@@ -1,9 +1,7 @@
 import styled from '@emotion/styled'
 import tw from 'tailwind.macro'
 
-import commonColors from '../../../common/themes/Colors'
-
-import colors from '../../themes/Colors'
+import colors from '../../../Common/themes/Colors'
 
 export const SignInPageWrapper = styled.div`
    ${tw`
@@ -25,7 +23,7 @@ export const SignInLogo = styled.img`
 `
 
 export const SignInTitle = styled.h1`
-   color: ${commonColors.darkBlueGrey};
+   color: ${colors.darkBlueGrey};
    ${tw`
         text-2xl my-4
     `}
@@ -44,7 +42,7 @@ export const SignInForm = styled.form`
 `
 
 export const TextLabel = styled.span`
-   color: ${commonColors.steel};
+   color: ${colors.steel};
    ${tw`
         text-xs
     `};
@@ -58,7 +56,7 @@ export const ErrorMessage = styled.span`
 `
 
 export const SignInButton = styled.button`
-   background-color: ${commonColors.brightBlue};
+   background-color: ${colors.brightBlue};
    ${tw`
         text-white font-bold py-3 mt-8 mb-4 rounded text-sm focus:outline-none
     `};

@@ -1,9 +1,7 @@
 import styled from '@emotion/styled'
 import tw from 'tailwind.macro'
 
-import commonColors from '../../../common/themes/Colors'
-
-import colors from '../../themes/Colors'
+import colors from '../../../Common/themes/Colors'
 
 export const CodingQuestionItem = styled.div`
    ${tw`
@@ -24,7 +22,7 @@ export const Icon = styled.img`
 `
 
 export const QuestionText = styled.p`
-   color: ${commonColors.steel};
+   color: ${colors.steel};
    ${tw`
         text-xs
     `}

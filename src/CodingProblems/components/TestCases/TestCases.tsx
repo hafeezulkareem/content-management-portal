@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { NumberButton } from '../../../common/components/NumberButton'
-import { CircleAddButton } from '../../../common/components/CircleAddButton'
-import { ContentEditor } from '../../../common/components/ContentEditor'
-import { SaveButton } from '../../../common/components/SaveButton'
+import { NumberButton } from '../../../Common/components/NumberButton'
+import { CircleAddButton } from '../../../Common/components/CircleAddButton'
+import { ContentEditor } from '../../../Common/components/ContentEditor'
+import { SaveButton } from '../../../Common/components/SaveButton'
 
 import i18n from '../../i18n/strings.json'
 

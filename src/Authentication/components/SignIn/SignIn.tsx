@@ -2,6 +2,8 @@ import React from 'react'
 import { API_FETCHING } from '@ib/api-constants'
 import { observer } from 'mobx-react'
 
+import images from '../../../Common/themes/Images'
+
 import i18n from '../../i18n/strings.json'
 import { SIGN_BUTTON_TEST_ID } from '../../constants/IdConstants'
 
@@ -53,10 +55,7 @@ class SignIn extends React.Component<SignInProps> {
       return (
          <SignInPageWrapper>
             <SignInContainer>
-               <SignInLogo
-                  alt='iB Hubs Logo'
-                  src='https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/7e21de62-6f31-4279-a660-2abefaa00993.svg'
-               />
+               <SignInLogo alt='iB Hubs Logo' src={images.ibHubsLogo} />
                <SignInTitle>Hi there, login</SignInTitle>
                <SignInForm onSubmit={onSubmitSignInForm}>
                   <FieldWrapper>

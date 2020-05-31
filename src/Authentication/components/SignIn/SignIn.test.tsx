@@ -1,8 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 
-import { SignIn } from './SignIn'
 import { INPUT_FIELD_TEST_ID } from '../../constants/IdConstants'
+
+import { SignIn } from './SignIn'
 
 const testUsername = 'test-user'
 const testPassword = 'test-password'

@@ -1,16 +1,15 @@
 import styled from '@emotion/styled'
 import tw from 'tailwind.macro'
 
-import colors from '../../themes/Colors'
-
-import { Typo12HKGroteskSemiBoldSteel } from '../../../styleGuide/Typos'
+import colors from '../../../Common/themes/Colors'
 
 export const SolutionApproachContainer = styled.div`
    ${tw`
         mb-4 flex flex-col
     `}
 `
-export const TextLabel = styled(Typo12HKGroteskSemiBoldSteel)`
+export const TextLabel = styled.span`
+   ${colors.steel}
    ${tw`
         text-xs mb-2 mt-6
     `}

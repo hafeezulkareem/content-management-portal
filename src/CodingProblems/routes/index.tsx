@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { ProtectedRoute } from '../../common/components/ProtectedRoute/ProtectedRoute'
-import { CODING_PROBLEMS_PATH } from '../../common/constants/RouteConstants'
+import { ProtectedRoute } from '../../Common/components/ProtectedRoute/ProtectedRoute'
+import { CODING_PROBLEMS_PATH } from '../../Common/constants/RouteConstants'
 
 import { CodingProblemsRoute } from './CodingProblemsRoute'
 

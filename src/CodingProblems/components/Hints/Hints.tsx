@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { NumberButton } from '../../../Common/components/NumberButton'
-import { CircleAddButton } from '../../../Common/components/CircleAddButton'
 import { SaveButton } from '../../../Common/components/SaveButton'
 import images from '../../../Common/themes/Images'
 
 import i18n from '../../i18n/strings.json'
+
+import { TestCasesAndHintsNavigation } from '../TestCasesAndHintsNavigation'
 
 import {
    HintsContainer,
@@ -27,17 +27,7 @@ class Hints extends React.Component {
       return (
          <HintsContainer>
             <ButtonsContainer>
-               <NumberButton
-                  number={1}
-                  isActive={true}
-                  onClickNumberButton={() => {}}
-               />
-               <NumberButton
-                  number={2}
-                  isActive={false}
-                  onClickNumberButton={() => {}}
-               />
-               <CircleAddButton onClickCircleAddButton={() => {}} />
+               <TestCasesAndHintsNavigation />
             </ButtonsContainer>
             <FormWithSaveButton>
                <HintsFormContainer>

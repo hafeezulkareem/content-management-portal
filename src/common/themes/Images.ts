@@ -27,6 +27,8 @@ export default {
       'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/a80d2201-07ff-43af-b6e8-ec5e67ed0a72.svg',
    close:
       'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/0ad77906-7f0e-4597-a287-6406fd50f3a9.svg',
+   closeRed:
+      'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/8256d663-e25f-401b-a58a-4118273a7e89.svg',
    delete:
       'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/f4c1be13-5be3-4d3a-aa49-80bd0f6a6973.svg',
    edit:

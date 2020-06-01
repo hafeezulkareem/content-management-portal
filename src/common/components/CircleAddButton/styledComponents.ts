@@ -3,7 +3,7 @@ import tw from 'tailwind.macro'
 
 export const CircleAddButtonEl = styled.button`
    ${tw`
-        p-3 rounded-full border border-solid border-gray-300 focus:outline-none
+        self-center p-3 rounded-full border border-solid border-gray-300 focus:outline-none
     `}
 `
 export const PlusImage = styled.img`

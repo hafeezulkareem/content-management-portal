@@ -21,12 +21,12 @@ export const BackButtonContainer = styled.div`
 
 export const Wrapper = styled.div`
    ${tw`
-        flex justify-center
+        flex
     `}
 `
 
 export const SectionWrapper = styled.div`
    ${tw`
-        flex flex-col
+        w-full flex flex-col
     `}
 `

@@ -1,6 +1,12 @@
 import React from 'react'
 
-import { NumberButtonEl } from './styledComponent'
+import images from '../../themes/Images'
+
+import {
+   NumberButtonEl,
+   NumberButtonContainer,
+   NumberButtonRemoveIcon
+} from './styledComponent'
 
 type NumberButtonProps = {
    onClickNumberButton: () => void
@@ -12,9 +18,12 @@ class NumberButton extends React.Component<NumberButtonProps> {
    render() {
       const { onClickNumberButton, number, isActive } = this.props
       return (
-         <NumberButtonEl onClick={onClickNumberButton} isActive={isActive}>
-            {number}
-         </NumberButtonEl>
+         <NumberButtonContainer>
+            <NumberButtonEl onClick={onClickNumberButton} isActive={isActive}>
+               {number}
+            </NumberButtonEl>
+            <NumberButtonRemoveIcon alt='Remove Icon' src={images.closeRed} />
+         </NumberButtonContainer>
       )
    }
 }

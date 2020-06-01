@@ -45,7 +45,7 @@ type CreatingFlowProps = {
 
 @observer
 class CreatingFlow extends React.Component<CreatingFlowProps> {
-   @observable selectedTabIndex: number = 1
+   @observable selectedTabIndex: number = 3
    @observable tabDetails = [
       {
          tabIndex: 1,

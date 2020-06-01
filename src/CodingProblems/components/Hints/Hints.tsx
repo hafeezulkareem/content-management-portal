@@ -27,7 +27,12 @@ class Hints extends React.Component {
       return (
          <HintsContainer>
             <ButtonsContainer>
-               <TestCasesAndHintsNavigation />
+               <TestCasesAndHintsNavigation
+                  buttonsList={{}}
+                  onClickAddButton={() => {}}
+                  onClickNumberButton={() => {}}
+                  onClickDeleteButton={() => {}}
+               />
             </ButtonsContainer>
             <FormWithSaveButton>
                <HintsFormContainer>

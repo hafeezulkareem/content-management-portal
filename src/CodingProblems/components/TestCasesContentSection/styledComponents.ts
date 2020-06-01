@@ -47,6 +47,13 @@ export const CheckboxLabel = styled.span`
 
 export const SaveButtonContainer = styled.div`
    ${tw`
-        flex justify-end mb-4
+        flex mb-4
+    `}
+`
+
+export const ErrorMessage = styled.p`
+   color: ${colors.neonRed};
+   ${tw`
+        mb-2 text-xs
     `}
 `

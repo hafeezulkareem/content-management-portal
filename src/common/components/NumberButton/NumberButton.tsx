@@ -9,20 +9,33 @@ import {
 } from './styledComponent'
 
 type NumberButtonProps = {
-   onClickNumberButton: () => void
+   onClickNumberButton: any
+   onClickRemoveIcon: any
    number: number
    isActive: boolean
 }
 
 class NumberButton extends React.Component<NumberButtonProps> {
    render() {
-      const { onClickNumberButton, number, isActive } = this.props
+      const {
+         onClickNumberButton,
+         onClickRemoveIcon,
+         number,
+         isActive
+      } = this.props
       return (
          <NumberButtonContainer>
-            <NumberButtonEl onClick={onClickNumberButton} isActive={isActive}>
+            <NumberButtonEl
+               onClick={() => onClickNumberButton(number)}
+               isActive={isActive}
+            >
                {number}
             </NumberButtonEl>
-            <NumberButtonRemoveIcon alt='Remove Icon' src={images.closeRed} />
+            <NumberButtonRemoveIcon
+               alt='Remove Icon'
+               src={images.closeRed}
+               onClick={event => onClickRemoveIcon(event, number)}
+            />
          </NumberButtonContainer>
       )
    }

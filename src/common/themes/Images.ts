@@ -34,5 +34,9 @@ export default {
    error:
       'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/a68ce0bc-26a7-4037-94f4-f8461b2efea8.svg',
    testingUserPic:
-      'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/696fd949-70d2-4be4-b1ef-a5065b1b1a11@3x.png'
+      'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/696fd949-70d2-4be4-b1ef-a5065b1b1a11@3x.png',
+   notFoundError:
+      'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/fe462e54-478e-4df3-82f6-e27bef53dd43.svg',
+   notFound:
+      'https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/page_not_found_su7k.svg'
 }

@@ -59,5 +59,6 @@
       "placeholder": "File name include extension"
    },
    "page": "Page",
-   "of": "of"
+   "of": "of",
+   "backToHome": "Back to Home"
 }

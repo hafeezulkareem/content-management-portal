@@ -4,6 +4,7 @@ import { Provider } from 'mobx-react'
 
 import { routes as authenticationRoutes } from './Authentication/routes'
 import { routes as codingProblemsRoutes } from './CodingProblems/routes'
+import { NotFound } from './Common/components/NotFound'
 import stores from './Common/stores'
 import './App.css'
 
@@ -13,7 +14,10 @@ const App = () => {
          <Router basename={process.env.PUBLIC_URL}>
             <Switch>
                {codingProblemsRoutes}
-               <Route path='/'>{authenticationRoutes}</Route>
+               <Route exact path='/'>
+                  {authenticationRoutes}
+               </Route>
+               <Route component={NotFound} />
             </Switch>
          </Router>
       </Provider>

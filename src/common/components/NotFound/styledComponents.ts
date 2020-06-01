@@ -59,3 +59,5 @@ export const GoToHomeButton = styled.button`
         px-4 py-3 my-3 rounded text-white focus:outline-none
     `}
 `
+
+export const Break = styled.br``

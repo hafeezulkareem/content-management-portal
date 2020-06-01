@@ -60,5 +60,10 @@
    },
    "page": "Page",
    "of": "of",
-   "backToHome": "Back to Home"
+   "notFoundPage": {
+      "error404": "Error 404",
+      "badClientRequest": "Bad Client Request",
+      "pleaseTryAfterSomeTime": "Please Try After Some Time",
+      "backToHome": "Back to Home"
+   }
 }

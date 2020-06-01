@@ -14,11 +14,13 @@ import {
    ErrorIconContainer,
    ErrorMessageContainer,
    ErrorMessageTitle,
-   ErrorMessage
+   ErrorMessage,
+   Break
 } from './styledComponents'
 
 class NotFound extends React.Component {
    render() {
+      const { notFoundPage } = i18n
       return (
          <NotFoundContainer>
             <NotFoundErrorImage alt='Not Found Image' src={images.notFound} />
@@ -30,16 +32,16 @@ class NotFound extends React.Component {
                   />
                </ErrorIconContainer>
                <ErrorMessageContainer>
-                  <ErrorMessageTitle>Error 404</ErrorMessageTitle>
+                  <ErrorMessageTitle>{notFoundPage.error404}</ErrorMessageTitle>
                   <ErrorMessage>
-                     Bad Client Request
-                     <br />
-                     Please Try After Some Time
+                     {notFoundPage.badClientRequest}
+                     <Break />
+                     {notFoundPage.pleaseTryAfterSomeTime}
                   </ErrorMessage>
                </ErrorMessageContainer>
             </NotFoundMessageContainer>
             <Link to={SIGN_IN_PATH}>
-               <GoToHomeButton>{i18n.backToHome}</GoToHomeButton>
+               <GoToHomeButton>{notFoundPage.backToHome}</GoToHomeButton>
             </Link>
          </NotFoundContainer>
       )

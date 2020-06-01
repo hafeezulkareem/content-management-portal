@@ -9,7 +9,8 @@ import {
    Icon,
    ComponentContainer,
    MoveRightButton,
-   NumberButtonsContainer
+   NumberButtonsContainer,
+   ButtonsContainer
 } from './styledComponents'
 
 class TestCasesAndHintsNavigation extends React.Component {
@@ -19,34 +20,36 @@ class TestCasesAndHintsNavigation extends React.Component {
             <MoveButton onClick={() => {}}>
                <Icon alt='Left Arrow Icon' src={images.chevronLeft} />
             </MoveButton>
-            <NumberButtonsContainer>
-               <NumberButton
-                  isActive={true}
-                  number={1}
-                  onClickNumberButton={() => {}}
-               />
-               <NumberButton
-                  isActive={false}
-                  number={2}
-                  onClickNumberButton={() => {}}
-               />
-               <NumberButton
-                  isActive={false}
-                  number={3}
-                  onClickNumberButton={() => {}}
-               />
-               <NumberButton
-                  isActive={false}
-                  number={4}
-                  onClickNumberButton={() => {}}
-               />
-               <NumberButton
-                  isActive={false}
-                  number={5}
-                  onClickNumberButton={() => {}}
-               />
-            </NumberButtonsContainer>
-            <CircleAddButton onClickCircleAddButton={() => {}} />
+            <ButtonsContainer>
+               <NumberButtonsContainer>
+                  <NumberButton
+                     isActive={true}
+                     number={1}
+                     onClickNumberButton={() => {}}
+                  />
+                  <NumberButton
+                     isActive={false}
+                     number={2}
+                     onClickNumberButton={() => {}}
+                  />
+                  <NumberButton
+                     isActive={false}
+                     number={3}
+                     onClickNumberButton={() => {}}
+                  />
+                  <NumberButton
+                     isActive={false}
+                     number={4}
+                     onClickNumberButton={() => {}}
+                  />
+                  <NumberButton
+                     isActive={false}
+                     number={5}
+                     onClickNumberButton={() => {}}
+                  />
+               </NumberButtonsContainer>
+               <CircleAddButton onClickCircleAddButton={() => {}} />
+            </ButtonsContainer>
             <MoveRightButton onClick={() => {}}>
                <Icon alt='Right Arrow Icon' src={images.chevronRight} />
             </MoveRightButton>

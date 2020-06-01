@@ -7,9 +7,15 @@ export const ComponentContainer = styled.div`
     `}
 `
 
+export const ButtonsContainer = styled.div`
+   ${tw`
+        w-full flex items-center
+    `}
+`
+
 export const NumberButtonsContainer = styled.div`
    ${tw`
-        w-full h-20 flex items-center mx-2 overflow-auto
+        h-20 flex items-center mx-2 overflow-auto
     `}
 `
 

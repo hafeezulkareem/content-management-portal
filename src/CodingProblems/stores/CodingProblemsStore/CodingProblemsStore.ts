@@ -12,6 +12,10 @@ class CodingProblemsStore {
    @observable postRoughSolutionAPIError
    @observable deleteRoughSolutionAPIStatus
    @observable deleteRoughSolutionAPIError
+   @observable postTestCaseAPIStatus
+   @observable postTestCaseAPIError
+   @observable deleteTestCaseAPIStatus
+   @observable deleteTestCaseAPIError
    @observable getCodingProblemsAPIStatus
    @observable getCodingProblemsAPIError
    codingProblemsOffset
@@ -37,6 +41,10 @@ class CodingProblemsStore {
       this.postRoughSolutionAPIError = null
       this.deleteRoughSolutionAPIStatus = API_INITIAL
       this.deleteRoughSolutionAPIError = null
+      this.postTestCaseAPIStatus = API_INITIAL
+      this.postTestCaseAPIError = null
+      this.deleteTestCaseAPIStatus = API_INITIAL
+      this.deleteTestCaseAPIError = null
       this.getCodingProblemsAPIStatus = API_INITIAL
       this.getCodingProblemsAPIError = null
       this.codingProblemsOffset = 1
@@ -75,7 +83,6 @@ class CodingProblemsStore {
       onSuccessPostProblemStatement,
       onFailurePostProblemStatement
    ) {
-      console.log('Statement', statementData)
       const problemStatementPromise = this.codingProblemsAPIService.postProblemStatementAPI(
          statementData
       )
@@ -112,7 +119,6 @@ class CodingProblemsStore {
       onSuccessPostRoughSolutions,
       onFailurePostRoughSolutions
    ) {
-      console.log('Rough Solution', roughSolutionData)
       const problemRoughSolutionPromise = this.codingProblemsAPIService.postProblemRoughSolutionAPI(
          roughSolutionData
       )
@@ -155,6 +161,62 @@ class CodingProblemsStore {
          .catch(error => {
             this.setRoughSolutionDeleteAPIError(error)
             onFailureDeleteRoughSolution()
+         })
+   }
+
+   @action.bound
+   setTestCaseAPIStatus(testCaseAPIStatus) {
+      this.postTestCaseAPIStatus = testCaseAPIStatus
+   }
+
+   @action.bound
+   setTestCaseAPIError(testCaseAPIError) {
+      this.postTestCaseAPIError = testCaseAPIError
+   }
+
+   @action.bound
+   postProblemTestCase(
+      testCaseData,
+      onSuccessPostTestCase,
+      onFailurePostTestCase
+   ) {
+      const postProblemTestCasePromise = this.codingProblemsAPIService.postProblemTestCaseAPI()
+      bindPromiseWithOnSuccess(postProblemTestCasePromise)
+         .to(this.setTestCaseAPIStatus, () => {
+            onSuccessPostTestCase()
+         })
+         .catch(error => {
+            this.setTestCaseAPIError(error)
+            onFailurePostTestCase()
+         })
+   }
+
+   @action.bound
+   setTestCaseDeleteAPIStatus(testCaseDeleteAPIStatus) {
+      this.deleteTestCaseAPIStatus = testCaseDeleteAPIStatus
+   }
+
+   @action.bound
+   setTestCaseDeleteAPIError(testCaseDeleteAPIError) {
+      this.deleteTestCaseAPIError = testCaseDeleteAPIError
+   }
+
+   @action.bound
+   deleteProblemTestCase(
+      testCaseId,
+      onSuccessTestCaseDelete,
+      onFailureTestCaseDelete
+   ) {
+      const testCaseDeletePromise = this.codingProblemsAPIService.deleteTestCaseAPI(
+         testCaseId
+      )
+      bindPromiseWithOnSuccess(testCaseDeletePromise)
+         .to(this.setTestCaseDeleteAPIStatus, () => {
+            onSuccessTestCaseDelete()
+         })
+         .catch(error => {
+            this.setTestCaseDeleteAPIError(error)
+            onFailureTestCaseDelete()
          })
    }
 
@@ -235,6 +297,7 @@ class CodingProblemsStore {
 
    @action.bound
    setCodingProblemDetailsAPIResponse(codingProblemDetailsAPIResponse) {
+      this.codingProblemId = codingProblemDetailsAPIResponse.question_id
       this.codingProblemDetails = new CodingProblemDetailsModel(
          codingProblemDetailsAPIResponse
       )

@@ -20,7 +20,13 @@
       "contentType": "text",
       "score": "SCORE",
       "checkboxType": "checkbox",
-      "isHidden": "Is Hidden"
+      "isHidden": "Is Hidden",
+      "errors": {
+         "inputIsRequired": "Input is required",
+         "outputIsRequired": "Output is required",
+         "scoreIsRequired": "Score is required",
+         "invalidInput": "Invalid input"
+      }
    },
    "solutionApproach": {
       "title": "TITLE",

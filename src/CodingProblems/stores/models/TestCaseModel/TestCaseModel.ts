@@ -1,15 +1,17 @@
 import { observable } from 'mobx'
 
 class TestCaseModel {
+   uniqueId
    id
-   number
+   @observable number
    @observable input
    @observable output
    @observable score
    @observable isHidden
    @observable isActive
 
-   constructor(testCaseDetails) {
+   constructor({ uniqueId, testCaseDetails }) {
+      this.uniqueId = uniqueId
       this.id = testCaseDetails.test_case_id
       this.number = testCaseDetails.test_case_number
       this.input = testCaseDetails.input
@@ -17,6 +19,10 @@ class TestCaseModel {
       this.score = testCaseDetails.score
       this.isHidden = testCaseDetails.is_hidden
       this.isActive = true
+   }
+
+   updateNumber(updatedNumber) {
+      this.number = updatedNumber
    }
 
    setActiveState() {

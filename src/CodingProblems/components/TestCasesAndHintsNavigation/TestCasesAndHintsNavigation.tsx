@@ -28,10 +28,12 @@ class TestCasesAndHintsNavigation extends React.Component<
    renderButtons = () => {
       let { buttonsList, onClickNumberButton, onClickDeleteButton } = this.props
       buttonsList = Array.from(buttonsList.values())
+      console.log('ButtonsList', buttonsList)
       return buttonsList.map(button => (
          <NumberButton
             key={button.number}
             number={button.number}
+            uniqueId={button.uniqueId}
             isActive={button.isActive}
             onClickNumberButton={onClickNumberButton}
             onClickRemoveIcon={onClickDeleteButton}
@@ -43,18 +45,18 @@ class TestCasesAndHintsNavigation extends React.Component<
       const { onClickAddButton } = this.props
       return (
          <ComponentContainer>
-            <MoveButton onClick={() => {}}>
-               <Icon alt='Left Arrow Icon' src={images.chevronLeft} />
-            </MoveButton>
             <ButtonsContainer>
+               <MoveButton onClick={() => {}}>
+                  <Icon alt='Left Arrow Icon' src={images.chevronLeft} />
+               </MoveButton>
                <NumberButtonsContainer>
                   {this.renderButtons()}
                </NumberButtonsContainer>
                <CircleAddButton onClickCircleAddButton={onClickAddButton} />
+               <MoveRightButton onClick={() => {}}>
+                  <Icon alt='Right Arrow Icon' src={images.chevronRight} />
+               </MoveRightButton>
             </ButtonsContainer>
-            <MoveRightButton onClick={() => {}}>
-               <Icon alt='Right Arrow Icon' src={images.chevronRight} />
-            </MoveRightButton>
          </ComponentContainer>
       )
    }

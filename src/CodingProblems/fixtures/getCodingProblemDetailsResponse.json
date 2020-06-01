@@ -21,7 +21,24 @@
          "rough_solution_id": 1
       }
    ],
-   "test_cases": [],
+   "test_cases": [
+      {
+         "test_case_id": 1,
+         "test_case_number": 1,
+         "input": "print(1)",
+         "output": "1",
+         "score": "10",
+         "is_hidden": false
+      },
+      {
+         "test_case_id": 2,
+         "test_case_number": 2,
+         "input": "print(1)",
+         "output": "1",
+         "score": "30",
+         "is_hidden": true
+      }
+   ],
    "prefilled_codes": [],
    "solution_approach": {},
    "clean_solutions": [],

@@ -1,0 +1,11 @@
+{
+   "question_id": 0,
+   "test_case": {
+      "test_case_id": 1,
+      "test_case_number": 1,
+      "input": "print(1)",
+      "output": "1",
+      "score": "10",
+      "is_hidden": false
+   }
+}

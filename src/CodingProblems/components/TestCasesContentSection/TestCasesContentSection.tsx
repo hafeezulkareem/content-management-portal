@@ -19,7 +19,7 @@ import {
 } from './styledComponents'
 
 type TestCasesContentSectionProps = {
-   testCaseNumber: number
+   uniqueId: string
    input: string
    onChangeInput: any
    output: string
@@ -39,18 +39,18 @@ class TestCasesContentSection extends React.Component<
    TestCasesContentSectionProps
 > {
    onChangeInput = updatedInput => {
-      const { onChangeInput, testCaseNumber } = this.props
-      onChangeInput(updatedInput, testCaseNumber)
+      const { onChangeInput, uniqueId } = this.props
+      onChangeInput(updatedInput, uniqueId)
    }
 
    onChangeOutput = updatedOutput => {
-      const { onChangeOutput, testCaseNumber } = this.props
-      onChangeOutput(updatedOutput, testCaseNumber)
+      const { onChangeOutput, uniqueId } = this.props
+      onChangeOutput(updatedOutput, uniqueId)
    }
 
    render() {
       const {
-         testCaseNumber,
+         uniqueId,
          input,
          output,
          score,
@@ -91,7 +91,7 @@ class TestCasesContentSection extends React.Component<
             <ScoreInputField
                type={testCases.contentType}
                value={score}
-               onChange={event => onChangeScore(event, testCaseNumber)}
+               onChange={event => onChangeScore(event, uniqueId)}
             />
             {scoreErrorMessage && (
                <ErrorMessage>{scoreErrorMessage}</ErrorMessage>
@@ -100,13 +100,13 @@ class TestCasesContentSection extends React.Component<
                <Checkbox
                   type={testCases.checkboxType}
                   checked={isHidden}
-                  onChange={event => onToggleIsHidden(event, testCaseNumber)}
+                  onChange={event => onToggleIsHidden(event, uniqueId)}
                />
                <CheckboxLabel>{testCases.isHidden}</CheckboxLabel>
             </CheckboxContainer>
             <SaveButtonContainer>
                <SaveButton
-                  onClickSaveButton={() => onClickSaveButton(testCaseNumber)}
+                  onClickSaveButton={() => onClickSaveButton(uniqueId)}
                />
             </SaveButtonContainer>
          </TestCasesContentContainer>

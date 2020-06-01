@@ -13,6 +13,7 @@ type NumberButtonProps = {
    onClickRemoveIcon: any
    number: number
    isActive: boolean
+   uniqueId: string
 }
 
 class NumberButton extends React.Component<NumberButtonProps> {
@@ -21,12 +22,13 @@ class NumberButton extends React.Component<NumberButtonProps> {
          onClickNumberButton,
          onClickRemoveIcon,
          number,
-         isActive
+         isActive,
+         uniqueId
       } = this.props
       return (
          <NumberButtonContainer>
             <NumberButtonEl
-               onClick={() => onClickNumberButton(number)}
+               onClick={() => onClickNumberButton(uniqueId)}
                isActive={isActive}
             >
                {number}
@@ -34,7 +36,7 @@ class NumberButton extends React.Component<NumberButtonProps> {
             <NumberButtonRemoveIcon
                alt='Remove Icon'
                src={images.closeRed}
-               onClick={event => onClickRemoveIcon(event, number)}
+               onClick={() => onClickRemoveIcon(uniqueId)}
             />
          </NumberButtonContainer>
       )

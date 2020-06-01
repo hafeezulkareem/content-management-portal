@@ -4,25 +4,33 @@ import { observable, ObservableMap } from 'mobx'
 
 import { TestCaseModel } from '../../stores/models/TestCaseModel'
 import { NUMBER_REGEX } from '../../constants/RegexConstants'
+import i18n from '../../i18n/strings.json'
 
 import { TestCasesAndHintsNavigation } from '../TestCasesAndHintsNavigation'
 import { TestCasesContentSection } from '../TestCasesContentSection'
 
-import { TestCasesContainer, ButtonsContainer } from './styledComponents'
+import {
+   TestCasesContainer,
+   ButtonsContainer,
+   ErrorMessage
+} from './styledComponents'
 
 type TestCasesProps = {
-   content: string
+   codingProblemStore: any
+   testCases: any
 }
 
 @observer
 class TestCases extends React.Component<TestCasesProps> {
    @observable testCasesList!: ObservableMap<any, any>
+   codingProblemId!: number | null
    @observable inputErrorMessage!: string | null
    @observable outputErrorMessage!: string | null
    @observable scoreErrorMessage!: string | null
    @observable postTestCaseError!: string | null
    @observable deleteTestCaseError!: string | null
    currentTestCaseNumber!: number
+   currentDeletingTestCaseUniqueId!: number | null
 
    constructor(props) {
       super(props)
@@ -31,9 +39,10 @@ class TestCases extends React.Component<TestCasesProps> {
 
    init = () => {
       this.testCasesList = new ObservableMap(new Map())
-      this.currentTestCaseNumber = 1
+      this.currentTestCaseNumber = 0
+      this.codingProblemId = null
+      this.currentDeletingTestCaseUniqueId = null
       this.initializeErrors()
-      this.generateNewTestCase()
    }
 
    initializeErrors = () => {
@@ -44,109 +53,190 @@ class TestCases extends React.Component<TestCasesProps> {
       this.deleteTestCaseError = null
    }
 
-   toggleActiveStates = activeNumber => {
+   componentDidMount() {
+      const { testCases, codingProblemStore } = this.props
+      const { codingProblemId } = codingProblemStore
+      if (testCases) {
+         this.codingProblemId = codingProblemId
+         testCases.forEach(testCase => {
+            this.testCasesList.set(testCase.uniqueId, testCase)
+         })
+         this.toggleActiveStates(testCases[0].uniqueId)
+         this.currentTestCaseNumber = testCases.length
+      } else {
+         this.generateNewTestCase()
+      }
+   }
+
+   toggleActiveStates = uniqueId => {
       const testCases = Array.from(this.testCasesList.values())
       testCases.map((testCase: TestCaseModel) => {
-         return testCase.number === activeNumber
+         return testCase.uniqueId === uniqueId
             ? testCase.setActiveState()
             : testCase.removeActiveState()
       })
    }
 
    generateNewTestCase = () => {
+      const uniqueId = Math.random().toString()
+      this.currentTestCaseNumber += 1
       this.testCasesList.set(
-         this.currentTestCaseNumber,
+         uniqueId,
          new TestCaseModel({
-            test_case_id: null,
-            test_case_number: this.currentTestCaseNumber,
-            input: '',
-            output: '',
-            score: '',
-            is_hidden: false
+            uniqueId,
+            testCaseDetails: {
+               test_case_id: null,
+               test_case_number: this.currentTestCaseNumber,
+               input: '',
+               output: '',
+               score: '',
+               is_hidden: false
+            }
          })
       )
-      this.toggleActiveStates(this.currentTestCaseNumber)
-      this.currentTestCaseNumber += 1
+      this.toggleActiveStates(uniqueId)
    }
 
    onClickAddTestCaseButton = () => {
       this.generateNewTestCase()
    }
 
-   onClickNumberButton = buttonNumber => {
-      this.toggleActiveStates(buttonNumber)
+   onClickNumberButton = uniqueId => {
+      this.toggleActiveStates(uniqueId)
    }
 
-   checkTestCaseNumberAndDelete = (testCaseNumber: number) => {
-      const testCases = Array.from(this.testCasesList.values())
-      const currentTestCaseIndex = testCases.findIndex(
-         (testCase: TestCaseModel) => testCase.number === testCaseNumber
-      )
-      if (testCases[currentTestCaseIndex].isActive) {
-         if (testCases[currentTestCaseIndex + 1]) {
-            this.toggleActiveStates(testCases[currentTestCaseIndex + 1].number)
-         } else if (testCases[currentTestCaseIndex - 1]) {
-            this.toggleActiveStates(testCases[currentTestCaseIndex - 1].number)
+   onSuccessTestCaseDelete = () => {
+      this.deleteTestCase(this.currentDeletingTestCaseUniqueId)
+   }
+
+   onFailureTestCaseDelete = () => {
+      const { codingProblemStore } = this.props
+      this.deleteTestCaseError = codingProblemStore.deleteTestCaseAPIError
+   }
+
+   checkTestCaseNumberAndDelete = uniqueId => {
+      if (this.codingProblemId) {
+         const testCases = Array.from(this.testCasesList.values())
+         const currentTestCaseIndex = testCases.findIndex(
+            (testCase: TestCaseModel) => testCase.uniqueId === uniqueId
+         )
+         if (testCases[currentTestCaseIndex].isActive) {
+            if (testCases[currentTestCaseIndex + 1]) {
+               this.toggleActiveStates(
+                  testCases[currentTestCaseIndex + 1].uniqueId
+               )
+            } else if (testCases[currentTestCaseIndex - 1]) {
+               this.toggleActiveStates(
+                  testCases[currentTestCaseIndex - 1].uniqueId
+               )
+            }
          }
+         const { codingProblemStore } = this.props
+         codingProblemStore.deleteProblemTestCase(
+            uniqueId,
+            this.onSuccessTestCaseDelete,
+            this.onFailureTestCaseDelete
+         )
+      } else {
+         this.deleteTestCase(this.currentDeletingTestCaseUniqueId)
       }
-      this.testCasesList.delete(testCaseNumber)
    }
 
-   onClickDeleteButton = (event, testCaseNumber) => {
-      this.checkTestCaseNumberAndDelete(testCaseNumber)
+   rearrangeTestCasesOrder = () => {
+      const testCases = Array.from(this.testCasesList.values())
+      testCases.forEach((testCase, index) => {
+         testCase.updateNumber(index + 1)
+      })
    }
 
-   onChangeInput = (updatedInput, testCaseNumber) => {
-      const currentTestCase: TestCaseModel = this.testCasesList.get(
-         testCaseNumber
-      )
+   deleteTestCase = uniqueId => {
+      this.testCasesList.delete(uniqueId)
+      this.currentTestCaseNumber = this.testCasesList.size
+      this.rearrangeTestCasesOrder()
+   }
+
+   onClickDeleteButton = uniqueId => {
+      this.currentDeletingTestCaseUniqueId = uniqueId
+      this.checkTestCaseNumberAndDelete(uniqueId)
+   }
+
+   onChangeInput = (updatedInput, uniqueId) => {
+      const currentTestCase: TestCaseModel = this.testCasesList.get(uniqueId)
       currentTestCase.input = updatedInput
       this.initializeErrors()
    }
 
-   onChangeOutput = (updatedOutput, testCaseNumber) => {
-      const currentTestCase = this.testCasesList.get(testCaseNumber)
+   onChangeOutput = (updatedOutput, uniqueId) => {
+      const currentTestCase = this.testCasesList.get(uniqueId)
       currentTestCase.output = updatedOutput
       this.initializeErrors()
    }
 
-   onChangeScore = (event, testCaseNumber) => {
-      const currentTestCase = this.testCasesList.get(testCaseNumber)
+   onChangeScore = (event, uniqueId) => {
+      const {
+         testCases: { errors }
+      } = i18n
+      const currentTestCase = this.testCasesList.get(uniqueId)
       const updatedScore = event.target.value
       if (updatedScore.match(NUMBER_REGEX) || updatedScore === '') {
          currentTestCase.score =
             updatedScore !== '' ? Number.parseInt(event.target.value) : ''
          this.initializeErrors()
       } else {
-         this.scoreErrorMessage = 'Invalid input'
+         this.scoreErrorMessage = errors.invalidInput
       }
    }
 
-   onToggleIsHidden = (event, testCaseNumber) => {
-      const currentTestCase = this.testCasesList.get(testCaseNumber)
+   onToggleIsHidden = (event, uniqueId) => {
+      const currentTestCase = this.testCasesList.get(uniqueId)
       currentTestCase.isHidden = event.target.checked
       this.initializeErrors()
    }
 
-   areAllFieldsFilled = testCaseNumber => {
-      const currentTestCase = this.testCasesList.get(testCaseNumber)
+   areAllFieldsFilled = uniqueId => {
+      const {
+         testCases: { errors }
+      } = i18n
+      const currentTestCase = this.testCasesList.get(uniqueId)
       if (!currentTestCase.input.trim()) {
-         this.inputErrorMessage = 'Input is required'
+         this.inputErrorMessage = errors.inputIsRequired
          return false
       } else if (!currentTestCase.output.trim()) {
-         this.outputErrorMessage = 'Output is required'
+         this.outputErrorMessage = errors.outputIsRequired
          return false
       } else if (!currentTestCase.score.toString().trim()) {
-         this.scoreErrorMessage = 'Score is required'
+         this.scoreErrorMessage = errors.scoreIsRequired
          return false
       }
       this.initializeErrors()
       return true
    }
 
-   onClickSaveButton = testCaseNumber => {
-      if (this.areAllFieldsFilled(testCaseNumber)) {
-         // TODO: API Call
+   onSuccessPostTestCase = () => {
+      this.generateNewTestCase()
+   }
+
+   onFailurePostTestCase = () => {
+      const { codingProblemStore } = this.props
+      this.postTestCaseError = codingProblemStore.postTestCaseAPIError
+   }
+
+   onClickSaveButton = uniqueId => {
+      if (this.areAllFieldsFilled(uniqueId)) {
+         const currentTestCase = this.testCasesList.get(uniqueId)
+         const { codingProblemStore } = this.props
+         codingProblemStore.postProblemTestCase(
+            {
+               test_case_id: currentTestCase.id,
+               test_case_number: currentTestCase.number,
+               input: currentTestCase.input,
+               output: currentTestCase.output,
+               score: currentTestCase.score,
+               is_hidden: currentTestCase.isHidden
+            },
+            this.onSuccessPostTestCase,
+            this.onFailurePostTestCase
+         )
       }
    }
 
@@ -167,7 +257,7 @@ class TestCases extends React.Component<TestCasesProps> {
                testCase.isActive ? (
                   <TestCasesContentSection
                      key={testCase.number}
-                     testCaseNumber={testCase.number}
+                     uniqueId={testCase.uniqueId}
                      input={testCase.input}
                      onChangeInput={this.onChangeInput}
                      output={testCase.output}
@@ -182,6 +272,9 @@ class TestCases extends React.Component<TestCasesProps> {
                      scoreErrorMessage={this.scoreErrorMessage}
                   />
                ) : null
+            )}
+            {this.postTestCaseError && (
+               <ErrorMessage>{this.postTestCaseError}</ErrorMessage>
             )}
          </TestCasesContainer>
       )

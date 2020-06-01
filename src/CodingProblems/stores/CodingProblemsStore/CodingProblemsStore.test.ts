@@ -8,8 +8,10 @@ import {
 import { CodingProblemsAPI } from '../../services/CodingProblemsService/CodingProblemsAPI'
 import getCodingProblemsResponse from '../../fixtures/getCodingProblemsResponse.json'
 import getCodingProblemDetailsResponse from '../../fixtures/getCodingProblemDetailsResponse.json'
+import postTestCaseResponse from '../../fixtures/postProblemTestCaseResponse.json'
 
 import { CodingProblemsStore } from './CodingProblemsStore'
+import { waitFor } from '@testing-library/react'
 
 let codingProblemsAPI, codingProblemsStore
 
@@ -36,6 +38,15 @@ const roughSolutionsData = [
       rough_solution_id: 0
    }
 ]
+
+const testCaseData = {
+   test_case_id: 0,
+   test_case_number: 1,
+   input: 'print(1)',
+   output: '1',
+   score: 64,
+   is_hidden: false
+}
 
 describe('CodingProblemsStore tests', () => {
    beforeEach(() => {
@@ -245,6 +256,146 @@ describe('CodingProblemsStore tests', () => {
       )
 
       expect(codingProblemsStore.deleteRoughSolutionAPIStatus).toBe(API_SUCCESS)
+   })
+
+   it('should test PostTestCaseAPI initial state', () => {
+      expect(codingProblemsStore.postTestCaseAPIStatus).toBe(API_INITIAL)
+      expect(codingProblemsStore.postTestCaseAPIError).toBe(null)
+   })
+
+   it('should test PostTestCaseAPI posting state', () => {
+      const mockLoadingPromise = new Promise(() => {})
+      codingProblemsAPI.postProblemTestCaseAPI = jest.fn(() => {
+         return mockLoadingPromise
+      })
+
+      const mockSuccessFunction = jest.fn()
+      const mocFailureFunction = jest.fn()
+
+      codingProblemsStore.postProblemTestCase(
+         testCaseData,
+         mockSuccessFunction,
+         mocFailureFunction
+      )
+
+      expect(codingProblemsStore.postTestCaseAPIStatus).toBe(API_FETCHING)
+   })
+
+   it('should test PostTestCaseAPI failure state', async () => {
+      const mockFailurePromise = new Promise((_, reject) => {
+         reject(new Error('Something went wrong!'))
+      })
+      codingProblemsAPI.postProblemTestCaseAPI = jest.fn(() => {
+         return mockFailurePromise
+      })
+
+      const mockSuccessFunction = jest.fn()
+      const mocFailureFunction = jest.fn()
+
+      await codingProblemsStore.postProblemTestCase(
+         testCaseData,
+         mockSuccessFunction,
+         mocFailureFunction
+      )
+
+      await waitFor(() => {
+         expect(codingProblemsStore.postTestCaseAPIStatus).toBe(API_FAILED)
+         expect(codingProblemsStore.postTestCaseAPIError).toBe(
+            'Something went wrong!'
+         )
+      })
+   })
+
+   it('should test PostTestCaseAPI success state', async () => {
+      const mockSuccessPromise = new Promise(resolve => {
+         resolve(postTestCaseResponse)
+      })
+      codingProblemsAPI.postProblemTestCaseAPI = jest.fn(() => {
+         return mockSuccessPromise
+      })
+
+      const mockSuccessFunction = jest.fn()
+      const mocFailureFunction = jest.fn()
+
+      await codingProblemsStore.postProblemTestCase(
+         testCaseData,
+         mockSuccessFunction,
+         mocFailureFunction
+      )
+
+      await waitFor(() => {
+         expect(codingProblemsStore.postTestCaseAPIStatus).toBe(API_SUCCESS)
+      })
+   })
+
+   it('should test DeleteTestCaseAPI initial state', () => {
+      expect(codingProblemsStore.deleteTestCaseAPIStatus).toBe(API_INITIAL)
+      expect(codingProblemsStore.deleteTestCaseAPIError).toBe(null)
+   })
+
+   it('should test DeleteTestCaseAPI deleting state', () => {
+      const mockDeletingPromise = new Promise(() => {})
+      codingProblemsAPI.deleteTestCaseAPI = jest.fn(() => {
+         return mockDeletingPromise
+      })
+
+      const mockSuccessFunction = jest.fn()
+      const mocFailureFunction = jest.fn()
+
+      codingProblemsStore.deleteProblemTestCase(
+         0,
+         mockSuccessFunction,
+         mocFailureFunction
+      )
+
+      expect(codingProblemsStore.deleteTestCaseAPIStatus).toBe(API_FETCHING)
+   })
+
+   it('should test DeleteTestCaseAPI failure state', async () => {
+      const mockFailurePromise = new Promise((_, reject) => {
+         reject(new Error('Error while deleting'))
+      })
+      codingProblemsAPI.deleteTestCaseAPI = jest.fn(() => {
+         return mockFailurePromise
+      })
+
+      const mockSuccessFunction = jest.fn()
+      const mocFailureFunction = jest.fn()
+
+      await codingProblemsStore.deleteProblemTestCase(
+         0,
+         mockSuccessFunction,
+         mocFailureFunction
+      )
+
+      await (() => {
+         expect(codingProblemsStore.deleteTestCaseAPIStatus).toBe(API_FAILED)
+         expect(codingProblemsStore.deleteTestCaseAPIError).toBe(
+            'Error while deleting'
+         )
+      })
+   })
+
+   it('should test DeleteTestCaseAPI success state', async () => {
+      const mockSuccessPromise = new Promise(resolve => {
+         resolve('Deleted successfully')
+      })
+      codingProblemsAPI.deleteTestCaseAPI = jest.fn(() => {
+         return mockSuccessPromise
+      })
+
+      const mockSuccessFunction = jest.fn()
+      const mocFailureFunction = jest.fn()
+
+      await codingProblemsStore.deleteProblemTestCase(
+         0,
+         mockSuccessFunction,
+         mocFailureFunction
+      )
+
+      await (() => {
+         expect(codingProblemsStore.deleteTestCaseAPIStatus).toBe(API_SUCCESS)
+      })
    })
 
    it('should test GetCodingProblemsAPI initial state', () => {

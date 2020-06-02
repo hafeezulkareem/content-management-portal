@@ -18,6 +18,10 @@ class CodingProblemsStore {
    @observable deleteTestCaseAPIError
    @observable postSolutionApproachAPIStatus
    @observable postSolutionApproachAPIError
+   @observable postHintAPIStatus
+   @observable postHintAPIError
+   @observable deleteHintAPIStatus
+   @observable deleteHintAPIError
    @observable getCodingProblemsAPIStatus
    @observable getCodingProblemsAPIError
    codingProblemsOffset
@@ -49,6 +53,10 @@ class CodingProblemsStore {
       this.deleteTestCaseAPIError = null
       this.postSolutionApproachAPIStatus = API_INITIAL
       this.postSolutionApproachAPIError = null
+      this.postHintAPIStatus = API_INITIAL
+      this.postHintAPIError = null
+      this.deleteHintAPIStatus = API_INITIAL
+      this.deleteHintAPIError = null
       this.getCodingProblemsAPIStatus = API_INITIAL
       this.getCodingProblemsAPIError = null
       this.codingProblemsOffset = 1
@@ -185,7 +193,7 @@ class CodingProblemsStore {
       onFailurePostTestCase
    ) {
       const postProblemTestCasePromise = this.codingProblemsAPIService.postProblemTestCaseAPI()
-      bindPromiseWithOnSuccess(postProblemTestCasePromise)
+      return bindPromiseWithOnSuccess(postProblemTestCasePromise)
          .to(this.setTestCaseAPIStatus, () => {
             onSuccessPostTestCase()
          })
@@ -214,7 +222,7 @@ class CodingProblemsStore {
       const testCaseDeletePromise = this.codingProblemsAPIService.deleteTestCaseAPI(
          testCaseId
       )
-      bindPromiseWithOnSuccess(testCaseDeletePromise)
+      return bindPromiseWithOnSuccess(testCaseDeletePromise)
          .to(this.setTestCaseDeleteAPIStatus, () => {
             onSuccessTestCaseDelete()
          })
@@ -243,13 +251,69 @@ class CodingProblemsStore {
       const solutionApproachPostPromise = this.codingProblemsAPIService.postSolutionApproachAPI(
          solutionApproachData
       )
-      bindPromiseWithOnSuccess(solutionApproachPostPromise)
+      return bindPromiseWithOnSuccess(solutionApproachPostPromise)
          .to(this.setSolutionApproachAPIStatus, () => {
             onSuccessPostSolutionApproach()
          })
          .catch(error => {
             onFailurePostSolutionApproach()
             this.setSolutionApproachAPIError(error)
+         })
+   }
+
+   @action.bound
+   setHintAPIStatus(hintAPIStatus) {
+      this.postHintAPIStatus = hintAPIStatus
+   }
+
+   @action.bound
+   setHintAPIError(hintAPIError) {
+      this.postHintAPIError = hintAPIError
+   }
+
+   @action.bound
+   postProblemHint(hintData, onSuccessPostHint, onFailurePostHint) {
+      const hintPostPromise = this.codingProblemsAPIService.postHintAPI(
+         hintData
+      )
+      return bindPromiseWithOnSuccess(hintPostPromise)
+         .to(this.setHintAPIStatus, response => {
+            onSuccessPostHint()
+         })
+         .catch(error => {
+            onFailurePostHint()
+            this.setHintAPIError(error)
+         })
+   }
+
+   @action.bound
+   setHintDeleteAPIStatue(hintDeleteAPIStatus) {
+      this.deleteHintAPIStatus = hintDeleteAPIStatus
+   }
+
+   @action.bound
+   setHintDeleteAPIError(hintDeleteAPIError) {
+      this.deleteHintAPIError = hintDeleteAPIError
+   }
+
+   @action.bound
+   deleteProblemHint(
+      codingProblemId,
+      hintId,
+      onSuccessDeleteHint,
+      onFailureDeleteHint
+   ) {
+      const deleteHintPromise = this.codingProblemsAPIService.deleteHintAPI(
+         codingProblemId,
+         hintId
+      )
+      return bindPromiseWithOnSuccess(deleteHintPromise)
+         .to(this.setHintDeleteAPIStatue, () => {
+            onSuccessDeleteHint()
+         })
+         .catch(error => {
+            onFailureDeleteHint()
+            this.setHintDeleteAPIError(error)
          })
    }
 

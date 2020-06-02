@@ -42,5 +42,18 @@
    "prefilled_codes": [],
    "solution_approach": {},
    "clean_solutions": [],
-   "hints": []
+   "hints": [
+      {
+         "hint_id": 1,
+         "title": "Sample title",
+         "description": "This is for testing purpose",
+         "order": 1
+      },
+      {
+         "hint_id": 2,
+         "title": "print(1)",
+         "description": "1",
+         "order": 4
+      }
+   ]
 }

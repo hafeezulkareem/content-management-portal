@@ -120,17 +120,6 @@ class TestCases extends React.Component<TestCasesProps> {
          const currentTestCaseIndex = testCases.findIndex(
             (testCase: TestCaseModel) => testCase.uniqueId === uniqueId
          )
-         if (testCases[currentTestCaseIndex].isActive) {
-            if (testCases[currentTestCaseIndex + 1]) {
-               this.toggleActiveStates(
-                  testCases[currentTestCaseIndex + 1].uniqueId
-               )
-            } else if (testCases[currentTestCaseIndex - 1]) {
-               this.toggleActiveStates(
-                  testCases[currentTestCaseIndex - 1].uniqueId
-               )
-            }
-         }
          const { codingProblemStore } = this.props
          codingProblemStore.deleteProblemTestCase(
             uniqueId,
@@ -150,6 +139,21 @@ class TestCases extends React.Component<TestCasesProps> {
    }
 
    deleteTestCase = uniqueId => {
+      const testCases = Array.from(this.testCasesList.values())
+      const currentTestCaseIndex = testCases.findIndex(
+         (testCase: TestCaseModel) => testCase.uniqueId === uniqueId
+      )
+      if (testCases[currentTestCaseIndex].isActive) {
+         if (testCases[currentTestCaseIndex + 1]) {
+            this.toggleActiveStates(
+               testCases[currentTestCaseIndex + 1].uniqueId
+            )
+         } else if (testCases[currentTestCaseIndex - 1]) {
+            this.toggleActiveStates(
+               testCases[currentTestCaseIndex - 1].uniqueId
+            )
+         }
+      }
       this.testCasesList.delete(uniqueId)
       this.currentTestCaseNumber = this.testCasesList.size
       this.rearrangeTestCasesOrder()

@@ -48,7 +48,13 @@
       "descriptionPlaceholder": "Create a new conversation by writing your message here...",
       "orderPlaceholder": "5",
       "titleType": "text",
-      "orderType": "number"
+      "orderType": "text",
+      "errors": {
+         "title": "Title is required",
+         "description": "Description is required",
+         "order": "Order is required",
+         "orderInvalid": "Order is invalid"
+      }
    },
    "codingProblemsList": {
       "questions": "QUESTIONS",

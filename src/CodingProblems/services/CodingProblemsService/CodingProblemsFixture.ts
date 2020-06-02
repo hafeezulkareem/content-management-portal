@@ -2,6 +2,7 @@ import problemStatementResponse from '../../fixtures/postProblemStatementRespons
 import problemRoughSolutionResponse from '../../fixtures/postProblemRoughSolutionResponse.json'
 import problemTestCaseResponse from '../../fixtures/postProblemTestCaseResponse.json'
 import problemSolutionApproachResponse from '../../fixtures/postProblemSolutionApproachResponse.json'
+import problemHintResponse from '../../fixtures/postProblemHintResponse.json'
 import codingProblemsResponse from '../../fixtures/getCodingProblemsResponse.json'
 import codingProblemDetailsResponse from '../../fixtures/getCodingProblemDetailsResponse.json'
 
@@ -37,6 +38,18 @@ class CodingProblemsFixture {
    postSolutionApproachAPI() {
       return new Promise((resolve, _) => {
          resolve(problemSolutionApproachResponse)
+      })
+   }
+
+   postHintAPI() {
+      return new Promise(resolve => {
+         resolve(problemHintResponse)
+      })
+   }
+
+   deleteHintAPI() {
+      return new Promise(resolve => {
+         resolve('Deleted successfully')
       })
    }
 

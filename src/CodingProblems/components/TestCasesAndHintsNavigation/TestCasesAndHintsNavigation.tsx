@@ -28,7 +28,6 @@ class TestCasesAndHintsNavigation extends React.Component<
    renderButtons = () => {
       let { buttonsList, onClickNumberButton, onClickDeleteButton } = this.props
       buttonsList = Array.from(buttonsList.values())
-      console.log('ButtonsList', buttonsList)
       return buttonsList.map(button => (
          <NumberButton
             key={button.number}

@@ -1,64 +1,268 @@
 import React from 'react'
+import { observer } from 'mobx-react'
+import { observable, ObservableMap } from 'mobx'
 
-import { SaveButton } from '../../../Common/components/SaveButton'
-import images from '../../../Common/themes/Images'
-
+import { HintModel } from '../../stores/models/HintModel'
 import i18n from '../../i18n/strings.json'
+import { NUMBER_REGEX } from '../../constants/RegexConstants'
 
 import { TestCasesAndHintsNavigation } from '../TestCasesAndHintsNavigation'
+import { HintsContentSection } from '../HintsContentSection'
 
-import {
-   HintsContainer,
-   ButtonsContainer,
-   FormWithSaveButton,
-   HintsFormContainer,
-   SaveButtonContainer,
-   TextLabel,
-   TextArea,
-   InputField,
-   HintsFormHeader,
-   HintsTitle,
-   RemoveIcon
-} from './styledComponents'
+import { HintsContainer, ButtonsContainer } from './styledComponents'
 
-class Hints extends React.Component {
+type HintsProps = {
+   codingProblemsStore: any
+   hints: any
+}
+
+@observer
+class Hints extends React.Component<HintsProps> {
+   @observable hintsList!: ObservableMap<any, any>
+   codingProblemId!: number | null
+   @observable titleErrorMessage!: string | null
+   @observable descriptionErrorMessage!: string | null
+   @observable orderErrorMessage!: string | null
+   @observable hintAPIErrorMessage!: string | null
+   currentHintNumber!: number
+   currentDeletingHintUniqueId!: number | null
+
+   constructor(props) {
+      super(props)
+      this.init()
+   }
+
+   init = () => {
+      this.hintsList = new ObservableMap(new Map())
+      this.currentHintNumber = 0
+      this.codingProblemId = null
+      this.currentDeletingHintUniqueId = null
+      this.initErrors()
+   }
+
+   initErrors = () => {
+      this.titleErrorMessage = null
+      this.descriptionErrorMessage = null
+      this.orderErrorMessage = null
+      this.hintAPIErrorMessage = null
+   }
+
+   componentDidMount() {
+      const {
+         hints,
+         codingProblemsStore: { codingProblemId }
+      } = this.props
+      if (hints) {
+         this.codingProblemId = codingProblemId
+         hints.forEach(hint => {
+            this.hintsList.set(hint.uniqueId, hint)
+         })
+         this.toggleActiveStates(hints[0].uniqueId)
+         this.currentHintNumber = hints.length
+      } else {
+         this.generateNewHint()
+      }
+   }
+
+   toggleActiveStates = uniqueId => {
+      const hints = Array.from(this.hintsList.values())
+      hints.map((hint: HintModel) => {
+         return hint.uniqueId === uniqueId
+            ? hint.setActiveState()
+            : hint.removeActiveState()
+      })
+   }
+
+   generateNewHint = () => {
+      const uniqueId = Math.random().toString()
+      this.currentHintNumber += 1
+      this.hintsList.set(
+         uniqueId,
+         new HintModel({
+            uniqueId,
+            number: this.currentHintNumber,
+            hintDetails: {
+               hint_id: null,
+               title: '',
+               description: '',
+               order: ''
+            }
+         })
+      )
+      this.toggleActiveStates(uniqueId)
+   }
+
+   onClickAddHintButton = () => {
+      this.generateNewHint()
+   }
+
+   onClickNumberButton = uniqueId => {
+      this.toggleActiveStates(uniqueId)
+   }
+
+   onChangeTitle = (event, uniqueId) => {
+      const currentHint = this.hintsList.get(uniqueId)
+      currentHint.title = event.target.value
+      this.initErrors()
+   }
+
+   onChangeDescription = (event, uniqueId) => {
+      const currentHint = this.hintsList.get(uniqueId)
+      currentHint.description = event.target.value
+      this.initErrors()
+   }
+
+   onChangeOrder = (event, uniqueId) => {
+      const {
+         hints: { errors }
+      } = i18n
+      const currentHint = this.hintsList.get(uniqueId)
+      const updatedOrder = event.target.value
+      if (updatedOrder.match(NUMBER_REGEX) || updatedOrder === '') {
+         currentHint.order =
+            updatedOrder !== '' ? Number.parseInt(updatedOrder) : ''
+         this.initErrors()
+      } else {
+         this.orderErrorMessage = errors.orderInvalid
+      }
+   }
+
+   onSuccessHintDelete = () => {
+      this.deleteHint(this.currentDeletingHintUniqueId)
+   }
+
+   onFailureHintDelete = () => {
+      const {
+         codingProblemsStore: { deleteHintAPIError }
+      } = this.props
+      this.hintAPIErrorMessage = deleteHintAPIError
+   }
+
+   rearrangeTestCasesOrder = () => {
+      const testCases = Array.from(this.hintsList.values())
+      testCases.forEach((hint, index) => {
+         hint.updateNumber(index + 1)
+      })
+   }
+
+   deleteHint = uniqueId => {
+      const hints = Array.from(this.hintsList.values())
+      const currentHintIndex = hints.findIndex(
+         (hint: HintModel) => hint.uniqueId === uniqueId
+      )
+      if (hints[currentHintIndex].isActive) {
+         if (hints[currentHintIndex + 1]) {
+            this.toggleActiveStates(hints[currentHintIndex + 1].uniqueId)
+         } else if (hints[currentHintIndex - 1]) {
+            this.toggleActiveStates(hints[currentHintIndex - 1].uniqueId)
+         }
+      }
+      this.hintsList.delete(uniqueId)
+      this.currentHintNumber = this.hintsList.size
+      this.rearrangeTestCasesOrder()
+   }
+
+   checkTestCaseNumberAndDelete = uniqueId => {
+      if (this.codingProblemId) {
+         const hints = Array.from(this.hintsList.values())
+         const currentHintIndex = hints.findIndex(
+            (hint: HintModel) => hint.uniqueId === uniqueId
+         )
+         const {
+            codingProblemsStore: { deleteProblemHint }
+         } = this.props
+         deleteProblemHint(
+            this.codingProblemId,
+            hints[currentHintIndex].id,
+            this.onSuccessHintDelete,
+            this.onFailureHintDelete
+         )
+      } else {
+         this.deleteHint(this.currentDeletingHintUniqueId)
+      }
+   }
+
+   onClickDeleteButton = uniqueId => {
+      this.currentDeletingHintUniqueId = uniqueId
+      this.checkTestCaseNumberAndDelete(uniqueId)
+   }
+
+   areAllFieldsFilled = uniqueId => {
+      const {
+         hints: { errors }
+      } = i18n
+      const currentHint = this.hintsList.get(uniqueId)
+      if (!currentHint.title.trim()) {
+         this.titleErrorMessage = errors.title
+         return false
+      } else if (!currentHint.description.trim()) {
+         this.descriptionErrorMessage = errors.description
+         return false
+      } else if (!currentHint.order.toString().trim()) {
+         this.orderErrorMessage = errors.order
+         return false
+      }
+      this.initErrors()
+      return true
+   }
+
+   onSuccessPostHint = () => {
+      this.generateNewHint()
+   }
+
+   onFailurePostHint = () => {
+      const {
+         codingProblemsStore: { postHintAPIError }
+      } = this.props
+      this.hintAPIErrorMessage = postHintAPIError
+   }
+
+   onClickSaveButton = uniqueId => {
+      if (this.areAllFieldsFilled(uniqueId)) {
+         const currentHint = this.hintsList.get(uniqueId)
+         const { codingProblemsStore } = this.props
+         codingProblemsStore.postProblemHint(
+            {
+               hint_id: currentHint.id,
+               title: currentHint.title,
+               description: currentHint.description,
+               order: currentHint.order
+            },
+            this.onSuccessPostHint,
+            this.onFailurePostHint
+         )
+      }
+   }
+
    render() {
-      const { hints } = i18n
       return (
          <HintsContainer>
             <ButtonsContainer>
                <TestCasesAndHintsNavigation
-                  buttonsList={{}}
-                  onClickAddButton={() => {}}
-                  onClickNumberButton={() => {}}
-                  onClickDeleteButton={() => {}}
+                  buttonsList={this.hintsList}
+                  onClickAddButton={this.onClickAddHintButton}
+                  onClickNumberButton={this.onClickNumberButton}
+                  onClickDeleteButton={this.onClickDeleteButton}
                />
             </ButtonsContainer>
-            <FormWithSaveButton>
-               <HintsFormContainer>
-                  <HintsFormHeader>
-                     <HintsTitle>{hints.hints}</HintsTitle>
-                     <RemoveIcon alt='Remove Icon' src={images.close} />
-                  </HintsFormHeader>
-                  <TextLabel>{hints.title}</TextLabel>
-                  <InputField
-                     type={hints.titleType}
-                     placeholder={hints.titlePlaceholder}
+            {Array.from(this.hintsList.values()).map((hint: HintModel) =>
+               hint.isActive ? (
+                  <HintsContentSection
+                     uniqueId={hint.uniqueId}
+                     title={hint.title}
+                     onChangeTitle={this.onChangeTitle}
+                     titleErrorMessage={this.titleErrorMessage}
+                     description={hint.description}
+                     onChangeDescription={this.onChangeDescription}
+                     descriptionErrorMessage={this.descriptionErrorMessage}
+                     order={hint.order}
+                     onChangeOrder={this.onChangeOrder}
+                     orderErrorMessage={this.orderErrorMessage}
+                     onClickSaveButton={this.onClickSaveButton}
+                     hintAPIErrorMessage={this.hintAPIErrorMessage}
                   />
-                  <TextLabel>{hints.description}</TextLabel>
-                  <TextArea
-                     placeholder={hints.descriptionPlaceholder}
-                  ></TextArea>
-                  <TextLabel>{hints.order}</TextLabel>
-                  <InputField
-                     type={hints.orderType}
-                     placeholder={hints.orderPlaceholder}
-                  />
-               </HintsFormContainer>
-               <SaveButtonContainer>
-                  <SaveButton onClickSaveButton={() => {}} />
-               </SaveButtonContainer>
-            </FormWithSaveButton>
+               ) : null
+            )}
          </HintsContainer>
       )
    }

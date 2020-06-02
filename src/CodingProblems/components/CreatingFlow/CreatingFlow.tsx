@@ -45,7 +45,7 @@ type CreatingFlowProps = {
 
 @observer
 class CreatingFlow extends React.Component<CreatingFlowProps> {
-   @observable selectedTabIndex: number = 1
+   @observable selectedTabIndex: number = 7
    @observable tabDetails = [
       {
          tabIndex: 1,
@@ -129,12 +129,14 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
       let codingProblemId: number | null = null,
          statement,
          roughSolutions,
-         testCases
+         testCases,
+         hints
       if (codingProblemDetails) {
          codingProblemId = codingProblemDetails.codingProblemId
          statement = codingProblemDetails.statement
          roughSolutions = codingProblemDetails.roughSolutions
          testCases = codingProblemDetails.testCases
+         hints = codingProblemDetails.hints
       }
       switch (this.selectedTabIndex) {
          case 1:
@@ -211,7 +213,10 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
             return (
                <Wrapper>
                   <SectionWrapper>
-                     <Hints />
+                     <Hints
+                        codingProblemsStore={codingProblemsStore}
+                        hints={hints}
+                     />
                   </SectionWrapper>
                </Wrapper>
             )

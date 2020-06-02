@@ -42,6 +42,10 @@ class CodingProblemsAPI {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.delete)
    }
 
+   postSolutionApproachAPI(solutionApproachData) {
+      return networkCallWithApisauce(this.api, '', {}, apiMethods.post)
+   }
+
    getCodingProblemsAPI(codingProblemsOffset) {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.get)
    }

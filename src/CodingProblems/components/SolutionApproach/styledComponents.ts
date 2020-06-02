@@ -49,6 +49,13 @@ export const SolutionApproachRightSection = styled.div`
 
 export const SaveButtonContainer = styled.div`
    ${tw`
-        flex self-end mt-8 mb-4 px-16
+        flex -mt-12 mb-4 pl-8
     `}
+`
+
+export const ErrorMessage = styled.p`
+   color: ${colors.neonRed};
+   ${tw`
+        text-xs mb-2
+    `};
 `

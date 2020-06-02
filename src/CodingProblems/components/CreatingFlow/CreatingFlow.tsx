@@ -192,7 +192,13 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                </Wrapper>
             )
          case 5:
-            return <SolutionApproach content='' contentType='text' />
+            return (
+               <SolutionApproach
+                  codingProblemsStore={codingProblemsStore}
+                  onSelectTab={this.onSelectTab}
+                  currentTabIndex={this.selectedTabIndex}
+               />
+            )
          case 6:
             return (
                <Wrapper>

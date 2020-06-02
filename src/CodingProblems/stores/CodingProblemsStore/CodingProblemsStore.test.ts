@@ -9,6 +9,7 @@ import { CodingProblemsAPI } from '../../services/CodingProblemsService/CodingPr
 import getCodingProblemsResponse from '../../fixtures/getCodingProblemsResponse.json'
 import getCodingProblemDetailsResponse from '../../fixtures/getCodingProblemDetailsResponse.json'
 import postTestCaseResponse from '../../fixtures/postProblemTestCaseResponse.json'
+import postSolutionSolutionApproachResponse from '../../fixtures/postProblemSolutionApproachResponse.json'
 
 import { CodingProblemsStore } from './CodingProblemsStore'
 import { waitFor } from '@testing-library/react'
@@ -325,6 +326,84 @@ describe('CodingProblemsStore tests', () => {
 
       await waitFor(() => {
          expect(codingProblemsStore.postTestCaseAPIStatus).toBe(API_SUCCESS)
+      })
+   })
+
+   it('should test PostTestCaseAPI initial state', () => {
+      expect(codingProblemsStore.postSolutionApproachAPIStatus).toBe(
+         API_INITIAL
+      )
+      expect(codingProblemsStore.postSolutionApproachAPIError).toBe(null)
+   })
+
+   it('should test PostSolutionApproach posting state', () => {
+      const mockLoadingPromise = new Promise(() => {})
+      codingProblemsAPI.postSolutionApproachAPI = jest.fn(() => {
+         return mockLoadingPromise
+      })
+
+      const mockSuccessFunction = jest.fn()
+      const mocFailureFunction = jest.fn()
+
+      codingProblemsStore.postProblemSolutionApproach(
+         testCaseData,
+         mockSuccessFunction,
+         mocFailureFunction
+      )
+
+      expect(codingProblemsStore.postSolutionApproachAPIStatus).toBe(
+         API_FETCHING
+      )
+   })
+
+   it('should test PostSolutionApproachAPI failure state', async () => {
+      const mockFailurePromise = new Promise((_, reject) => {
+         reject(new Error('Something went wrong!'))
+      })
+      codingProblemsAPI.postSolutionApproachAPI = jest.fn(() => {
+         return mockFailurePromise
+      })
+
+      const mockSuccessFunction = jest.fn()
+      const mocFailureFunction = jest.fn()
+
+      await codingProblemsStore.postProblemSolutionApproach(
+         {},
+         mockSuccessFunction,
+         mocFailureFunction
+      )
+
+      await waitFor(() => {
+         expect(codingProblemsStore.postSolutionApproachAPIStatus).toBe(
+            API_FAILED
+         )
+         expect(codingProblemsStore.postSolutionApproachAPIError).toBe(
+            'Something went wrong!'
+         )
+      })
+   })
+
+   it('should test PostSolutionApproachAPI success state', async () => {
+      const mockSuccessPromise = new Promise(resolve => {
+         resolve(postSolutionSolutionApproachResponse)
+      })
+      codingProblemsAPI.postSolutionApproachAPI = jest.fn(() => {
+         return mockSuccessPromise
+      })
+
+      const mockSuccessFunction = jest.fn()
+      const mocFailureFunction = jest.fn()
+
+      await codingProblemsStore.postProblemSolutionApproach(
+         {},
+         mockSuccessFunction,
+         mocFailureFunction
+      )
+
+      await waitFor(() => {
+         expect(codingProblemsStore.postSolutionApproachAPIStatus).toBe(
+            API_SUCCESS
+         )
       })
    })
 

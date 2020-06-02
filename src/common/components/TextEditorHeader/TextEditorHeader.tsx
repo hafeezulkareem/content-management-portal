@@ -6,12 +6,7 @@ import images from '../../themes/Images'
 
 import { DropDown } from '../DropDown'
 
-import {
-   HeaderContainer,
-   HeaderSection,
-   DeleteIcon,
-   EditIcon
-} from './styledComponents'
+import { HeaderContainer, HeaderSection, DeleteIcon } from './styledComponents'
 
 type TextEditorHeaderProps = {
    onChangeTextType: any
@@ -33,7 +28,6 @@ class TextEditorHeader extends React.Component<TextEditorHeaderProps> {
                   selectedOption={selectedOption}
                />
                <DeleteIcon alt='Delete Icon' src={images.delete} />
-               <EditIcon alt='Edit Icon' src={images.edit} />
             </HeaderSection>
          </HeaderContainer>
       )

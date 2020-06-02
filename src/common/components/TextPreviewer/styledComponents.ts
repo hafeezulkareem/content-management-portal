@@ -5,7 +5,6 @@ import colors from '../../themes/Colors'
 
 export const TextPreviewerContainer = styled.div`
    background-color: ${colors.lightBlueGrey40};
-   height: 565px;
    ${tw`
         w-full p-2 overflow-auto
     `}
@@ -13,5 +12,6 @@ export const TextPreviewerContainer = styled.div`
 
 export const PreTag = styled.pre`
    ${tw`
+        w-full h-full
     `}
 `

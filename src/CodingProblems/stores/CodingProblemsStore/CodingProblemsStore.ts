@@ -16,6 +16,8 @@ class CodingProblemsStore {
    @observable postTestCaseAPIError
    @observable deleteTestCaseAPIStatus
    @observable deleteTestCaseAPIError
+   @observable postSolutionApproachAPIStatus
+   @observable postSolutionApproachAPIError
    @observable getCodingProblemsAPIStatus
    @observable getCodingProblemsAPIError
    codingProblemsOffset
@@ -45,6 +47,8 @@ class CodingProblemsStore {
       this.postTestCaseAPIError = null
       this.deleteTestCaseAPIStatus = API_INITIAL
       this.deleteTestCaseAPIError = null
+      this.postSolutionApproachAPIStatus = API_INITIAL
+      this.postSolutionApproachAPIError = null
       this.getCodingProblemsAPIStatus = API_INITIAL
       this.getCodingProblemsAPIError = null
       this.codingProblemsOffset = 1
@@ -217,6 +221,35 @@ class CodingProblemsStore {
          .catch(error => {
             this.setTestCaseDeleteAPIError(error)
             onFailureTestCaseDelete()
+         })
+   }
+
+   @action.bound
+   setSolutionApproachAPIStatus(solutionApproachAPIStatus) {
+      this.postSolutionApproachAPIStatus = solutionApproachAPIStatus
+   }
+
+   @action.bound
+   setSolutionApproachAPIError(solutionApproachAPIError) {
+      this.postSolutionApproachAPIError = solutionApproachAPIError
+   }
+
+   @action.bound
+   postProblemSolutionApproach(
+      solutionApproachData,
+      onSuccessPostSolutionApproach,
+      onFailurePostSolutionApproach
+   ) {
+      const solutionApproachPostPromise = this.codingProblemsAPIService.postSolutionApproachAPI(
+         solutionApproachData
+      )
+      bindPromiseWithOnSuccess(solutionApproachPostPromise)
+         .to(this.setSolutionApproachAPIStatus, () => {
+            onSuccessPostSolutionApproach()
+         })
+         .catch(error => {
+            onFailurePostSolutionApproach()
+            this.setSolutionApproachAPIError(error)
          })
    }
 

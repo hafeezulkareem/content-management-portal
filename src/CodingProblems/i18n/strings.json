@@ -31,7 +31,13 @@
    "solutionApproach": {
       "title": "TITLE",
       "description": "DESCRIPTION",
-      "complexityAnalysis": "COMPLEXITY ANALYSIS"
+      "complexityAnalysis": "COMPLEXITY ANALYSIS",
+      "titleInputFieldPlaceholder": "Ex. Luke S.",
+      "errors": {
+         "titleError": "Title is required",
+         "descriptionError": "Description is required",
+         "complexityAnalysisError": "Complexity Analysis is required"
+      }
    },
    "hints": {
       "hints": "HINTS",

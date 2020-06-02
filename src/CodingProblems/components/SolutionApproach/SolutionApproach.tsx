@@ -40,6 +40,7 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
    @observable complexityAnalysis!: { type: string; content: string }
    @observable complexityAnalysisErrorMessage!: string | null
    @observable writingField!: string
+   codingProblemId
    solutionApproachId!: number | null
 
    constructor(props) {
@@ -59,6 +60,7 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
       }
       this.writingField = i18n.solutionApproach.description
       this.solutionApproachId = null
+      this.codingProblemId = null
       this.initErrors()
    }
 
@@ -73,7 +75,8 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
          solutionApproach,
          codingProblemsStore: { codingProblemId }
       } = this.props
-      if (codingProblemId) {
+      if (solutionApproach) {
+         this.codingProblemId = codingProblemId
          this.title = solutionApproach.title
          this.description = { ...solutionApproach.description }
          this.complexityAnalysis = { ...solutionApproach.complexityAnalysis }

@@ -45,7 +45,7 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
          cleanSolutions,
          codingProblemsStore: { codingProblemId }
       } = this.props
-      if (codingProblemId) {
+      if (cleanSolutions) {
          this.codingProblemId = codingProblemId
          cleanSolutions.forEach(cleanSolution => {
             this.codeEditorsList.set(cleanSolution.uniqueId, cleanSolution)

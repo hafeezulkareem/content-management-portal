@@ -18,6 +18,10 @@ class CodingProblemsStore {
    @observable deleteTestCaseAPIError
    @observable postSolutionApproachAPIStatus
    @observable postSolutionApproachAPIError
+   @observable postCleanSolutionAPIStatus
+   @observable postCleanSolutionAPIError
+   @observable deleteCleanSolutionAPIStatus
+   @observable deleteCleanSolutionAPIError
    @observable postHintAPIStatus
    @observable postHintAPIError
    @observable deleteHintAPIStatus
@@ -53,6 +57,10 @@ class CodingProblemsStore {
       this.deleteTestCaseAPIError = null
       this.postSolutionApproachAPIStatus = API_INITIAL
       this.postSolutionApproachAPIError = null
+      this.postCleanSolutionAPIStatus = API_INITIAL
+      this.postCleanSolutionAPIError = null
+      this.deleteCleanSolutionAPIStatus = API_INITIAL
+      this.deleteCleanSolutionAPIError = null
       this.postHintAPIStatus = API_INITIAL
       this.postHintAPIError = null
       this.deleteHintAPIStatus = API_INITIAL
@@ -256,8 +264,68 @@ class CodingProblemsStore {
             onSuccessPostSolutionApproach()
          })
          .catch(error => {
-            onFailurePostSolutionApproach()
             this.setSolutionApproachAPIError(error)
+            onFailurePostSolutionApproach()
+         })
+   }
+
+   @action.bound
+   setCleanSolutionAPIStatus(cleanSolutionAPIStatus) {
+      this.postCleanSolutionAPIStatus = cleanSolutionAPIStatus
+   }
+
+   @action.bound
+   setCleanSolutionAPIError(cleanSolutionAPIError) {
+      this.postCleanSolutionAPIError = cleanSolutionAPIError
+   }
+
+   @action.bound
+   postCleanSolution(
+      cleanSolutionData,
+      onSuccessPostCleanSolution,
+      onFailurePostCleanSolution
+   ) {
+      const cleanSolutionPromise = this.codingProblemsAPIService.postCleanSolutionAPI(
+         cleanSolutionData
+      )
+      return bindPromiseWithOnSuccess(cleanSolutionPromise)
+         .to(this.setCleanSolutionAPIStatus, () => {
+            onSuccessPostCleanSolution()
+         })
+         .catch(error => {
+            this.setCleanSolutionAPIError(error)
+            onFailurePostCleanSolution()
+         })
+   }
+
+   @action.bound
+   setCleanSolutionDeleteAPIStatus(cleanSolutionDeleteAPIStatus) {
+      this.deleteCleanSolutionAPIStatus = cleanSolutionDeleteAPIStatus
+   }
+
+   @action.bound
+   setCleanSolutionDeleteAPIError(cleanSolutionDeleteAPIError) {
+      this.deleteCleanSolutionAPIError = cleanSolutionDeleteAPIError
+   }
+
+   @action.bound
+   deleteCleanSolution(
+      codingProblemId,
+      cleanSolutionId,
+      onSuccessDeleteCleanSolution,
+      onFailureDeleteCleanSolution
+   ) {
+      const cleanSolutionPromise = this.codingProblemsAPIService.deleteCleanSolutionAPI(
+         codingProblemId,
+         cleanSolutionId
+      )
+      return bindPromiseWithOnSuccess(cleanSolutionPromise)
+         .to(this.setCleanSolutionDeleteAPIStatus, () => {
+            onSuccessDeleteCleanSolution()
+         })
+         .catch(error => {
+            this.setCleanSolutionDeleteAPIError(error)
+            onFailureDeleteCleanSolution()
          })
    }
 
@@ -281,8 +349,8 @@ class CodingProblemsStore {
             onSuccessPostHint()
          })
          .catch(error => {
-            onFailurePostHint()
             this.setHintAPIError(error)
+            onFailurePostHint()
          })
    }
 
@@ -312,8 +380,8 @@ class CodingProblemsStore {
             onSuccessDeleteHint()
          })
          .catch(error => {
-            onFailureDeleteHint()
             this.setHintDeleteAPIError(error)
+            onFailureDeleteHint()
          })
    }
 

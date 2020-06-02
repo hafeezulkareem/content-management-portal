@@ -1,0 +1,11 @@
+{
+   "question_id": 0,
+   "clean_solutions": [
+      {
+         "language": "C++",
+         "solution_content": "#include <stdio.h>",
+         "file_name": "sample.cpp",
+         "clean_solution_id": 0
+      }
+   ]
+}

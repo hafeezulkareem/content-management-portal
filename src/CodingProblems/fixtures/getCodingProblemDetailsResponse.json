@@ -40,8 +40,26 @@
       }
    ],
    "prefilled_codes": [],
-   "solution_approach": {},
-   "clean_solutions": [],
+   "solution_approach": {
+      "solution_approach_id": 0,
+      "title": "This is title",
+      "description": {
+         "type": "MARKDOWN",
+         "content": "# Hello, Welcome to iBHubs"
+      },
+      "complexity_analysis": {
+         "type": "MARKDOWN",
+         "content": "# This is Complexity"
+      }
+   },
+   "clean_solutions": [
+      {
+         "language": "C++",
+         "solution_content": "#include <stdio.h>",
+         "file_name": "sample.cpp",
+         "clean_solution_id": 0
+      }
+   ],
    "hints": [
       {
          "hint_id": 1,

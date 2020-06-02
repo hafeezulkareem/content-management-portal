@@ -6,7 +6,7 @@ import colors from '../../../Common/themes/Colors'
 export const CodeEditorContainer = styled.div`
    border-color: ${colors.lightBlueGrey40};
    ${tw`
-        border border-solid rounded-sm relative
+        mb-3 border border-solid rounded-sm relative
     `}
 `
 
@@ -18,7 +18,7 @@ export const HeaderContainer = styled.div`
 
 export const DeleteIcon = styled.img`
    ${tw`
-        ml-2
+        ml-2 cursor-pointer
     `}
 `
 

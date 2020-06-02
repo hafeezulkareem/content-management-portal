@@ -26,6 +26,7 @@ import {
 
 type SolutionApproachProps = {
    codingProblemsStore: any
+   solutionApproach: any
    onSelectTab: any
    currentTabIndex: number
 }
@@ -65,6 +66,18 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
       this.titleErrorMessage = null
       this.descriptionErrorMessage = null
       this.complexityAnalysisErrorMessage = null
+   }
+
+   componentDidMount() {
+      const {
+         solutionApproach,
+         codingProblemsStore: { codingProblemId }
+      } = this.props
+      if (codingProblemId) {
+         this.title = solutionApproach.title
+         this.description = { ...solutionApproach.description }
+         this.complexityAnalysis = { ...solutionApproach.complexityAnalysis }
+      }
    }
 
    renderPreviewer = () => {

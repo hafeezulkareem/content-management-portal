@@ -462,6 +462,143 @@ describe('CodingProblemsStore tests', () => {
       expect(codingProblemsStore.deleteTestCaseAPIStatus).toBe(API_SUCCESS)
    })
 
+   it('should test PostCleanSolutionAPI initial state', () => {
+      expect(codingProblemsStore.postCleanSolutionAPIStatus).toBe(API_INITIAL)
+      expect(codingProblemsStore.postCleanSolutionAPIError).toBe(null)
+   })
+
+   it('should test PostCleanSolutionAPI posting state', () => {
+      const mockLoadingPromise = new Promise(() => {})
+      codingProblemsAPI.postCleanSolutionAPI = jest.fn(() => {
+         return mockLoadingPromise
+      })
+
+      const mockSuccessFunction = jest.fn()
+      const mockFailureFunction = jest.fn()
+
+      codingProblemsStore.postCleanSolution(
+         {},
+         mockSuccessFunction,
+         mockFailureFunction
+      )
+
+      expect(codingProblemsStore.postCleanSolutionAPIStatus).toBe(API_FETCHING)
+   })
+
+   it('should test PostCleanSolutionAPI failure state', async () => {
+      const mockFailurePromise = new Promise((_, reject) => {
+         reject(new Error('Something went wrong!'))
+      })
+      codingProblemsAPI.postCleanSolutionAPI = jest.fn(() => {
+         return mockFailurePromise
+      })
+
+      const mockSuccessFunction = jest.fn()
+      const mockFailureFunction = jest.fn()
+
+      await codingProblemsStore.postCleanSolution(
+         {},
+         mockSuccessFunction,
+         mockFailureFunction
+      )
+
+      expect(codingProblemsStore.postCleanSolutionAPIStatus).toBe(API_FAILED)
+      expect(codingProblemsStore.postCleanSolutionAPIError).toBe(
+         'Something went wrong!'
+      )
+   })
+
+   it('should test PostCleanSolutionAPI success state', async () => {
+      const mockSuccessPromise = new Promise(resolve => {
+         resolve()
+      })
+      codingProblemsAPI.postCleanSolutionAPI = jest.fn(() => {
+         return mockSuccessPromise
+      })
+
+      const mockSuccessFunction = jest.fn()
+      const mockFailureFunction = jest.fn()
+
+      await codingProblemsStore.postCleanSolution(
+         {},
+         mockSuccessFunction,
+         mockFailureFunction
+      )
+
+      expect(codingProblemsStore.postCleanSolutionAPIStatus).toBe(API_SUCCESS)
+   })
+
+   it('should test DeleteCleanSolutionAPI initial state', () => {
+      expect(codingProblemsStore.deleteCleanSolutionAPIStatus).toBe(API_INITIAL)
+      expect(codingProblemsStore.deleteCleanSolutionAPIError).toBe(null)
+   })
+
+   it('should test DeleteHintAPI deleting state', () => {
+      const mockDeletingPromise = new Promise(() => {})
+      codingProblemsAPI.deleteCleanSolutionAPI = jest.fn(() => {
+         return mockDeletingPromise
+      })
+
+      const mockSuccessFunction = jest.fn()
+      const mockFailureFunction = jest.fn()
+
+      codingProblemsStore.deleteCleanSolution(
+         0,
+         0,
+         mockSuccessFunction,
+         mockFailureFunction
+      )
+
+      expect(codingProblemsStore.deleteCleanSolutionAPIStatus).toBe(
+         API_FETCHING
+      )
+   })
+
+   it('should test DeleteCleanSolutionAPI failure state', async () => {
+      const mockFailurePromise = new Promise((_, reject) => {
+         reject(new Error('Error while deleting'))
+      })
+      codingProblemsAPI.deleteCleanSolutionAPI = jest.fn(() => {
+         return mockFailurePromise
+      })
+
+      const mockSuccessFunction = jest.fn()
+      const mockFailureFunction = jest.fn()
+
+      await codingProblemsStore.deleteCleanSolution(
+         0,
+         0,
+         mockSuccessFunction,
+         mockFailureFunction
+      )
+
+      expect(codingProblemsStore.deleteCleanSolutionAPIStatus).toBe(API_FAILED)
+      expect(codingProblemsStore.deleteCleanSolutionAPIError).toBe(
+         'Error while deleting'
+      )
+   })
+
+   it('should test DeleteCleanSolutionAPI success state', async () => {
+      const mockSuccessPromise = new Promise(resolve => {
+         resolve('Deleted successfully')
+      })
+      codingProblemsAPI.deleteCleanSolutionAPI = jest.fn(() => {
+         return mockSuccessPromise
+      })
+
+      const mockSuccessFunction = jest.fn()
+      const mockFailureFunction = jest.fn()
+
+      await codingProblemsStore.deleteCleanSolution(
+         0,
+         0,
+         mockSuccessFunction,
+         mockFailureFunction
+      )
+
+      expect(codingProblemsStore.deleteCleanSolutionAPIStatus).toBe(API_SUCCESS)
+   })
+
    it('should test PostHintAPI initial state', () => {
       expect(codingProblemsStore.postHintAPIStatus).toBe(API_INITIAL)
       expect(codingProblemsStore.postHintAPIError).toBe(null)

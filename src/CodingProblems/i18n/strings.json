@@ -39,6 +39,11 @@
          "complexityAnalysisError": "Complexity Analysis is required"
       }
    },
+   "cleanSolution": {
+      "errors": {
+         "fillAllTheFields": "Fill all the fields"
+      }
+   },
    "hints": {
       "hints": "HINTS",
       "title": "TITLE",

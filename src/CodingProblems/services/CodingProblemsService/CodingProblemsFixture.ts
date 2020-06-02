@@ -2,6 +2,7 @@ import problemStatementResponse from '../../fixtures/postProblemStatementRespons
 import problemRoughSolutionResponse from '../../fixtures/postProblemRoughSolutionResponse.json'
 import problemTestCaseResponse from '../../fixtures/postProblemTestCaseResponse.json'
 import problemSolutionApproachResponse from '../../fixtures/postProblemSolutionApproachResponse.json'
+import problemCleanSolutionResponse from '../../fixtures/postProblemCleanSolutionResponse.json'
 import problemHintResponse from '../../fixtures/postProblemHintResponse.json'
 import codingProblemsResponse from '../../fixtures/getCodingProblemsResponse.json'
 import codingProblemDetailsResponse from '../../fixtures/getCodingProblemDetailsResponse.json'
@@ -51,6 +52,16 @@ class CodingProblemsFixture {
       return new Promise(resolve => {
          resolve('Deleted successfully')
       })
+   }
+
+   postCleanSolutionAPI() {
+      return new Promise(resolve => resolve(problemCleanSolutionResponse))
+   }
+
+   deleteCleanSolutionAPI() {
+      return new Promise(resolve =>
+         resolve('Clean solution deleted successfully')
+      )
    }
 
    getCodingProblemsAPI(codingProblemsOffset) {

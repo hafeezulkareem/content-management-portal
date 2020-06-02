@@ -46,6 +46,14 @@ class CodingProblemsAPI {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.post)
    }
 
+   postCleanSolutionAPI(cleanSolutionData) {
+      return networkCallWithApisauce(this.api, '', {}, apiMethods.post)
+   }
+
+   deleteCleanSolutionAPI(codingProblemId, cleanSolutionId) {
+      return networkCallWithApisauce(this.api, '', {}, apiMethods.delete)
+   }
+
    postHintAPI(hintData) {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.post)
    }

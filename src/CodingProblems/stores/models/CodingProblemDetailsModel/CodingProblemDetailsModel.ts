@@ -2,6 +2,8 @@ import { observable } from 'mobx'
 import { StatementModel } from '../StatementModel'
 import { RoughSolutionModel } from '../RoughSolutionModel'
 import { TestCaseModel } from '../TestCaseModel'
+import { SolutionApproachModel } from '../SolutionApproachModel'
+import { CleanSolutionModel } from '../CleanSolutionModel'
 import { HintModel } from '../HintModel'
 
 class CodingProblemDetailsModel {
@@ -9,6 +11,8 @@ class CodingProblemDetailsModel {
    @observable statement: StatementModel
    @observable roughSolutions: Array<RoughSolutionModel>
    @observable testCases: Array<TestCaseModel>
+   @observable solutionApproach: SolutionApproachModel
+   @observable cleanSolutions: Array<CleanSolutionModel>
    @observable hints: Array<HintModel>
 
    constructor(codingProblemDetails) {
@@ -21,6 +25,15 @@ class CodingProblemDetailsModel {
          const uniqueId = Math.random().toString()
          return new TestCaseModel({ uniqueId, testCaseDetails })
       })
+      this.solutionApproach = new SolutionApproachModel(
+         codingProblemDetails.solution_approach
+      )
+      this.cleanSolutions = codingProblemDetails.clean_solutions.map(
+         cleanSolutionDetails => {
+            const uniqueId = Math.random().toString()
+            return new CleanSolutionModel({ uniqueId, cleanSolutionDetails })
+         }
+      )
       this.hints = codingProblemDetails.hints.map((hintDetails, index) => {
          const uniqueId = Math.random().toString()
          return new HintModel({ uniqueId, number: index + 1, hintDetails })

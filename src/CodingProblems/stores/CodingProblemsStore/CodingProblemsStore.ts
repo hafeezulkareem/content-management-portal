@@ -16,6 +16,10 @@ class CodingProblemsStore {
    @observable postTestCaseAPIError
    @observable deleteTestCaseAPIStatus
    @observable deleteTestCaseAPIError
+   @observable postPrefilledCodeAPIStatus
+   @observable postPrefilledCodeAPIError
+   @observable deletePrefilledCodeAPIStatus
+   @observable deletePrefilledCodeAPIError
    @observable postSolutionApproachAPIStatus
    @observable postSolutionApproachAPIError
    @observable postCleanSolutionAPIStatus
@@ -55,6 +59,10 @@ class CodingProblemsStore {
       this.postTestCaseAPIError = null
       this.deleteTestCaseAPIStatus = API_INITIAL
       this.deleteTestCaseAPIError = null
+      this.postPrefilledCodeAPIStatus = API_INITIAL
+      this.postPrefilledCodeAPIError = null
+      this.deletePrefilledCodeAPIStatus = API_INITIAL
+      this.deletePrefilledCodeAPIError = null
       this.postSolutionApproachAPIStatus = API_INITIAL
       this.postSolutionApproachAPIError = null
       this.postCleanSolutionAPIStatus = API_INITIAL
@@ -237,6 +245,66 @@ class CodingProblemsStore {
          .catch(error => {
             this.setTestCaseDeleteAPIError(error)
             onFailureTestCaseDelete()
+         })
+   }
+
+   @action.bound
+   setPrefilledCodePostAPIStatus(prefilledCodePostAPIStatus) {
+      this.postPrefilledCodeAPIStatus = prefilledCodePostAPIStatus
+   }
+
+   @action.bound
+   setPrefilledCodePostAPIError(prefilledCodePostAPIError) {
+      this.postPrefilledCodeAPIError = prefilledCodePostAPIError
+   }
+
+   @action.bound
+   postProblemPrefilledCode(
+      prefilledCodeData,
+      onSuccessPrefilledCodePost,
+      onFailurePrefilledCodePost
+   ) {
+      const prefilledCodePromise = this.codingProblemsAPIService.postPrefilledCodeAPI(
+         prefilledCodeData
+      )
+      return bindPromiseWithOnSuccess(prefilledCodePromise)
+         .to(this.setPrefilledCodePostAPIStatus, () => {
+            onSuccessPrefilledCodePost()
+         })
+         .catch(error => {
+            this.setPrefilledCodePostAPIError(error)
+            onFailurePrefilledCodePost()
+         })
+   }
+
+   @action.bound
+   setPrefilledCodeDeleteAPIStatus(prefilledCodeDeleteAPIStatus) {
+      this.deletePrefilledCodeAPIStatus = prefilledCodeDeleteAPIStatus
+   }
+
+   @action.bound
+   setPrefilledCodeDeleteAPIError(prefilledCodeDeleteAPIError) {
+      this.deletePrefilledCodeAPIError = prefilledCodeDeleteAPIError
+   }
+
+   @action.bound
+   deleteProblemPrefilledCode(
+      codingProblemId,
+      prefilledCodeId,
+      onSuccessPrefilledCodeDelete,
+      onFailurePrefilledCodeDelete
+   ) {
+      const prefilledCodePromise = this.codingProblemsAPIService.deletePrefilledCodeAPI(
+         codingProblemId,
+         prefilledCodeId
+      )
+      return bindPromiseWithOnSuccess(prefilledCodePromise)
+         .to(this.setPrefilledCodeDeleteAPIStatus, () => {
+            onSuccessPrefilledCodeDelete()
+         })
+         .catch(error => {
+            this.setPrefilledCodeDeleteAPIError(error)
+            onFailurePrefilledCodeDelete()
          })
    }
 

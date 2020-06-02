@@ -39,7 +39,20 @@
          "is_hidden": true
       }
    ],
-   "prefilled_codes": [],
+   "prefilled_codes": [
+      {
+         "language": "JAVA",
+         "solution_content": "System.out.println('Hell, World!');",
+         "file_name": "sample.java",
+         "prefilled_code_id": 0
+      },
+      {
+         "language": "Javascript",
+         "solution_content": "console.log('Hello, World!');",
+         "file_name": "sample.js",
+         "prefilled_code_id": 1
+      }
+   ],
    "solution_approach": {
       "solution_approach_id": 0,
       "title": "This is title",

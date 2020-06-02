@@ -22,6 +22,7 @@ type RoughSolutionProps = {
    updateDataStatus: any
    roughSolutions: any
    codingProblemId: number | null
+   tabName: string
 }
 
 @observer

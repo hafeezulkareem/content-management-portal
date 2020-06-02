@@ -42,6 +42,14 @@ class CodingProblemsAPI {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.delete)
    }
 
+   postPrefilledCodeAPI(preFilledData) {
+      return networkCallWithApisauce(this.api, '', {}, apiMethods.post)
+   }
+
+   deletePrefilledCodeAPI(codingProblemId, prefilledCodeId) {
+      return networkCallWithApisauce(this.api, '', {}, apiMethods.delete)
+   }
+
    postSolutionApproachAPI(solutionApproachData) {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.post)
    }

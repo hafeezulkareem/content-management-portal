@@ -45,7 +45,7 @@ type CreatingFlowProps = {
 
 @observer
 class CreatingFlow extends React.Component<CreatingFlowProps> {
-   @observable selectedTabIndex: number = 6
+   @observable selectedTabIndex: number = 1
    @observable tabDetails = [
       {
          tabIndex: 1,
@@ -130,6 +130,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
          statement,
          roughSolutions,
          testCases,
+         prefilledCodes,
          solutionApproach,
          cleanSolutions,
          hints
@@ -138,6 +139,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
          statement = codingProblemDetails.statement
          roughSolutions = codingProblemDetails.roughSolutions
          testCases = codingProblemDetails.testCases
+         prefilledCodes = codingProblemDetails.prefilledCodes
          solutionApproach = codingProblemDetails.solutionApproach
          cleanSolutions = codingProblemDetails.cleanSolutions
          hints = codingProblemDetails.hints
@@ -162,6 +164,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                         codingProblemId={codingProblemId}
                         roughSolutions={roughSolutions}
                         key={ROUGH_SOLUTION}
+                        tabName={ROUGH_SOLUTION}
                         codingProblemsStore={codingProblemsStore}
                         onSelectTab={this.onSelectTab}
                         currentTabIndex={this.selectedTabIndex}
@@ -187,8 +190,9 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                   <SectionWrapper>
                      <RoughSolution
                         codingProblemId={codingProblemId}
-                        roughSolutions={roughSolutions}
+                        roughSolutions={prefilledCodes}
                         key={PREFILLED_CODE}
+                        tabName={PREFILLED_CODE}
                         codingProblemsStore={codingProblemsStore}
                         onSelectTab={this.onSelectTab}
                         currentTabIndex={this.selectedTabIndex}

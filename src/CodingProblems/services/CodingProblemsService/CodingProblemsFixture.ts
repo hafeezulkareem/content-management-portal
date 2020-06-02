@@ -6,6 +6,7 @@ import problemCleanSolutionResponse from '../../fixtures/postProblemCleanSolutio
 import problemHintResponse from '../../fixtures/postProblemHintResponse.json'
 import codingProblemsResponse from '../../fixtures/getCodingProblemsResponse.json'
 import codingProblemDetailsResponse from '../../fixtures/getCodingProblemDetailsResponse.json'
+import { resolve } from 'dns'
 
 class CodingProblemsFixture {
    postProblemStatementAPI(dataObject) {
@@ -33,6 +34,18 @@ class CodingProblemsFixture {
    deleteTestCaseAPI() {
       return new Promise((resolve, _) => {
          resolve('Test case is deleted')
+      })
+   }
+
+   postPrefilledCodeAPI() {
+      return new Promise(resolve => {
+         resolve()
+      })
+   }
+
+   deletePrefilledCodeAPI() {
+      return new Promise(resolve => {
+         resolve('Prefilled code is deleted')
       })
    }
 

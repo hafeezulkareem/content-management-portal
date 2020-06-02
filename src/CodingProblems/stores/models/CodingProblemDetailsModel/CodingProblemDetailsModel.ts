@@ -11,6 +11,7 @@ class CodingProblemDetailsModel {
    @observable statement: StatementModel
    @observable roughSolutions: Array<RoughSolutionModel>
    @observable testCases: Array<TestCaseModel>
+   @observable prefilledCodes: Array<RoughSolutionModel>
    @observable solutionApproach: SolutionApproachModel
    @observable cleanSolutions: Array<CleanSolutionModel>
    @observable hints: Array<HintModel>
@@ -25,6 +26,9 @@ class CodingProblemDetailsModel {
          const uniqueId = Math.random().toString()
          return new TestCaseModel({ uniqueId, testCaseDetails })
       })
+      this.prefilledCodes = codingProblemDetails.prefilled_codes.map(
+         preFilledCode => new RoughSolutionModel(preFilledCode)
+      )
       this.solutionApproach = new SolutionApproachModel(
          codingProblemDetails.solution_approach
       )

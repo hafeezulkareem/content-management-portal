@@ -196,6 +196,7 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
             )}
             {codeEditors.map(codeEditor => (
                <CleanSolutionCodeEditor
+                  key={codeEditor.uniqueId}
                   uniqueId={codeEditor.uniqueId}
                   fileName={codeEditor.fileName}
                   onChangeFileName={this.onChangeFileName}

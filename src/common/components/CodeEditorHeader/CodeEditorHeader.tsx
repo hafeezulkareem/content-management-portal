@@ -12,8 +12,7 @@ import {
    HeaderContainer,
    HeaderRightSection,
    HeaderLeftSection,
-   DeleteIcon,
-   EditIcon
+   DeleteIcon
 } from './styledComponents'
 
 type CodeEditorHeaderProps = {
@@ -67,7 +66,6 @@ class CodeEditorHeader extends React.Component<CodeEditorHeaderProps> {
                   alt='Delete Icon'
                   src={images.delete}
                />
-               <EditIcon alt='Edit Icon' src={images.edit} />
             </HeaderRightSection>
          </HeaderContainer>
       )

@@ -2,7 +2,6 @@ import React from 'react'
 
 import { TextEditorHeader } from '../TextEditorHeader'
 import { ContentEditor } from '../ContentEditor'
-import { TextEditorFooter } from '../TextEditorFooter'
 
 import { TextEditorContainer } from './styledComponents'
 
@@ -10,7 +9,6 @@ type TextEditorProps = {
    text: string
    textType: string
    onChangeDescription: any
-   onClickAttachFileButton: () => void
    onChangeTextType: any
 }
 
@@ -19,7 +17,6 @@ class TextEditor extends React.Component<TextEditorProps> {
       const {
          text,
          textType,
-         onClickAttachFileButton,
          onChangeDescription,
          onChangeTextType
       } = this.props
@@ -33,9 +30,6 @@ class TextEditor extends React.Component<TextEditorProps> {
                contentType={textType}
                content={text}
                onChangeContent={onChangeDescription}
-            />
-            <TextEditorFooter
-               onClickAttachFileButton={onClickAttachFileButton}
             />
          </TextEditorContainer>
       )

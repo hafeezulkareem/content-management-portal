@@ -12,9 +12,3 @@ export const HeaderSection = styled.div`
         flex justify-end
     `}
 `
-
-export const DeleteIcon = styled.img`
-   ${tw`
-        cursor-pointer ml-4
-    `}
-`

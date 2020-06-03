@@ -9,9 +9,15 @@ export const RoughSolutionContainer = styled.div`
     `}
 `
 
+export const RoughSolutionsWrapper = styled.div`
+   ${tw`
+        self-center
+    `}
+`
+
 export const CodeEditorsContainer = styled.div`
    ${tw`
-        w-2/4
+        w-full
     `}
 `
 

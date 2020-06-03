@@ -2,11 +2,10 @@ import React from 'react'
 import { observer } from 'mobx-react'
 
 import i18n from '../../i18n/strings.json'
-import images from '../../themes/Images'
 
 import { DropDown } from '../DropDown'
 
-import { HeaderContainer, HeaderSection, DeleteIcon } from './styledComponents'
+import { HeaderContainer, HeaderSection } from './styledComponents'
 
 type TextEditorHeaderProps = {
    onChangeTextType: any
@@ -27,7 +26,6 @@ class TextEditorHeader extends React.Component<TextEditorHeaderProps> {
                   onChangeType={onChangeTextType}
                   selectedOption={selectedOption}
                />
-               <DeleteIcon alt='Delete Icon' src={images.delete} />
             </HeaderSection>
          </HeaderContainer>
       )

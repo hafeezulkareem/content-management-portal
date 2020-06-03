@@ -13,7 +13,9 @@ import { AddAndSaveButtons } from '../AddAndSaveButtons'
 import {
    RoughSolutionContainer,
    ErrorMessage,
-   RoughSolutionsError
+   RoughSolutionsError,
+   CodeEditorsContainer,
+   RoughSolutionsWrapper
 } from './styledComponents'
 
 type RoughSolutionProps = {
@@ -280,11 +282,15 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
                   {this.deleteRoughSolutionError}
                </RoughSolutionsError>
             )}
-            {this.renderCodeEditors()}
-            <AddAndSaveButtons
-               onClickAddButton={this.onClickAddButton}
-               onClickSaveButton={this.onClickSaveButton}
-            />
+            <RoughSolutionsWrapper>
+               <CodeEditorsContainer>
+                  {this.renderCodeEditors()}
+               </CodeEditorsContainer>
+               <AddAndSaveButtons
+                  onClickAddButton={this.onClickAddButton}
+                  onClickSaveButton={this.onClickSaveButton}
+               />
+            </RoughSolutionsWrapper>
          </RoughSolutionContainer>
       )
    }

@@ -168,7 +168,6 @@ class Statement extends React.Component<StatementProps> {
                         text={this.text}
                         textType={this.textType}
                         onChangeDescription={this.onChangeDescription}
-                        onClickAttachFileButton={() => {}}
                         onChangeTextType={this.onChangeTextType}
                      />
                      {this.descriptionError && (

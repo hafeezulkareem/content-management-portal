@@ -21,12 +21,6 @@ export const HeaderRightSection = styled.div`
 
 export const DeleteIcon = styled.img`
    ${tw`
-        mx-4 cursor-pointer
-    `}
-`
-
-export const EditIcon = styled.img`
-   ${tw`
-        cursor-pointer
+        ml-4 cursor-pointer
     `}
 `

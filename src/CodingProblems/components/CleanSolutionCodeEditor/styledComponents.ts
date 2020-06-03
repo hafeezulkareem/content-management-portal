@@ -23,7 +23,7 @@ export const DeleteIcon = styled.img`
 `
 
 export const EditorContainer = styled.div`
-   height: 320px;
+   height: 275px;
    ${tw`
         w-full
     `}

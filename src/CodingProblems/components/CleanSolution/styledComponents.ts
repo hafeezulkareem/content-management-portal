@@ -6,7 +6,7 @@ import colors from '../../../Common/themes/Colors'
 export const CleanSolutionContainer = styled.div`
    width: 625px;
    ${tw`
-        flex flex-col
+        flex flex-col mx-auto
     `}
 `
 export const ErrorMessage = styled.p`

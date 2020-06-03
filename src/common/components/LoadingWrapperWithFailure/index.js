@@ -17,7 +17,7 @@ class LoadingWrapperWithFailure extends React.Component {
          onRetryClick,
          apiError
       } = this.props
-      // const errorMessage = getUserDisplayableErrorMessage(apiError)
+      const errorMessage = getUserDisplayableErrorMessage(apiError)
 
       switch (apiStatus) {
          case API_FETCHING:
@@ -28,7 +28,7 @@ class LoadingWrapperWithFailure extends React.Component {
             return (
                <FailureView
                   onRetryClick={onRetryClick}
-                  errorMessage={apiError}
+                  errorMessage={errorMessage}
                />
             )
          default:

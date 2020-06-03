@@ -76,15 +76,21 @@
    "hints": [
       {
          "hint_id": 1,
+         "hint_number": 1,
          "title": "Sample title",
-         "description": "This is for testing purpose",
-         "order": 1
+         "description": {
+            "content": "This is for testing purpose",
+            "content_type": "HTML"
+         }
       },
       {
          "hint_id": 2,
+         "hint_number": 2,
          "title": "print(1)",
-         "description": "1",
-         "order": 4
+         "description": {
+            "content": "# This is description",
+            "content_type": "MARKDOWN"
+         }
       }
    ]
 }

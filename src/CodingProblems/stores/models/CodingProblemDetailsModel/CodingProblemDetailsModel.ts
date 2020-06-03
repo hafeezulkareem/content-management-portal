@@ -41,7 +41,7 @@ class CodingProblemDetailsModel {
       )
       this.hints = codingProblemDetails.hints.map((hintDetails, index) => {
          const uniqueId = Math.random().toString()
-         return new HintModel({ uniqueId, number: index + 1, hintDetails })
+         return new HintModel({ uniqueId, hintDetails })
       })
    }
 }

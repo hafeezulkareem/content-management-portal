@@ -6,16 +6,18 @@ class HintModel {
    @observable number
    @observable title
    @observable description
-   @observable order
    @observable isActive
 
-   constructor({ uniqueId, number, hintDetails }) {
+   constructor({ uniqueId, hintDetails }) {
       this.uniqueId = uniqueId
       this.id = hintDetails.hint_id
+      this.number = hintDetails.hint_number
       this.title = hintDetails.title
-      this.description = hintDetails.description
-      this.order = hintDetails.order
-      this.number = number
+      this.description = {
+         content: hintDetails.description.content,
+         contentType: hintDetails.description.content_type
+      }
+      this.isActive = true
    }
 
    updateNumber(updatedNumber) {

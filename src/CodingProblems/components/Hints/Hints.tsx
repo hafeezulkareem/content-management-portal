@@ -2,9 +2,10 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { observable, ObservableMap } from 'mobx'
 
+import commonI18n from '../../../Common/i18n/strings.json'
+
 import { HintModel } from '../../stores/models/HintModel'
 import i18n from '../../i18n/strings.json'
-import { NUMBER_REGEX } from '../../constants/RegexConstants'
 
 import { TestCasesAndHintsNavigation } from '../TestCasesAndHintsNavigation'
 import { HintsContentSection } from '../HintsContentSection'
@@ -20,10 +21,8 @@ type HintsProps = {
 @observer
 class Hints extends React.Component<HintsProps> {
    @observable hintsList!: ObservableMap<any, any>
-   codingProblemId!: number | null
    @observable titleErrorMessage!: string | null
    @observable descriptionErrorMessage!: string | null
-   @observable orderErrorMessage!: string | null
    currentHintNumber!: number
    currentDeletingHintUniqueId!: number | null
 
@@ -35,7 +34,6 @@ class Hints extends React.Component<HintsProps> {
    init = () => {
       this.hintsList = new ObservableMap(new Map())
       this.currentHintNumber = 0
-      this.codingProblemId = null
       this.currentDeletingHintUniqueId = null
       this.initErrors()
    }
@@ -43,21 +41,25 @@ class Hints extends React.Component<HintsProps> {
    initErrors = () => {
       this.titleErrorMessage = null
       this.descriptionErrorMessage = null
-      this.orderErrorMessage = null
+   }
+
+   setHintsDataToList = hints => {
+      hints.forEach(hint => {
+         this.hintsList.set(hint.uniqueId, hint)
+      })
+      this.toggleActiveStates(hints[0].uniqueId)
+      this.currentHintNumber = hints.length
    }
 
    componentDidMount() {
       const {
          hints,
-         codingProblemsStore: { codingProblemId }
+         codingProblemsStore: { postHintAPIResponses }
       } = this.props
-      if (hints) {
-         this.codingProblemId = codingProblemId
-         hints.forEach(hint => {
-            this.hintsList.set(hint.uniqueId, hint)
-         })
-         this.toggleActiveStates(hints[0].uniqueId)
-         this.currentHintNumber = hints.length
+      if (postHintAPIResponses.length > 0) {
+         this.setHintsDataToList(postHintAPIResponses)
+      } else if (hints) {
+         this.setHintsDataToList(hints)
       } else {
          this.generateNewHint()
       }
@@ -73,18 +75,21 @@ class Hints extends React.Component<HintsProps> {
    }
 
    generateNewHint = () => {
+      const { textEditorTypes } = commonI18n
       const uniqueId = Math.random().toString()
       this.currentHintNumber += 1
       this.hintsList.set(
          uniqueId,
          new HintModel({
             uniqueId,
-            number: this.currentHintNumber,
             hintDetails: {
                hint_id: null,
+               hint_number: this.currentHintNumber,
                title: '',
-               description: '',
-               order: ''
+               description: {
+                  content: '',
+                  content_type: textEditorTypes[0].value
+               }
             }
          })
       )
@@ -107,23 +112,13 @@ class Hints extends React.Component<HintsProps> {
 
    onChangeDescription = (event, uniqueId) => {
       const currentHint = this.hintsList.get(uniqueId)
-      currentHint.description = event.target.value
+      currentHint.description.content = event.target.value
       this.initErrors()
    }
 
-   onChangeOrder = (event, uniqueId) => {
-      const {
-         hints: { errors }
-      } = i18n
+   onChangeDescriptionType = (event, uniqueId) => {
       const currentHint = this.hintsList.get(uniqueId)
-      const updatedOrder = event.target.value
-      if (updatedOrder.match(NUMBER_REGEX) || updatedOrder === '') {
-         currentHint.order =
-            updatedOrder !== '' ? Number.parseInt(updatedOrder) : ''
-         this.initErrors()
-      } else {
-         this.orderErrorMessage = errors.orderInvalid
-      }
+      currentHint.description.contentType = event.target.value
    }
 
    onSuccessHintDelete = () => {
@@ -165,7 +160,8 @@ class Hints extends React.Component<HintsProps> {
    }
 
    checkTestCaseNumberAndDelete = uniqueId => {
-      if (this.codingProblemId) {
+      const { codingProblemsStore: codingProblemId } = this.props
+      if (codingProblemId) {
          const hints = Array.from(this.hintsList.values())
          const currentHintIndex = hints.findIndex(
             (hint: HintModel) => hint.uniqueId === uniqueId
@@ -174,7 +170,7 @@ class Hints extends React.Component<HintsProps> {
             codingProblemsStore: { deleteProblemHint }
          } = this.props
          deleteProblemHint(
-            this.codingProblemId,
+            codingProblemId,
             hints[currentHintIndex].id,
             this.onSuccessHintDelete,
             this.onFailureHintDelete
@@ -194,14 +190,15 @@ class Hints extends React.Component<HintsProps> {
          hints: { errors }
       } = i18n
       const currentHint = this.hintsList.get(uniqueId)
-      if (!currentHint.title.trim()) {
+      const {
+         title,
+         description: { content }
+      } = currentHint
+      if (!title.trim()) {
          this.titleErrorMessage = errors.title
          return false
-      } else if (!currentHint.description.trim()) {
+      } else if (!content.trim()) {
          this.descriptionErrorMessage = errors.description
-         return false
-      } else if (!currentHint.order.toString().trim()) {
-         this.orderErrorMessage = errors.order
          return false
       }
       this.initErrors()
@@ -229,13 +226,25 @@ class Hints extends React.Component<HintsProps> {
          codingProblemsStore.postProblemHint(
             {
                hint_id: currentHint.id,
+               hint_number: currentHint.number,
                title: currentHint.title,
-               description: currentHint.description,
-               order: currentHint.order
+               description: {
+                  content: currentHint.description.content,
+                  content_type: currentHint.description.contentType
+               }
             },
             this.onSuccessPostHint,
             this.onFailurePostHint
          )
+         console.log('Hint Posting Data:- ', {
+            hint_id: currentHint.id,
+            hint_number: currentHint.number,
+            title: currentHint.title,
+            description: {
+               content: currentHint.description.content,
+               content_type: currentHint.description.contentType
+            }
+         })
       }
    }
 
@@ -253,16 +262,16 @@ class Hints extends React.Component<HintsProps> {
             {Array.from(this.hintsList.values()).map((hint: HintModel) =>
                hint.isActive ? (
                   <HintsContentSection
+                     key={hint.uniqueId}
                      uniqueId={hint.uniqueId}
                      title={hint.title}
                      onChangeTitle={this.onChangeTitle}
                      titleErrorMessage={this.titleErrorMessage}
-                     description={hint.description}
+                     descriptionType={hint.description.contentType}
+                     onChangeDescriptionType={this.onChangeDescriptionType}
+                     description={hint.description.content}
                      onChangeDescription={this.onChangeDescription}
                      descriptionErrorMessage={this.descriptionErrorMessage}
-                     order={hint.order}
-                     onChangeOrder={this.onChangeOrder}
-                     orderErrorMessage={this.orderErrorMessage}
                      onClickSaveButton={this.onClickSaveButton}
                   />
                ) : null

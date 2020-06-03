@@ -2,8 +2,11 @@
    "question_id": 0,
    "hint": {
       "hint_id": 1,
-      "title": "Sample title",
-      "description": "This is for the testing",
-      "order": 1
+      "hint_number": 1,
+      "title": "Testing title",
+      "description": {
+         "content": "# Testing alert...",
+         "content_type": "MARKDOWN"
+      }
    }
 }

@@ -9,6 +9,7 @@ import { RoughSolutionModel } from '../models/RoughSolutionModel'
 import { TestCaseModel } from '../models/TestCaseModel'
 import { SolutionApproachModel } from '../models/SolutionApproachModel'
 import { CleanSolutionModel } from '../models/CleanSolutionModel'
+import { HintModel } from '../models/HintModel'
 
 class CodingProblemsStore {
    @observable postStatementAPIStatus
@@ -39,6 +40,7 @@ class CodingProblemsStore {
    @observable deleteCleanSolutionAPIError
    @observable postHintAPIStatus
    @observable postHintAPIError
+   postHintAPIResponses
    @observable deleteHintAPIStatus
    @observable deleteHintAPIError
    @observable getCodingProblemsAPIStatus
@@ -105,6 +107,7 @@ class CodingProblemsStore {
       this.postPrefilledCodeAPIResponse = null
       this.postSolutionApproachAPIResponse = null
       this.postCleanSolutionAPIResponse = null
+      this.postHintAPIResponses = []
    }
 
    getRandomId() {
@@ -521,12 +524,40 @@ class CodingProblemsStore {
    }
 
    @action.bound
+   isHintAlreadyPresent(hintDetails) {
+      let isPresent = false
+      if (this.postHintAPIResponses.length > 0) {
+         this.postHintAPIResponses.forEach(hint => {
+            if (hint.number === hintDetails.hint_number) {
+               isPresent = true
+            }
+         })
+      }
+      return isPresent
+   }
+
+   @action.bound
+   setHintAPIResponse(hintAPIResponse) {
+      const { hint: hintDetails } = hintAPIResponse
+      if (hintDetails) {
+         if (!this.isHintAlreadyPresent(hintDetails)) {
+            const uniqueId = this.getRandomId()
+            this.postHintAPIResponses.push(
+               new HintModel({ uniqueId, hintDetails })
+            )
+         }
+      }
+      console.log('Hint Post API Responses:- ', this.postHintAPIResponses)
+   }
+
+   @action.bound
    postProblemHint(hintData, onSuccessPostHint, onFailurePostHint) {
       const hintPostPromise = this.codingProblemsAPIService.postHintAPI(
          hintData
       )
       return bindPromiseWithOnSuccess(hintPostPromise)
          .to(this.setHintAPIStatus, response => {
+            this.setHintAPIResponse(response)
             onSuccessPostHint()
          })
          .catch(error => {

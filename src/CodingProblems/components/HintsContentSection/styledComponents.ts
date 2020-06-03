@@ -5,7 +5,7 @@ import colors from '../../../Common/themes/Colors'
 
 export const FormWithSaveButton = styled.div`
    ${tw`
-        w-2/5 flex flex-col mt-8 self-center
+        w-2/5 flex flex-col mt-4 self-center
     `}
 `
 
@@ -35,10 +35,23 @@ export const InputField = styled.input`
     `}
 `
 
+export const TextAreaHeader = styled.div`
+   ${tw`
+        flex justify-between items-center mt-4 mb-2
+    `}
+`
+
 export const TextArea = styled.textarea`
    border-color: ${colors.lightBlueGrey40};
    ${tw`
         h-32 border border-solid rounded-sm text-sm p-2 focus:outline-none resize-none
+    `}
+`
+
+export const DescriptionLabel = styled.span`
+   color: ${colors.steel};
+   ${tw`
+        text-sm
     `}
 `
 

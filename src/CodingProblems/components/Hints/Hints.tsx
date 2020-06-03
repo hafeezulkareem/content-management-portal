@@ -220,11 +220,28 @@ class Hints extends React.Component<HintsProps> {
    }
 
    onClickSaveButton = uniqueId => {
-      if (this.areAllFieldsFilled(uniqueId)) {
-         const currentHint = this.hintsList.get(uniqueId)
-         const { codingProblemsStore } = this.props
-         codingProblemsStore.postProblemHint(
-            {
+      const {
+         codingProblemsStore: { codingProblemId },
+         showToastMessage
+      } = this.props
+      if (codingProblemId !== null) {
+         if (this.areAllFieldsFilled(uniqueId)) {
+            const currentHint = this.hintsList.get(uniqueId)
+            const { codingProblemsStore } = this.props
+            codingProblemsStore.postProblemHint(
+               {
+                  hint_id: currentHint.id,
+                  hint_number: currentHint.number,
+                  title: currentHint.title,
+                  description: {
+                     content: currentHint.description.content,
+                     content_type: currentHint.description.contentType
+                  }
+               },
+               this.onSuccessPostHint,
+               this.onFailurePostHint
+            )
+            console.log('Hint Posting Data:- ', {
                hint_id: currentHint.id,
                hint_number: currentHint.number,
                title: currentHint.title,
@@ -232,19 +249,11 @@ class Hints extends React.Component<HintsProps> {
                   content: currentHint.description.content,
                   content_type: currentHint.description.contentType
                }
-            },
-            this.onSuccessPostHint,
-            this.onFailurePostHint
-         )
-         console.log('Hint Posting Data:- ', {
-            hint_id: currentHint.id,
-            hint_number: currentHint.number,
-            title: currentHint.title,
-            description: {
-               content: currentHint.description.content,
-               content_type: currentHint.description.contentType
-            }
-         })
+            })
+         }
+      } else {
+         const { firstCreateTheStatement } = i18n
+         showToastMessage(firstCreateTheStatement, true, 1500, () => {})
       }
    }
 

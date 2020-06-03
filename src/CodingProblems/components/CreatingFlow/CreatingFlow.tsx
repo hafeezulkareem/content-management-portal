@@ -104,6 +104,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
    componentWillUnmount() {
       const { codingProblemsStore } = this.props
       codingProblemsStore.codingProblemDetails = undefined
+      codingProblemsStore.codingProblemId = null
       codingProblemsStore.initCodingProblemResponses()
    }
 

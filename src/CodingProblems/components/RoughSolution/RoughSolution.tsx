@@ -283,12 +283,21 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    }
 
    onClickSaveButton = () => {
-      let roughSolutions
-      if (this.codeEditorsList.size !== 0) {
-         roughSolutions = this.prepareRoughSolutionsData()
-      }
-      if (!this.errorMessage) {
-         this.postRoughSolutions(roughSolutions)
+      const {
+         codingProblemsStore: { codingProblemId },
+         showToastMessage
+      } = this.props
+      if (codingProblemId !== null) {
+         let roughSolutions
+         if (this.codeEditorsList.size !== 0) {
+            roughSolutions = this.prepareRoughSolutionsData()
+         }
+         if (!this.errorMessage) {
+            this.postRoughSolutions(roughSolutions)
+         }
+      } else {
+         const { firstCreateTheStatement } = i18n
+         showToastMessage(firstCreateTheStatement, true, 1500, () => {})
       }
    }
 

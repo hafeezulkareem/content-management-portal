@@ -82,5 +82,6 @@
    },
    "addCodingQuestions": "Add Coding Questions",
    "create": "create",
-   "codeEditor": "code editor"
+   "codeEditor": "code editor",
+   "firstCreateTheStatement": "First create the statement"
 }

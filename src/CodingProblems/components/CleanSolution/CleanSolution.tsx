@@ -52,7 +52,6 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
          cleanSolutions,
          codingProblemsStore: { postCleanSolutionAPIResponse }
       } = this.props
-      console.log(postCleanSolutionAPIResponse)
       if (postCleanSolutionAPIResponse) {
          this.setCleanSolutionDataToList(postCleanSolutionAPIResponse)
       } else if (cleanSolutions) {
@@ -212,12 +211,21 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
    }
 
    onClickSaveButton = () => {
-      let cleanSolutions
-      if (this.codeEditorsList.size !== 0) {
-         cleanSolutions = this.prepareCleanSolutionsData()
-      }
-      if (!this.errorMessage) {
-         this.postCleanSolutions(cleanSolutions)
+      const {
+         codingProblemsStore: { codingProblemId },
+         showToastMessage
+      } = this.props
+      if (codingProblemId !== null) {
+         let cleanSolutions
+         if (this.codeEditorsList.size !== 0) {
+            cleanSolutions = this.prepareCleanSolutionsData()
+         }
+         if (!this.errorMessage) {
+            this.postCleanSolutions(cleanSolutions)
+         }
+      } else {
+         const { firstCreateTheStatement } = i18n
+         showToastMessage(firstCreateTheStatement, true, 1500, () => {})
       }
    }
 

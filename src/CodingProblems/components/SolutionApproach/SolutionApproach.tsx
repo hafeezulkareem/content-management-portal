@@ -188,20 +188,29 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
    }
 
    onClickSaveButton = () => {
-      if (this.areAllFieldsFilled()) {
-         const solutionApproachData = {
-            solution_approach_id: this.solutionApproachId,
-            title: this.title,
-            description: {
-               type: this.description.type,
-               content: this.description.content
-            },
-            complexity_analysis: {
-               type: this.complexityAnalysis.type,
-               content: this.complexityAnalysis.content
+      const {
+         codingProblemsStore: { codingProblemId },
+         showToastMessage
+      } = this.props
+      if (codingProblemId !== null) {
+         if (this.areAllFieldsFilled()) {
+            const solutionApproachData = {
+               solution_approach_id: this.solutionApproachId,
+               title: this.title,
+               description: {
+                  type: this.description.type,
+                  content: this.description.content
+               },
+               complexity_analysis: {
+                  type: this.complexityAnalysis.type,
+                  content: this.complexityAnalysis.content
+               }
             }
+            this.postSolutionApproach(solutionApproachData)
          }
-         this.postSolutionApproach(solutionApproachData)
+      } else {
+         const { firstCreateTheStatement } = i18n
+         showToastMessage(firstCreateTheStatement, true, 1500, () => {})
       }
    }
 

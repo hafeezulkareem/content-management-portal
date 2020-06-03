@@ -244,29 +244,38 @@ class TestCases extends React.Component<TestCasesProps> {
    }
 
    onClickSaveButton = uniqueId => {
-      if (this.areAllFieldsFilled(uniqueId)) {
-         const currentTestCase = this.testCasesList.get(uniqueId)
-         const { codingProblemStore } = this.props
-         codingProblemStore.postProblemTestCase(
-            {
+      const {
+         codingProblemStore: { codingProblemId },
+         showToastMessage
+      } = this.props
+      if (codingProblemId !== null) {
+         if (this.areAllFieldsFilled(uniqueId)) {
+            const currentTestCase = this.testCasesList.get(uniqueId)
+            const { codingProblemStore } = this.props
+            codingProblemStore.postProblemTestCase(
+               {
+                  test_case_id: currentTestCase.id,
+                  test_case_number: currentTestCase.number,
+                  input: currentTestCase.input,
+                  output: currentTestCase.output,
+                  score: currentTestCase.score,
+                  is_hidden: currentTestCase.isHidden
+               },
+               this.onSuccessPostTestCase,
+               this.onFailurePostTestCase
+            )
+            console.log('Test Case Posting Data:- ', {
                test_case_id: currentTestCase.id,
                test_case_number: currentTestCase.number,
                input: currentTestCase.input,
                output: currentTestCase.output,
                score: currentTestCase.score,
                is_hidden: currentTestCase.isHidden
-            },
-            this.onSuccessPostTestCase,
-            this.onFailurePostTestCase
-         )
-         console.log('Test Case Posting Data:- ', {
-            test_case_id: currentTestCase.id,
-            test_case_number: currentTestCase.number,
-            input: currentTestCase.input,
-            output: currentTestCase.output,
-            score: currentTestCase.score,
-            is_hidden: currentTestCase.isHidden
-         })
+            })
+         }
+      } else {
+         const { firstCreateTheStatement } = i18n
+         showToastMessage(firstCreateTheStatement, true, 1500, () => {})
       }
    }
 

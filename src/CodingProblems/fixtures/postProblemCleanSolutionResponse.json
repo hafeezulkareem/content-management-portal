@@ -4,8 +4,14 @@
       {
          "language": "C++",
          "solution_content": "#include <stdio.h>",
-         "file_name": "sample.cpp",
+         "file_name": "testing.cpp",
          "clean_solution_id": 0
+      },
+      {
+         "language": "PYTHON",
+         "solution_content": "import math\n\ndef find_max(a, b):\n\treturn a if a > b else b\n\nprint(find_max(3,",
+         "file_name": "testing.py",
+         "clean_solution_id": 1
       }
    ]
 }

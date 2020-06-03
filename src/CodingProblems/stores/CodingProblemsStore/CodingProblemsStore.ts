@@ -1,29 +1,40 @@
-import { action, observable } from 'mobx'
+import { action, observable, toJS } from 'mobx'
 import { bindPromiseWithOnSuccess } from '@ib/mobx-promise'
 import { API_INITIAL } from '@ib/api-constants'
 
 import { CodingProblemItemModel } from '../models/CodingProblemItemModel'
 import { CodingProblemDetailsModel } from '../models/CodingProblemDetailsModel'
+import { StatementModel } from '../models/StatementModel'
+import { RoughSolutionModel } from '../models/RoughSolutionModel'
+import { TestCaseModel } from '../models/TestCaseModel'
+import { SolutionApproachModel } from '../models/SolutionApproachModel'
+import { CleanSolutionModel } from '../models/CleanSolutionModel'
 
 class CodingProblemsStore {
    @observable postStatementAPIStatus
    @observable postStatementAPIError
+   postStatementAPIResponse
    @observable postRoughSolutionAPIStatus
    @observable postRoughSolutionAPIError
+   postRoughSolutionAPIResponse
    @observable deleteRoughSolutionAPIStatus
    @observable deleteRoughSolutionAPIError
    @observable postTestCaseAPIStatus
    @observable postTestCaseAPIError
+   postTestCaseAPIResponses
    @observable deleteTestCaseAPIStatus
    @observable deleteTestCaseAPIError
    @observable postPrefilledCodeAPIStatus
    @observable postPrefilledCodeAPIError
+   postPrefilledCodeAPIResponse
    @observable deletePrefilledCodeAPIStatus
    @observable deletePrefilledCodeAPIError
    @observable postSolutionApproachAPIStatus
    @observable postSolutionApproachAPIError
+   postSolutionApproachAPIResponse
    @observable postCleanSolutionAPIStatus
    @observable postCleanSolutionAPIError
+   postCleanSolutionAPIResponse
    @observable deleteCleanSolutionAPIStatus
    @observable deleteCleanSolutionAPIError
    @observable postHintAPIStatus
@@ -83,6 +94,17 @@ class CodingProblemsStore {
       this.codingProblemId = null
       this.codingProblemsList = new Map()
       this.codingProblemDetails = undefined
+      this.initCodingProblemResponses()
+   }
+
+   @action.bound
+   initCodingProblemResponses() {
+      this.postStatementAPIResponse = null
+      this.postRoughSolutionAPIResponse = null
+      this.postTestCaseAPIResponses = []
+      this.postPrefilledCodeAPIResponse = null
+      this.postSolutionApproachAPIResponse = null
+      this.postCleanSolutionAPIResponse = null
    }
 
    getRandomId() {
@@ -101,8 +123,22 @@ class CodingProblemsStore {
 
    @action.bound
    setStatementAPIResponse(statementAPIResponse) {
-      const { question_id: questionId } = statementAPIResponse
-      this.codingProblemId = questionId
+      if (statementAPIResponse) {
+         const {
+            question_id: questionId,
+            short_text,
+            problem_description
+         } = statementAPIResponse
+         this.codingProblemId = questionId
+         this.postStatementAPIResponse = new StatementModel({
+            short_text,
+            problem_description
+         })
+      }
+      console.log(
+         'Statement Post Response:- ',
+         toJS(this.postStatementAPIResponse)
+      )
    }
 
    @action.bound
@@ -137,8 +173,18 @@ class CodingProblemsStore {
 
    @action.bound
    setRoughSolutionAPIResponse(roughSolutionAPIResponse) {
-      const { question_id: questionId } = roughSolutionAPIResponse[0]
-      this.codingProblemId = questionId
+      const { rough_solutions: roughSolutions } = roughSolutionAPIResponse
+      if (roughSolutions.length > 0) {
+         this.postRoughSolutionAPIResponse = [
+            ...roughSolutions.map(
+               roughSolution => new RoughSolutionModel(roughSolution)
+            )
+         ]
+      }
+      console.log(
+         'Rough Solutions Post Response:- ',
+         toJS(this.postRoughSolutionAPIResponse)
+      )
    }
 
    @action.bound
@@ -203,6 +249,31 @@ class CodingProblemsStore {
    }
 
    @action.bound
+   isTestCaseAlreadyPresent(testCaseDetails) {
+      let isPresent = false
+      if (this.postTestCaseAPIResponses.length > 0) {
+         this.postTestCaseAPIResponses.forEach(testCase => {
+            if (testCase.number === testCaseDetails.test_case_number) {
+               isPresent = true
+            }
+         })
+      }
+      return isPresent
+   }
+
+   @action.bound
+   setTestCaseAPIResponse(testCaseAPIResponse) {
+      const { test_case: testCaseDetails } = testCaseAPIResponse
+      if (!this.isTestCaseAlreadyPresent(testCaseDetails)) {
+         const uniqueId = this.getRandomId()
+         this.postTestCaseAPIResponses.push(
+            new TestCaseModel({ uniqueId, testCaseDetails })
+         )
+      }
+      console.log('Test Case Responses:- ', toJS(this.postTestCaseAPIResponses))
+   }
+
+   @action.bound
    postProblemTestCase(
       testCaseData,
       onSuccessPostTestCase,
@@ -210,7 +281,8 @@ class CodingProblemsStore {
    ) {
       const postProblemTestCasePromise = this.codingProblemsAPIService.postProblemTestCaseAPI()
       return bindPromiseWithOnSuccess(postProblemTestCasePromise)
-         .to(this.setTestCaseAPIStatus, () => {
+         .to(this.setTestCaseAPIStatus, response => {
+            this.setTestCaseAPIResponse(response)
             onSuccessPostTestCase()
          })
          .catch(error => {
@@ -259,6 +331,22 @@ class CodingProblemsStore {
    }
 
    @action.bound
+   setPrefilledCodeResponse(prefilledCodeResponse) {
+      const { prefilled_codes: prefilledCode } = prefilledCodeResponse
+      if (prefilledCode.length > 0) {
+         this.postPrefilledCodeAPIResponse = [
+            ...prefilledCode.map(
+               prefilledCode => new RoughSolutionModel(prefilledCode)
+            )
+         ]
+      }
+      console.log(
+         'Prefilled Codes Post Response:- ',
+         toJS(this.postPrefilledCodeAPIResponse)
+      )
+   }
+
+   @action.bound
    postProblemPrefilledCode(
       prefilledCodeData,
       onSuccessPrefilledCodePost,
@@ -268,7 +356,8 @@ class CodingProblemsStore {
          prefilledCodeData
       )
       return bindPromiseWithOnSuccess(prefilledCodePromise)
-         .to(this.setPrefilledCodePostAPIStatus, () => {
+         .to(this.setPrefilledCodePostAPIStatus, response => {
+            this.setPrefilledCodeResponse(response)
             onSuccessPrefilledCodePost()
          })
          .catch(error => {
@@ -319,6 +408,15 @@ class CodingProblemsStore {
    }
 
    @action.bound
+   setSolutionApproachAPIResponse(solutionApproachAPIResponse) {
+      if (solutionApproachAPIResponse) {
+         this.postSolutionApproachAPIResponse = new SolutionApproachModel(
+            solutionApproachAPIResponse
+         )
+      }
+   }
+
+   @action.bound
    postProblemSolutionApproach(
       solutionApproachData,
       onSuccessPostSolutionApproach,
@@ -328,7 +426,8 @@ class CodingProblemsStore {
          solutionApproachData
       )
       return bindPromiseWithOnSuccess(solutionApproachPostPromise)
-         .to(this.setSolutionApproachAPIStatus, () => {
+         .to(this.setSolutionApproachAPIStatus, response => {
+            this.setSolutionApproachAPIResponse(response)
             onSuccessPostSolutionApproach()
          })
          .catch(error => {
@@ -348,6 +447,19 @@ class CodingProblemsStore {
    }
 
    @action.bound
+   setCleanSolutionAPIResponse(cleanSolutionAPIResponse) {
+      const { clean_solutions: cleanSolutions } = cleanSolutionAPIResponse
+      if (cleanSolutions.length > 0) {
+         this.postCleanSolutionAPIResponse = [
+            ...cleanSolutions.map(cleanSolutionDetails => {
+               const uniqueId = this.getRandomId()
+               return new CleanSolutionModel({ uniqueId, cleanSolutionDetails })
+            })
+         ]
+      }
+   }
+
+   @action.bound
    postCleanSolution(
       cleanSolutionData,
       onSuccessPostCleanSolution,
@@ -357,7 +469,8 @@ class CodingProblemsStore {
          cleanSolutionData
       )
       return bindPromiseWithOnSuccess(cleanSolutionPromise)
-         .to(this.setCleanSolutionAPIStatus, () => {
+         .to(this.setCleanSolutionAPIStatus, response => {
+            this.setCleanSolutionAPIResponse(response)
             onSuccessPostCleanSolution()
          })
          .catch(error => {

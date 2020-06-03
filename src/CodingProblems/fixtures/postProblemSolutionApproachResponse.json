@@ -2,11 +2,11 @@
    "solution_approach_id": 0,
    "title": "This is title",
    "description": {
-      "type": "MARKDOWN",
+      "content_type": "MARKDOWN",
       "content": "# Hello, Welcome to iBHubs"
    },
    "complexity_analysis": {
-      "type": "MARKDOWN",
-      "content": "# This is Complexity"
+      "content_type": "MARKDOWN",
+      "content": "# This is not complex as you think"
    }
 }

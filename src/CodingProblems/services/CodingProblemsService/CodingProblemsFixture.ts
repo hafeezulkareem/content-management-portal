@@ -1,6 +1,7 @@
 import problemStatementResponse from '../../fixtures/postProblemStatementResponse.json'
 import problemRoughSolutionResponse from '../../fixtures/postProblemRoughSolutionResponse.json'
 import problemTestCaseResponse from '../../fixtures/postProblemTestCaseResponse.json'
+import problemPrefilledCodeResponse from '../../fixtures/postProblemPrefilledCodeResponse.json'
 import problemSolutionApproachResponse from '../../fixtures/postProblemSolutionApproachResponse.json'
 import problemCleanSolutionResponse from '../../fixtures/postProblemCleanSolutionResponse.json'
 import problemHintResponse from '../../fixtures/postProblemHintResponse.json'
@@ -36,7 +37,7 @@ class CodingProblemsFixture {
 
    postPrefilledCodeAPI() {
       return new Promise(resolve => {
-         resolve()
+         resolve(problemPrefilledCodeResponse)
       })
    }
 

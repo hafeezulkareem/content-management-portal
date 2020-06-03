@@ -1,5 +1,5 @@
 import React from 'react'
-import { observable } from 'mobx'
+import { observable, toJS } from 'mobx'
 import { observer } from 'mobx-react'
 
 import commonI18n from '../../../Common/i18n/strings.json'
@@ -41,7 +41,6 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
    @observable complexityAnalysis!: { type: string; content: string }
    @observable complexityAnalysisErrorMessage!: string | null
    @observable writingField!: string
-   codingProblemId
    solutionApproachId!: number | null
 
    constructor(props) {
@@ -61,7 +60,6 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
       }
       this.writingField = i18n.solutionApproach.description
       this.solutionApproachId = null
-      this.codingProblemId = null
       this.initErrors()
    }
 
@@ -71,16 +69,21 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
       this.complexityAnalysisErrorMessage = null
    }
 
+   setSolutionApproachData(solutionApproach) {
+      this.title = solutionApproach.title
+      this.description = { ...solutionApproach.description }
+      this.complexityAnalysis = { ...solutionApproach.complexityAnalysis }
+   }
+
    componentDidMount() {
       const {
          solutionApproach,
-         codingProblemsStore: { codingProblemId }
+         codingProblemsStore: { postSolutionApproachAPIResponse }
       } = this.props
-      if (solutionApproach) {
-         this.codingProblemId = codingProblemId
-         this.title = solutionApproach.title
-         this.description = { ...solutionApproach.description }
-         this.complexityAnalysis = { ...solutionApproach.complexityAnalysis }
+      if (postSolutionApproachAPIResponse) {
+         this.setSolutionApproachData(postSolutionApproachAPIResponse)
+      } else if (solutionApproach) {
+         this.setSolutionApproachData(solutionApproach)
       }
    }
 
@@ -148,13 +151,30 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
       return true
    }
 
-   onSuccessPostSolutionApproach = () => {
+   moveToNextTab = () => {
       this.init()
       const { onSelectTab, currentTabIndex } = this.props
       onSelectTab(currentTabIndex + 1)
    }
 
-   onFailurePostSolutionApproach = () => {}
+   onSuccessPostSolutionApproach = () => {
+      const { showToastMessage } = this.props
+      const { postSuccessMessages } = i18n
+      showToastMessage(
+         postSuccessMessages.solutionApproach,
+         false,
+         700,
+         this.moveToNextTab
+      )
+   }
+
+   onFailurePostSolutionApproach = () => {
+      const {
+         codingProblemsStore: { postSolutionApproachAPIError },
+         showToastMessage
+      } = this.props
+      showToastMessage(postSolutionApproachAPIError, true, 1500, () => {})
+   }
 
    postSolutionApproach = solutionApproachData => {
       const {
@@ -187,14 +207,8 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
 
    render() {
       const { solutionApproach } = i18n as any
-      const {
-         codingProblemsStore: { postSolutionApproachAPIError }
-      } = this.props
       return (
          <SolutionApproachContainer>
-            {postSolutionApproachAPIError && (
-               <ErrorMessage>{postSolutionApproachAPIError}</ErrorMessage>
-            )}
             <LeftAndRightSections>
                <SolutionApproachLeftSection>
                   <TextLabel>{solutionApproach.title}</TextLabel>

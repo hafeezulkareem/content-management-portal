@@ -6,7 +6,7 @@ import { CodeEditor } from '../../../Common/components/CodeEditor'
 
 import i18n from '../../i18n/strings.json'
 import { CodingEditorModel } from '../../stores/models/CodingEditorModel'
-import { ROUGH_SOLUTION } from '../../constants/TabConstants'
+import { ROUGH_SOLUTION, PREFILLED_CODE } from '../../constants/TabConstants'
 
 import { AddAndSaveButtons } from '../AddAndSaveButtons'
 
@@ -22,7 +22,6 @@ type RoughSolutionProps = {
    currentTabIndex: number
    updateDataStatus: any
    roughSolutions: any
-   codingProblemId: number | null
    tabName: string
    showToastMessage: any
 }
@@ -31,33 +30,47 @@ type RoughSolutionProps = {
 class RoughSolution extends React.Component<RoughSolutionProps> {
    @observable codeEditorsList: any = new Map()
    errorMessage!: string | null
-   codingProblemId: number | null
    currentCodeEditorId
    tabName
 
    constructor(props) {
       super(props)
       this.tabName = props.tabName
-      this.codingProblemId = null
+   }
+
+   setRoughSolutionDataToList = roughSolutions => {
+      roughSolutions.forEach(roughSolution => {
+         const randomId = this.getRandomId()
+         this.codeEditorsList.set(
+            randomId,
+            new CodingEditorModel({
+               id: randomId,
+               roughSolutionId: roughSolution.roughSolutionId,
+               programmingLanguage: roughSolution.language,
+               fileName: roughSolution.fileName,
+               content: roughSolution.solutionContent
+            })
+         )
+      })
    }
 
    componentDidMount() {
-      const { roughSolutions, codingProblemId } = this.props
-      if (roughSolutions) {
-         this.codingProblemId = codingProblemId
-         roughSolutions.forEach(roughSolution => {
-            const randomId = this.getRandomId()
-            this.codeEditorsList.set(
-               randomId,
-               new CodingEditorModel({
-                  id: randomId,
-                  roughSolutionId: roughSolution.roughSolutionId,
-                  programmingLanguage: roughSolution.language,
-                  fileName: roughSolution.fileName,
-                  content: roughSolution.solutionContent
-               })
-            )
-         })
+      const {
+         roughSolutions,
+         codingProblemsStore: {
+            postRoughSolutionAPIResponse,
+            postPrefilledCodeAPIResponse
+         }
+      } = this.props
+      if (this.tabName === ROUGH_SOLUTION && postRoughSolutionAPIResponse) {
+         this.setRoughSolutionDataToList(postRoughSolutionAPIResponse)
+      } else if (
+         this.tabName === PREFILLED_CODE &&
+         postPrefilledCodeAPIResponse
+      ) {
+         this.setRoughSolutionDataToList(postPrefilledCodeAPIResponse)
+      } else if (roughSolutions) {
+         this.setRoughSolutionDataToList(roughSolutions)
       } else {
          this.setNewCodeEditor()
       }
@@ -138,18 +151,26 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    }
 
    checkCodingProblemIdAndDelete = roughSolutionId => {
-      if (this.codingProblemId) {
-         const { codingProblemsStore } = this.props
+      const {
+         codingProblemsStore: { codingProblemId }
+      } = this.props
+      if (codingProblemId) {
+         const {
+            codingProblemsStore: {
+               deleteProblemRoughSolution,
+               deleteProblemPrefilledCode
+            }
+         } = this.props
          if (this.tabName === ROUGH_SOLUTION) {
-            codingProblemsStore.deleteProblemRoughSolution(
-               this.codingProblemId,
+            deleteProblemRoughSolution(
+               codingProblemId,
                roughSolutionId,
                this.onSuccessDeleteRoughSolution,
                this.onFailureDeleteRoughSolution
             )
          } else {
-            codingProblemsStore.deleteProblemPrefilledCode(
-               this.codingProblemId,
+            deleteProblemPrefilledCode(
+               codingProblemId,
                roughSolutionId,
                this.onSuccessDeleteRoughSolution,
                this.onFailureDeleteRoughSolution
@@ -237,11 +258,14 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    }
 
    postRoughSolutions = roughSolutions => {
+      console.log(
+         'Rough Solution and Prefilled Code Posting Data:- ',
+         roughSolutions
+      )
       const { codingProblemsStore } = this.props
       if (this.tabName === ROUGH_SOLUTION) {
          codingProblemsStore.postProblemRoughSolution(
             {
-               question_id: this.codingProblemId,
                rough_solutions: roughSolutions
             },
             this.onSuccessPostRoughSolutions,
@@ -250,7 +274,6 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
       } else {
          codingProblemsStore.postProblemPrefilledCode(
             {
-               question_id: this.codingProblemId,
                prefilled_codes: roughSolutions
             },
             this.onSuccessPostRoughSolutions,

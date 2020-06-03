@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import { observable } from 'mobx'
+import { observable, toJS } from 'mobx'
 
 import { TextEditor } from '../../../Common/components/TextEditor'
 import commonI18n from '../../../Common/i18n/strings.json'
@@ -29,7 +29,6 @@ type StatementProps = {
    currentTabIndex: number
    updateDataStatus: any
    statementDetails: any
-   codingProblemId: number | null
    showToastMessage: any
 }
 
@@ -41,11 +40,10 @@ class Statement extends React.Component<StatementProps> {
    textType: string = commonI18n.textEditorTypes[0].optionText.toLowerCase()
    @observable shortTextError: string | null = null
    @observable descriptionError: string | null = null
-   codingProblemId: number | null
 
    constructor(props) {
       super(props)
-      this.codingProblemId = null
+      this.init()
    }
 
    init = () => {
@@ -55,12 +53,19 @@ class Statement extends React.Component<StatementProps> {
    }
 
    componentDidMount() {
-      const { codingProblemId, statementDetails } = this.props
-      if (statementDetails) {
+      const {
+         statementDetails,
+         codingProblemsStore: { postStatementAPIResponse }
+      } = this.props
+      if (postStatementAPIResponse) {
+         console.log('Statement component:- ', postStatementAPIResponse)
+         this.shortText = postStatementAPIResponse.shortText
+         this.text = postStatementAPIResponse.content
+         this.textType = postStatementAPIResponse.contentType
+      } else if (statementDetails) {
          this.shortText = statementDetails.shortText
          this.text = statementDetails.content
          this.textType = statementDetails.contentType
-         this.codingProblemId = codingProblemId
       }
    }
 
@@ -110,16 +115,18 @@ class Statement extends React.Component<StatementProps> {
    }
 
    postProblemStatement = () => {
-      const { codingProblemsStore } = this.props
-      const { postProblemStatement } = codingProblemsStore
+      const {
+         codingProblemsStore: { codingProblemId, postProblemStatement }
+      } = this.props
       const statementData = {
-         question_id: this.codingProblemId,
+         question_id: codingProblemId,
          short_text: this.shortText,
          problem_description: {
             content: this.text,
             content_type: this.textType.toUpperCase()
          }
       }
+      console.log('Statement Data:- ', toJS(statementData))
       postProblemStatement(
          statementData,
          this.onSuccessPostProblemStatement,

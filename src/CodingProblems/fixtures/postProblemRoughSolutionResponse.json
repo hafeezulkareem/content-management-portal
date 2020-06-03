@@ -1,9 +1,17 @@
-[
-   {
-      "language": "C",
-      "solution_content": "string",
-      "file_name": "string",
-      "rough_solution_id": 0,
-      "question_id": 0
-   }
-]
+{
+   "question_id": 0,
+   "rough_solutions": [
+      {
+         "language": "JAVA",
+         "solution_content": "System.out.println('iB Hubs')",
+         "file_name": "welcome.java",
+         "rough_solution_id": 0
+      },
+      {
+         "language": "PYTHON",
+         "solution_content": "import math\nprint(math.randint(5, 10)",
+         "file_name": "random.py",
+         "rough_solution_id": 1
+      }
+   ]
+}

@@ -104,6 +104,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
    componentWillUnmount() {
       const { codingProblemsStore } = this.props
       codingProblemsStore.codingProblemDetails = undefined
+      codingProblemsStore.initCodingProblemResponses()
    }
 
    confirmDataStatus = () => {
@@ -168,7 +169,6 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
          case 1:
             return (
                <Statement
-                  codingProblemId={codingProblemId}
                   statementDetails={statement}
                   codingProblemsStore={codingProblemsStore}
                   onSelectTab={this.onSelectTab}
@@ -182,7 +182,6 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                <Wrapper>
                   <SectionWrapper>
                      <RoughSolution
-                        codingProblemId={codingProblemId}
                         roughSolutions={roughSolutions}
                         key={ROUGH_SOLUTION}
                         tabName={ROUGH_SOLUTION}
@@ -212,7 +211,6 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                <Wrapper>
                   <SectionWrapper>
                      <RoughSolution
-                        codingProblemId={codingProblemId}
                         roughSolutions={prefilledCodes}
                         key={PREFILLED_CODE}
                         tabName={PREFILLED_CODE}

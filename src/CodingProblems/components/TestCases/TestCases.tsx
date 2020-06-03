@@ -20,7 +20,6 @@ type TestCasesProps = {
 @observer
 class TestCases extends React.Component<TestCasesProps> {
    @observable testCasesList!: ObservableMap<any, any>
-   codingProblemId!: number | null
    @observable inputErrorMessage!: string | null
    @observable outputErrorMessage!: string | null
    @observable scoreErrorMessage!: string | null
@@ -35,7 +34,6 @@ class TestCases extends React.Component<TestCasesProps> {
    init = () => {
       this.testCasesList = new ObservableMap(new Map())
       this.currentTestCaseNumber = 0
-      this.codingProblemId = null
       this.currentDeletingTestCaseUniqueId = null
       this.initializeErrors()
    }
@@ -46,16 +44,23 @@ class TestCases extends React.Component<TestCasesProps> {
       this.scoreErrorMessage = null
    }
 
+   setTestCasesDataToList = testCases => {
+      testCases.forEach(testCase => {
+         this.testCasesList.set(testCase.uniqueId, testCase)
+      })
+      this.toggleActiveStates(testCases[0].uniqueId)
+      this.currentTestCaseNumber = testCases.length
+   }
+
    componentDidMount() {
-      const { testCases, codingProblemStore } = this.props
-      const { codingProblemId } = codingProblemStore
-      if (testCases) {
-         this.codingProblemId = codingProblemId
-         testCases.forEach(testCase => {
-            this.testCasesList.set(testCase.uniqueId, testCase)
-         })
-         this.toggleActiveStates(testCases[0].uniqueId)
-         this.currentTestCaseNumber = testCases.length
+      const {
+         testCases,
+         codingProblemStore: { postTestCaseAPIResponses }
+      } = this.props
+      if (postTestCaseAPIResponses.length > 0) {
+         this.setTestCasesDataToList(postTestCaseAPIResponses)
+      } else if (testCases) {
+         this.setTestCasesDataToList(testCases)
       } else {
          this.generateNewTestCase()
       }
@@ -118,14 +123,18 @@ class TestCases extends React.Component<TestCasesProps> {
    }
 
    checkTestCaseNumberAndDelete = uniqueId => {
-      if (this.codingProblemId) {
+      const {
+         codingProblemStore: { codingProblemId }
+      } = this.props
+      if (codingProblemId) {
          const testCases = Array.from(this.testCasesList.values())
-         const currentTestCaseIndex = testCases.findIndex(
+         const currentTest = testCases.find(
             (testCase: TestCaseModel) => testCase.uniqueId === uniqueId
          )
          const { codingProblemStore } = this.props
          codingProblemStore.deleteProblemTestCase(
-            uniqueId,
+            codingProblemId,
+            currentTest.id,
             this.onSuccessTestCaseDelete,
             this.onFailureTestCaseDelete
          )
@@ -250,6 +259,14 @@ class TestCases extends React.Component<TestCasesProps> {
             this.onSuccessPostTestCase,
             this.onFailurePostTestCase
          )
+         console.log('Test Case Posting Data:- ', {
+            test_case_id: currentTestCase.id,
+            test_case_number: currentTestCase.number,
+            input: currentTestCase.input,
+            output: currentTestCase.output,
+            score: currentTestCase.score,
+            is_hidden: currentTestCase.isHidden
+         })
       }
    }
 

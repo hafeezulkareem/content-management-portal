@@ -2,16 +2,16 @@
    "question_id": 0,
    "prefilled_codes": [
       {
-         "language": "C",
-         "solution_content": "string",
-         "file_name": "string",
-         "rough_solution_id": 0
+         "language": "PYTHON",
+         "solution_content": "import os\nprint(dir(os))",
+         "file_name": "testing.py",
+         "prefilled_code_id": 0
       },
       {
-         "language": "C",
-         "solution_content": "string",
-         "file_name": "string",
-         "rough_solution_id": 0
+         "language": "JAVASCRIPT",
+         "solution_content": "console.log('Testing...')",
+         "file_name": "testing.js",
+         "prefilled_code_id": 1
       }
    ]
 }

@@ -41,16 +41,22 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
       this.errorMessage = null
    }
 
+   setCleanSolutionDataToList = cleanSolutions => {
+      cleanSolutions.forEach(cleanSolution => {
+         this.codeEditorsList.set(cleanSolution.uniqueId, cleanSolution)
+      })
+   }
+
    componentDidMount() {
       const {
          cleanSolutions,
-         codingProblemsStore: { codingProblemId }
+         codingProblemsStore: { postCleanSolutionAPIResponse }
       } = this.props
-      if (cleanSolutions) {
-         this.codingProblemId = codingProblemId
-         cleanSolutions.forEach(cleanSolution => {
-            this.codeEditorsList.set(cleanSolution.uniqueId, cleanSolution)
-         })
+      console.log(postCleanSolutionAPIResponse)
+      if (postCleanSolutionAPIResponse) {
+         this.setCleanSolutionDataToList(postCleanSolutionAPIResponse)
+      } else if (cleanSolutions) {
+         this.setCleanSolutionDataToList(cleanSolutions)
       } else {
          this.generateCodeEditor()
       }

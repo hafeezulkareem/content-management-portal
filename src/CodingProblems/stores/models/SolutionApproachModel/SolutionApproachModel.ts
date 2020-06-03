@@ -10,11 +10,11 @@ class SolutionApproachModel {
       this.solutionApproachId = solutionApproachDetails.solution_approach_id
       this.title = solutionApproachDetails.title
       this.description = {
-         type: solutionApproachDetails.description.type,
+         type: solutionApproachDetails.description.content_type,
          content: solutionApproachDetails.description.content
       }
       this.complexityAnalysis = {
-         type: solutionApproachDetails.complexity_analysis.type,
+         type: solutionApproachDetails.complexity_analysis.content_type,
          content: solutionApproachDetails.complexity_analysis.content
       }
    }

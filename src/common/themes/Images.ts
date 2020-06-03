@@ -25,6 +25,8 @@ export default {
       'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/35a62165-9319-4593-8800-bd8263c83919.svg',
    chevronDropDown:
       'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/a80d2201-07ff-43af-b6e8-ec5e67ed0a72.svg',
+   defaultClose:
+      'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/e9f81942-30f4-47e0-9911-36d65d50f486.svg',
    close:
       'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/0ad77906-7f0e-4597-a287-6406fd50f3a9.svg',
    closeRed:
@@ -35,10 +37,14 @@ export default {
       'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/737c50fc-e3a5-4f4f-8665-f8e2ae85cced.svg',
    error:
       'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/a68ce0bc-26a7-4037-94f4-f8461b2efea8.svg',
+   errorWhite:
+      'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/bde5bac1-0a5a-4084-a13d-671f8e722dff.svg',
    testingUserPic:
       'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/696fd949-70d2-4be4-b1ef-a5065b1b1a11@3x.png',
    notFoundError:
       'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/fe462e54-478e-4df3-82f6-e27bef53dd43.svg',
    notFound:
-      'https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/page_not_found_su7k.svg'
+      'https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/page_not_found_su7k.svg',
+   doneCircleWithBgGreen:
+      'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/05974257-2e62-464f-8fde-da4ae7f63ac9.svg'
 }

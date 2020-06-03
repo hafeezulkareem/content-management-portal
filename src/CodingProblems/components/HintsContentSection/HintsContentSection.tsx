@@ -29,7 +29,6 @@ type HintsContentSectionProps = {
    onChangeOrder: any
    orderErrorMessage: string | null
    onClickSaveButton: any
-   hintAPIErrorMessage: string | null
 }
 
 @observer
@@ -47,14 +46,10 @@ class HintsContentSection extends React.Component<HintsContentSectionProps> {
          order,
          onChangeOrder,
          orderErrorMessage,
-         onClickSaveButton,
-         hintAPIErrorMessage
+         onClickSaveButton
       } = this.props
       return (
          <FormWithSaveButton>
-            {hintAPIErrorMessage && (
-               <ErrorMessage>{hintAPIErrorMessage}</ErrorMessage>
-            )}
             <HintsFormContainer>
                <HintsFormHeader>
                   <HintsTitle>{hints.hints}</HintsTitle>

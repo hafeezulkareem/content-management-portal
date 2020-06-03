@@ -29,6 +29,7 @@ type SolutionApproachProps = {
    solutionApproach: any
    onSelectTab: any
    currentTabIndex: number
+   showToastMessage: any
 }
 
 @observer

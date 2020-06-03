@@ -8,13 +8,14 @@ import { CleanSolutionModel } from '../../stores/models/CleanSolutionModel'
 import { CleanSolutionCodeEditor } from '../CleanSolutionCodeEditor/CleanSolutionCodeEditor'
 import { AddAndSaveButtons } from '../AddAndSaveButtons'
 
-import { CleanSolutionContainer, ErrorMessage } from './styledComponents'
+import { CleanSolutionContainer } from './styledComponents'
 
 type CleanSolutionProps = {
    codingProblemsStore: any
    cleanSolutions: any
    onSelectTab: any
    currentTabIndex: number
+   showToastMessage: any
 }
 
 @observer
@@ -90,14 +91,22 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
    }
 
    onSuccessCleanSolutionDelete = () => {
-      this.deleteCodeEditor(this.currentCodeEditorId)
+      const { showToastMessage } = this.props
+      const { deleteSuccessMessages } = i18n
+      showToastMessage(
+         deleteSuccessMessages.cleanSolution,
+         false,
+         700,
+         this.deleteCodeEditor
+      )
    }
 
    onFailureCleanSolutionDelete = () => {
       const {
-         codingProblemsStore: { deleteCleanSolutionAPIError }
+         codingProblemsStore: { deleteCleanSolutionAPIError },
+         showToastMessage
       } = this.props
-      this.errorMessage = deleteCleanSolutionAPIError
+      showToastMessage(deleteCleanSolutionAPIError, true, 1500, () => {})
    }
 
    checkCodingProblemIdAndDelete = uniqueId => {
@@ -113,12 +122,12 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
             this.onFailureCleanSolutionDelete
          )
       } else {
-         this.deleteCodeEditor(this.currentCodeEditorId)
+         this.deleteCodeEditor()
       }
    }
 
-   deleteCodeEditor = uniqueId => {
-      this.codeEditorsList.delete(uniqueId)
+   deleteCodeEditor = () => {
+      this.codeEditorsList.delete(this.currentCodeEditorId)
    }
 
    onClickDeleteButton = uniqueId => {
@@ -128,39 +137,58 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
 
    prepareCleanSolutionsData = () => {
       const cleanSolutions: any = []
-      Array.from(this.codeEditorsList.values()).forEach((codeEditor: any) => {
-         if (
-            !codeEditor.fileName ||
-            !codeEditor.language ||
-            !codeEditor.solutionContent
-         ) {
-            const {
-               cleanSolution: { errors }
-            } = i18n
-            this.errorMessage = errors.fillAllTheFields
-         } else {
-            cleanSolutions.push({
-               language: codeEditor.language.toUpperCase(),
-               solution_content: codeEditor.solutionContent,
-               file_name: codeEditor.fileName,
-               clean_solution_id: codeEditor.id
-            })
+      Array.from(this.codeEditorsList.values()).forEach(
+         (codeEditor: any, index) => {
+            if (
+               !codeEditor.fileName ||
+               !codeEditor.language ||
+               !codeEditor.solutionContent
+            ) {
+               const {
+                  cleanSolution: { errors },
+                  codeEditor
+               } = i18n
+               this.errorMessage = `${
+                  errors.fillAllTheFieldsIn
+               } ${codeEditor} ${index + 1}`
+               const { showToastMessage } = this.props
+               showToastMessage(this.errorMessage, true, 1500, () => {})
+            } else {
+               cleanSolutions.push({
+                  language: codeEditor.language.toUpperCase(),
+                  solution_content: codeEditor.solutionContent,
+                  file_name: codeEditor.fileName,
+                  clean_solution_id: codeEditor.id
+               })
+            }
          }
-      })
+      )
       return cleanSolutions
    }
 
-   onSuccessPostCleanSolutions = () => {
+   moveToNextTab = () => {
       this.init()
       const { onSelectTab, currentTabIndex } = this.props
       onSelectTab(currentTabIndex + 1)
    }
 
+   onSuccessPostCleanSolutions = () => {
+      const { showToastMessage } = this.props
+      const { postSuccessMessages } = i18n
+      showToastMessage(
+         postSuccessMessages.cleanSolutions,
+         false,
+         700,
+         this.moveToNextTab
+      )
+   }
+
    onFailurePostCleanSolutions = () => {
       const {
-         codingProblemsStore: { postCleanSolutionAPIError }
+         codingProblemsStore: { postCleanSolutionAPIError },
+         showToastMessage
       } = this.props
-      this.errorMessage = postCleanSolutionAPIError
+      showToastMessage(postCleanSolutionAPIError, true, 1500, () => {})
    }
 
    postCleanSolutions = cleanSolutions => {
@@ -191,9 +219,6 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
       const codeEditors = Array.from(this.codeEditorsList.values())
       return (
          <CleanSolutionContainer>
-            {this.errorMessage && (
-               <ErrorMessage>{this.errorMessage}</ErrorMessage>
-            )}
             {codeEditors.map(codeEditor => (
                <CleanSolutionCodeEditor
                   key={codeEditor.uniqueId}

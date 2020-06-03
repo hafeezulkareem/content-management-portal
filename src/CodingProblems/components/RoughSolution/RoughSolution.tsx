@@ -12,8 +12,6 @@ import { AddAndSaveButtons } from '../AddAndSaveButtons'
 
 import {
    RoughSolutionContainer,
-   ErrorMessage,
-   RoughSolutionsError,
    CodeEditorsContainer,
    RoughSolutionsWrapper
 } from './styledComponents'
@@ -26,15 +24,14 @@ type RoughSolutionProps = {
    roughSolutions: any
    codingProblemId: number | null
    tabName: string
+   showToastMessage: any
 }
 
 @observer
 class RoughSolution extends React.Component<RoughSolutionProps> {
    @observable codeEditorsList: any = new Map()
-   @observable errorMessage: string | null = null
+   errorMessage!: string | null
    codingProblemId: number | null
-   @observable postRoughSolutionError
-   @observable deleteRoughSolutionError
    currentCodeEditorId
    tabName
 
@@ -92,8 +89,6 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
 
    initializeErrors = () => {
       this.errorMessage = null
-      this.postRoughSolutionError = null
-      this.deleteRoughSolutionError = null
    }
 
    onChangeFileName = (updatedValue, id) => {
@@ -118,20 +113,28 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    }
 
    onSuccessDeleteRoughSolution = () => {
-      this.deleteCodeEditor(this.currentCodeEditorId)
+      const { showToastMessage } = this.props
+      const { deleteSuccessMessages } = i18n as any
+      showToastMessage(
+         deleteSuccessMessages.roughSolution,
+         false,
+         700,
+         this.deleteCodeEditor
+      )
    }
 
    onFailureDeleteRoughSolution = () => {
-      const { codingProblemsStore } = this.props
-      this.deleteRoughSolutionError =
+      const { codingProblemsStore, showToastMessage } = this.props
+      const deleteRoughSolutionError =
          this.tabName === ROUGH_SOLUTION
             ? codingProblemsStore.deleteRoughSolutionAPIError
             : codingProblemsStore.deletePrefilledCodeAPIError
+      showToastMessage(deleteRoughSolutionError, true, 1500, () => {})
    }
 
-   deleteCodeEditor = codeEditorId => {
+   deleteCodeEditor = () => {
       this.initializeErrors()
-      this.codeEditorsList.delete(codeEditorId)
+      this.codeEditorsList.delete(this.currentCodeEditorId)
    }
 
    checkCodingProblemIdAndDelete = roughSolutionId => {
@@ -152,9 +155,8 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
                this.onFailureDeleteRoughSolution
             )
          }
-         console.log(roughSolutionId)
       } else {
-         this.deleteCodeEditor(this.currentCodeEditorId)
+         this.deleteCodeEditor()
       }
    }
 
@@ -170,14 +172,21 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    prepareRoughSolutionsData = () => {
       const roughSolutions: any = []
       Array.from(this.codeEditorsList.values()).forEach(
-         (codeEditorDetails: any) => {
+         (codeEditorDetails: any, index) => {
             if (
                !codeEditorDetails.fileName ||
                !codeEditorDetails.programmingLanguage ||
                !codeEditorDetails.content
             ) {
-               const { errors } = i18n.roughSolution
-               this.errorMessage = errors.fillAllTheFields
+               const {
+                  roughSolution: { errors },
+                  codeEditor
+               } = i18n
+               this.errorMessage = `${
+                  errors.fillAllTheFieldsIn
+               } ${codeEditor} ${index + 1}`
+               const { showToastMessage } = this.props
+               showToastMessage(this.errorMessage, true, 1500, () => {})
             } else {
                if (this.tabName === ROUGH_SOLUTION) {
                   roughSolutions.push({
@@ -200,19 +209,31 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
       return roughSolutions
    }
 
-   onSuccessPostRoughSolutions = () => {
+   moveToNextTab = () => {
       this.init()
       const { onSelectTab, currentTabIndex, updateDataStatus } = this.props
       updateDataStatus(false)
       onSelectTab(currentTabIndex + 1)
    }
 
+   onSuccessPostRoughSolutions = () => {
+      const { showToastMessage } = this.props
+      const { postSuccessMessages } = i18n as any
+      showToastMessage(
+         postSuccessMessages.roughSolutions,
+         false,
+         700,
+         this.moveToNextTab
+      )
+   }
+
    onFailurePostRoughSolutions = () => {
-      const { codingProblemsStore } = this.props
-      this.postRoughSolutionError =
+      const { codingProblemsStore, showToastMessage } = this.props
+      const postRoughSolutionError =
          this.tabName === ROUGH_SOLUTION
             ? codingProblemsStore.postRoughSolutionAPIError
             : codingProblemsStore.postPrefilledCodeAPIError
+      showToastMessage(postRoughSolutionError, true, 1500, () => {})
    }
 
    postRoughSolutions = roughSolutions => {
@@ -269,19 +290,6 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    render() {
       return (
          <RoughSolutionContainer>
-            {this.errorMessage && (
-               <ErrorMessage>{this.errorMessage}</ErrorMessage>
-            )}
-            {this.postRoughSolutionError && (
-               <RoughSolutionsError>
-                  {this.postRoughSolutionError}
-               </RoughSolutionsError>
-            )}
-            {this.deleteRoughSolutionError && (
-               <RoughSolutionsError>
-                  {this.deleteRoughSolutionError}
-               </RoughSolutionsError>
-            )}
             <RoughSolutionsWrapper>
                <CodeEditorsContainer>
                   {this.renderCodeEditors()}

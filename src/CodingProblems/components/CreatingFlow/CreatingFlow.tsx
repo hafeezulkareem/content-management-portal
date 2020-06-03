@@ -3,12 +3,15 @@ import { observer } from 'mobx-react'
 import { observable } from 'mobx'
 import { API_FETCHING } from '@ib/api-constants'
 import { withRouter } from 'react-router-dom'
+import { ToastContainer, toast, Slide } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import commonI18n from '../../../Common/i18n/strings.json'
 import { AppHeader } from '../../../Common/components/AppHeader'
 import { ButtonWithIcon } from '../../../Common/components/ButtonWithIcon'
 import { PageTitle } from '../../../Common/components/PageTitle'
 import images from '../../../Common/themes/Images'
+import { ToastMessage } from '../../../Common/components/ToastMessage'
 
 import {
    STATEMENT,
@@ -109,6 +112,23 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
       }
    }
 
+   clearWaitingQueue = () => {
+      toast.clearWaitingQueue()
+   }
+
+   showToastMessage = (message, isError, duration, callback) => {
+      toast(<ToastMessage message={message} isError={isError} />, {
+         position: 'bottom-center',
+         autoClose: duration,
+         hideProgressBar: true,
+         closeOnClick: true,
+         pauseOnHover: true,
+         draggable: true,
+         progress: undefined,
+         onClose: callback
+      })
+   }
+
    onSelectTab = (tabIndex: number) => {
       if (this.isDataSaved || this.confirmDataStatus()) {
          this.selectedTabIndex = tabIndex
@@ -154,6 +174,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                   onSelectTab={this.onSelectTab}
                   currentTabIndex={this.selectedTabIndex}
                   updateDataStatus={this.updateDataStatus}
+                  showToastMessage={this.showToastMessage}
                />
             )
          case 2:
@@ -169,6 +190,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                         onSelectTab={this.onSelectTab}
                         currentTabIndex={this.selectedTabIndex}
                         updateDataStatus={this.updateDataStatus}
+                        showToastMessage={this.showToastMessage}
                      />
                   </SectionWrapper>
                </Wrapper>
@@ -180,6 +202,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                      <TestCases
                         codingProblemStore={codingProblemsStore}
                         testCases={testCases}
+                        showToastMessage={this.showToastMessage}
                      />
                   </SectionWrapper>
                </Wrapper>
@@ -197,6 +220,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                         onSelectTab={this.onSelectTab}
                         currentTabIndex={this.selectedTabIndex}
                         updateDataStatus={this.updateDataStatus}
+                        showToastMessage={this.showToastMessage}
                      />
                   </SectionWrapper>
                </Wrapper>
@@ -208,6 +232,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                   solutionApproach={solutionApproach}
                   onSelectTab={this.onSelectTab}
                   currentTabIndex={this.selectedTabIndex}
+                  showToastMessage={this.showToastMessage}
                />
             )
          case 6:
@@ -219,6 +244,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                         cleanSolutions={cleanSolutions}
                         onSelectTab={this.onSelectTab}
                         currentTabIndex={this.selectedTabIndex}
+                        showToastMessage={this.showToastMessage}
                      />
                   </SectionWrapper>
                </Wrapper>
@@ -230,6 +256,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                      <Hints
                         codingProblemsStore={codingProblemsStore}
                         hints={hints}
+                        showToastMessage={this.showToastMessage}
                      />
                   </SectionWrapper>
                </Wrapper>
@@ -263,6 +290,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
       const { getCodingProblemDetailsAPIStatus } = codingProblemsStore
       return (
          <AppContainer>
+            <ToastContainer closeButton={false} limit={5} transition={Slide} />
             <AppHeader
                username='Chi Lee'
                userProfilePicLink={images.testingUserPic}

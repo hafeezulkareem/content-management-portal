@@ -20,8 +20,7 @@ import {
    LeftSectionContainer,
    SaveButtonContainer,
    LeftAndRightSections,
-   ErrorMessage,
-   PostStatementError
+   ErrorMessage
 } from './styledComponents'
 
 type StatementProps = {
@@ -31,6 +30,7 @@ type StatementProps = {
    updateDataStatus: any
    statementDetails: any
    codingProblemId: number | null
+   showToastMessage: any
 }
 
 @observer
@@ -42,7 +42,6 @@ class Statement extends React.Component<StatementProps> {
    @observable shortTextError: string | null = null
    @observable descriptionError: string | null = null
    codingProblemId: number | null
-   @observable postStatementError
 
    constructor(props) {
       super(props)
@@ -53,7 +52,6 @@ class Statement extends React.Component<StatementProps> {
       this.shortText = ''
       this.text = ''
       this.textType = commonI18n.textEditorTypes[0].optionText.toLowerCase()
-      this.postStatementError = null
    }
 
    componentDidMount() {
@@ -83,16 +81,32 @@ class Statement extends React.Component<StatementProps> {
       this.props.updateDataStatus(this.textType)
    }
 
-   onSuccessPostProblemStatement = () => {
-      this.init()
+   moveToNextTab = () => {
       const { onSelectTab, currentTabIndex, updateDataStatus } = this.props
+      this.init()
       updateDataStatus(false)
       onSelectTab(currentTabIndex + 1)
    }
 
+   onSuccessPostProblemStatement = () => {
+      const { showToastMessage } = this.props
+      const { postSuccessMessages } = i18n as any
+      showToastMessage(
+         postSuccessMessages.statement,
+         false,
+         500,
+         this.moveToNextTab
+      )
+   }
+
    onFailurePostProblemStatement = () => {
-      const { codingProblemsStore } = this.props
-      this.postStatementError = codingProblemsStore.postStatementAPIError
+      const { showToastMessage, codingProblemsStore } = this.props
+      showToastMessage(
+         codingProblemsStore.postStatementAPIError,
+         true,
+         1500,
+         () => {}
+      )
    }
 
    postProblemStatement = () => {
@@ -143,11 +157,6 @@ class Statement extends React.Component<StatementProps> {
       const { statement } = i18n
       return (
          <StatementContainer>
-            {this.postStatementError && (
-               <PostStatementError>
-                  {this.postStatementError}
-               </PostStatementError>
-            )}
             <LeftAndRightSections>
                <StatementLeftSection>
                   <LeftSectionContainer>

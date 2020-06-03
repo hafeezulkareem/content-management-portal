@@ -11,7 +11,7 @@
    },
    "roughSolution": {
       "errors": {
-         "fillAllTheFields": "Fill all the fields"
+         "fillAllTheFieldsIn": "Fill all fields in"
       }
    },
    "testCases": {
@@ -41,7 +41,7 @@
    },
    "cleanSolution": {
       "errors": {
-         "fillAllTheFields": "Fill all the fields"
+         "fillAllTheFieldsIn": "Fill all fields in"
       }
    },
    "hints": {
@@ -69,6 +69,23 @@
       "solutionApproach": "SOLUTION APPROACH",
       "cleanSolution": "CLEAN SOLUTION"
    },
+   "postSuccessMessages": {
+      "statement": "Successfully created statement",
+      "roughSolutions": "Successfully created rough solutions",
+      "testCases": "Successfully created test cases",
+      "prefilledCodes": "Successfully created prefilled codes",
+      "solutionApproach": "Successfully create solution approach",
+      "cleanSolutions": "Successfully created clean solutions",
+      "hints": "Successfully created hints"
+   },
+   "deleteSuccessMessages": {
+      "roughSolution": "Rough solution deleted successfully",
+      "testCase": "TestCase deleted successfully",
+      "prefilledCode": "Prefilled code deleted successfully",
+      "cleanSolution": "Clean solution deleted successfully",
+      "hint": "Hint deleted successfully"
+   },
    "addCodingQuestions": "Add Coding Questions",
-   "create": "create"
+   "create": "create",
+   "codeEditor": "code editor"
 }

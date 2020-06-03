@@ -14,6 +14,7 @@ import { HintsContainer, ButtonsContainer } from './styledComponents'
 type HintsProps = {
    codingProblemsStore: any
    hints: any
+   showToastMessage: any
 }
 
 @observer
@@ -23,7 +24,6 @@ class Hints extends React.Component<HintsProps> {
    @observable titleErrorMessage!: string | null
    @observable descriptionErrorMessage!: string | null
    @observable orderErrorMessage!: string | null
-   @observable hintAPIErrorMessage!: string | null
    currentHintNumber!: number
    currentDeletingHintUniqueId!: number | null
 
@@ -44,7 +44,6 @@ class Hints extends React.Component<HintsProps> {
       this.titleErrorMessage = null
       this.descriptionErrorMessage = null
       this.orderErrorMessage = null
-      this.hintAPIErrorMessage = null
    }
 
    componentDidMount() {
@@ -128,14 +127,17 @@ class Hints extends React.Component<HintsProps> {
    }
 
    onSuccessHintDelete = () => {
-      this.deleteHint(this.currentDeletingHintUniqueId)
+      const { showToastMessage } = this.props
+      const { deleteSuccessMessages } = i18n
+      showToastMessage(deleteSuccessMessages.hint, false, 700, this.deleteHint)
    }
 
    onFailureHintDelete = () => {
       const {
-         codingProblemsStore: { deleteHintAPIError }
+         codingProblemsStore: { deleteHintAPIError },
+         showToastMessage
       } = this.props
-      this.hintAPIErrorMessage = deleteHintAPIError
+      showToastMessage(deleteHintAPIError, true, 1500, () => {})
    }
 
    rearrangeTestCasesOrder = () => {
@@ -145,10 +147,10 @@ class Hints extends React.Component<HintsProps> {
       })
    }
 
-   deleteHint = uniqueId => {
+   deleteHint = () => {
       const hints = Array.from(this.hintsList.values())
       const currentHintIndex = hints.findIndex(
-         (hint: HintModel) => hint.uniqueId === uniqueId
+         (hint: HintModel) => hint.uniqueId === this.currentDeletingHintUniqueId
       )
       if (hints[currentHintIndex].isActive) {
          if (hints[currentHintIndex + 1]) {
@@ -157,7 +159,7 @@ class Hints extends React.Component<HintsProps> {
             this.toggleActiveStates(hints[currentHintIndex - 1].uniqueId)
          }
       }
-      this.hintsList.delete(uniqueId)
+      this.hintsList.delete(this.currentDeletingHintUniqueId)
       this.currentHintNumber = this.hintsList.size
       this.rearrangeTestCasesOrder()
    }
@@ -178,7 +180,7 @@ class Hints extends React.Component<HintsProps> {
             this.onFailureHintDelete
          )
       } else {
-         this.deleteHint(this.currentDeletingHintUniqueId)
+         this.deleteHint()
       }
    }
 
@@ -207,14 +209,17 @@ class Hints extends React.Component<HintsProps> {
    }
 
    onSuccessPostHint = () => {
-      this.generateNewHint()
+      const { showToastMessage } = this.props
+      const { postSuccessMessages } = i18n
+      showToastMessage(postSuccessMessages.hints, false, 700, () => {})
    }
 
    onFailurePostHint = () => {
       const {
-         codingProblemsStore: { postHintAPIError }
+         codingProblemsStore: { postHintAPIError },
+         showToastMessage
       } = this.props
-      this.hintAPIErrorMessage = postHintAPIError
+      showToastMessage(postHintAPIError, true, 1500, () => {})
    }
 
    onClickSaveButton = uniqueId => {
@@ -259,7 +264,6 @@ class Hints extends React.Component<HintsProps> {
                      onChangeOrder={this.onChangeOrder}
                      orderErrorMessage={this.orderErrorMessage}
                      onClickSaveButton={this.onClickSaveButton}
-                     hintAPIErrorMessage={this.hintAPIErrorMessage}
                   />
                ) : null
             )}

@@ -9,15 +9,12 @@ import i18n from '../../i18n/strings.json'
 import { TestCasesAndHintsNavigation } from '../TestCasesAndHintsNavigation'
 import { TestCasesContentSection } from '../TestCasesContentSection'
 
-import {
-   TestCasesContainer,
-   ButtonsContainer,
-   ErrorMessage
-} from './styledComponents'
+import { TestCasesContainer, ButtonsContainer } from './styledComponents'
 
 type TestCasesProps = {
    codingProblemStore: any
    testCases: any
+   showToastMessage: any
 }
 
 @observer
@@ -27,8 +24,6 @@ class TestCases extends React.Component<TestCasesProps> {
    @observable inputErrorMessage!: string | null
    @observable outputErrorMessage!: string | null
    @observable scoreErrorMessage!: string | null
-   @observable postTestCaseError!: string | null
-   @observable deleteTestCaseError!: string | null
    currentTestCaseNumber!: number
    currentDeletingTestCaseUniqueId!: number | null
 
@@ -49,8 +44,6 @@ class TestCases extends React.Component<TestCasesProps> {
       this.inputErrorMessage = null
       this.outputErrorMessage = null
       this.scoreErrorMessage = null
-      this.postTestCaseError = null
-      this.deleteTestCaseError = null
    }
 
    componentDidMount() {
@@ -106,12 +99,22 @@ class TestCases extends React.Component<TestCasesProps> {
    }
 
    onSuccessTestCaseDelete = () => {
-      this.deleteTestCase(this.currentDeletingTestCaseUniqueId)
+      const { showToastMessage } = this.props
+      const { deleteSuccessMessages } = i18n as any
+      showToastMessage(
+         deleteSuccessMessages.testCase,
+         false,
+         700,
+         this.deleteTestCase
+      )
    }
 
    onFailureTestCaseDelete = () => {
-      const { codingProblemStore } = this.props
-      this.deleteTestCaseError = codingProblemStore.deleteTestCaseAPIError
+      const {
+         codingProblemStore: { deleteTestCaseAPIError },
+         showToastMessage
+      } = this.props
+      showToastMessage(deleteTestCaseAPIError, true, 1500, () => {})
    }
 
    checkTestCaseNumberAndDelete = uniqueId => {
@@ -127,7 +130,7 @@ class TestCases extends React.Component<TestCasesProps> {
             this.onFailureTestCaseDelete
          )
       } else {
-         this.deleteTestCase(this.currentDeletingTestCaseUniqueId)
+         this.deleteTestCase()
       }
    }
 
@@ -138,10 +141,11 @@ class TestCases extends React.Component<TestCasesProps> {
       })
    }
 
-   deleteTestCase = uniqueId => {
+   deleteTestCase = () => {
       const testCases = Array.from(this.testCasesList.values())
       const currentTestCaseIndex = testCases.findIndex(
-         (testCase: TestCaseModel) => testCase.uniqueId === uniqueId
+         (testCase: TestCaseModel) =>
+            testCase.uniqueId === this.currentDeletingTestCaseUniqueId
       )
       if (testCases[currentTestCaseIndex].isActive) {
          if (testCases[currentTestCaseIndex + 1]) {
@@ -154,7 +158,7 @@ class TestCases extends React.Component<TestCasesProps> {
             )
          }
       }
-      this.testCasesList.delete(uniqueId)
+      this.testCasesList.delete(this.currentDeletingTestCaseUniqueId)
       this.currentTestCaseNumber = this.testCasesList.size
       this.rearrangeTestCasesOrder()
    }
@@ -217,12 +221,17 @@ class TestCases extends React.Component<TestCasesProps> {
    }
 
    onSuccessPostTestCase = () => {
-      this.generateNewTestCase()
+      const { showToastMessage } = this.props
+      const { postSuccessMessages } = i18n as any
+      showToastMessage(postSuccessMessages.testCases, false, 700, () => {})
    }
 
    onFailurePostTestCase = () => {
-      const { codingProblemStore } = this.props
-      this.postTestCaseError = codingProblemStore.postTestCaseAPIError
+      const {
+         codingProblemStore: { postTestCaseAPIError },
+         showToastMessage
+      } = this.props
+      showToastMessage(postTestCaseAPIError, true, 1500, () => {})
    }
 
    onClickSaveButton = uniqueId => {
@@ -276,9 +285,6 @@ class TestCases extends React.Component<TestCasesProps> {
                      scoreErrorMessage={this.scoreErrorMessage}
                   />
                ) : null
-            )}
-            {this.postTestCaseError && (
-               <ErrorMessage>{this.postTestCaseError}</ErrorMessage>
             )}
          </TestCasesContainer>
       )

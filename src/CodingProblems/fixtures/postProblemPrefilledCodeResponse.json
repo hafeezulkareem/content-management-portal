@@ -1,0 +1,17 @@
+{
+   "question_id": 0,
+   "prefilled_codes": [
+      {
+         "language": "C",
+         "solution_content": "string",
+         "file_name": "string",
+         "rough_solution_id": 0
+      },
+      {
+         "language": "C",
+         "solution_content": "string",
+         "file_name": "string",
+         "rough_solution_id": 0
+      }
+   ]
+}

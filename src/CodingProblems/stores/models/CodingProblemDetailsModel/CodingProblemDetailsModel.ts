@@ -1,4 +1,5 @@
 import { observable } from 'mobx'
+
 import { StatementModel } from '../StatementModel'
 import { RoughSolutionModel } from '../RoughSolutionModel'
 import { TestCaseModel } from '../TestCaseModel'

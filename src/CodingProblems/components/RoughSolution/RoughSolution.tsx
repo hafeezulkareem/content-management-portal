@@ -6,6 +6,7 @@ import { CodeEditor } from '../../../Common/components/CodeEditor'
 
 import i18n from '../../i18n/strings.json'
 import { CodingEditorModel } from '../../stores/models/CodingEditorModel'
+import { ROUGH_SOLUTION } from '../../constants/TabConstants'
 
 import { AddAndSaveButtons } from '../AddAndSaveButtons'
 
@@ -33,9 +34,11 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    @observable postRoughSolutionError
    @observable deleteRoughSolutionError
    currentCodeEditorId
+   tabName
 
    constructor(props) {
       super(props)
+      this.tabName = props.tabName
       this.codingProblemId = null
    }
 
@@ -119,7 +122,9 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    onFailureDeleteRoughSolution = () => {
       const { codingProblemsStore } = this.props
       this.deleteRoughSolutionError =
-         codingProblemsStore.deleteRoughSolutionAPIError
+         this.tabName === ROUGH_SOLUTION
+            ? codingProblemsStore.deleteRoughSolutionAPIError
+            : codingProblemsStore.deletePrefilledCodeAPIError
    }
 
    deleteCodeEditor = codeEditorId => {
@@ -130,13 +135,22 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    checkCodingProblemIdAndDelete = roughSolutionId => {
       if (this.codingProblemId) {
          const { codingProblemsStore } = this.props
-         const { deleteProblemRoughSolution } = codingProblemsStore
-         deleteProblemRoughSolution(
-            this.codingProblemId,
-            roughSolutionId,
-            this.onSuccessDeleteRoughSolution,
-            this.onFailureDeleteRoughSolution
-         )
+         if (this.tabName === ROUGH_SOLUTION) {
+            codingProblemsStore.deleteProblemRoughSolution(
+               this.codingProblemId,
+               roughSolutionId,
+               this.onSuccessDeleteRoughSolution,
+               this.onFailureDeleteRoughSolution
+            )
+         } else {
+            codingProblemsStore.deleteProblemPrefilledCode(
+               this.codingProblemId,
+               roughSolutionId,
+               this.onSuccessDeleteRoughSolution,
+               this.onFailureDeleteRoughSolution
+            )
+         }
+         console.log(roughSolutionId)
       } else {
          this.deleteCodeEditor(this.currentCodeEditorId)
       }
@@ -163,12 +177,21 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
                const { errors } = i18n.roughSolution
                this.errorMessage = errors.fillAllTheFields
             } else {
-               roughSolutions.push({
-                  language: codeEditorDetails.programmingLanguage.toUpperCase(),
-                  solution_content: codeEditorDetails.content,
-                  file_name: codeEditorDetails.fileName,
-                  rough_solution_id: codeEditorDetails.roughSolutionId
-               })
+               if (this.tabName === ROUGH_SOLUTION) {
+                  roughSolutions.push({
+                     language: codeEditorDetails.programmingLanguage.toUpperCase(),
+                     solution_content: codeEditorDetails.content,
+                     file_name: codeEditorDetails.fileName,
+                     rough_solution_id: codeEditorDetails.roughSolutionId
+                  })
+               } else {
+                  roughSolutions.push({
+                     language: codeEditorDetails.programmingLanguage.toUpperCase(),
+                     solution_content: codeEditorDetails.content,
+                     file_name: codeEditorDetails.fileName,
+                     prefilled_code_id: codeEditorDetails.roughSolutionId
+                  })
+               }
             }
          }
       )
@@ -185,20 +208,32 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    onFailurePostRoughSolutions = () => {
       const { codingProblemsStore } = this.props
       this.postRoughSolutionError =
-         codingProblemsStore.postRoughSolutionAPIError
+         this.tabName === ROUGH_SOLUTION
+            ? codingProblemsStore.postRoughSolutionAPIError
+            : codingProblemsStore.postPrefilledCodeAPIError
    }
 
    postRoughSolutions = roughSolutions => {
       const { codingProblemsStore } = this.props
-      const { postProblemRoughSolution } = codingProblemsStore
-      postProblemRoughSolution(
-         {
-            question_id: this.codingProblemId,
-            rough_solutions: roughSolutions
-         },
-         this.onSuccessPostRoughSolutions,
-         this.onFailurePostRoughSolutions
-      )
+      if (this.tabName === ROUGH_SOLUTION) {
+         codingProblemsStore.postProblemRoughSolution(
+            {
+               question_id: this.codingProblemId,
+               rough_solutions: roughSolutions
+            },
+            this.onSuccessPostRoughSolutions,
+            this.onFailurePostRoughSolutions
+         )
+      } else {
+         codingProblemsStore.postProblemPrefilledCode(
+            {
+               question_id: this.codingProblemId,
+               prefilled_codes: roughSolutions
+            },
+            this.onSuccessPostRoughSolutions,
+            this.onFailurePostRoughSolutions
+         )
+      }
    }
 
    onClickSaveButton = () => {

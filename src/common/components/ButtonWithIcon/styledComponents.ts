@@ -3,12 +3,6 @@ import tw from 'tailwind.macro'
 
 import colors from '../../themes/Colors'
 
-export const ButtonContainer = styled.div`
-   ${tw`
-        flex
-    `}
-`
-
 type ButtonElProps = {
    isDisabled: boolean
 }
@@ -18,7 +12,7 @@ export const ButtonEl = styled.button`
        props.isDisabled ? `cursor: not-allowed;` : `cursor: pointer`}
    color: ${colors.steel};
    ${tw`
-        flex items-center p-2 text-xs focus:outline-none
+        flex items-center py-2 ml-3 text-xs focus:outline-none
     `}
 `
 

@@ -91,7 +91,6 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
 
    componentDidMount() {
       this.getCodingProblemDetails()
-      console.log('ComponentDidMount')
    }
 
    getCodingProblemDetails = () => {
@@ -307,7 +306,6 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
          getCodingProblemDetailsAPIStatus,
          getCodingProblemDetailsAPIError
       } = codingProblemsStore
-      console.log('Creating flow', getCodingProblemDetailsAPIStatus)
       return (
          <AppContainer>
             <ToastContainer closeButton={false} limit={5} transition={Slide} />

@@ -9,14 +9,23 @@ type ButtonWithIconProps = {
    onClickButton: () => void
    iconURL: string
    iconAltText: string
+   isDisabled: boolean
 }
 
 class ButtonWithIcon extends React.Component<ButtonWithIconProps> {
    render() {
-      const { buttonText, iconURL, iconAltText, onClickButton } = this.props
+      const {
+         buttonText,
+         iconURL,
+         iconAltText,
+         onClickButton,
+         isDisabled
+      } = this.props
       return (
          <ButtonContainer>
             <ButtonEl
+               isDisabled={isDisabled}
+               disabled={isDisabled}
                onClick={onClickButton}
                data-testid={BUTTON_WITH_ICON_TEST_ID}
             >

@@ -25,10 +25,10 @@ export const MCQsButton = styled.button`
          ? `background-color: ${colors.brightBlue};
             border-color: ${colors.lightBlueGrey};
             color: white;`
-         : `background-color: ${colors.lightBlueGrey};
-            border-color: ${colors.lightBlueGrey24};`}
+         : `background-color: ${colors.lightBlueGrey24};
+            border-color: ${colors.lightBlueGrey};`}
    ${tw`
-        w-56 text-sm py-2 border border-solid rounded-tl-md rounded-bl-md focus:outline-none
+        w-56 text-sm py-2 border border-solid rounded-tl rounded-bl focus:outline-none
     `}
 `
 
@@ -38,9 +38,9 @@ export const CodingProblemsButton = styled.button`
          ? `background-color: ${colors.brightBlue};
           border-color: ${colors.lightBlueGrey};
           color: white;`
-         : `background-color: ${colors.lightBlueGrey};
-          border-color: ${colors.lightBlueGrey24};`}
+         : `background-color: ${colors.lightBlueGrey24};
+          border-color: ${colors.lightBlueGrey};`}
    ${tw`
-        w-56 text-sm py-2 px-8 border border-solid rounded-tr-md rounded-br-md focus:outline-none
+        w-56 text-sm py-2 px-8 border border-solid rounded-tr rounded-br focus:outline-none
     `}
 `

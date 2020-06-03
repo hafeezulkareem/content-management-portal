@@ -76,11 +76,19 @@ class CodingProblemsFixture {
    }
 
    getCodingProblemsAPI() {
-      return new Promise(resolve => resolve(codingProblemsResponse))
+      return new Promise(resolve =>
+         setTimeout(() => {
+            resolve(codingProblemsResponse)
+         }, 1000)
+      )
    }
 
    getCodingProblemDetailsAPI() {
-      return new Promise(resolve => resolve(codingProblemDetailsResponse))
+      return new Promise(resolve =>
+         setTimeout(() => {
+            resolve(codingProblemDetailsResponse)
+         }, 1000)
+      )
    }
 }
 

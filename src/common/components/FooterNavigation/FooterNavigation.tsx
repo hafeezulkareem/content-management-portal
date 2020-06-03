@@ -43,6 +43,7 @@ class FooterNavigation extends React.Component<FooterNavigationProps> {
                iconAltText='Plus Icon'
                buttonText={buttonText}
                onClickButton={onClickAddButton}
+               isDisabled={false}
             />
             <PageDetailsContainer>
                <PageDetails>

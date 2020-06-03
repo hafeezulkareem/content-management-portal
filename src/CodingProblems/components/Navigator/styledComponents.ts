@@ -12,6 +12,7 @@ export const NavigatorContainer = styled.div`
 
 type NavigationButtonProps = {
    isActive: boolean
+   isDisabled: boolean
 }
 export const NavigationButton = styled.button`
    line-height: 16px;
@@ -21,6 +22,8 @@ export const NavigationButton = styled.button`
     `}
    ${(props: NavigationButtonProps) =>
       props.isActive
-         ? `border-color: ${colors.brightBlue}`
-         : `border-color: ${colors.white}`}
+         ? `border-color: ${colors.brightBlue};`
+         : `border-color: ${colors.white};`}
+   ${(props: NavigationButtonProps) =>
+      props.isDisabled ? `cursor: not-allowed;` : `cursor: pointer;`}
 `

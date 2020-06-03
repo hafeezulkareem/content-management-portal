@@ -1,10 +1,10 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { observable } from 'mobx'
-import { API_FETCHING } from '@ib/api-constants'
 import { withRouter } from 'react-router-dom'
 import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { API_FETCHING, API_SUCCESS } from '@ib/api-constants'
 
 import commonI18n from '../../../Common/i18n/strings.json'
 import { AppHeader } from '../../../Common/components/AppHeader'
@@ -12,6 +12,7 @@ import { ButtonWithIcon } from '../../../Common/components/ButtonWithIcon'
 import { PageTitle } from '../../../Common/components/PageTitle'
 import images from '../../../Common/themes/Images'
 import { ToastMessage } from '../../../Common/components/ToastMessage'
+import LoadingWrapperWithFailure from '../../../Common/components/LoadingWrapperWithFailure'
 
 import {
    STATEMENT,
@@ -89,15 +90,22 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
    isDataSaved: boolean = true
 
    componentDidMount() {
+      this.getCodingProblemDetails()
+      console.log('ComponentDidMount')
+   }
+
+   getCodingProblemDetails = () => {
       const {
          match: {
             params: { codingProblemId }
          }
       } = this.props
       const { create } = i18n as any
+      const { codingProblemsStore } = this.props
       if (codingProblemId !== create) {
-         const { codingProblemsStore } = this.props
          codingProblemsStore.getCodingProblemDetails(codingProblemId)
+      } else {
+         codingProblemsStore.getCodingProblemDetailsAPIStatus = API_SUCCESS
       }
    }
 
@@ -145,11 +153,10 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
       }
    }
 
-   renderRespectiveTabComponent = () => {
+   renderRespectiveTabComponent = observer(() => {
       const { codingProblemsStore } = this.props
       const { codingProblemDetails } = codingProblemsStore
-      let codingProblemId: number | null = null,
-         statement,
+      let statement,
          roughSolutions,
          testCases,
          prefilledCodes,
@@ -157,7 +164,6 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
          cleanSolutions,
          hints
       if (codingProblemDetails) {
-         codingProblemId = codingProblemDetails.codingProblemId
          statement = codingProblemDetails.statement
          roughSolutions = codingProblemDetails.roughSolutions
          testCases = codingProblemDetails.testCases
@@ -260,8 +266,19 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                   </SectionWrapper>
                </Wrapper>
             )
+         default:
+            return (
+               <Statement
+                  statementDetails={statement}
+                  codingProblemsStore={codingProblemsStore}
+                  onSelectTab={this.onSelectTab}
+                  currentTabIndex={this.selectedTabIndex}
+                  updateDataStatus={this.updateDataStatus}
+                  showToastMessage={this.showToastMessage}
+               />
+            )
       }
-   }
+   })
 
    getCapitalizedActiveTab = () => {
       const selectedTab = this.tabDetails.find(tab => tab.isSelected)
@@ -286,7 +303,11 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
       const { commonLabels } = commonI18n
       const activeTab = this.getCapitalizedActiveTab()
       const { codingProblemsStore, navigateToCodingProblemsHome } = this.props
-      const { getCodingProblemDetailsAPIStatus } = codingProblemsStore
+      const {
+         getCodingProblemDetailsAPIStatus,
+         getCodingProblemDetailsAPIError
+      } = codingProblemsStore
+      console.log('Creating flow', getCodingProblemDetailsAPIStatus)
       return (
          <AppContainer>
             <ToastContainer closeButton={false} limit={5} transition={Slide} />
@@ -301,16 +322,25 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                      iconAltText='Back Arrow Icon'
                      buttonText={commonLabels.backToList}
                      onClickButton={navigateToCodingProblemsHome}
+                     isDisabled={
+                        getCodingProblemDetailsAPIStatus === API_FETCHING
+                     }
                   />
                </BackButtonContainer>
                <PageTitle title={activeTab} />
                <Navigator
                   tabDetails={this.tabDetails}
                   onSelectTab={this.onSelectTab}
+                  areButtonsDisabled={
+                     getCodingProblemDetailsAPIStatus === API_FETCHING
+                  }
                />
-               {getCodingProblemDetailsAPIStatus !== API_FETCHING
-                  ? this.renderRespectiveTabComponent()
-                  : 'Loading...'}
+               <LoadingWrapperWithFailure
+                  apiStatus={getCodingProblemDetailsAPIStatus}
+                  apiError={getCodingProblemDetailsAPIError}
+                  onRetryClick={this.getCodingProblemDetails}
+                  renderSuccessUI={this.renderRespectiveTabComponent}
+               />
             </ContentContainer>
          </AppContainer>
       )

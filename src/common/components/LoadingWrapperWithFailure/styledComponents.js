@@ -1,12 +1,16 @@
 import styled from '@emotion/styled'
 import tw from 'tailwind.macro'
 
+import colors from '../../themes/Colors'
+
 export const LoadingViewContainer = styled.div`
-   ${tw`flex flex-col justify-center mx-8 h-full items-center bg-gray-200`}
+   background-color: ${colors.lightBlueGrey24};
+   ${tw`flex flex-col justify-center mx-8 h-full items-center`}
 `
 
 export const FailureViewContainer = styled.div`
-   ${tw`flex flex-col justify-center mx-8 h-full items-center bg-gray-200`}
+   background-color: ${colors.lightBlueGrey24};
+   ${tw`flex flex-col justify-center mx-8 h-full items-center`}
 `
 
 export const FailureViewMessage = styled.p`

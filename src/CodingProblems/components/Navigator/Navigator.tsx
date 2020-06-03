@@ -6,6 +6,7 @@ import { NavigatorContainer, NavigationButton } from './styledComponents'
 type NavigatorProps = {
    tabDetails: Array<any>
    onSelectTab: (string) => void
+   areButtonsDisabled: boolean
 }
 
 @observer
@@ -16,13 +17,15 @@ class Navigator extends React.Component<NavigatorProps> {
    }
 
    renderTabs = () => {
-      const { tabDetails } = this.props
+      const { tabDetails, areButtonsDisabled } = this.props
       return tabDetails.map(tab => (
          <NavigationButton
             data-testid={tab.tabName}
             key={tab.tabIndex}
             isActive={tab.isSelected}
             onClick={() => this.onSelectTab(tab.tabIndex)}
+            disabled={areButtonsDisabled}
+            isDisabled={areButtonsDisabled}
          >
             {tab.tabName.split('_').join(' ')}
          </NavigationButton>

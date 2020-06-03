@@ -6,33 +6,30 @@ import problemCleanSolutionResponse from '../../fixtures/postProblemCleanSolutio
 import problemHintResponse from '../../fixtures/postProblemHintResponse.json'
 import codingProblemsResponse from '../../fixtures/getCodingProblemsResponse.json'
 import codingProblemDetailsResponse from '../../fixtures/getCodingProblemDetailsResponse.json'
-import { resolve } from 'dns'
 
 class CodingProblemsFixture {
-   postProblemStatementAPI(dataObject) {
-      return new Promise((resolve, reject) => resolve(problemStatementResponse))
+   postProblemStatementAPI() {
+      return new Promise(resolve => resolve(problemStatementResponse))
    }
 
-   postProblemRoughSolutionAPI(dataObject) {
-      return new Promise((resolve, reject) =>
-         resolve(problemRoughSolutionResponse)
-      )
+   postProblemRoughSolutionAPI() {
+      return new Promise(resolve => resolve(problemRoughSolutionResponse))
    }
 
    deleteRoughSolutionAPI() {
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
          resolve('Rough solution is deleted')
       })
    }
 
    postProblemTestCaseAPI() {
-      return new Promise((resolve, _) => {
+      return new Promise(resolve => {
          resolve(problemTestCaseResponse)
       })
    }
 
    deleteTestCaseAPI() {
-      return new Promise((resolve, _) => {
+      return new Promise(resolve => {
          resolve('Test case is deleted')
       })
    }
@@ -50,7 +47,7 @@ class CodingProblemsFixture {
    }
 
    postSolutionApproachAPI() {
-      return new Promise((resolve, _) => {
+      return new Promise(resolve => {
          resolve(problemSolutionApproachResponse)
       })
    }
@@ -77,14 +74,12 @@ class CodingProblemsFixture {
       )
    }
 
-   getCodingProblemsAPI(codingProblemsOffset) {
-      return new Promise((resolve, reject) => resolve(codingProblemsResponse))
+   getCodingProblemsAPI() {
+      return new Promise(resolve => resolve(codingProblemsResponse))
    }
 
    getCodingProblemDetailsAPI() {
-      return new Promise((resolve, reject) =>
-         resolve(codingProblemDetailsResponse)
-      )
+      return new Promise(resolve => resolve(codingProblemDetailsResponse))
    }
 }
 

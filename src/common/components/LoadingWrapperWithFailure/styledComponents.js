@@ -5,12 +5,12 @@ import colors from '../../themes/Colors'
 
 export const LoadingViewContainer = styled.div`
    background-color: ${colors.lightBlueGrey24};
-   ${tw`flex flex-col justify-center mx-8 py-6 items-center`}
+   ${tw`w-full h-full flex flex-col justify-center py-6 items-center`}
 `
 
 export const FailureViewContainer = styled.div`
    background-color: ${colors.lightBlueGrey24};
-   ${tw`flex flex-col justify-center mx-8 py-6 items-center`}
+   ${tw`w-full h-full flex flex-col justify-center py-6 items-center`}
 `
 
 export const FailureViewMessage = styled.p`

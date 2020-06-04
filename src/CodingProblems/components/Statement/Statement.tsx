@@ -40,6 +40,9 @@ class Statement extends React.Component<StatementProps> {
    textType: string = commonI18n.textEditorTypes[0].optionText.toLowerCase()
    @observable shortTextError: string | null = null
    @observable descriptionError: string | null = null
+   previousShortText
+   previousText
+   previousTextType
 
    constructor(props) {
       super(props)
@@ -52,44 +55,61 @@ class Statement extends React.Component<StatementProps> {
       this.textType = commonI18n.textEditorTypes[0].optionText.toLowerCase()
    }
 
+   setStatementData = statementDetails => {
+      this.shortText = statementDetails.shortText
+      this.text = statementDetails.content
+      this.textType = statementDetails.contentType
+   }
+
    componentDidMount() {
       const {
          statementDetails,
          codingProblemsStore: { postStatementAPIResponse }
       } = this.props
       if (postStatementAPIResponse) {
-         console.log('Statement component:- ', postStatementAPIResponse)
-         this.shortText = postStatementAPIResponse.shortText
-         this.text = postStatementAPIResponse.content
-         this.textType = postStatementAPIResponse.contentType
+         this.setStatementData(postStatementAPIResponse)
       } else if (statementDetails) {
-         this.shortText = statementDetails.shortText
-         this.text = statementDetails.content
-         this.textType = statementDetails.contentType
+         this.setStatementData(statementDetails)
+      }
+      this.previousShortText = this.shortText
+      this.previousText = this.text
+      this.previousTextType = this.textType
+   }
+
+   updateDataStatus = () => {
+      const { updateDataStatus } = this.props
+      if (
+         this.previousShortText !== this.shortText ||
+         this.previousText !== this.text ||
+         this.previousTextType.toLowerCase() !== this.textType.toLowerCase()
+      ) {
+         updateDataStatus(false)
+      } else {
+         updateDataStatus(true)
       }
    }
 
    onChangeShortText = event => {
       this.shortTextError = null
       this.shortText = event.target.value
-      this.props.updateDataStatus(this.shortText)
+      this.updateDataStatus()
    }
 
    onChangeDescription = updatedValue => {
       this.descriptionError = null
       this.text = updatedValue
-      this.props.updateDataStatus(this.text)
+      this.updateDataStatus()
    }
 
    onChangeTextType = event => {
       this.textType = event.target.value
-      this.props.updateDataStatus(this.textType)
+      this.updateDataStatus()
    }
 
    moveToNextTab = () => {
       const { onSelectTab, currentTabIndex, updateDataStatus } = this.props
       this.init()
-      updateDataStatus(false)
+      updateDataStatus(true)
       onSelectTab(currentTabIndex + 1)
    }
 

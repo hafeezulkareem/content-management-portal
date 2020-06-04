@@ -13,7 +13,7 @@ import { CODING_PROBLEMS_LIMIT_PER_PAGE } from '../../constants/APILimitConstant
 
 import { CodingProblemsList } from '../CodingProblemsList'
 
-import { AppContainer } from './styledComponents'
+import { AppContainer, LoadingWrapperAndProblemsList } from './styledComponents'
 
 type CodingProblemsHomeProps = {
    codingProblemsStore: any
@@ -97,12 +97,14 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
                onClickCodingButton={() => {}}
             />
             <SelectList isSelected={false} onSelect={() => {}} />
-            <LoadingWrapperWithFailure
-               apiStatus={getCodingProblemsAPIStatus}
-               apiError={getCodingProblemsAPIError}
-               onRetryClick={this.getCodingProblems}
-               renderSuccessUI={this.renderSuccessUI}
-            />
+            <LoadingWrapperAndProblemsList>
+               <LoadingWrapperWithFailure
+                  apiStatus={getCodingProblemsAPIStatus}
+                  apiError={getCodingProblemsAPIError}
+                  onRetryClick={this.getCodingProblems}
+                  renderSuccessUI={this.renderSuccessUI}
+               />
+            </LoadingWrapperAndProblemsList>
             <FooterNavigation
                currentCodingProblemsPage={currentCodingProblemsPage}
                totalCodingProblemsPageCount={totalCodingProblemsPageCount}

@@ -6,7 +6,7 @@ import colors from '../../../Common/themes/Colors'
 export const CodingProblemsListContainer = styled.div`
    border-color: ${colors.lightBlueGrey};
    ${tw`
-        mx-8 rounded-sm border border-solid
+        rounded-sm border border-solid
     `}
 `
 

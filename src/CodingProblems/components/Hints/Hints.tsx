@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import { observable, ObservableMap } from 'mobx'
+import { observable, ObservableMap, toJS } from 'mobx'
 
 import commonI18n from '../../../Common/i18n/strings.json'
 
@@ -16,6 +16,7 @@ type HintsProps = {
    codingProblemsStore: any
    hints: any
    showToastMessage: any
+   updateDataStatus: any
 }
 
 @observer
@@ -25,6 +26,7 @@ class Hints extends React.Component<HintsProps> {
    @observable descriptionErrorMessage!: string | null
    currentHintNumber!: number
    currentDeletingHintUniqueId!: number | null
+   previousHintsData: any
 
    constructor(props) {
       super(props)
@@ -62,6 +64,50 @@ class Hints extends React.Component<HintsProps> {
          this.setHintsDataToList(hints)
       } else {
          this.generateNewHint()
+      }
+      this.previousHintsData = new Map()
+      this.hintsList.forEach((hint, key) => {
+         this.previousHintsData.set(key, {
+            title: hint.title,
+            description: { ...hint.description }
+         })
+      })
+   }
+
+   isPreviousDataSameAsPresentData = () => {
+      for (const key in toJS(this.hintsList)) {
+         if (this.previousHintsData.has(key)) {
+            console.log(this.previousHintsData.get(key).description)
+            if (
+               this.previousHintsData.get(key).title !==
+                  this.hintsList.get(key).title ||
+               this.previousHintsData.get(key).description.content !==
+                  this.hintsList.get(key).description.content ||
+               this.previousHintsData
+                  .get(key)
+                  .description.contentType.toLowerCase() !==
+                  this.hintsList.get(key).description.contentType.toLowerCase()
+            ) {
+               return false
+            }
+         } else {
+            if (
+               '' !== this.hintsList.get(key).title ||
+               '' !== this.hintsList.get(key).description.content
+            ) {
+               return false
+            }
+         }
+      }
+      return true
+   }
+
+   updateDataStatus = () => {
+      const { updateDataStatus } = this.props
+      if (this.isPreviousDataSameAsPresentData()) {
+         updateDataStatus(true)
+      } else {
+         updateDataStatus(false)
       }
    }
 
@@ -108,22 +154,26 @@ class Hints extends React.Component<HintsProps> {
       const currentHint = this.hintsList.get(uniqueId)
       currentHint.title = event.target.value
       this.initErrors()
+      this.updateDataStatus()
    }
 
    onChangeDescription = (event, uniqueId) => {
       const currentHint = this.hintsList.get(uniqueId)
       currentHint.description.content = event.target.value
       this.initErrors()
+      this.updateDataStatus()
    }
 
    onChangeDescriptionType = (event, uniqueId) => {
       const currentHint = this.hintsList.get(uniqueId)
       currentHint.description.contentType = event.target.value
+      this.updateDataStatus()
    }
 
    onSuccessHintDelete = () => {
-      const { showToastMessage } = this.props
+      const { showToastMessage, updateDataStatus } = this.props
       const { deleteSuccessMessages } = i18n
+      updateDataStatus(true)
       showToastMessage(deleteSuccessMessages.hint, false, 700, this.deleteHint)
    }
 

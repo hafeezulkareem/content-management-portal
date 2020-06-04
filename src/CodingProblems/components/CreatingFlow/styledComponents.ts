@@ -30,3 +30,12 @@ export const SectionWrapper = styled.div`
         w-full flex flex-col
     `}
 `
+
+type LoadingWrapperWithStatementProps = {
+   isLoading: boolean
+}
+
+export const LoadingWrapperWithStatement = styled.div`
+   ${(props: LoadingWrapperWithStatementProps) =>
+      props.isLoading ? `height: 50vh; margin: 0 5%;` : ``}
+`

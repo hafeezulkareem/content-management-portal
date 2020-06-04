@@ -1,5 +1,5 @@
 import React from 'react'
-import { observable } from 'mobx'
+import { observable, toJS } from 'mobx'
 import { observer } from 'mobx-react'
 
 import { CodeEditor } from '../../../Common/components/CodeEditor'
@@ -15,6 +15,7 @@ import {
    CodeEditorsContainer,
    RoughSolutionsWrapper
 } from './styledComponents'
+import { roughSolution } from './RoughtSolution.stories'
 
 type RoughSolutionProps = {
    codingProblemsStore: any
@@ -32,6 +33,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    errorMessage!: string | null
    currentCodeEditorId
    tabName
+   previousRoughSolutionsData: any
 
    constructor(props) {
       super(props)
@@ -74,6 +76,49 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
       } else {
          this.setNewCodeEditor()
       }
+      this.previousRoughSolutionsData = new Map()
+      this.codeEditorsList.forEach((roughSolution, key) => {
+         this.previousRoughSolutionsData.set(key, { ...roughSolution })
+      })
+   }
+
+   isPreviousDataSameAsPresentData = () => {
+      for (const key in toJS(this.codeEditorsList)) {
+         if (this.previousRoughSolutionsData.has(key)) {
+            if (
+               this.previousRoughSolutionsData.get(key).content !==
+                  this.codeEditorsList.get(key).content ||
+               this.previousRoughSolutionsData
+                  .get(key)
+                  .programmingLanguage.toLowerCase() !==
+                  this.codeEditorsList
+                     .get(key)
+                     .programmingLanguage.toLowerCase() ||
+               this.previousRoughSolutionsData.get(key).fileName !==
+                  this.codeEditorsList.get(key).fileName
+            ) {
+               return false
+            }
+         } else {
+            if (
+               '' !== this.codeEditorsList.get(key).content ||
+               '' !== this.codeEditorsList.get(key).programmingLanguage ||
+               '' !== this.codeEditorsList.get(key).fileName
+            ) {
+               return false
+            }
+         }
+      }
+      return true
+   }
+
+   updateDataStatus = () => {
+      const { updateDataStatus } = this.props
+      if (this.isPreviousDataSameAsPresentData()) {
+         updateDataStatus(true)
+      } else {
+         updateDataStatus(false)
+      }
    }
 
    init = () => {
@@ -108,21 +153,21 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
       const currentCodeEditor = this.codeEditorsList.get(id)
       currentCodeEditor.fileName = updatedValue
       this.initializeErrors()
-      this.props.updateDataStatus(updatedValue)
+      this.updateDataStatus()
    }
 
    onChangeProgrammingLanguage = (updatedProgrammingLanguage, id) => {
       const currentCodeEditor = this.codeEditorsList.get(id)
       currentCodeEditor.programmingLanguage = updatedProgrammingLanguage
       this.initializeErrors()
-      this.props.updateDataStatus(updatedProgrammingLanguage)
+      this.updateDataStatus()
    }
 
    onChangeContent = (updatedContent, id) => {
       const currentCodeEditor = this.codeEditorsList.get(id)
       currentCodeEditor.content = updatedContent
       this.initializeErrors()
-      this.props.updateDataStatus(updatedContent)
+      this.updateDataStatus()
    }
 
    onSuccessDeleteRoughSolution = () => {
@@ -233,7 +278,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    moveToNextTab = () => {
       this.init()
       const { onSelectTab, currentTabIndex, updateDataStatus } = this.props
-      updateDataStatus(false)
+      updateDataStatus(true)
       onSelectTab(currentTabIndex + 1)
    }
 

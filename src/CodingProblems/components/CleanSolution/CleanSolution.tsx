@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import { observable, ObservableMap } from 'mobx'
+import { observable, ObservableMap, toJS } from 'mobx'
 
 import i18n from '../../i18n/strings.json'
 import { CleanSolutionModel } from '../../stores/models/CleanSolutionModel'
@@ -16,6 +16,7 @@ type CleanSolutionProps = {
    onSelectTab: any
    currentTabIndex: number
    showToastMessage: any
+   updateDataStatus: any
 }
 
 @observer
@@ -24,6 +25,7 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
    @observable errorMessage!: string | null
    codingProblemId!: number | null
    currentCodeEditorId
+   previousCleanSolutionData: any
 
    constructor(props) {
       super(props)
@@ -59,6 +61,47 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
       } else {
          this.generateCodeEditor()
       }
+      this.previousCleanSolutionData = new Map()
+      this.codeEditorsList.forEach((cleanSolution, key) => {
+         this.previousCleanSolutionData.set(key, { ...cleanSolution })
+      })
+   }
+
+   isPreviousDataSameAsPresentData = () => {
+      for (const key in toJS(this.codeEditorsList)) {
+         if (this.previousCleanSolutionData.has(key)) {
+            if (
+               this.previousCleanSolutionData.get(key).solutionContent !==
+                  this.codeEditorsList.get(key).solutionContent ||
+               this.previousCleanSolutionData
+                  .get(key)
+                  .language.toLowerCase() !==
+                  this.codeEditorsList.get(key).language.toLowerCase() ||
+               this.previousCleanSolutionData.get(key).fileName !==
+                  this.codeEditorsList.get(key).fileName
+            ) {
+               return false
+            }
+         } else {
+            if (
+               '' !== this.codeEditorsList.get(key).solutionContent ||
+               '' !== this.codeEditorsList.get(key).language ||
+               '' !== this.codeEditorsList.get(key).fileName
+            ) {
+               return false
+            }
+         }
+      }
+      return true
+   }
+
+   updateDataStatus = () => {
+      const { updateDataStatus } = this.props
+      if (this.isPreviousDataSameAsPresentData()) {
+         updateDataStatus(true)
+      } else {
+         updateDataStatus(false)
+      }
    }
 
    generateCodeEditor = () => {
@@ -81,18 +124,21 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
       const currentCodeEditor = this.codeEditorsList.get(uniqueId)
       currentCodeEditor.fileName = event.target.value
       this.initErrors()
+      this.updateDataStatus()
    }
 
    onChangeLanguage = (event, uniqueId) => {
       const currentCodeEditor = this.codeEditorsList.get(uniqueId)
       currentCodeEditor.language = event.target.value
       this.initErrors()
+      this.updateDataStatus()
    }
 
    onChangeSolutionContent = (solutionContent, uniqueId) => {
       const currentCodeEditor = this.codeEditorsList.get(uniqueId)
       currentCodeEditor.solutionContent = solutionContent
       this.initErrors()
+      this.updateDataStatus()
    }
 
    onSuccessCleanSolutionDelete = () => {
@@ -173,7 +219,8 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
 
    moveToNextTab = () => {
       this.init()
-      const { onSelectTab, currentTabIndex } = this.props
+      const { onSelectTab, currentTabIndex, updateDataStatus } = this.props
+      updateDataStatus(true)
       onSelectTab(currentTabIndex + 1)
    }
 

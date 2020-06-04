@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import { observable, ObservableMap } from 'mobx'
+import { observable, ObservableMap, toJS } from 'mobx'
 
 import { TestCaseModel } from '../../stores/models/TestCaseModel'
 import { NUMBER_REGEX } from '../../constants/RegexConstants'
@@ -15,6 +15,7 @@ type TestCasesProps = {
    codingProblemStore: any
    testCases: any
    showToastMessage: any
+   updateDataStatus: any
 }
 
 @observer
@@ -25,6 +26,7 @@ class TestCases extends React.Component<TestCasesProps> {
    @observable scoreErrorMessage!: string | null
    currentTestCaseNumber!: number
    currentDeletingTestCaseUniqueId!: number | null
+   previousTestCaseData: any
 
    constructor(props) {
       super(props)
@@ -63,6 +65,47 @@ class TestCases extends React.Component<TestCasesProps> {
          this.setTestCasesDataToList(testCases)
       } else {
          this.generateNewTestCase()
+      }
+      this.previousTestCaseData = new Map()
+      this.testCasesList.forEach((testCase, key) => {
+         this.previousTestCaseData.set(key, { ...testCase })
+      })
+   }
+
+   isPreviousDataSameAsPresentData = () => {
+      for (const key in toJS(this.testCasesList)) {
+         if (this.previousTestCaseData.has(key)) {
+            if (
+               this.previousTestCaseData.get(key).input !==
+                  this.testCasesList.get(key).input ||
+               this.previousTestCaseData.get(key).output !==
+                  this.testCasesList.get(key).output ||
+               this.previousTestCaseData.get(key).score.toString() !==
+                  this.testCasesList.get(key).score.toString() ||
+               this.previousTestCaseData.get(key).isHidden !==
+                  this.testCasesList.get(key).isHidden
+            ) {
+               return false
+            }
+         } else {
+            if (
+               '' !== this.testCasesList.get(key).input ||
+               '' !== this.testCasesList.get(key).output ||
+               '' !== this.testCasesList.get(key).score
+            ) {
+               return false
+            }
+         }
+      }
+      return true
+   }
+
+   updateDataStatus = () => {
+      const { updateDataStatus } = this.props
+      if (this.isPreviousDataSameAsPresentData()) {
+         updateDataStatus(true)
+      } else {
+         updateDataStatus(false)
       }
    }
 
@@ -181,12 +224,14 @@ class TestCases extends React.Component<TestCasesProps> {
       const currentTestCase: TestCaseModel = this.testCasesList.get(uniqueId)
       currentTestCase.input = updatedInput
       this.initializeErrors()
+      this.updateDataStatus()
    }
 
    onChangeOutput = (updatedOutput, uniqueId) => {
       const currentTestCase = this.testCasesList.get(uniqueId)
       currentTestCase.output = updatedOutput
       this.initializeErrors()
+      this.updateDataStatus()
    }
 
    onChangeScore = (event, uniqueId) => {
@@ -199,6 +244,7 @@ class TestCases extends React.Component<TestCasesProps> {
          currentTestCase.score =
             updatedScore !== '' ? Number.parseInt(event.target.value) : ''
          this.initializeErrors()
+         this.updateDataStatus()
       } else {
          this.scoreErrorMessage = errors.invalidInput
       }
@@ -208,6 +254,7 @@ class TestCases extends React.Component<TestCasesProps> {
       const currentTestCase = this.testCasesList.get(uniqueId)
       currentTestCase.isHidden = event.target.checked
       this.initializeErrors()
+      this.updateDataStatus()
    }
 
    areAllFieldsFilled = uniqueId => {
@@ -230,8 +277,9 @@ class TestCases extends React.Component<TestCasesProps> {
    }
 
    onSuccessPostTestCase = () => {
-      const { showToastMessage } = this.props
+      const { showToastMessage, updateDataStatus } = this.props
       const { postSuccessMessages } = i18n as any
+      updateDataStatus(true)
       showToastMessage(postSuccessMessages.testCases, false, 700, () => {})
    }
 

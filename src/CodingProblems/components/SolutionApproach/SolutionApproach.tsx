@@ -1,5 +1,5 @@
 import React from 'react'
-import { observable, toJS } from 'mobx'
+import { observable } from 'mobx'
 import { observer } from 'mobx-react'
 
 import commonI18n from '../../../Common/i18n/strings.json'
@@ -30,6 +30,7 @@ type SolutionApproachProps = {
    onSelectTab: any
    currentTabIndex: number
    showToastMessage: any
+   updateDataStatus: any
 }
 
 @observer
@@ -42,6 +43,7 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
    @observable complexityAnalysisErrorMessage!: string | null
    @observable writingField!: string
    solutionApproachId!: number | null
+   previousSolutionApproachData: any
 
    constructor(props) {
       super(props)
@@ -85,6 +87,30 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
       } else if (solutionApproach) {
          this.setSolutionApproachData(solutionApproach)
       }
+      this.previousSolutionApproachData = {
+         title: this.title,
+         description: { ...this.description },
+         complexityAnalysis: { ...this.complexityAnalysis }
+      }
+   }
+
+   updateDataStatus = () => {
+      const { updateDataStatus } = this.props
+      if (
+         this.title !== this.previousSolutionApproachData.title ||
+         this.description.content !==
+            this.previousSolutionApproachData.description.content ||
+         this.description.type !==
+            this.previousSolutionApproachData.description.type ||
+         this.complexityAnalysis.content !==
+            this.previousSolutionApproachData.complexityAnalysis.content ||
+         this.complexityAnalysis.type !==
+            this.previousSolutionApproachData.complexityAnalysis.type
+      ) {
+         updateDataStatus(false)
+      } else {
+         updateDataStatus(true)
+      }
    }
 
    renderPreviewer = () => {
@@ -111,26 +137,31 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
    onChangeTitle = event => {
       this.title = event.target.value
       this.initErrors()
+      this.updateDataStatus()
    }
 
    onChangeDescriptionType = event => {
       this.description.type = event.target.value
+      this.updateDataStatus()
    }
 
    onChangeDescriptionContent = updatedContent => {
       this.writingField = i18n.solutionApproach.description
       this.description.content = updatedContent
       this.initErrors()
+      this.updateDataStatus()
    }
 
    onChangeComplexityAnalysisType = event => {
       this.complexityAnalysis.type = event.target.value
+      this.updateDataStatus()
    }
 
    onChangeComplexityAnalysisContent = updatedContent => {
       this.writingField = i18n.solutionApproach.complexityAnalysis
       this.complexityAnalysis.content = updatedContent
       this.initErrors()
+      this.updateDataStatus()
    }
 
    areAllFieldsFilled = () => {
@@ -153,7 +184,8 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
 
    moveToNextTab = () => {
       this.init()
-      const { onSelectTab, currentTabIndex } = this.props
+      const { onSelectTab, currentTabIndex, updateDataStatus } = this.props
+      updateDataStatus(true)
       onSelectTab(currentTabIndex + 1)
    }
 

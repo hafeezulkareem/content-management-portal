@@ -65,15 +65,6 @@
          "prefilled_code_status": true,
          "solution_approach_status": false,
          "clean_solution_status": false
-      },
-      {
-         "question_id": 7,
-         "statement": "This is coding statement example given by the backend team for content management portal",
-         "rough_solution_status": false,
-         "test_cases_status": true,
-         "prefilled_code_status": true,
-         "solution_approach_status": true,
-         "clean_solution_status": false
       }
    ]
 }

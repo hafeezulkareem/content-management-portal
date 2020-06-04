@@ -38,7 +38,8 @@ import {
    ContentContainer,
    SectionWrapper,
    Wrapper,
-   BackButtonContainer
+   BackButtonContainer,
+   LoadingWrapperWithStatement
 } from './styledComponents'
 
 type CreatingFlowProps = {
@@ -209,6 +210,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                         codingProblemStore={codingProblemsStore}
                         testCases={testCases}
                         showToastMessage={this.showToastMessage}
+                        updateDataStatus={this.updateDataStatus}
                      />
                   </SectionWrapper>
                </Wrapper>
@@ -238,6 +240,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                   onSelectTab={this.onSelectTab}
                   currentTabIndex={this.selectedTabIndex}
                   showToastMessage={this.showToastMessage}
+                  updateDataStatus={this.updateDataStatus}
                />
             )
          case 6:
@@ -250,6 +253,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                         onSelectTab={this.onSelectTab}
                         currentTabIndex={this.selectedTabIndex}
                         showToastMessage={this.showToastMessage}
+                        updateDataStatus={this.updateDataStatus}
                      />
                   </SectionWrapper>
                </Wrapper>
@@ -262,6 +266,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                         codingProblemsStore={codingProblemsStore}
                         hints={hints}
                         showToastMessage={this.showToastMessage}
+                        updateDataStatus={this.updateDataStatus}
                      />
                   </SectionWrapper>
                </Wrapper>
@@ -291,12 +296,8 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
          .join(' ')
    }
 
-   updateDataStatus = updatedContent => {
-      if (!updatedContent) {
-         this.isDataSaved = true
-      } else {
-         this.isDataSaved = false
-      }
+   updateDataStatus = isDataSaved => {
+      this.isDataSaved = isDataSaved
    }
 
    render() {
@@ -334,12 +335,16 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                      getCodingProblemDetailsAPIStatus === API_FETCHING
                   }
                />
-               <LoadingWrapperWithFailure
-                  apiStatus={getCodingProblemDetailsAPIStatus}
-                  apiError={getCodingProblemDetailsAPIError}
-                  onRetryClick={this.getCodingProblemDetails}
-                  renderSuccessUI={this.renderRespectiveTabComponent}
-               />
+               <LoadingWrapperWithStatement
+                  isLoading={getCodingProblemDetailsAPIStatus === API_FETCHING}
+               >
+                  <LoadingWrapperWithFailure
+                     apiStatus={getCodingProblemDetailsAPIStatus}
+                     apiError={getCodingProblemDetailsAPIError}
+                     onRetryClick={this.getCodingProblemDetails}
+                     renderSuccessUI={this.renderRespectiveTabComponent}
+                  />
+               </LoadingWrapperWithStatement>
             </ContentContainer>
          </AppContainer>
       )

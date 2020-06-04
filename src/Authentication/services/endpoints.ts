@@ -1,5 +1,3 @@
-const endpoints = {
-   signIn: 'signin/v1'
+export const endpoints = {
+   signIn: '/login/v1/'
 }
-
-export { endpoints }

@@ -61,7 +61,7 @@ class TestCases extends React.Component<TestCasesProps> {
       } = this.props
       if (postTestCaseAPIResponses.length > 0) {
          this.setTestCasesDataToList(postTestCaseAPIResponses)
-      } else if (testCases) {
+      } else if (testCases.length > 0) {
          this.setTestCasesDataToList(testCases)
       } else {
          this.generateNewTestCase()

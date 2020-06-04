@@ -63,14 +63,17 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
             postPrefilledCodeAPIResponse
          }
       } = this.props
-      if (this.tabName === ROUGH_SOLUTION && postRoughSolutionAPIResponse) {
+      if (
+         this.tabName === ROUGH_SOLUTION &&
+         postRoughSolutionAPIResponse.length > 0
+      ) {
          this.setRoughSolutionDataToList(postRoughSolutionAPIResponse)
       } else if (
          this.tabName === PREFILLED_CODE &&
-         postPrefilledCodeAPIResponse
+         postPrefilledCodeAPIResponse.length > 0
       ) {
          this.setRoughSolutionDataToList(postPrefilledCodeAPIResponse)
-      } else if (roughSolutions) {
+      } else if (roughSolutions.length > 0) {
          this.setRoughSolutionDataToList(roughSolutions)
       } else {
          this.setNewCodeEditor()
@@ -305,17 +308,13 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
       } = this.props
       if (this.tabName === ROUGH_SOLUTION) {
          postProblemRoughSolution(
-            {
-               rough_solutions: roughSolutions
-            },
+            roughSolutions,
             this.onSuccessPostRoughSolutions,
             this.onFailurePostRoughSolutions
          )
       } else {
          postProblemPrefilledCode(
-            {
-               prefilled_codes: roughSolutions
-            },
+            roughSolutions,
             this.onSuccessPostRoughSolutions,
             this.onFailurePostRoughSolutions
          )

@@ -31,5 +31,5 @@ export const FailureViewMessage = styled.p`
 
 export const RetryButton = styled.button`
    background-color: ${colors.brightBlue};
-   ${tw`px-8 py-2 mb-6 text-white text-xl rounded`}
+   ${tw`px-8 py-2 mb-6 text-white text-xl rounded focus:outline-none`}
 `

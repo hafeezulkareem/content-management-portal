@@ -17,12 +17,12 @@
       },
       {
          "optionText": "C++",
-         "value": "C++",
+         "value": "CPP",
          "id": "cpp"
       },
       {
          "optionText": "C#",
-         "value": "C#",
+         "value": "CS",
          "id": "cs"
       },
       {

@@ -82,9 +82,10 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
          currentCodingProblemsPage
       } = codingProblemsStore
       const { addCodingQuestions } = i18n as any
-      const totalCodingProblemsPageCount = Math.ceil(
-         totalCodingProblems / CODING_PROBLEMS_LIMIT_PER_PAGE
-      )
+      const totalCodingProblemsPageCount =
+         totalCodingProblems > 0
+            ? Math.ceil(totalCodingProblems / CODING_PROBLEMS_LIMIT_PER_PAGE)
+            : 0
       return (
          <AppContainer>
             <AppHeader

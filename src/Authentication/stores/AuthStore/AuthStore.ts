@@ -6,6 +6,7 @@ import {
    setAccessToken,
    clearUserSession
 } from '../../../Common/utils/StorageUtils'
+import { getUserDisplayableErrorMessage } from '../../../Common/utils/APIUtils'
 
 class AuthStore {
    @observable postSignInAPIStatus
@@ -35,7 +36,7 @@ class AuthStore {
 
    @action.bound
    setLoginAPIError(signInAPIError) {
-      this.postSignInAPIError = signInAPIError
+      this.postSignInAPIError = getUserDisplayableErrorMessage(signInAPIError)
    }
 
    @action.bound

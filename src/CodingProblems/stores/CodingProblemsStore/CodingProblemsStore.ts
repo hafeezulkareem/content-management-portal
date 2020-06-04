@@ -1,6 +1,8 @@
-import { action, observable, toJS } from 'mobx'
+import { action, observable } from 'mobx'
 import { bindPromiseWithOnSuccess } from '@ib/mobx-promise'
 import { API_INITIAL } from '@ib/api-constants'
+
+import { getUserDisplayableErrorMessage } from '../../../Common/utils/APIUtils'
 
 import { CodingProblemItemModel } from '../models/CodingProblemItemModel'
 import { CodingProblemDetailsModel } from '../models/CodingProblemDetailsModel'
@@ -102,11 +104,11 @@ class CodingProblemsStore {
    @action.bound
    initCodingProblemResponses() {
       this.postStatementAPIResponse = null
-      this.postRoughSolutionAPIResponse = null
+      this.postRoughSolutionAPIResponse = []
       this.postTestCaseAPIResponses = []
-      this.postPrefilledCodeAPIResponse = null
+      this.postPrefilledCodeAPIResponse = []
       this.postSolutionApproachAPIResponse = null
-      this.postCleanSolutionAPIResponse = null
+      this.postCleanSolutionAPIResponse = []
       this.postHintAPIResponses = []
    }
 
@@ -121,7 +123,9 @@ class CodingProblemsStore {
 
    @action.bound
    setStatementAPIError(statementAPIError) {
-      this.postStatementAPIError = statementAPIError
+      this.postStatementAPIError = getUserDisplayableErrorMessage(
+         statementAPIError
+      )
    }
 
    @action.bound
@@ -167,7 +171,9 @@ class CodingProblemsStore {
 
    @action.bound
    setRoughSolutionAPIError(roughSolutionAPIError) {
-      this.postRoughSolutionAPIError = roughSolutionAPIError
+      this.postRoughSolutionAPIError = getUserDisplayableErrorMessage(
+         roughSolutionAPIError
+      )
    }
 
    @action.bound
@@ -210,7 +216,9 @@ class CodingProblemsStore {
 
    @action.bound
    setRoughSolutionDeleteAPIError(roughSolutionDeleteAPIError) {
-      this.deleteRoughSolutionAPIError = roughSolutionDeleteAPIError
+      this.deleteRoughSolutionAPIError = getUserDisplayableErrorMessage(
+         roughSolutionDeleteAPIError
+      )
    }
 
    @action.bound
@@ -240,7 +248,9 @@ class CodingProblemsStore {
 
    @action.bound
    setTestCaseAPIError(testCaseAPIError) {
-      this.postTestCaseAPIError = testCaseAPIError
+      this.postTestCaseAPIError = getUserDisplayableErrorMessage(
+         testCaseAPIError
+      )
    }
 
    @action.bound
@@ -295,7 +305,9 @@ class CodingProblemsStore {
 
    @action.bound
    setTestCaseDeleteAPIError(testCaseDeleteAPIError) {
-      this.deleteTestCaseAPIError = testCaseDeleteAPIError
+      this.deleteTestCaseAPIError = getUserDisplayableErrorMessage(
+         testCaseDeleteAPIError
+      )
    }
 
    @action.bound
@@ -325,7 +337,9 @@ class CodingProblemsStore {
 
    @action.bound
    setPrefilledCodePostAPIError(prefilledCodePostAPIError) {
-      this.postPrefilledCodeAPIError = prefilledCodePostAPIError
+      this.postPrefilledCodeAPIError = getUserDisplayableErrorMessage(
+         prefilledCodePostAPIError
+      )
    }
 
    @action.bound
@@ -368,7 +382,9 @@ class CodingProblemsStore {
 
    @action.bound
    setPrefilledCodeDeleteAPIError(prefilledCodeDeleteAPIError) {
-      this.deletePrefilledCodeAPIError = prefilledCodeDeleteAPIError
+      this.deletePrefilledCodeAPIError = getUserDisplayableErrorMessage(
+         prefilledCodeDeleteAPIError
+      )
    }
 
    @action.bound
@@ -398,14 +414,16 @@ class CodingProblemsStore {
 
    @action.bound
    setSolutionApproachAPIError(solutionApproachAPIError) {
-      this.postSolutionApproachAPIError = solutionApproachAPIError
+      this.postSolutionApproachAPIError = getUserDisplayableErrorMessage(
+         solutionApproachAPIError
+      )
    }
 
    @action.bound
    setSolutionApproachAPIResponse(solutionApproachAPIResponse) {
       if (solutionApproachAPIResponse) {
          this.postSolutionApproachAPIResponse = new SolutionApproachModel(
-            solutionApproachAPIResponse
+            solutionApproachAPIResponse.solution_approach
          )
       }
    }
@@ -438,7 +456,9 @@ class CodingProblemsStore {
 
    @action.bound
    setCleanSolutionAPIError(cleanSolutionAPIError) {
-      this.postCleanSolutionAPIError = cleanSolutionAPIError
+      this.postCleanSolutionAPIError = getUserDisplayableErrorMessage(
+         cleanSolutionAPIError
+      )
    }
 
    @action.bound
@@ -482,7 +502,9 @@ class CodingProblemsStore {
 
    @action.bound
    setCleanSolutionDeleteAPIError(cleanSolutionDeleteAPIError) {
-      this.deleteCleanSolutionAPIError = cleanSolutionDeleteAPIError
+      this.deleteCleanSolutionAPIError = getUserDisplayableErrorMessage(
+         cleanSolutionDeleteAPIError
+      )
    }
 
    @action.bound
@@ -512,7 +534,7 @@ class CodingProblemsStore {
 
    @action.bound
    setHintAPIError(hintAPIError) {
-      this.postHintAPIError = hintAPIError
+      this.postHintAPIError = getUserDisplayableErrorMessage(hintAPIError)
    }
 
    @action.bound
@@ -565,7 +587,9 @@ class CodingProblemsStore {
 
    @action.bound
    setHintDeleteAPIError(hintDeleteAPIError) {
-      this.deleteHintAPIError = hintDeleteAPIError
+      this.deleteHintAPIError = getUserDisplayableErrorMessage(
+         hintDeleteAPIError
+      )
    }
 
    @action.bound
@@ -591,7 +615,9 @@ class CodingProblemsStore {
 
    @action.bound
    setCodingProblemsAPIError(codingProblemsAPIError) {
-      this.getCodingProblemsAPIError = codingProblemsAPIError
+      this.getCodingProblemsAPIError = getUserDisplayableErrorMessage(
+         codingProblemsAPIError
+      )
    }
 
    @action.bound
@@ -656,7 +682,9 @@ class CodingProblemsStore {
 
    @action.bound
    setCodingProblemDetailsAPIError(codingProblemDetailsAPIError) {
-      this.getCodingProblemDetailsAPIError = codingProblemDetailsAPIError
+      this.getCodingProblemDetailsAPIError = getUserDisplayableErrorMessage(
+         codingProblemDetailsAPIError
+      )
    }
 
    @action.bound

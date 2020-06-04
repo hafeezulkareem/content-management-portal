@@ -118,16 +118,20 @@ class Pagination extends React.Component<PaginationProps> {
          <PaginationContainer>
             <PreviousButton
                onClick={onClickPreviousButton}
-               disabled={currentPageNumber === 1}
-               isDisabled={currentPageNumber === 1}
+               disabled={currentPageNumber === 1 || totalPageCount === 0}
+               isDisabled={currentPageNumber === 1 || totalPageCount === 0}
             >
                <Icon alt={imageAlts.chevronLeft} src={images.chevronLeft} />
             </PreviousButton>
             {this.renderPages()}
             <PreviousAndNextButton
                onClick={onClickNextButton}
-               disabled={currentPageNumber === totalPageCount}
-               isDisabled={currentPageNumber === totalPageCount}
+               disabled={
+                  currentPageNumber === totalPageCount || totalPageCount === 0
+               }
+               isDisabled={
+                  currentPageNumber === totalPageCount || totalPageCount === 0
+               }
             >
                <Icon alt={imageAlts.chevronRight} src={images.chevronRight} />
             </PreviousAndNextButton>

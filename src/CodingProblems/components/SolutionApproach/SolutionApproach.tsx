@@ -75,6 +75,7 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
       this.title = solutionApproach.title
       this.description = { ...solutionApproach.description }
       this.complexityAnalysis = { ...solutionApproach.complexityAnalysis }
+      this.solutionApproachId = solutionApproach.solutionApproachId
    }
 
    componentDidMount() {
@@ -82,9 +83,9 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
          solutionApproach,
          codingProblemsStore: { postSolutionApproachAPIResponse }
       } = this.props
-      if (postSolutionApproachAPIResponse) {
+      if (postSolutionApproachAPIResponse !== null) {
          this.setSolutionApproachData(postSolutionApproachAPIResponse)
-      } else if (solutionApproach) {
+      } else if (solutionApproach !== null) {
          this.setSolutionApproachData(solutionApproach)
       }
       this.previousSolutionApproachData = {
@@ -230,11 +231,11 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
                solution_approach_id: this.solutionApproachId,
                title: this.title,
                description: {
-                  type: this.description.type,
+                  content_type: this.description.type,
                   content: this.description.content
                },
                complexity_analysis: {
-                  type: this.complexityAnalysis.type,
+                  content_type: this.complexityAnalysis.type,
                   content: this.complexityAnalysis.content
                }
             }

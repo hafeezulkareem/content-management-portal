@@ -47,8 +47,11 @@ class FooterNavigation extends React.Component<FooterNavigationProps> {
             />
             <PageDetailsContainer>
                <PageDetails>
-                  {page} {currentCodingProblemsPage} {of}{' '}
-                  {totalCodingProblemsPageCount}
+                  {page}{' '}
+                  {totalCodingProblemsPageCount > 0
+                     ? currentCodingProblemsPage
+                     : 0}{' '}
+                  {of} {totalCodingProblemsPageCount}
                </PageDetails>
             </PageDetailsContainer>
             <Pagination

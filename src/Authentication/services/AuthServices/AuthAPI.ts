@@ -1,9 +1,7 @@
 import { create } from 'apisauce'
 
 import { networkCallWithApisauce } from '../../../Common/utils/APIUtils'
-import { apiMethods } from '../../../Common/constants/APIConstants'
-
-import { signInAPIConstants } from '../../constants/SignInAPIConstants'
+import { apiMethods, BASE_URL } from '../../../Common/constants/APIConstants'
 
 import { endpoints } from '../endpoints'
 
@@ -12,7 +10,7 @@ class AuthAPI {
 
    constructor() {
       this.api = create({
-         baseURL: signInAPIConstants.BASE_URL
+         baseURL: BASE_URL
       })
    }
 

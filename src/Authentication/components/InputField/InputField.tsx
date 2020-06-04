@@ -37,6 +37,7 @@ class InputField extends React.Component<InputFieldProps> {
                value={inputFieldValue}
                onChange={onChangeInput}
                type={inputFieldType}
+               error={error}
             />
             {error && (
                <InputFieldErrorIcon

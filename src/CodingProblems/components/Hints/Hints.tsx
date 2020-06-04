@@ -60,7 +60,7 @@ class Hints extends React.Component<HintsProps> {
       } = this.props
       if (postHintAPIResponses.length > 0) {
          this.setHintsDataToList(postHintAPIResponses)
-      } else if (hints) {
+      } else if (hints.length > 0) {
          this.setHintsDataToList(hints)
       } else {
          this.generateNewHint()

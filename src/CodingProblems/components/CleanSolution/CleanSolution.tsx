@@ -57,9 +57,9 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
          cleanSolutions,
          codingProblemsStore: { postCleanSolutionAPIResponse }
       } = this.props
-      if (postCleanSolutionAPIResponse) {
+      if (postCleanSolutionAPIResponse.length > 0) {
          this.setCleanSolutionDataToList(postCleanSolutionAPIResponse)
-      } else if (cleanSolutions) {
+      } else if (cleanSolutions.length > 0) {
          this.setCleanSolutionDataToList(cleanSolutions)
       } else {
          this.generateCodeEditor()
@@ -167,9 +167,9 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
       const currentCodingEditor = this.codeEditorsList.get(uniqueId)
       if (currentCodingEditor.id !== null) {
          const {
-            codingProblemsStore: { deleteProblemRoughSolution }
+            codingProblemsStore: { deleteCleanSolution }
          } = this.props
-         deleteProblemRoughSolution(
+         deleteCleanSolution(
             currentCodingEditor.id,
             this.onSuccessCleanSolutionDelete,
             this.onFailureCleanSolutionDelete
@@ -250,10 +250,7 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
          codingProblemsStore: { postCleanSolution }
       } = this.props
       postCleanSolution(
-         {
-            question_id: this.codingProblemId,
-            clean_solutions: cleanSolutions
-         },
+         cleanSolutions,
          this.onSuccessPostCleanSolutions,
          this.onFailurePostCleanSolutions
       )

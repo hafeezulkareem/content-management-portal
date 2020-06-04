@@ -13,7 +13,7 @@ class CodingProblemDetailsModel {
    @observable roughSolutions: Array<RoughSolutionModel>
    @observable testCases: Array<TestCaseModel>
    @observable prefilledCodes: Array<RoughSolutionModel>
-   @observable solutionApproach: SolutionApproachModel
+   @observable solutionApproach: SolutionApproachModel | null
    @observable cleanSolutions: Array<CleanSolutionModel>
    @observable hints: Array<HintModel>
 
@@ -30,9 +30,10 @@ class CodingProblemDetailsModel {
       this.prefilledCodes = codingProblemDetails.prefilled_codes.map(
          preFilledCode => new RoughSolutionModel(preFilledCode)
       )
-      this.solutionApproach = new SolutionApproachModel(
-         codingProblemDetails.solution_approach
-      )
+      this.solutionApproach =
+         codingProblemDetails.solution_approach !== null
+            ? new SolutionApproachModel(codingProblemDetails.solution_approach)
+            : null
       this.cleanSolutions = codingProblemDetails.clean_solutions.map(
          cleanSolutionDetails => {
             const uniqueId = Math.random().toString()

@@ -5,6 +5,9 @@ export const apiMethods = {
    put: 'PUT'
 }
 
+export const BASE_URL =
+   'https://c42d452d6fbf.ngrok.io/api/content_management_portal'
+
 const INVALID_URL_TOKEN = 'INVALID_URL_TOKEN'
 const INVALID_TOKEN = 'INVALID_TOKEN'
 const INVALID_USER = 'INVALID_USER'

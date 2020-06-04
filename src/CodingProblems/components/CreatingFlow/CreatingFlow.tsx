@@ -157,13 +157,13 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
    renderRespectiveTabComponent = observer(() => {
       const { codingProblemsStore } = this.props
       const { codingProblemDetails } = codingProblemsStore
-      let statement,
-         roughSolutions,
-         testCases,
-         prefilledCodes,
-         solutionApproach,
-         cleanSolutions,
-         hints
+      let statement = null,
+         roughSolutions = [],
+         testCases = [],
+         prefilledCodes = [],
+         solutionApproach = null,
+         cleanSolutions = [],
+         hints = []
       if (codingProblemDetails) {
          statement = codingProblemDetails.statement
          roughSolutions = codingProblemDetails.roughSolutions

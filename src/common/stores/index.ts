@@ -7,11 +7,11 @@ import { AuthStore } from '../../Authentication/stores/AuthStore'
 
 const authAPI = new AuthAPI()
 const authFixture = new AuthFixture()
-const authStore = new AuthStore(authFixture)
+const authStore = new AuthStore(authAPI)
 
 const codingProblemsAPI = new CodingProblemsAPI()
 const codingProblemsFixture = new CodingProblemsFixture()
-const codingProblemsStore = new CodingProblemsStore(codingProblemsFixture)
+const codingProblemsStore = new CodingProblemsStore(codingProblemsAPI)
 
 export default {
    authStore,

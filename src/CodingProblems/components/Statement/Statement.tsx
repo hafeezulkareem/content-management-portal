@@ -66,9 +66,9 @@ class Statement extends React.Component<StatementProps> {
          statementDetails,
          codingProblemsStore: { postStatementAPIResponse }
       } = this.props
-      if (postStatementAPIResponse) {
+      if (postStatementAPIResponse !== null) {
          this.setStatementData(postStatementAPIResponse)
-      } else if (statementDetails) {
+      } else if (statementDetails !== null) {
          this.setStatementData(statementDetails)
       }
       this.previousShortText = this.shortText

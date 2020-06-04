@@ -1,6 +1,7 @@
 import React from 'react'
 
 import images from '../../../Common/themes/Images'
+import commonI18n from '../../../Common/i18n/strings.json'
 
 import {
    INPUT_FIELD_TEST_ID,
@@ -22,6 +23,7 @@ type InputFieldProps = {
 
 class InputField extends React.Component<InputFieldProps> {
    render() {
+      const { imageAlts } = commonI18n
       const {
          inputFieldType,
          onChangeInput,
@@ -39,7 +41,7 @@ class InputField extends React.Component<InputFieldProps> {
             {error && (
                <InputFieldErrorIcon
                   data-testid={ERROR_ICON_TEST_ID}
-                  alt='Error Icon'
+                  alt={imageAlts.errorIcon}
                   src={images.error}
                />
             )}

@@ -43,7 +43,7 @@ class CodeEditorHeader extends React.Component<CodeEditorHeaderProps> {
    }
 
    render() {
-      const { codeEditorLanguageOptions } = i18n
+      const { codeEditorLanguageOptions, imageAlts, languages } = i18n
       const { fileName, programmingLanguage } = this.props
       return (
          <HeaderContainer>
@@ -56,14 +56,14 @@ class CodeEditorHeader extends React.Component<CodeEditorHeaderProps> {
             <HeaderRightSection>
                <DropDown
                   options={codeEditorLanguageOptions}
-                  defaultOption='languages'
+                  defaultOption={languages}
                   onChangeType={this.onChangeProgrammingLanguage}
                   selectedOption={programmingLanguage}
                />
                <DeleteIcon
                   data-testid={DELETE_ICON_TEST_ID}
                   onClick={this.onClickDeleteButton}
-                  alt='Delete Icon'
+                  alt={imageAlts.deleteIcon}
                   src={images.delete}
                />
             </HeaderRightSection>

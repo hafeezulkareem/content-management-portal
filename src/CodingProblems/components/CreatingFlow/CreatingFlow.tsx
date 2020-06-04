@@ -116,8 +116,9 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
    }
 
    confirmDataStatus = () => {
+      const { dataLoseWarning } = i18n
       if (!this.isDataSaved) {
-         return window.confirm('Data is not saved. Are you sure want to leave?')
+         return window.confirm(dataLoseWarning)
       }
    }
 
@@ -299,7 +300,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
    }
 
    render() {
-      const { commonLabels } = commonI18n
+      const { commonLabels, imageAlts } = commonI18n
       const activeTab = this.getCapitalizedActiveTab()
       const { codingProblemsStore, navigateToCodingProblemsHome } = this.props
       const {
@@ -317,7 +318,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                <BackButtonContainer>
                   <ButtonWithIcon
                      iconURL={images.chevronLeft}
-                     iconAltText='Back Arrow Icon'
+                     iconAltText={imageAlts.backArrowIcon}
                      buttonText={commonLabels.backToList}
                      onClickButton={navigateToCodingProblemsHome}
                      isDisabled={

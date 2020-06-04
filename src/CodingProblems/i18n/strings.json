@@ -83,5 +83,6 @@
    "addCodingQuestions": "Add Coding Questions",
    "create": "create",
    "codeEditor": "code editor",
-   "firstCreateTheStatement": "First create the statement"
+   "firstCreateTheStatement": "First create the statement",
+   "dataLoseWarning": "Data is not saved. Are you sure want to leave?"
 }

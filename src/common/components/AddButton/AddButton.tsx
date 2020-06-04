@@ -12,14 +12,14 @@ type AddButtonProps = {
 
 class AddButton extends React.Component<AddButtonProps> {
    render() {
-      const { commonComponents } = i18n as any
+      const { commonComponents, imageAlts } = i18n as any
       const { onClickAddButton } = this.props
       return (
          <AddButtonEl
             onClick={onClickAddButton}
             data-testid={ADD_BUTTON_TEST_ID}
          >
-            <PlusImage alt='Plus Image' src={images.plusWhite} />
+            <PlusImage alt={imageAlts.plusIcon} src={images.plusWhite} />
             {commonComponents.add}
          </AddButtonEl>
       )

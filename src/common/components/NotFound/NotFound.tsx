@@ -20,14 +20,17 @@ import {
 
 class NotFound extends React.Component {
    render() {
-      const { notFoundPage } = i18n
+      const { notFoundPage, imageAlts } = i18n
       return (
          <NotFoundContainer>
-            <NotFoundErrorImage alt='Not Found Image' src={images.notFound} />
+            <NotFoundErrorImage
+               alt={imageAlts.notFoundImage}
+               src={images.notFound}
+            />
             <NotFoundMessageContainer>
                <ErrorIconContainer>
                   <NotFoundErrorIcon
-                     alt='Not Found Error Icon'
+                     alt={imageAlts.notFoundErrorIcon}
                      src={images.notFoundError}
                   />
                </ErrorIconContainer>

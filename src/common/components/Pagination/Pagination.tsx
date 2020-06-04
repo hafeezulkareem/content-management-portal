@@ -2,6 +2,7 @@ import React from 'react'
 import { observer } from 'mobx-react'
 
 import images from '../../themes/Images'
+import i18n from '../../i18n/strings.json'
 
 import { PaginationButton } from '../PaginationButton.tsx'
 
@@ -55,6 +56,7 @@ class Pagination extends React.Component<PaginationProps> {
          onClickPreviousButton,
          onClickNextButton
       } = this.props
+      const { imageAlts } = i18n
       return (
          <PaginationContainer>
             <PreviousAndNextButton
@@ -62,7 +64,7 @@ class Pagination extends React.Component<PaginationProps> {
                disabled={currentPageNumber === 1}
                isDisabled={currentPageNumber === 1}
             >
-               <Icon alt='Chevron Left' src={images.chevronLeft} />
+               <Icon alt={imageAlts.chevronLeft} src={images.chevronLeft} />
             </PreviousAndNextButton>
             {this.renderFirstTwoPageNumbers()}
             {totalPageCount > 5 ? '...' : null}
@@ -72,7 +74,7 @@ class Pagination extends React.Component<PaginationProps> {
                disabled={currentPageNumber === totalPageCount}
                isDisabled={currentPageNumber === totalPageCount}
             >
-               <Icon alt='Chevron Right' src={images.chevronRight} />
+               <Icon alt={imageAlts.chevronRight} src={images.chevronRight} />
             </PreviousAndNextButton>
          </PaginationContainer>
       )

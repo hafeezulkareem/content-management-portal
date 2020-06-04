@@ -1,6 +1,7 @@
 import React from 'react'
 
 import images from '../../themes/Images'
+import i18n from '../../i18n/strings.json'
 
 import {
    AppHeaderContainer,
@@ -16,11 +17,15 @@ type AppHeaderProps = {
 class AppHeader extends React.Component<AppHeaderProps> {
    render() {
       const { userProfilePicLink, username } = this.props
+      const { imageAlts } = i18n
       return (
          <AppHeaderContainer>
-            <CompanyLogo alt='iB Hubs Logo' src={images.ibHubsHorizontalLogo} />
+            <CompanyLogo
+               alt={imageAlts.iBHubsLogo}
+               src={images.ibHubsHorizontalLogo}
+            />
             <UserProfilePic
-               alt={`${username} Profile Pic`}
+               alt={`${username} ${imageAlts.profilePic}`}
                src={userProfilePicLink}
             />
          </AppHeaderContainer>

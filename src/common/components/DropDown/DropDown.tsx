@@ -2,6 +2,7 @@ import React from 'react'
 
 import { DROP_DOWN_SELECT_TEST_ID } from '../../constants/IdConstants'
 import images from '../../themes/Images'
+import i18n from '../../i18n/strings.json'
 
 import {
    DropDownSelect,
@@ -25,6 +26,7 @@ class DropDown extends React.Component<DropDownProps> {
          onChangeType,
          selectedOption
       } = this.props
+      const { imageAlts } = i18n
       return (
          <DropDownContainer>
             <DropDownSelect
@@ -41,7 +43,10 @@ class DropDown extends React.Component<DropDownProps> {
                   </DropDownOption>
                ))}
             </DropDownSelect>
-            <DropDownArrow alt='Drop Down Arrow' src={images.chevronDropDown} />
+            <DropDownArrow
+               alt={imageAlts.dropDownArrow}
+               src={images.chevronDropDown}
+            />
          </DropDownContainer>
       )
    }

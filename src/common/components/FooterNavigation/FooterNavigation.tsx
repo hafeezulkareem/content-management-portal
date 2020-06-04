@@ -35,12 +35,12 @@ class FooterNavigation extends React.Component<FooterNavigationProps> {
          onClickPaginationNumberButton,
          onClickNextPaginationButton
       } = this.props
-      const { page, of } = i18n as any
+      const { page, of, imageAlts } = i18n as any
       return (
          <FooterNavigationContainer>
             <ButtonWithIcon
                iconURL={images.plus}
-               iconAltText='Plus Icon'
+               iconAltText={imageAlts.plusIcon}
                buttonText={buttonText}
                onClickButton={onClickAddButton}
                isDisabled={false}

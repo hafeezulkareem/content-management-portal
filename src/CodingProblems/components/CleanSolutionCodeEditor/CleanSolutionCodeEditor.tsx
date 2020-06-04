@@ -45,6 +45,7 @@ class CleanSolutionCodeEditor extends React.Component<
          solutionContent,
          onClickDeleteButton
       } = this.props
+      const { codeEditorLanguageOptions, imageAlts } = commonI18n
       return (
          <CodeEditorContainer>
             <HeaderContainer>
@@ -54,7 +55,7 @@ class CleanSolutionCodeEditor extends React.Component<
                />
                <DeleteIcon
                   onClick={() => onClickDeleteButton(uniqueId)}
-                  alt='Delete Icon'
+                  alt={imageAlts.deleteIcon}
                   src={images.delete}
                />
             </HeaderContainer>
@@ -68,7 +69,7 @@ class CleanSolutionCodeEditor extends React.Component<
             <DropDownContainer>
                <DropDown
                   defaultOption='Languages'
-                  options={commonI18n.codeEditorLanguageOptions}
+                  options={codeEditorLanguageOptions}
                   onChangeType={event => onChangeLanguage(event, uniqueId)}
                   selectedOption={language}
                />

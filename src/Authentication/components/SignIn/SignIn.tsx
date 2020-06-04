@@ -3,6 +3,7 @@ import { API_FETCHING } from '@ib/api-constants'
 import { observer } from 'mobx-react'
 
 import images from '../../../Common/themes/Images'
+import commonI18n from '../../../Common/i18n/strings.json'
 
 import i18n from '../../i18n/strings.json'
 import { SIGN_BUTTON_TEST_ID } from '../../constants/IdConstants'
@@ -52,10 +53,11 @@ class SignIn extends React.Component<SignInProps> {
          postSignInAPIStatus
       } = this.props
       const { signUpMessages } = i18n
+      const { imageAlts } = commonI18n
       return (
          <SignInPageWrapper>
             <SignInContainer>
-               <SignInLogo alt='iB Hubs Logo' src={images.ibHubsLogo} />
+               <SignInLogo alt={imageAlts.iBHubsLogo} src={images.ibHubsLogo} />
                <SignInTitle>Hi there, login</SignInTitle>
                <SignInForm onSubmit={onSubmitSignInForm}>
                   <FieldWrapper>

@@ -65,5 +65,25 @@
       "badClientRequest": "Bad Client Request",
       "pleaseTryAfterSomeTime": "Please Try After Some Time",
       "backToHome": "Back to Home"
+   },
+   "languages": "languages",
+   "imageAlts": {
+      "iBHubsLogo": "iB Hubs Logo",
+      "errorIcon": "Error Icon",
+      "deleteIcon": "Delete Icon",
+      "tick": "Tick",
+      "cross": "Cross",
+      "leftArrowIcon": "Left Arrow Icon",
+      "rightArrowIcon": "Right Arrow Icon",
+      "plusIcon": "Plus Icon",
+      "profilePic": "Profile Pic",
+      "dropDownArrow": "Drop Down Arrow",
+      "notFoundImage": "Not Found Image",
+      "notFoundErrorIcon": "Not Found Error Icon",
+      "removeIcon": "Remove Icon",
+      "chevronLeft": "Chevron Left",
+      "chevronRight": "Chevron Right",
+      "selectIcon": "Select Icon",
+      "backArrowIcon": "Back Arrow Icon"
    }
 }

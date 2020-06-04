@@ -2,6 +2,7 @@ import React from 'react'
 import { observer } from 'mobx-react'
 
 import images from '../../../Common/themes/Images'
+import commonI18n from '../../../Common/i18n/strings.json'
 
 import { CODING_PROBLEM_ITEM_TEST_ID } from '../../constants/IdConstants'
 
@@ -29,10 +30,11 @@ type CodingProblemItemProps = {
 @observer
 class CodingProblemItem extends React.Component<CodingProblemItemProps> {
    getStatusImage = (isCompleted: boolean) => {
+      const { imageAlts } = commonI18n
       if (isCompleted) {
-         return <Icon alt='Tick' src={images.completedCheck} />
+         return <Icon alt={imageAlts.tick} src={images.completedCheck} />
       }
-      return <Icon alt='Cross' src={images.unCompletedCheck} />
+      return <Icon alt={imageAlts.cross} src={images.unCompletedCheck} />
    }
 
    render() {
@@ -42,6 +44,7 @@ class CodingProblemItem extends React.Component<CodingProblemItemProps> {
          problemStatement.length > 62
             ? problemStatement.slice(0, 62) + '...'
             : problemStatement
+      const { imageAlts } = commonI18n
       return (
          <CodingQuestionItem
             onClick={() => navigateToCodingProblemDetailsPage(codingProblem.id)}
@@ -49,7 +52,7 @@ class CodingProblemItem extends React.Component<CodingProblemItemProps> {
          >
             <FirstColumn>
                <DummyCheckbox>
-                  <Icon alt='Tick' src={images.defaultCheck} />
+                  <Icon alt={imageAlts.tick} src={images.defaultCheck} />
                </DummyCheckbox>
                <QuestionText>{problemStatement}</QuestionText>
             </FirstColumn>

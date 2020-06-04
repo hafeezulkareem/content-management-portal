@@ -4,6 +4,7 @@ import { observer } from 'mobx-react'
 import { NumberButton } from '../../../Common/components/NumberButton'
 import { CircleAddButton } from '../../../Common/components/CircleAddButton'
 import images from '../../../Common/themes/Images'
+import commonI18n from '../../../Common/i18n/strings.json'
 
 import {
    MoveButton,
@@ -42,18 +43,25 @@ class TestCasesAndHintsNavigation extends React.Component<
 
    render() {
       const { onClickAddButton } = this.props
+      const { imageAlts } = commonI18n
       return (
          <ComponentContainer>
             <ButtonsContainer>
                <MoveButton onClick={() => {}}>
-                  <Icon alt='Left Arrow Icon' src={images.chevronLeft} />
+                  <Icon
+                     alt={imageAlts.leftArrowIcon}
+                     src={images.chevronLeft}
+                  />
                </MoveButton>
                <NumberButtonsContainer>
                   {this.renderButtons()}
                </NumberButtonsContainer>
                <CircleAddButton onClickCircleAddButton={onClickAddButton} />
                <MoveRightButton onClick={() => {}}>
-                  <Icon alt='Right Arrow Icon' src={images.chevronRight} />
+                  <Icon
+                     alt={imageAlts.rightArrowIcon}
+                     src={images.chevronRight}
+                  />
                </MoveRightButton>
             </ButtonsContainer>
          </ComponentContainer>

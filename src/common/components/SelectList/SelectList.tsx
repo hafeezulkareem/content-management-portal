@@ -15,12 +15,12 @@ type SelectListProps = {
 class SelectList extends React.Component<SelectListProps> {
    render() {
       const { isSelected, onSelect } = this.props
-      const { selectAll } = i18n as any
+      const { selectAll, imageAlts } = i18n as any
       return (
          <SelectContainer>
             <SelectIcon
                onClick={onSelect}
-               alt='Select Icon'
+               alt={imageAlts.selectIcon}
                src={
                   isSelected ? images.selectedCheckbox : images.defaultCheckbox
                }

@@ -1,6 +1,7 @@
 import React from 'react'
 
 import images from '../../themes/Images'
+import i18n from '../../i18n/strings.json'
 
 import {
    NumberButtonEl,
@@ -25,6 +26,7 @@ class NumberButton extends React.Component<NumberButtonProps> {
          isActive,
          uniqueId
       } = this.props
+      const { imageAlts } = i18n
       return (
          <NumberButtonContainer>
             <NumberButtonEl
@@ -34,7 +36,7 @@ class NumberButton extends React.Component<NumberButtonProps> {
                {number}
             </NumberButtonEl>
             <NumberButtonRemoveIcon
-               alt='Remove Icon'
+               alt={imageAlts.removeIcon}
                src={images.closeRed}
                onClick={() => onClickRemoveIcon(uniqueId)}
             />

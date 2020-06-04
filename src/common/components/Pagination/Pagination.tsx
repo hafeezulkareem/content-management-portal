@@ -9,7 +9,9 @@ import { PaginationButton } from '../PaginationButton.tsx'
 import {
    PaginationContainer,
    PreviousAndNextButton,
-   Icon
+   Icon,
+   PreviousButton,
+   Dots
 } from './styledComponents'
 
 type PaginationProps = {
@@ -29,6 +31,7 @@ class Pagination extends React.Component<PaginationProps> {
 
    renderFirstTwoPageNumbers = () => {
       const { currentPageNumber } = this.props
+
       return (
          <PaginationButton
             isActive={currentPageNumber === 1}
@@ -49,6 +52,60 @@ class Pagination extends React.Component<PaginationProps> {
       )
    }
 
+   renderPages = () => {
+      const { totalPageCount, currentPageNumber } = this.props
+      if (totalPageCount < 5) {
+         return (
+            <>
+               {[...Array(totalPageCount)].map((_, index) => (
+                  <PaginationButton
+                     key={index + 1}
+                     isActive={currentPageNumber === index + 1}
+                     pageNumber={index + 1}
+                     onClickButton={() => this.onClickNumberButton(index + 1)}
+                  />
+               ))}
+            </>
+         )
+      } else {
+         const firstTwoNumbers: Array<number> = []
+         const lastTwoNumbers: Array<number> = []
+         firstTwoNumbers.push(currentPageNumber)
+         firstTwoNumbers.push(
+            currentPageNumber + 1 > totalPageCount ? 1 : currentPageNumber + 1
+         )
+         let dummy = firstTwoNumbers[0] + (totalPageCount - 2)
+         lastTwoNumbers.push(
+            dummy > totalPageCount ? dummy - totalPageCount : dummy
+         )
+         dummy = firstTwoNumbers[1] + (totalPageCount - 2)
+         lastTwoNumbers.push(
+            dummy > totalPageCount ? dummy - totalPageCount : dummy
+         )
+         return (
+            <>
+               {firstTwoNumbers.map(number => (
+                  <PaginationButton
+                     key={number}
+                     isActive={currentPageNumber === number}
+                     pageNumber={number}
+                     onClickButton={() => this.onClickNumberButton(number)}
+                  />
+               ))}
+               <Dots>...</Dots>
+               {lastTwoNumbers.map(number => (
+                  <PaginationButton
+                     key={number}
+                     isActive={currentPageNumber === number}
+                     pageNumber={number}
+                     onClickButton={() => this.onClickNumberButton(number)}
+                  />
+               ))}
+            </>
+         )
+      }
+   }
+
    render() {
       const {
          currentPageNumber,
@@ -59,16 +116,14 @@ class Pagination extends React.Component<PaginationProps> {
       const { imageAlts } = i18n
       return (
          <PaginationContainer>
-            <PreviousAndNextButton
+            <PreviousButton
                onClick={onClickPreviousButton}
                disabled={currentPageNumber === 1}
                isDisabled={currentPageNumber === 1}
             >
                <Icon alt={imageAlts.chevronLeft} src={images.chevronLeft} />
-            </PreviousAndNextButton>
-            {this.renderFirstTwoPageNumbers()}
-            {totalPageCount > 5 ? '...' : null}
-            {this.renderLastTwoPageNumbers()}
+            </PreviousButton>
+            {this.renderPages()}
             <PreviousAndNextButton
                onClick={onClickNextButton}
                disabled={currentPageNumber === totalPageCount}

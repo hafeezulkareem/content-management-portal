@@ -22,30 +22,21 @@ export const PreviousAndNextButton = styled.button`
          : tw`rounded border border-solid focus:outline-none`}
 `
 
+export const PreviousButton = styled(PreviousAndNextButton)`
+   ${tw`
+      mr-2
+   `}
+`
+
 export const Icon = styled.img`
    ${tw`
 
    `}
 `
 
-type PaginatorNavigationButtonProps = {
-   isDisabled: boolean
-}
-export const PaginatorNavigationButton = styled.button`
-   ${(props: PaginatorNavigationButtonProps) =>
-      props.isDisabled
-         ? tw`bg-black text-white p-2 focus:outline-none opacity-50 cursor-not-allowed`
-         : tw`bg-black text-white p-2 focus:outline-none`}
-`
-
-export const PaginatorCurrentPageNumber = styled.span`
+export const Dots = styled.span`
+   color: ${colors.steel};
    ${tw`
-        mx-2 px-3 py-1 border border-solid border-black
-    `}
-`
-
-export const PaginatorTotalPageCount = styled.span`
-   ${tw`
-        mx-2
-    `}
+      text-xl mr-2
+   `}
 `

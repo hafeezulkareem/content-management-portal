@@ -14,6 +14,6 @@ export const ButtonEl = styled.button`
           : `border-color: ${colors.lightBlueGrey}; color: ${colors.steel};`}
     background-color: ${colors.lightBlueGrey}
     ${tw`
-        flex items-center font-semibold mx-2 justify-center w-8 h-8 inline-block rounded border border-solid focus:outline-none
+        flex items-center font-semibold mr-2 justify-center w-8 h-8 inline-block rounded border border-solid focus:outline-none
     `}
 `

@@ -322,6 +322,8 @@ class TestCases extends React.Component<TestCasesProps> {
             })
          }
       } else {
+         const { updateDataStatus } = this.props
+         updateDataStatus(true)
          const { firstCreateTheStatement } = i18n
          showToastMessage(firstCreateTheStatement, true, 1500, () => {})
       }

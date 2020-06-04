@@ -302,6 +302,8 @@ class Hints extends React.Component<HintsProps> {
             })
          }
       } else {
+         const { updateDataStatus } = this.props
+         updateDataStatus(true)
          const { firstCreateTheStatement } = i18n
          showToastMessage(firstCreateTheStatement, true, 1500, () => {})
       }

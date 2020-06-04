@@ -241,6 +241,8 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
             this.postSolutionApproach(solutionApproachData)
          }
       } else {
+         const { updateDataStatus } = this.props
+         updateDataStatus(true)
          const { firstCreateTheStatement } = i18n
          showToastMessage(firstCreateTheStatement, true, 1500, () => {})
       }

@@ -341,6 +341,8 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
             this.postRoughSolutions(roughSolutions)
          }
       } else {
+         const { updateDataStatus } = this.props
+         updateDataStatus(true)
          const { firstCreateTheStatement } = i18n
          showToastMessage(firstCreateTheStatement, true, 1500, () => {})
       }

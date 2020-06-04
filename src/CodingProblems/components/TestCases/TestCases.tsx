@@ -166,18 +166,14 @@ class TestCases extends React.Component<TestCasesProps> {
    }
 
    checkTestCaseNumberAndDelete = uniqueId => {
-      const {
-         codingProblemStore: { codingProblemId }
-      } = this.props
-      if (codingProblemId) {
-         const testCases = Array.from(this.testCasesList.values())
-         const currentTest = testCases.find(
-            (testCase: TestCaseModel) => testCase.uniqueId === uniqueId
-         )
+      const testCases = Array.from(this.testCasesList.values())
+      const currentTestCase = testCases.find(
+         (testCase: TestCaseModel) => testCase.uniqueId === uniqueId
+      )
+      if (currentTestCase.id !== null) {
          const { codingProblemStore } = this.props
          codingProblemStore.deleteProblemTestCase(
-            codingProblemId,
-            currentTest.id,
+            currentTestCase.id,
             this.onSuccessTestCaseDelete,
             this.onFailureTestCaseDelete
          )
@@ -312,14 +308,6 @@ class TestCases extends React.Component<TestCasesProps> {
                this.onSuccessPostTestCase,
                this.onFailurePostTestCase
             )
-            console.log('Test Case Posting Data:- ', {
-               test_case_id: currentTestCase.id,
-               test_case_number: currentTestCase.number,
-               input: currentTestCase.input,
-               output: currentTestCase.output,
-               score: currentTestCase.score,
-               is_hidden: currentTestCase.isHidden
-            })
          }
       } else {
          const { updateDataStatus } = this.props

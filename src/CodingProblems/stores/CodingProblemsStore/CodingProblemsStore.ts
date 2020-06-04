@@ -138,10 +138,6 @@ class CodingProblemsStore {
             problem_description
          })
       }
-      console.log(
-         'Statement Post Response:- ',
-         toJS(this.postStatementAPIResponse)
-      )
    }
 
    @action.bound
@@ -184,10 +180,6 @@ class CodingProblemsStore {
             )
          ]
       }
-      console.log(
-         'Rough Solutions Post Response:- ',
-         toJS(this.postRoughSolutionAPIResponse)
-      )
    }
 
    @action.bound
@@ -197,6 +189,7 @@ class CodingProblemsStore {
       onFailurePostRoughSolutions
    ) {
       const problemRoughSolutionPromise = this.codingProblemsAPIService.postProblemRoughSolutionAPI(
+         this.codingProblemId,
          roughSolutionData
       )
       return bindPromiseWithOnSuccess(problemRoughSolutionPromise)
@@ -222,13 +215,12 @@ class CodingProblemsStore {
 
    @action.bound
    deleteProblemRoughSolution(
-      codingProblemId,
       roughSolutionId,
       onSuccessDeleteRoughSolution,
       onFailureDeleteRoughSolution
    ) {
       const deleteRoughSolutionPromise = this.codingProblemsAPIService.deleteRoughSolutionAPI(
-         codingProblemId,
+         this.codingProblemId,
          roughSolutionId
       )
       return bindPromiseWithOnSuccess(deleteRoughSolutionPromise)
@@ -273,7 +265,6 @@ class CodingProblemsStore {
             new TestCaseModel({ uniqueId, testCaseDetails })
          )
       }
-      console.log('Test Case Responses:- ', toJS(this.postTestCaseAPIResponses))
    }
 
    @action.bound
@@ -282,7 +273,10 @@ class CodingProblemsStore {
       onSuccessPostTestCase,
       onFailurePostTestCase
    ) {
-      const postProblemTestCasePromise = this.codingProblemsAPIService.postProblemTestCaseAPI()
+      const postProblemTestCasePromise = this.codingProblemsAPIService.postProblemTestCaseAPI(
+         this.codingProblemId,
+         testCaseData
+      )
       return bindPromiseWithOnSuccess(postProblemTestCasePromise)
          .to(this.setTestCaseAPIStatus, response => {
             this.setTestCaseAPIResponse(response)
@@ -311,6 +305,7 @@ class CodingProblemsStore {
       onFailureTestCaseDelete
    ) {
       const testCaseDeletePromise = this.codingProblemsAPIService.deleteTestCaseAPI(
+         this.codingProblemId,
          testCaseId
       )
       return bindPromiseWithOnSuccess(testCaseDeletePromise)
@@ -343,10 +338,6 @@ class CodingProblemsStore {
             )
          ]
       }
-      console.log(
-         'Prefilled Codes Post Response:- ',
-         toJS(this.postPrefilledCodeAPIResponse)
-      )
    }
 
    @action.bound
@@ -356,6 +347,7 @@ class CodingProblemsStore {
       onFailurePrefilledCodePost
    ) {
       const prefilledCodePromise = this.codingProblemsAPIService.postPrefilledCodeAPI(
+         this.codingProblemId,
          prefilledCodeData
       )
       return bindPromiseWithOnSuccess(prefilledCodePromise)
@@ -381,13 +373,12 @@ class CodingProblemsStore {
 
    @action.bound
    deleteProblemPrefilledCode(
-      codingProblemId,
       prefilledCodeId,
       onSuccessPrefilledCodeDelete,
       onFailurePrefilledCodeDelete
    ) {
       const prefilledCodePromise = this.codingProblemsAPIService.deletePrefilledCodeAPI(
-         codingProblemId,
+         this.codingProblemId,
          prefilledCodeId
       )
       return bindPromiseWithOnSuccess(prefilledCodePromise)
@@ -426,6 +417,7 @@ class CodingProblemsStore {
       onFailurePostSolutionApproach
    ) {
       const solutionApproachPostPromise = this.codingProblemsAPIService.postSolutionApproachAPI(
+         this.codingProblemId,
          solutionApproachData
       )
       return bindPromiseWithOnSuccess(solutionApproachPostPromise)
@@ -469,6 +461,7 @@ class CodingProblemsStore {
       onFailurePostCleanSolution
    ) {
       const cleanSolutionPromise = this.codingProblemsAPIService.postCleanSolutionAPI(
+         this.codingProblemId,
          cleanSolutionData
       )
       return bindPromiseWithOnSuccess(cleanSolutionPromise)
@@ -494,13 +487,12 @@ class CodingProblemsStore {
 
    @action.bound
    deleteCleanSolution(
-      codingProblemId,
       cleanSolutionId,
       onSuccessDeleteCleanSolution,
       onFailureDeleteCleanSolution
    ) {
       const cleanSolutionPromise = this.codingProblemsAPIService.deleteCleanSolutionAPI(
-         codingProblemId,
+         this.codingProblemId,
          cleanSolutionId
       )
       return bindPromiseWithOnSuccess(cleanSolutionPromise)
@@ -547,12 +539,12 @@ class CodingProblemsStore {
             )
          }
       }
-      console.log('Hint Post API Responses:- ', this.postHintAPIResponses)
    }
 
    @action.bound
    postProblemHint(hintData, onSuccessPostHint, onFailurePostHint) {
       const hintPostPromise = this.codingProblemsAPIService.postHintAPI(
+         this.codingProblemId,
          hintData
       )
       return bindPromiseWithOnSuccess(hintPostPromise)
@@ -577,14 +569,9 @@ class CodingProblemsStore {
    }
 
    @action.bound
-   deleteProblemHint(
-      codingProblemId,
-      hintId,
-      onSuccessDeleteHint,
-      onFailureDeleteHint
-   ) {
+   deleteProblemHint(hintId, onSuccessDeleteHint, onFailureDeleteHint) {
       const deleteHintPromise = this.codingProblemsAPIService.deleteHintAPI(
-         codingProblemId,
+         this.codingProblemId,
          hintId
       )
       return bindPromiseWithOnSuccess(deleteHintPromise)

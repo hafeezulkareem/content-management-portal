@@ -21,7 +21,7 @@ class CodingProblemsAPI {
       )
    }
 
-   postProblemRoughSolutionAPI(roughSolutionsData) {
+   postProblemRoughSolutionAPI(codingProblemId, roughSolutionsData) {
       return networkCallWithApisauce(
          this.api,
          '',
@@ -34,15 +34,15 @@ class CodingProblemsAPI {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.delete)
    }
 
-   postProblemTestCaseAPI(testCaseData) {
+   postProblemTestCaseAPI(codingProblemId, testCaseData) {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.post)
    }
 
-   deleteTestCaseAPI(testCaseId) {
+   deleteTestCaseAPI(codingProblemId, testCaseId) {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.delete)
    }
 
-   postPrefilledCodeAPI(preFilledData) {
+   postPrefilledCodeAPI(codingProblemId, preFilledData) {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.post)
    }
 
@@ -50,11 +50,11 @@ class CodingProblemsAPI {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.delete)
    }
 
-   postSolutionApproachAPI(solutionApproachData) {
+   postSolutionApproachAPI(codingProblemId, solutionApproachData) {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.post)
    }
 
-   postCleanSolutionAPI(cleanSolutionData) {
+   postCleanSolutionAPI(codingProblemId, cleanSolutionData) {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.post)
    }
 
@@ -62,7 +62,7 @@ class CodingProblemsAPI {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.delete)
    }
 
-   postHintAPI(hintData) {
+   postHintAPI(codingProblemId, hintData) {
       return networkCallWithApisauce(this.api, '', {}, apiMethods.post)
    }
 

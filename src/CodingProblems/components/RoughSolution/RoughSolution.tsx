@@ -15,7 +15,6 @@ import {
    CodeEditorsContainer,
    RoughSolutionsWrapper
 } from './styledComponents'
-import { roughSolution } from './RoughtSolution.stories'
 
 type RoughSolutionProps = {
    codingProblemsStore: any
@@ -196,10 +195,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    }
 
    checkCodingProblemIdAndDelete = roughSolutionId => {
-      const {
-         codingProblemsStore: { codingProblemId }
-      } = this.props
-      if (codingProblemId) {
+      if (roughSolutionId !== null) {
          const {
             codingProblemsStore: {
                deleteProblemRoughSolution,
@@ -208,14 +204,12 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
          } = this.props
          if (this.tabName === ROUGH_SOLUTION) {
             deleteProblemRoughSolution(
-               codingProblemId,
                roughSolutionId,
                this.onSuccessDeleteRoughSolution,
                this.onFailureDeleteRoughSolution
             )
          } else {
             deleteProblemPrefilledCode(
-               codingProblemId,
                roughSolutionId,
                this.onSuccessDeleteRoughSolution,
                this.onFailureDeleteRoughSolution
@@ -303,13 +297,14 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    }
 
    postRoughSolutions = roughSolutions => {
-      console.log(
-         'Rough Solution and Prefilled Code Posting Data:- ',
-         roughSolutions
-      )
-      const { codingProblemsStore } = this.props
+      const {
+         codingProblemsStore: {
+            postProblemRoughSolution,
+            postProblemPrefilledCode
+         }
+      } = this.props
       if (this.tabName === ROUGH_SOLUTION) {
-         codingProblemsStore.postProblemRoughSolution(
+         postProblemRoughSolution(
             {
                rough_solutions: roughSolutions
             },
@@ -317,7 +312,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
             this.onFailurePostRoughSolutions
          )
       } else {
-         codingProblemsStore.postProblemPrefilledCode(
+         postProblemPrefilledCode(
             {
                prefilled_codes: roughSolutions
             },

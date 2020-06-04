@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import { observable, toJS } from 'mobx'
+import { observable } from 'mobx'
 
 import { TextEditor } from '../../../Common/components/TextEditor'
 import commonI18n from '../../../Common/i18n/strings.json'
@@ -146,7 +146,6 @@ class Statement extends React.Component<StatementProps> {
             content_type: this.textType.toUpperCase()
          }
       }
-      console.log('Statement Data:- ', toJS(statementData))
       postProblemStatement(
          statementData,
          this.onSuccessPostProblemStatement,

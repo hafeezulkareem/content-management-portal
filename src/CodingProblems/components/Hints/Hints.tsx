@@ -77,7 +77,6 @@ class Hints extends React.Component<HintsProps> {
    isPreviousDataSameAsPresentData = () => {
       for (const key in toJS(this.hintsList)) {
          if (this.previousHintsData.has(key)) {
-            console.log(this.previousHintsData.get(key).description)
             if (
                this.previousHintsData.get(key).title !==
                   this.hintsList.get(key).title ||
@@ -210,18 +209,16 @@ class Hints extends React.Component<HintsProps> {
    }
 
    checkTestCaseNumberAndDelete = uniqueId => {
-      const { codingProblemsStore: codingProblemId } = this.props
-      if (codingProblemId) {
-         const hints = Array.from(this.hintsList.values())
-         const currentHintIndex = hints.findIndex(
-            (hint: HintModel) => hint.uniqueId === uniqueId
-         )
+      const hints = Array.from(this.hintsList.values())
+      const currentHint = hints.find(
+         (hint: HintModel) => hint.uniqueId === uniqueId
+      )
+      if (currentHint.id !== null) {
          const {
             codingProblemsStore: { deleteProblemHint }
          } = this.props
          deleteProblemHint(
-            codingProblemId,
-            hints[currentHintIndex].id,
+            currentHint.id,
             this.onSuccessHintDelete,
             this.onFailureHintDelete
          )
@@ -291,15 +288,6 @@ class Hints extends React.Component<HintsProps> {
                this.onSuccessPostHint,
                this.onFailurePostHint
             )
-            console.log('Hint Posting Data:- ', {
-               hint_id: currentHint.id,
-               hint_number: currentHint.number,
-               title: currentHint.title,
-               description: {
-                  content: currentHint.description.content,
-                  content_type: currentHint.description.contentType
-               }
-            })
          }
       } else {
          const { updateDataStatus } = this.props

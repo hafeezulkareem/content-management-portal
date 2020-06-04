@@ -8,7 +8,10 @@ import { CleanSolutionModel } from '../../stores/models/CleanSolutionModel'
 import { CleanSolutionCodeEditor } from '../CleanSolutionCodeEditor/CleanSolutionCodeEditor'
 import { AddAndSaveButtons } from '../AddAndSaveButtons'
 
-import { CleanSolutionContainer } from './styledComponents'
+import {
+   CleanSolutionContainer,
+   CleanSolutionsWrapper
+} from './styledComponents'
 
 type CleanSolutionProps = {
    codingProblemsStore: any
@@ -161,13 +164,12 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
    }
 
    checkCodingProblemIdAndDelete = uniqueId => {
-      if (this.codingProblemId) {
+      const currentCodingEditor = this.codeEditorsList.get(uniqueId)
+      if (currentCodingEditor.id !== null) {
          const {
             codingProblemsStore: { deleteProblemRoughSolution }
          } = this.props
-         const currentCodingEditor = this.codeEditorsList.get(uniqueId)
          deleteProblemRoughSolution(
-            this.codingProblemId,
             currentCodingEditor.id,
             this.onSuccessCleanSolutionDelete,
             this.onFailureCleanSolutionDelete
@@ -282,23 +284,25 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
       const codeEditors = Array.from(this.codeEditorsList.values())
       return (
          <CleanSolutionContainer>
-            {codeEditors.map(codeEditor => (
-               <CleanSolutionCodeEditor
-                  key={codeEditor.uniqueId}
-                  uniqueId={codeEditor.uniqueId}
-                  fileName={codeEditor.fileName}
-                  onChangeFileName={this.onChangeFileName}
-                  language={codeEditor.language}
-                  onChangeLanguage={this.onChangeLanguage}
-                  solutionContent={codeEditor.solutionContent}
-                  onChangeSolutionContent={this.onChangeSolutionContent}
-                  onClickDeleteButton={this.onClickDeleteButton}
+            <CleanSolutionsWrapper>
+               {codeEditors.map(codeEditor => (
+                  <CleanSolutionCodeEditor
+                     key={codeEditor.uniqueId}
+                     uniqueId={codeEditor.uniqueId}
+                     fileName={codeEditor.fileName}
+                     onChangeFileName={this.onChangeFileName}
+                     language={codeEditor.language}
+                     onChangeLanguage={this.onChangeLanguage}
+                     solutionContent={codeEditor.solutionContent}
+                     onChangeSolutionContent={this.onChangeSolutionContent}
+                     onClickDeleteButton={this.onClickDeleteButton}
+                  />
+               ))}
+               <AddAndSaveButtons
+                  onClickAddButton={this.generateCodeEditor}
+                  onClickSaveButton={this.onClickSaveButton}
                />
-            ))}
-            <AddAndSaveButtons
-               onClickAddButton={this.generateCodeEditor}
-               onClickSaveButton={this.onClickSaveButton}
-            />
+            </CleanSolutionsWrapper>
          </CleanSolutionContainer>
       )
    }

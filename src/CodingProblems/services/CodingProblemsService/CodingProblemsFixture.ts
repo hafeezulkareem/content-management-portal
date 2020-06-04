@@ -13,63 +13,91 @@ class CodingProblemsFixture {
       return new Promise(resolve => resolve(problemStatementResponse))
    }
 
-   postProblemRoughSolutionAPI() {
+   postProblemRoughSolutionAPI(codingProblemId, roughSolutionData) {
+      console.log('Posting Rough Solution CodingProblemId:- ', codingProblemId)
+      console.log('Posting Rough Solution Data:- ', roughSolutionData)
       return new Promise(resolve => resolve(problemRoughSolutionResponse))
    }
 
-   deleteRoughSolutionAPI() {
+   deleteRoughSolutionAPI(codingProblemId, roughSolutionId) {
+      console.log('Deleting Rough Solution CodingProblemId:- ', codingProblemId)
+      console.log('Deleting Rough Solution Id:- ', roughSolutionId)
       return new Promise(resolve => {
          resolve('Rough solution is deleted')
       })
    }
 
-   postProblemTestCaseAPI() {
+   postProblemTestCaseAPI(codingProblemId, testCaseData) {
+      console.log(
+         'Posting TestCase Solution CodingProblemId:- ',
+         codingProblemId
+      )
+      console.log('Posting TestCase Solution Data:- ', testCaseData)
       return new Promise(resolve => {
          resolve(problemTestCaseResponse)
       })
    }
 
-   deleteTestCaseAPI() {
+   deleteTestCaseAPI(codingProblemId, testCaseId) {
+      console.log('Deleting TestCase CodingProblemId:- ', codingProblemId)
+      console.log('Deleting TestCase Id:- ', testCaseId)
       return new Promise(resolve => {
          resolve('Test case is deleted')
       })
    }
 
-   postPrefilledCodeAPI() {
+   postPrefilledCodeAPI(codingProblemId, prefilledCodeData) {
+      console.log('Posting Prefilled Code CodingProblemId:- ', codingProblemId)
+      console.log('Posting Prefilled Code Data:- ', prefilledCodeData)
       return new Promise(resolve => {
          resolve(problemPrefilledCodeResponse)
       })
    }
 
-   deletePrefilledCodeAPI() {
+   deletePrefilledCodeAPI(codingProblemId, prefilledCodeId) {
+      console.log('Deleting Prefilled Code CodingProblemId:- ', codingProblemId)
+      console.log('Deleting Prefilled Code Id:- ', prefilledCodeId)
       return new Promise(resolve => {
          resolve('Prefilled code is deleted')
       })
    }
 
-   postSolutionApproachAPI() {
+   postSolutionApproachAPI(codingProblemId, solutionApproachData) {
+      console.log(
+         'Posting Solution Approach CodingProblemId:- ',
+         codingProblemId
+      )
+      console.log('Posting Solution Approach Data:- ', solutionApproachData)
       return new Promise(resolve => {
          resolve(problemSolutionApproachResponse)
       })
    }
 
-   postHintAPI() {
+   postHintAPI(codingProblemId, hintData) {
+      console.log('Posting Hint CodingProblemId:- ', codingProblemId)
+      console.log('Posting Hint Data:- ', hintData)
       return new Promise(resolve => {
          resolve(problemHintResponse)
       })
    }
 
-   deleteHintAPI() {
+   deleteHintAPI(codingProblemId, hintId) {
+      console.log('Deleting Hint CodingProblemId:- ', codingProblemId)
+      console.log('Deleting Hint Id:- ', hintId)
       return new Promise(resolve => {
          resolve('Deleted successfully')
       })
    }
 
-   postCleanSolutionAPI() {
+   postCleanSolutionAPI(codingProblemId, cleanSolutionData) {
+      console.log('Posting Clean Solution CodingProblemId:- ', codingProblemId)
+      console.log('Posting Clean Solution Data:- ', cleanSolutionData)
       return new Promise(resolve => resolve(problemCleanSolutionResponse))
    }
 
-   deleteCleanSolutionAPI() {
+   deleteCleanSolutionAPI(codingProblemId, cleanSolutionId) {
+      console.log('Deleting Clean Solution CodingProblemId:- ', codingProblemId)
+      console.log('Deleting Clean Solution Id:- ', cleanSolutionId)
       return new Promise(resolve =>
          resolve('Clean solution deleted successfully')
       )

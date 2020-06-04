@@ -4,6 +4,8 @@ import tw from 'tailwind.macro'
 import colors from '../../../Common/themes/Colors'
 
 export const CodeEditorContainer = styled.div`
+   width: 565px;
+   height: 320px;
    border-color: ${colors.lightBlueGrey40};
    ${tw`
         mb-3 border border-solid rounded-sm relative

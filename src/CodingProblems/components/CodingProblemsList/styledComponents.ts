@@ -4,6 +4,7 @@ import tw from 'tailwind.macro'
 import colors from '../../../Common/themes/Colors'
 
 export const CodingProblemsListContainer = styled.div`
+   background-color: ${colors.white};
    border-color: ${colors.lightBlueGrey};
    ${tw`
         rounded-sm border border-solid
@@ -13,7 +14,7 @@ export const CodingProblemsListContainer = styled.div`
 export const ListHeader = styled.div`
    border-color: ${colors.lightBlueGrey};
    ${tw`
-        flex items-center py-4 border-solid
+        flex items-center py-4 border-solid border-b
     `}
 `
 

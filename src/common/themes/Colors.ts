@@ -8,5 +8,6 @@ export default {
    neonRed: '#ff0b37',
    white: '#ffffff',
    greenishTeal: '#2dca73',
-   steel_4: 'rgba(126, 133, 142, 0.04)'
+   steel_4: 'rgba(126, 133, 142, 0.04)',
+   whiteTwo: '#fbfbfb'
 }

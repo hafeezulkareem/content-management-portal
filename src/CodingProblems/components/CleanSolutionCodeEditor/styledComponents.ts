@@ -7,6 +7,7 @@ export const CodeEditorContainer = styled.div`
    width: 565px;
    height: 320px;
    border-color: ${colors.lightBlueGrey40};
+   background-color: ${colors.white};
    ${tw`
         mb-3 border border-solid rounded-sm relative
     `}

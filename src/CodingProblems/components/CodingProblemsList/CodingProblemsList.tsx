@@ -1,6 +1,8 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 
+import NoDataView from '../../../Common/components/NoDataView'
+
 import i18n from '../../i18n/strings.json'
 
 import { CodingProblemItem } from '../CodingProblemItem'
@@ -31,6 +33,9 @@ class CodingProblemsList extends React.Component<CodingProblemsListProps> {
          codingProblemsList,
          navigateToCodingProblemDetailsPage
       } = this.props
+      if (codingProblemsList.length === 0) {
+         return <NoDataView />
+      }
       return codingProblemsList.map(codingProblem => {
          return (
             <CodingProblemItem

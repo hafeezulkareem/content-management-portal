@@ -44,7 +44,11 @@ export default {
    notFoundError:
       'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/fe462e54-478e-4df3-82f6-e27bef53dd43.svg',
    notFound:
-      'https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/page_not_found_su7k.svg',
+      'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/0c0ac5c9-862e-4524-9154-86b9722ca1b7.svg',
    doneCircleWithBgGreen:
-      'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/05974257-2e62-464f-8fde-da4ae7f63ac9.svg'
+      'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/05974257-2e62-464f-8fde-da4ae7f63ac9.svg',
+   noData:
+      'https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/empty_xct9.svg',
+   serverDown:
+      'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/b874fa48-bdc7-4992-8944-436a3b309904.png'
 }

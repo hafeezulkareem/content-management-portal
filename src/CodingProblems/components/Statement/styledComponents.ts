@@ -4,9 +4,10 @@ import tw from 'tailwind.macro'
 import colors from '../../../Common/themes/Colors'
 
 export const StatementContainer = styled.div`
+   background-color: ${colors.whiteTwo};
    border-color: ${colors.lightBlueGrey40};
    ${tw`
-        flex flex-col w-full bg-white
+        flex flex-col w-full
     `}
 `
 
@@ -18,7 +19,7 @@ export const LeftAndRightSections = styled.div`
 
 export const StatementLeftSection = styled.div`
    ${tw`
-        w-1/2 p-16 border border-solid rounded-sm
+        w-1/2 p-16 border border-solid rounded-sm bg-white
     `}
 `
 

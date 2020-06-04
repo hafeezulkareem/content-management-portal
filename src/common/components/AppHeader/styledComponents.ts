@@ -4,6 +4,7 @@ import tw from 'tailwind.macro'
 import colors from '../../themes/Colors'
 
 export const AppHeaderContainer = styled.div`
+   background-color: ${colors.white};
    border-color: ${colors.lightBlueGrey};
    ${tw`
         w-full flex justify-between py-3 px-6 border-b border-solid

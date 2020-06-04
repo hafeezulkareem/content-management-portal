@@ -4,6 +4,7 @@ import tw from 'tailwind.macro'
 import colors from '../../../Common/themes/Colors'
 
 export const FormWithSaveButton = styled.div`
+   background-color: ${colors.white};
    ${tw`
         w-2/5 flex flex-col mt-4 self-center
     `}

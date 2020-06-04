@@ -4,7 +4,7 @@ import { observable } from 'mobx'
 import { withRouter } from 'react-router-dom'
 import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { API_FETCHING, API_SUCCESS } from '@ib/api-constants'
+import { API_FETCHING, API_SUCCESS, API_FAILED } from '@ib/api-constants'
 
 import commonI18n from '../../../Common/i18n/strings.json'
 import { AppHeader } from '../../../Common/components/AppHeader'
@@ -336,7 +336,10 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                   }
                />
                <LoadingWrapperWithStatement
-                  isLoading={getCodingProblemDetailsAPIStatus === API_FETCHING}
+                  isLoading={
+                     getCodingProblemDetailsAPIStatus === API_FETCHING ||
+                     getCodingProblemDetailsAPIStatus === API_FAILED
+                  }
                >
                   <LoadingWrapperWithFailure
                      apiStatus={getCodingProblemDetailsAPIStatus}

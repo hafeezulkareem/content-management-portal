@@ -1,9 +1,12 @@
 import styled from '@emotion/styled'
 import tw from 'tailwind.macro'
 
-export const AppContainer = styled.div`
-   ${tw`
+import colors from '../../../Common/themes/Colors'
 
+export const AppContainer = styled.div`
+   background-color: ${colors.whiteTwo};
+   ${tw`
+        min-w-screen min-h-screen
     `}
 `
 

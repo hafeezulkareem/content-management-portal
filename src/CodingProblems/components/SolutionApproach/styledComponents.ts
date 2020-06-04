@@ -9,13 +9,14 @@ export const SolutionApproachContainer = styled.div`
     `}
 `
 export const TextLabel = styled.span`
-   ${colors.steel}
+   color: ${colors.steel};
    ${tw`
         text-xs mb-2 mt-6
     `}
 `
 
 export const SolutionApproachLeftSection = styled.div`
+   background-color: ${colors.white};
    ${tw`
         flex flex-col w-1/2 px-8 py-20
     `}

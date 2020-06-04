@@ -84,6 +84,8 @@
       "chevronLeft": "Chevron Left",
       "chevronRight": "Chevron Right",
       "selectIcon": "Select Icon",
-      "backArrowIcon": "Back Arrow Icon"
+      "backArrowIcon": "Back Arrow Icon",
+      "noData": "Empty Image",
+      "failureImage": "Server Down"
    }
 }

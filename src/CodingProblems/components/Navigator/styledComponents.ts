@@ -23,7 +23,7 @@ export const NavigationButton = styled.button`
    ${(props: NavigationButtonProps) =>
       props.isActive
          ? `border-color: ${colors.brightBlue};`
-         : `border-color: ${colors.white};`}
+         : `border-color: ${colors.whiteTwo};`}
    ${(props: NavigationButtonProps) =>
       props.isDisabled ? `cursor: not-allowed;` : `cursor: pointer;`}
 `

@@ -26,6 +26,7 @@ class Hints extends React.Component<HintsProps> {
    @observable descriptionErrorMessage!: string | null
    currentHintNumber!: number
    currentDeletingHintUniqueId!: number | null
+   currentSavingHintUniqueId!: string | null
    previousHintsData: any
 
    constructor(props) {
@@ -37,6 +38,7 @@ class Hints extends React.Component<HintsProps> {
       this.hintsList = new ObservableMap(new Map())
       this.currentHintNumber = 0
       this.currentDeletingHintUniqueId = null
+      this.currentSavingHintUniqueId = null
       this.initErrors()
    }
 
@@ -72,6 +74,22 @@ class Hints extends React.Component<HintsProps> {
             description: { ...hint.description }
          })
       })
+   }
+
+   updateHintsResponseData = () => {
+      let { codingProblemsStore } = this.props
+      codingProblemsStore.postHintAPIResponses = []
+      if (this.hintsList.size > 0) {
+         this.hintsList.forEach(hint => {
+            if (hint.id !== null) {
+               codingProblemsStore.postHintAPIResponses.push(hint)
+            }
+         })
+      }
+   }
+
+   componentWillUnmount() {
+      this.updateHintsResponseData()
    }
 
    isPreviousDataSameAsPresentData = () => {
@@ -170,7 +188,14 @@ class Hints extends React.Component<HintsProps> {
    }
 
    onSuccessHintDelete = () => {
-      const { showToastMessage, updateDataStatus } = this.props
+      const {
+         codingProblemsStore,
+         showToastMessage,
+         updateDataStatus
+      } = this.props
+      codingProblemsStore.postHintAPIResponses = Array.from(
+         this.hintsList.values()
+      )
       const { deleteSuccessMessages } = i18n
       updateDataStatus(true)
       showToastMessage(deleteSuccessMessages.hint, false, 700, this.deleteHint)
@@ -205,6 +230,7 @@ class Hints extends React.Component<HintsProps> {
       }
       this.hintsList.delete(this.currentDeletingHintUniqueId)
       this.currentHintNumber = this.hintsList.size
+      this.updateHintsResponseData()
       this.rearrangeTestCasesOrder()
    }
 
@@ -253,12 +279,22 @@ class Hints extends React.Component<HintsProps> {
    }
 
    onSuccessPostHint = () => {
-      const { showToastMessage } = this.props
+      const {
+         codingProblemsStore: { postHintAPIResponses },
+         showToastMessage,
+         updateDataStatus
+      } = this.props
+      const lastHintResponse =
+         postHintAPIResponses[postHintAPIResponses.length - 1]
+      lastHintResponse.uniqueId = this.currentSavingHintUniqueId
+      this.hintsList.set(this.currentSavingHintUniqueId, lastHintResponse)
       const { postSuccessMessages } = i18n
+      updateDataStatus(true)
       showToastMessage(postSuccessMessages.hints, false, 700, () => {})
    }
 
    onFailurePostHint = () => {
+      this.currentSavingHintUniqueId = null
       const {
          codingProblemsStore: { postHintAPIError },
          showToastMessage
@@ -267,6 +303,7 @@ class Hints extends React.Component<HintsProps> {
    }
 
    onClickSaveButton = uniqueId => {
+      this.currentSavingHintUniqueId = uniqueId
       const {
          codingProblemsStore: { codingProblemId },
          showToastMessage

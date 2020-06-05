@@ -29,10 +29,10 @@ class TestCasesAndHintsNavigation extends React.Component<
    renderButtons = () => {
       let { buttonsList, onClickNumberButton, onClickDeleteButton } = this.props
       buttonsList = Array.from(buttonsList.values())
-      return buttonsList.map(button => (
+      return buttonsList.map((button, index) => (
          <NumberButton
             key={button.number}
-            number={button.number}
+            number={index + 1}
             uniqueId={button.uniqueId}
             isActive={button.isActive}
             onClickNumberButton={onClickNumberButton}

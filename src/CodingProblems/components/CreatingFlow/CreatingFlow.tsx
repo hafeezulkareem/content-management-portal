@@ -208,7 +208,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                <Wrapper>
                   <SectionWrapper>
                      <TestCases
-                        codingProblemStore={codingProblemsStore}
+                        codingProblemsStore={codingProblemsStore}
                         testCases={testCases}
                         showToastMessage={this.showToastMessage}
                         updateDataStatus={this.updateDataStatus}

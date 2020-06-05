@@ -173,7 +173,18 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    }
 
    onSuccessDeleteRoughSolution = () => {
-      const { showToastMessage } = this.props
+      const {
+         codingProblemsStore: {
+            postRoughSolutionAPIResponse,
+            postPrefilledCodeAPIResponse
+         },
+         showToastMessage
+      } = this.props
+      if (this.tabName === ROUGH_SOLUTION) {
+         postRoughSolutionAPIResponse.pop()
+      } else {
+         postPrefilledCodeAPIResponse.pop()
+      }
       const { deleteSuccessMessages } = i18n as any
       showToastMessage(
          deleteSuccessMessages.roughSolution,

@@ -145,7 +145,11 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
    }
 
    onSuccessCleanSolutionDelete = () => {
-      const { showToastMessage } = this.props
+      const {
+         codingProblemsStore: { postCleanSolutionAPIResponse },
+         showToastMessage
+      } = this.props
+      postCleanSolutionAPIResponse.pop()
       const { deleteSuccessMessages } = i18n
       showToastMessage(
          deleteSuccessMessages.cleanSolution,

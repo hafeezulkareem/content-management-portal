@@ -12,7 +12,7 @@ import { TestCasesContentSection } from '../TestCasesContentSection'
 import { TestCasesContainer, ButtonsContainer } from './styledComponents'
 
 type TestCasesProps = {
-   codingProblemStore: any
+   codingProblemsStore: any
    testCases: any
    showToastMessage: any
    updateDataStatus: any
@@ -26,6 +26,7 @@ class TestCases extends React.Component<TestCasesProps> {
    @observable scoreErrorMessage!: string | null
    currentTestCaseNumber!: number
    currentDeletingTestCaseUniqueId!: number | null
+   currentSavingTestCaseUniqueId!: number | null
    previousTestCaseData: any
 
    constructor(props) {
@@ -57,7 +58,7 @@ class TestCases extends React.Component<TestCasesProps> {
    componentDidMount() {
       const {
          testCases,
-         codingProblemStore: { postTestCaseAPIResponses }
+         codingProblemsStore: { postTestCaseAPIResponses }
       } = this.props
       if (postTestCaseAPIResponses.length > 0) {
          this.setTestCasesDataToList(postTestCaseAPIResponses)
@@ -70,6 +71,22 @@ class TestCases extends React.Component<TestCasesProps> {
       this.testCasesList.forEach((testCase, key) => {
          this.previousTestCaseData.set(key, { ...testCase })
       })
+   }
+
+   updateTestCasesResponseData = () => {
+      let { codingProblemsStore } = this.props
+      codingProblemsStore.postTestCaseAPIResponses = []
+      if (this.testCasesList.size > 0) {
+         this.testCasesList.forEach(testCase => {
+            if (testCase.id !== null) {
+               codingProblemsStore.postTestCaseAPIResponses.push(testCase)
+            }
+         })
+      }
+   }
+
+   componentWillUnmount() {
+      this.updateTestCasesResponseData()
    }
 
    isPreviousDataSameAsPresentData = () => {
@@ -159,7 +176,7 @@ class TestCases extends React.Component<TestCasesProps> {
 
    onFailureTestCaseDelete = () => {
       const {
-         codingProblemStore: { deleteTestCaseAPIError },
+         codingProblemsStore: { deleteTestCaseAPIError },
          showToastMessage
       } = this.props
       showToastMessage(deleteTestCaseAPIError, true, 1500, () => {})
@@ -171,8 +188,8 @@ class TestCases extends React.Component<TestCasesProps> {
          (testCase: TestCaseModel) => testCase.uniqueId === uniqueId
       )
       if (currentTestCase.id !== null) {
-         const { codingProblemStore } = this.props
-         codingProblemStore.deleteProblemTestCase(
+         const { codingProblemsStore } = this.props
+         codingProblemsStore.deleteProblemTestCase(
             currentTestCase.id,
             this.onSuccessTestCaseDelete,
             this.onFailureTestCaseDelete
@@ -208,6 +225,7 @@ class TestCases extends React.Component<TestCasesProps> {
       }
       this.testCasesList.delete(this.currentDeletingTestCaseUniqueId)
       this.currentTestCaseNumber = this.testCasesList.size
+      this.updateTestCasesResponseData()
       this.rearrangeTestCasesOrder()
    }
 
@@ -273,30 +291,43 @@ class TestCases extends React.Component<TestCasesProps> {
    }
 
    onSuccessPostTestCase = () => {
-      const { showToastMessage, updateDataStatus } = this.props
+      const {
+         codingProblemsStore: { postTestCaseAPIResponses },
+         showToastMessage,
+         updateDataStatus
+      } = this.props
+      const lastHintResponse =
+         postTestCaseAPIResponses[postTestCaseAPIResponses.length - 1]
+      lastHintResponse.uniqueId = this.currentSavingTestCaseUniqueId
+      this.testCasesList.set(
+         this.currentSavingTestCaseUniqueId,
+         lastHintResponse
+      )
       const { postSuccessMessages } = i18n as any
       updateDataStatus(true)
       showToastMessage(postSuccessMessages.testCases, false, 700, () => {})
    }
 
    onFailurePostTestCase = () => {
+      this.currentSavingTestCaseUniqueId = null
       const {
-         codingProblemStore: { postTestCaseAPIError },
+         codingProblemsStore: { postTestCaseAPIError },
          showToastMessage
       } = this.props
       showToastMessage(postTestCaseAPIError, true, 1500, () => {})
    }
 
    onClickSaveButton = uniqueId => {
+      this.currentSavingTestCaseUniqueId = uniqueId
       const {
-         codingProblemStore: { codingProblemId },
+         codingProblemsStore: { codingProblemId },
          showToastMessage
       } = this.props
       if (codingProblemId !== null) {
          if (this.areAllFieldsFilled(uniqueId)) {
             const currentTestCase = this.testCasesList.get(uniqueId)
-            const { codingProblemStore } = this.props
-            codingProblemStore.postProblemTestCase(
+            const { codingProblemsStore } = this.props
+            codingProblemsStore.postProblemTestCase(
                {
                   test_case_id: currentTestCase.id,
                   test_case_number: currentTestCase.number,

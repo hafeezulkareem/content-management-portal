@@ -173,25 +173,44 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    }
 
    onSuccessDeleteRoughSolution = () => {
-      const {
-         codingProblemsStore: {
-            postRoughSolutionAPIResponse,
-            postPrefilledCodeAPIResponse
-         },
-         showToastMessage
-      } = this.props
-      if (this.tabName === ROUGH_SOLUTION) {
-         postRoughSolutionAPIResponse.pop()
-      } else {
-         postPrefilledCodeAPIResponse.pop()
-      }
+      const { codingProblemsStore, showToastMessage } = this.props
       const { deleteSuccessMessages } = i18n as any
-      showToastMessage(
-         deleteSuccessMessages.roughSolution,
-         false,
-         700,
-         this.deleteCodeEditor
+      const currentCodeEditor = this.codeEditorsList.get(
+         this.currentCodeEditorId
       )
+      if (this.tabName === ROUGH_SOLUTION) {
+         if (this.codeEditorsList.size > 0) {
+            codingProblemsStore.postRoughSolutionAPIResponse = codingProblemsStore.postRoughSolutionAPIResponse.filter(
+               roughSolution =>
+                  roughSolution.roughSolutionId !==
+                  currentCodeEditor.roughSolutionId
+            )
+         } else {
+            codingProblemsStore.postRoughSolutionAPIResponse = []
+         }
+         showToastMessage(
+            deleteSuccessMessages.roughSolution,
+            false,
+            700,
+            this.deleteCodeEditor
+         )
+      } else {
+         if (this.codeEditorsList.size > 0) {
+            codingProblemsStore.postPrefilledCodeAPIResponse = codingProblemsStore.postPrefilledCodeAPIResponse.filter(
+               roughSolution =>
+                  roughSolution.roughSolutionId !==
+                  currentCodeEditor.roughSolutionId
+            )
+         } else {
+            codingProblemsStore.postPrefilledCodeAPIResponse = []
+         }
+         showToastMessage(
+            deleteSuccessMessages.prefilledCode,
+            false,
+            700,
+            this.deleteCodeEditor
+         )
+      }
    }
 
    onFailureDeleteRoughSolution = () => {

@@ -82,6 +82,8 @@ class TestCases extends React.Component<TestCasesProps> {
                codingProblemsStore.postTestCaseAPIResponses.push(testCase)
             }
          })
+      } else {
+         codingProblemsStore.postTestCaseAPIResponses = []
       }
    }
 

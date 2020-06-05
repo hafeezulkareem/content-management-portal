@@ -85,6 +85,8 @@ class Hints extends React.Component<HintsProps> {
                codingProblemsStore.postHintAPIResponses.push(hint)
             }
          })
+      } else {
+         codingProblemsStore.postHintAPIResponses = []
       }
    }
 

@@ -231,11 +231,11 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
                solution_approach_id: this.solutionApproachId,
                title: this.title,
                description: {
-                  content_type: this.description.type,
+                  content_type: this.description.type.toUpperCase(),
                   content: this.description.content
                },
                complexity_analysis: {
-                  content_type: this.complexityAnalysis.type,
+                  content_type: this.complexityAnalysis.type.toUpperCase(),
                   content: this.complexityAnalysis.content
                }
             }

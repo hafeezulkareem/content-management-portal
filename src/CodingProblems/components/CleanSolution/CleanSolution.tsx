@@ -145,11 +145,17 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
    }
 
    onSuccessCleanSolutionDelete = () => {
-      const {
-         codingProblemsStore: { postCleanSolutionAPIResponse },
-         showToastMessage
-      } = this.props
-      postCleanSolutionAPIResponse.pop()
+      const currentCodeEditor = this.codeEditorsList.get(
+         this.currentCodeEditorId
+      )
+      const { codingProblemsStore, showToastMessage } = this.props
+      if (this.codeEditorsList.size > 0) {
+         codingProblemsStore.postCleanSolutionAPIResponse = codingProblemsStore.postCleanSolutionAPIResponse.filter(
+            codeEditor => codeEditor.id !== currentCodeEditor.id
+         )
+      } else {
+         codingProblemsStore.postCleanSolutionAPIResponse = []
+      }
       const { deleteSuccessMessages } = i18n
       showToastMessage(
          deleteSuccessMessages.cleanSolution,

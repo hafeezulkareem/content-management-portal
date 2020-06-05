@@ -6,7 +6,7 @@ export const apiMethods = {
 }
 
 export const BASE_URL =
-   'https://80beef76019d.ngrok.io/api/content_management_portal'
+   'https://e278e6afe099.ngrok.io/api/content_management_portal'
 
 const INVALID_URL_TOKEN = 'INVALID_URL_TOKEN'
 const INVALID_TOKEN = 'INVALID_TOKEN'

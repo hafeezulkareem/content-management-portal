@@ -4,10 +4,14 @@ import { observer } from 'mobx-react'
 import { DropDown } from '../../../Common/components/DropDown'
 import commonI18n from '../../../Common/i18n/strings.json'
 import { SaveButton } from '../../../Common/components/SaveButton'
+import { TextPreviewer } from '../../../Common/components/TextPreviewer'
+import { HtmlPreviewer } from '../../../Common/components/HtmlPreviewer'
+import { MarkdownPreviewer } from '../../../Common/components/MarkdownPreviewer'
 
 import i18n from '../../i18n/strings.json'
 
 import {
+   HintsContentSectionContainer,
    FormWithSaveButton,
    HintsFormContainer,
    HintsFormHeader,
@@ -18,7 +22,9 @@ import {
    SaveButtonContainer,
    ErrorMessage,
    TextAreaHeader,
-   DescriptionLabel
+   DescriptionLabel,
+   HintsPreviewSection,
+   HintsFormSection
 } from './styledComponents'
 
 type HintsContentSectionProps = {
@@ -36,6 +42,19 @@ type HintsContentSectionProps = {
 
 @observer
 class HintsContentSection extends React.Component<HintsContentSectionProps> {
+   renderPreviewer = () => {
+      const { textEditorTypes } = commonI18n
+      const { descriptionType, description } = this.props
+      switch (descriptionType.toLowerCase()) {
+         case textEditorTypes[0].optionText.toLowerCase():
+            return <TextPreviewer text={description} />
+         case textEditorTypes[1].optionText.toLowerCase():
+            return <HtmlPreviewer htmlText={description} />
+         case textEditorTypes[2].optionText.toLowerCase():
+            return <MarkdownPreviewer markdownText={description} />
+      }
+   }
+
    render() {
       const { hints } = i18n
       const { textEditorTypes } = commonI18n
@@ -52,48 +71,53 @@ class HintsContentSection extends React.Component<HintsContentSectionProps> {
          onClickSaveButton
       } = this.props
       return (
-         <FormWithSaveButton>
-            <HintsFormContainer>
-               <HintsFormHeader>
-                  <HintsTitle>{hints.hints}</HintsTitle>
-               </HintsFormHeader>
-               <TextLabel>{hints.title}</TextLabel>
-               <InputField
-                  onChange={event => onChangeTitle(event, uniqueId)}
-                  value={title}
-                  type={hints.titleType}
-                  placeholder={hints.titlePlaceholder}
-               />
-               {titleErrorMessage && (
-                  <ErrorMessage>{titleErrorMessage}</ErrorMessage>
-               )}
-               <TextAreaHeader>
-                  <DescriptionLabel>{hints.description}</DescriptionLabel>
-                  <DropDown
-                     options={textEditorTypes}
-                     defaultOption=''
-                     onChangeType={event =>
-                        onChangeDescriptionType(event, uniqueId)
-                     }
-                     selectedOption={descriptionType}
-                  />
-               </TextAreaHeader>
-               <TextArea
-                  onChange={event => onChangeDescription(event, uniqueId)}
-                  value={description}
-                  placeholder={hints.descriptionPlaceholder}
-               ></TextArea>
+         <HintsContentSectionContainer>
+            <HintsFormSection>
+               <FormWithSaveButton>
+                  <HintsFormContainer>
+                     <HintsFormHeader>
+                        <HintsTitle>{hints.hints}</HintsTitle>
+                     </HintsFormHeader>
+                     <TextLabel>{hints.title}</TextLabel>
+                     <InputField
+                        onChange={event => onChangeTitle(event, uniqueId)}
+                        value={title}
+                        type={hints.titleType}
+                        placeholder={hints.titlePlaceholder}
+                     />
+                     {titleErrorMessage && (
+                        <ErrorMessage>{titleErrorMessage}</ErrorMessage>
+                     )}
+                     <TextAreaHeader>
+                        <DescriptionLabel>{hints.description}</DescriptionLabel>
+                        <DropDown
+                           options={textEditorTypes}
+                           defaultOption=''
+                           onChangeType={event =>
+                              onChangeDescriptionType(event, uniqueId)
+                           }
+                           selectedOption={descriptionType}
+                        />
+                     </TextAreaHeader>
+                     <TextArea
+                        onChange={event => onChangeDescription(event, uniqueId)}
+                        value={description}
+                        placeholder={hints.descriptionPlaceholder}
+                     ></TextArea>
 
-               {descriptionErrorMessage && (
-                  <ErrorMessage>{descriptionErrorMessage}</ErrorMessage>
-               )}
-            </HintsFormContainer>
-            <SaveButtonContainer>
-               <SaveButton
-                  onClickSaveButton={() => onClickSaveButton(uniqueId)}
-               />
-            </SaveButtonContainer>
-         </FormWithSaveButton>
+                     {descriptionErrorMessage && (
+                        <ErrorMessage>{descriptionErrorMessage}</ErrorMessage>
+                     )}
+                  </HintsFormContainer>
+                  <SaveButtonContainer>
+                     <SaveButton
+                        onClickSaveButton={() => onClickSaveButton(uniqueId)}
+                     />
+                  </SaveButtonContainer>
+               </FormWithSaveButton>
+            </HintsFormSection>
+            <HintsPreviewSection>{this.renderPreviewer()}</HintsPreviewSection>
+         </HintsContentSectionContainer>
       )
    }
 }

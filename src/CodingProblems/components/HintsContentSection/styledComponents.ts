@@ -3,10 +3,16 @@ import tw from 'tailwind.macro'
 
 import colors from '../../../Common/themes/Colors'
 
+export const HintsContentSectionContainer = styled.div`
+   ${tw`
+        flex mb-12 -mt-2
+    `}
+`
+
 export const FormWithSaveButton = styled.div`
    background-color: ${colors.white};
    ${tw`
-        w-2/5 flex flex-col mt-4 self-center
+        w-full flex flex-col p-8
     `}
 `
 
@@ -73,5 +79,17 @@ export const ErrorMessage = styled.p`
    color: ${colors.neonRed};
    ${tw`
         text-xs mt-2
+    `}
+`
+
+export const HintsFormSection = styled.div`
+   ${tw`
+        flex w-1/2
+    `}
+`
+
+export const HintsPreviewSection = styled.div`
+   ${tw`
+        flex w-1/2
     `}
 `

@@ -12,11 +12,12 @@ import {
 type AppHeaderProps = {
    userProfilePicLink: string
    username: string
+   onClickUserProfile: any
 }
 
 class AppHeader extends React.Component<AppHeaderProps> {
    render() {
-      const { userProfilePicLink, username } = this.props
+      const { userProfilePicLink, username, onClickUserProfile } = this.props
       const { imageAlts } = i18n
       return (
          <AppHeaderContainer>
@@ -25,6 +26,7 @@ class AppHeader extends React.Component<AppHeaderProps> {
                src={images.ibHubsHorizontalLogo}
             />
             <UserProfilePic
+               onClick={onClickUserProfile}
                alt={`${username} ${imageAlts.profilePic}`}
                src={userProfilePicLink}
             />

@@ -46,6 +46,7 @@ type CreatingFlowProps = {
    codingProblemsStore: any
    navigateToCodingProblemsHome: any
    match: any
+   onUserSignOut: any
 }
 
 @observer
@@ -303,7 +304,11 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
    render() {
       const { commonLabels, imageAlts } = commonI18n
       const activeTab = this.getCapitalizedActiveTab()
-      const { codingProblemsStore, navigateToCodingProblemsHome } = this.props
+      const {
+         codingProblemsStore,
+         navigateToCodingProblemsHome,
+         onUserSignOut
+      } = this.props
       const {
          getCodingProblemDetailsAPIStatus,
          getCodingProblemDetailsAPIError
@@ -312,6 +317,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
          <AppContainer>
             <ToastContainer closeButton={false} limit={5} transition={Slide} />
             <AppHeader
+               onClickUserProfile={onUserSignOut}
                username='Chi Lee'
                userProfilePicLink={images.testingUserPic}
             />

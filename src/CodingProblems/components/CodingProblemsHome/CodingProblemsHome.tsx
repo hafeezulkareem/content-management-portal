@@ -20,6 +20,7 @@ type CodingProblemsHomeProps = {
    activeSection: string
    navigateToCodingProblemCreatingFlow: any
    navigateToCodingProblemDetailsPage: any
+   onUserSignOut: any
 }
 
 @observer
@@ -73,7 +74,8 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
       const {
          codingProblemsStore,
          activeSection,
-         navigateToCodingProblemCreatingFlow
+         navigateToCodingProblemCreatingFlow,
+         onUserSignOut
       } = this.props
       const {
          getCodingProblemsAPIStatus,
@@ -89,6 +91,7 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
       return (
          <AppContainer>
             <AppHeader
+               onClickUserProfile={onUserSignOut}
                username='Chi Lee'
                userProfilePicLink={images.testingUserPic}
             />

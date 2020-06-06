@@ -111,27 +111,37 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
 
    resetTestCases = () => {
       const { codingProblemsStore } = this.props
-      codingProblemsStore.codingProblemDetails.testCases = []
+      if (codingProblemsStore.codingProblemDetails) {
+         codingProblemsStore.codingProblemDetails.testCases = []
+      }
    }
 
    resetHints = () => {
       const { codingProblemsStore } = this.props
-      codingProblemsStore.codingProblemDetails.hints = []
+      if (codingProblemsStore.codingProblemDetails) {
+         codingProblemsStore.codingProblemDetails.hints = []
+      }
    }
 
    resetCleanSolutions = () => {
       const { codingProblemsStore } = this.props
-      codingProblemsStore.codingProblemDetails.cleanSolutions = []
+      if (codingProblemsStore.codingProblemDetails) {
+         codingProblemsStore.codingProblemDetails.cleanSolutions = []
+      }
    }
 
    resetRoughSolutions = () => {
       const { codingProblemsStore } = this.props
-      codingProblemsStore.codingProblemDetails.roughSolutions = []
+      if (codingProblemsStore.codingProblemDetails) {
+         codingProblemsStore.codingProblemDetails.roughSolutions = []
+      }
    }
 
    resetPrefilledCodes = () => {
       const { codingProblemsStore } = this.props
-      codingProblemsStore.codingProblemDetails.prefilledCodes = []
+      if (codingProblemsStore.codingProblemDetails) {
+         codingProblemsStore.codingProblemDetails.prefilledCodes = []
+      }
    }
 
    componentDidMount() {
@@ -157,6 +167,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
       const { codingProblemsStore } = this.props
       codingProblemsStore.codingProblemId = null
       codingProblemsStore.initCodingProblemResponses()
+      codingProblemsStore.codingProblemDetails = undefined
    }
 
    confirmDataStatus = () => {

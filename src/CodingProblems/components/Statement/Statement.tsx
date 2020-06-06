@@ -180,6 +180,7 @@ class Statement extends React.Component<StatementProps> {
 
    render() {
       const { statement } = i18n
+      const { commonComponents } = commonI18n as any
       const {
          codingProblemsStore: { postStatementAPIStatus }
       } = this.props
@@ -222,6 +223,7 @@ class Statement extends React.Component<StatementProps> {
                   onClickButton={this.onClickSaveButton}
                   backgroundColor={colors.greenishTeal}
                   textColor={colors.white}
+                  buttonText={commonComponents.save}
                />
             </SaveButtonContainer>
          </StatementContainer>

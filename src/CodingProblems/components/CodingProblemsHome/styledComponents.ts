@@ -16,3 +16,9 @@ export const LoadingWrapperAndProblemsList = styled.div`
         mx-8
     `}
 `
+
+export const DeleteButtonContainer = styled.div`
+   ${tw`
+        flex items-center justify-center mx-8 mt-2
+    `}
+`

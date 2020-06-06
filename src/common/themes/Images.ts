@@ -7,6 +7,8 @@ export default {
       'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/9a57053d-032f-4c6b-911e-c399651afae7.svg',
    selectedCheckbox:
       'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/5b92e0c0-dc2a-48ae-a933-48589ebc4b30.svg',
+   selectedCircularCheckbox:
+      'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/d1bf8e24-c7dc-4446-8aac-02bf6a61ec7d.svg',
    defaultCheck:
       'https://cdn.zeplin.io/5d0afc9102b7fa56760995cc/assets/2d57d0b6-a6f7-4b52-a6c2-b87cf89aa6fd.svg',
    completedCheck:

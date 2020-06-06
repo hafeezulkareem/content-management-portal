@@ -1,5 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react'
+import { observable, reaction } from 'mobx'
 
 import { AppHeader } from '../../../Common/components/AppHeader'
 import { CodingAndMCQsNavigator } from '../../../Common/components/CodingAndMCQsNavigator'
@@ -7,13 +8,21 @@ import { FooterNavigation } from '../../../Common/components/FooterNavigation'
 import { SelectList } from '../../../Common/components/SelectList'
 import LoadingWrapperWithFailure from '../../../Common/components/LoadingWrapperWithFailure'
 import images from '../../../Common/themes/Images'
+import { Button } from '../../../Common/components/Button'
+import colors from '../../../Common/themes/Colors'
+import commonI18n from '../../../Common/i18n/strings.json'
 
 import i18n from '../../i18n/strings.json'
 import { CODING_PROBLEMS_LIMIT_PER_PAGE } from '../../constants/APILimitConstants'
 
 import { CodingProblemsList } from '../CodingProblemsList'
 
-import { AppContainer, LoadingWrapperAndProblemsList } from './styledComponents'
+import {
+   AppContainer,
+   LoadingWrapperAndProblemsList,
+   DeleteButtonContainer
+} from './styledComponents'
+import { API_SUCCESS } from '@ib/api-constants'
 
 type CodingProblemsHomeProps = {
    codingProblemsStore: any
@@ -25,6 +34,13 @@ type CodingProblemsHomeProps = {
 
 @observer
 class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
+   @observable selectedCodingProblems: Array<number>
+
+   constructor(props) {
+      super(props)
+      this.selectedCodingProblems = []
+   }
+
    componentDidMount() {
       const { codingProblemsStore } = this.props
       codingProblemsStore.getCodingProblems()
@@ -70,6 +86,40 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
       )
    }
 
+   onChangeGetCodingProblemsAPIStatus = reaction(
+      () => {
+         const {
+            codingProblemsStore: { getCodingProblemsAPIStatus }
+         } = this.props
+         return getCodingProblemsAPIStatus
+      },
+      getCodingProblemsAPIStatus => {
+         if (getCodingProblemsAPIStatus === API_SUCCESS) {
+            this.onChangeSelectedCodingProblems()
+         }
+      }
+   )
+
+   onChangeSelectedCodingProblems = () => {
+      reaction(
+         () => {
+            const {
+               codingProblemsStore: { codingProblemsList: codingProblems }
+            } = this.props
+            return Array.from(codingProblems.values()).filter(
+               (codingProblem: any) => codingProblem.isSelected
+            )
+         },
+         selectedCodingProblems => {
+            this.selectedCodingProblems = selectedCodingProblems.map(
+               (selectedCodingProblem: any) => selectedCodingProblem.id
+            )
+         }
+      )
+   }
+
+   onClickDeleteButton = () => {}
+
    render() {
       const {
          codingProblemsStore,
@@ -88,6 +138,7 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
          totalCodingProblems > 0
             ? Math.ceil(totalCodingProblems / CODING_PROBLEMS_LIMIT_PER_PAGE)
             : 0
+      const { commonComponents } = commonI18n as any
       return (
          <AppContainer>
             <AppHeader
@@ -122,6 +173,16 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
                buttonText={addCodingQuestions}
                onClickAddButton={navigateToCodingProblemCreatingFlow}
             />
+            {this.selectedCodingProblems.length > 0 ? (
+               <DeleteButtonContainer>
+                  <Button
+                     onClickButton={this.onClickDeleteButton}
+                     backgroundColor={colors.brightBlue}
+                     textColor={colors.white}
+                     buttonText={commonComponents.delete}
+                  />
+               </DeleteButtonContainer>
+            ) : null}
          </AppContainer>
       )
    }

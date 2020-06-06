@@ -4,6 +4,7 @@ import { observer } from 'mobx-react'
 import { ContentEditor } from '../../../Common/components/ContentEditor'
 import { Button } from '../../../Common/components/Button'
 import colors from '../../../Common/themes/Colors'
+import commonI18n from '../../../Common/themes/Colors'
 
 import i18n from '../../i18n/strings.json'
 
@@ -64,6 +65,7 @@ class TestCasesContentSection extends React.Component<
          scoreErrorMessage
       } = this.props
       const { testCases } = i18n as any
+      const { commonComponents } = commonI18n as any
       return (
          <TestCasesContentContainer>
             <LabelAndEditorContainer>
@@ -110,6 +112,7 @@ class TestCasesContentSection extends React.Component<
                   onClickButton={() => onClickSaveButton(uniqueId)}
                   backgroundColor={colors.greenishTeal}
                   textColor={colors.white}
+                  buttonText={commonComponents.save}
                />
             </SaveButtonContainer>
          </TestCasesContentContainer>

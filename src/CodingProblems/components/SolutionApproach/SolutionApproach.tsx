@@ -255,6 +255,7 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
 
    render() {
       const { solutionApproach } = i18n as any
+      const { commonComponents } = commonI18n
       const {
          codingProblemsStore: { postSolutionApproachAPIStatus }
       } = this.props
@@ -319,6 +320,7 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
                   onClickButton={this.onClickSaveButton}
                   backgroundColor={colors.greenishTeal}
                   textColor={colors.white}
+                  buttonText={commonComponents.save}
                />
             </SaveButtonContainer>
          </SolutionApproachContainer>

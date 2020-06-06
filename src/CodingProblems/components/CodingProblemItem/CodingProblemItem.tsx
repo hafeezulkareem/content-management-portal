@@ -37,9 +37,15 @@ class CodingProblemItem extends React.Component<CodingProblemItemProps> {
       return <Icon alt={imageAlts.cross} src={images.unCompletedCheck} />
    }
 
+   onToggleCodingProblemSelection = event => {
+      event.stopPropagation()
+      const { codingProblem } = this.props
+      codingProblem.toggleCodingProblemSelection()
+   }
+
    render() {
       const { codingProblem, navigateToCodingProblemDetailsPage } = this.props
-      let { problemStatement } = codingProblem
+      let { problemStatement, isSelected } = codingProblem
       problemStatement =
          problemStatement.length > 62
             ? problemStatement.slice(0, 62) + '...'
@@ -51,8 +57,15 @@ class CodingProblemItem extends React.Component<CodingProblemItemProps> {
             data-testid={CODING_PROBLEM_ITEM_TEST_ID}
          >
             <FirstColumn>
-               <DummyCheckbox>
-                  <Icon alt={imageAlts.tick} src={images.defaultCheck} />
+               <DummyCheckbox onClick={this.onToggleCodingProblemSelection}>
+                  {isSelected ? (
+                     <Icon
+                        alt={imageAlts.tick}
+                        src={images.selectedCircularCheckbox}
+                     />
+                  ) : (
+                     <Icon alt={imageAlts.tick} src={images.defaultCheck} />
+                  )}
                </DummyCheckbox>
                <QuestionText>{problemStatement}</QuestionText>
             </FirstColumn>

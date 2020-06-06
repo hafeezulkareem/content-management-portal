@@ -58,7 +58,7 @@ class HintsContentSection extends React.Component<HintsContentSectionProps> {
 
    render() {
       const { hints } = i18n
-      const { textEditorTypes } = commonI18n
+      const { textEditorTypes, commonComponents } = commonI18n
       const {
          uniqueId,
          title,
@@ -115,6 +115,7 @@ class HintsContentSection extends React.Component<HintsContentSectionProps> {
                         onClickButton={() => onClickSaveButton(uniqueId)}
                         backgroundColor={colors.greenishTeal}
                         textColor={colors.white}
+                        buttonText={commonComponents.save}
                      />
                   </SaveButtonContainer>
                </FormWithSaveButton>

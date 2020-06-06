@@ -5,7 +5,7 @@ import colors from '../../themes/Colors'
 
 export const FooterNavigationContainer = styled.div`
    ${tw`
-        flex justify-between my-4 mb-12 mx-8
+        flex justify-between mt-4 mx-8
     `}
 `
 

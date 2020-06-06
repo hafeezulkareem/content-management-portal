@@ -44,6 +44,7 @@
    "commonComponents": {
       "add": "Add",
       "save": "Save",
+      "delete": "Delete",
       "addFiles": "Add Files"
    },
    "commonLabels": {

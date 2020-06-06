@@ -31,7 +31,7 @@ class TestCasesAndHintsNavigation extends React.Component<
       buttonsList = Array.from(buttonsList.values())
       return buttonsList.map((button, index) => (
          <NumberButton
-            key={button.number}
+            key={button.uniqueId}
             number={index + 1}
             uniqueId={button.uniqueId}
             isActive={button.isActive}

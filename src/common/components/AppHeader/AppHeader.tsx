@@ -6,18 +6,20 @@ import i18n from '../../i18n/strings.json'
 import {
    AppHeaderContainer,
    CompanyLogo,
-   UserProfilePic
+   UserProfilePic,
+   SignOutButton,
+   UserProfileAndSignOutButton
 } from './styledComponents'
 
 type AppHeaderProps = {
    userProfilePicLink: string
    username: string
-   onClickUserProfile: any
+   onClickSignOut: any
 }
 
 class AppHeader extends React.Component<AppHeaderProps> {
    render() {
-      const { userProfilePicLink, username, onClickUserProfile } = this.props
+      const { userProfilePicLink, username, onClickSignOut } = this.props
       const { imageAlts } = i18n
       return (
          <AppHeaderContainer>
@@ -25,11 +27,15 @@ class AppHeader extends React.Component<AppHeaderProps> {
                alt={imageAlts.iBHubsLogo}
                src={images.ibHubsHorizontalLogo}
             />
-            <UserProfilePic
-               onClick={onClickUserProfile}
-               alt={`${username} ${imageAlts.profilePic}`}
-               src={userProfilePicLink}
-            />
+            <UserProfileAndSignOutButton>
+               <UserProfilePic
+                  alt={`${username} ${imageAlts.profilePic}`}
+                  src={userProfilePicLink}
+               />
+               <SignOutButton onClick={onClickSignOut}>
+                  {i18n.signOut}
+               </SignOutButton>
+            </UserProfileAndSignOutButton>
          </AppHeaderContainer>
       )
    }

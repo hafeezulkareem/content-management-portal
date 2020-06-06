@@ -87,5 +87,6 @@
       "backArrowIcon": "Back Arrow Icon",
       "noData": "Empty Image",
       "failureImage": "Server Down"
-   }
+   },
+   "signOut": "Sign Out"
 }

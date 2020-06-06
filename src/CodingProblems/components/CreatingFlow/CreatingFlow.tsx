@@ -148,6 +148,13 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
       this.getCodingProblemDetails()
    }
 
+   componentWillUnmount() {
+      const { codingProblemsStore } = this.props
+      codingProblemsStore.codingProblemId = null
+      codingProblemsStore.initCodingProblemResponses()
+      codingProblemsStore.codingProblemDetails = undefined
+   }
+
    getCodingProblemDetails = () => {
       const {
          match: {
@@ -161,13 +168,6 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
       } else {
          codingProblemsStore.getCodingProblemDetailsAPIStatus = API_SUCCESS
       }
-   }
-
-   componentWillUnmount() {
-      const { codingProblemsStore } = this.props
-      codingProblemsStore.codingProblemId = null
-      codingProblemsStore.initCodingProblemResponses()
-      codingProblemsStore.codingProblemDetails = undefined
    }
 
    confirmDataStatus = () => {
@@ -368,7 +368,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
          <AppContainer>
             <ToastContainer closeButton={false} limit={5} transition={Slide} />
             <AppHeader
-               onClickUserProfile={onUserSignOut}
+               onClickSignOut={onUserSignOut}
                username='Chi Lee'
                userProfilePicLink={images.testingUserPic}
             />

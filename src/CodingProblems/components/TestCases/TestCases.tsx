@@ -245,6 +245,7 @@ class TestCases extends React.Component<TestCasesProps> {
       this.testCasesList.delete(this.currentDeletingTestCaseUniqueId)
       this.currentTestCaseNumber = this.testCasesList.size
       this.totalTestCasesSaved -= 1
+      this.updateDataStatus()
       this.rearrangeTestCasesOrder()
    }
 

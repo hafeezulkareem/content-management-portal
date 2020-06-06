@@ -216,6 +216,7 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
 
    deleteCodeEditor = () => {
       this.codeEditorsList.delete(this.currentCodeEditorId)
+      this.updateDataStatus()
    }
 
    onClickDeleteButton = uniqueId => {

@@ -69,8 +69,9 @@ export const SignUpMessage = styled.p`
 `
 
 export const SignUpLink = styled.a`
+   color: ${colors.brightBlue};
    ${tw`
-        text-blue-600
+        focus:outline-none
     `}
 `
 

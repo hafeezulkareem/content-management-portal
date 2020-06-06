@@ -91,7 +91,7 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
       return (
          <AppContainer>
             <AppHeader
-               onClickUserProfile={onUserSignOut}
+               onClickSignOut={onUserSignOut}
                username='Chi Lee'
                userProfilePicLink={images.testingUserPic}
             />

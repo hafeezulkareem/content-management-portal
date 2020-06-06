@@ -19,10 +19,24 @@ export const CompanyLogo = styled.img`
    `}
 `
 
+export const UserProfileAndSignOutButton = styled.div`
+   ${tw`
+      flex
+   `}
+`
+
 export const UserProfilePic = styled.img`
    width: 40px;
    height: 40px;
    ${tw`
       cursor-pointer
+   `}
+`
+
+export const SignOutButton = styled.button`
+   background-color: ${colors.brightBlue};
+   color: ${colors.white};
+   ${tw`
+      rounded px-3 ml-4 focus:outline-none
    `}
 `

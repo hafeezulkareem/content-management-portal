@@ -35,7 +35,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    errorMessage!: string | null
    currentCodeEditorId
    tabName
-   previousRoughSolutionsData: any
+   previousRoughSolutionsData
 
    constructor(props) {
       super(props)
@@ -257,6 +257,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
       }
       this.initializeErrors()
       this.codeEditorsList.delete(this.currentCodeEditorId)
+      this.updateDataStatus()
    }
 
    checkCodingProblemIdAndDelete = roughSolutionId => {

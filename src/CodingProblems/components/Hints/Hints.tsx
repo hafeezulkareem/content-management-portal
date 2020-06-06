@@ -265,6 +265,7 @@ class Hints extends React.Component<HintsProps> {
       }
       this.hintsList.delete(this.currentDeletingHintUniqueId)
       this.currentHintNumber = this.hintsList.size
+      this.updateDataStatus()
       this.rearrangeTestCasesOrder()
    }
 

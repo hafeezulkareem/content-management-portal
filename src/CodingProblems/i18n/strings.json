@@ -65,13 +65,13 @@
       "cleanSolution": "CLEAN SOLUTION"
    },
    "postSuccessMessages": {
-      "statement": "Successfully created statement",
-      "roughSolutions": "Successfully created rough solutions",
-      "testCases": "Successfully created test cases",
-      "prefilledCodes": "Successfully created prefilled codes",
-      "solutionApproach": "Successfully create solution approach",
-      "cleanSolutions": "Successfully created clean solutions",
-      "hints": "Successfully created hints"
+      "statement": "Successfully saved statement",
+      "roughSolutions": "Successfully saved rough solutions",
+      "testCases": "Successfully saved test cases",
+      "prefilledCodes": "Successfully saved prefilled codes",
+      "solutionApproach": "Successfully saved solution approach",
+      "cleanSolutions": "Successfully saved clean solutions",
+      "hints": "Successfully saved hints"
    },
    "deleteSuccessMessages": {
       "roughSolution": "Rough solution deleted successfully",

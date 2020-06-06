@@ -20,6 +20,7 @@ type CleanSolutionProps = {
    currentTabIndex: number
    showToastMessage: any
    updateDataStatus: any
+   resetCleanSolutions: any
 }
 
 @observer
@@ -46,9 +47,24 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
       this.errorMessage = null
    }
 
-   setCleanSolutionDataToList = cleanSolutions => {
+   setCleanSolutionDataToList = (cleanSolutions, isItPreviousData) => {
+      const { codingProblemsStore } = this.props
       cleanSolutions.forEach(cleanSolution => {
-         this.codeEditorsList.set(cleanSolution.uniqueId, cleanSolution)
+         if (isItPreviousData) {
+            codingProblemsStore.postCleanSolutionAPIResponse.push(cleanSolution)
+         }
+         this.codeEditorsList.set(
+            cleanSolution.uniqueId,
+            new CleanSolutionModel({
+               uniqueId: cleanSolution.uniqueId,
+               cleanSolutionDetails: {
+                  clean_solution_id: cleanSolution.id,
+                  file_name: cleanSolution.fileName,
+                  language: cleanSolution.language,
+                  solution_content: cleanSolution.solutionContent
+               }
+            })
+         )
       })
    }
 
@@ -58,9 +74,9 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
          codingProblemsStore: { postCleanSolutionAPIResponse }
       } = this.props
       if (postCleanSolutionAPIResponse.length > 0) {
-         this.setCleanSolutionDataToList(postCleanSolutionAPIResponse)
+         this.setCleanSolutionDataToList(postCleanSolutionAPIResponse, false)
       } else if (cleanSolutions.length > 0) {
-         this.setCleanSolutionDataToList(cleanSolutions)
+         this.setCleanSolutionDataToList(cleanSolutions, true)
       } else {
          this.generateCodeEditor()
       }
@@ -68,6 +84,11 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
       this.codeEditorsList.forEach((cleanSolution, key) => {
          this.previousCleanSolutionData.set(key, { ...cleanSolution })
       })
+   }
+
+   componentWillUnmount() {
+      const { resetCleanSolutions } = this.props
+      resetCleanSolutions()
    }
 
    isPreviousDataSameAsPresentData = () => {

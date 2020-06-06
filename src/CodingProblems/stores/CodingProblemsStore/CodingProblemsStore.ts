@@ -181,9 +181,13 @@ class CodingProblemsStore {
       const { rough_solutions: roughSolutions } = roughSolutionAPIResponse
       if (roughSolutions.length > 0) {
          this.postRoughSolutionAPIResponse = [
-            ...roughSolutions.map(
-               roughSolution => new RoughSolutionModel(roughSolution)
-            )
+            ...roughSolutions.map(roughSolution => {
+               const uniqueId = this.getRandomId().toString()
+               return new RoughSolutionModel({
+                  uniqueId,
+                  roughSolutionDetails: roughSolution
+               })
+            })
          ]
       }
    }
@@ -347,9 +351,13 @@ class CodingProblemsStore {
       const { prefilled_codes: prefilledCode } = prefilledCodeResponse
       if (prefilledCode.length > 0) {
          this.postPrefilledCodeAPIResponse = [
-            ...prefilledCode.map(
-               prefilledCode => new RoughSolutionModel(prefilledCode)
-            )
+            ...prefilledCode.map(prefilledCode => {
+               const uniqueId = this.getRandomId().toString()
+               return new RoughSolutionModel({
+                  uniqueId,
+                  roughSolutionDetails: prefilledCode
+               })
+            })
          ]
       }
    }

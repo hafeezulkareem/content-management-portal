@@ -14,7 +14,11 @@ class PaginationButton extends React.Component<PaginationButtonProps> {
    render() {
       const { pageNumber, isActive, onClickButton } = this.props
       return (
-         <ButtonEl isActive={isActive} onClick={onClickButton}>
+         <ButtonEl
+            disabled={isActive}
+            isActive={isActive}
+            onClick={onClickButton}
+         >
             {pageNumber}
          </ButtonEl>
       )

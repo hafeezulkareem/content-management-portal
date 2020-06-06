@@ -90,6 +90,49 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
       }
    ]
    isDataSaved: boolean = true
+   statement
+   roughSolutions
+   testCases
+   prefilledCodes
+   solutionApproach
+   cleanSolutions
+   hints
+
+   constructor(props) {
+      super(props)
+      this.statement = null
+      this.roughSolutions = []
+      this.testCases = []
+      this.prefilledCodes = []
+      this.solutionApproach = null
+      this.cleanSolutions = []
+      this.hints = []
+   }
+
+   resetTestCases = () => {
+      const { codingProblemsStore } = this.props
+      codingProblemsStore.codingProblemDetails.testCases = []
+   }
+
+   resetHints = () => {
+      const { codingProblemsStore } = this.props
+      codingProblemsStore.codingProblemDetails.hints = []
+   }
+
+   resetCleanSolutions = () => {
+      const { codingProblemsStore } = this.props
+      codingProblemsStore.codingProblemDetails.cleanSolutions = []
+   }
+
+   resetRoughSolutions = () => {
+      const { codingProblemsStore } = this.props
+      codingProblemsStore.codingProblemDetails.roughSolutions = []
+   }
+
+   resetPrefilledCodes = () => {
+      const { codingProblemsStore } = this.props
+      codingProblemsStore.codingProblemDetails.prefilledCodes = []
+   }
 
    componentDidMount() {
       this.getCodingProblemDetails()
@@ -112,7 +155,6 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
 
    componentWillUnmount() {
       const { codingProblemsStore } = this.props
-      codingProblemsStore.codingProblemDetails = undefined
       codingProblemsStore.codingProblemId = null
       codingProblemsStore.initCodingProblemResponses()
    }
@@ -158,27 +200,20 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
    renderRespectiveTabComponent = observer(() => {
       const { codingProblemsStore } = this.props
       const { codingProblemDetails } = codingProblemsStore
-      let statement = null,
-         roughSolutions = [],
-         testCases = [],
-         prefilledCodes = [],
-         solutionApproach = null,
-         cleanSolutions = [],
-         hints = []
       if (codingProblemDetails) {
-         statement = codingProblemDetails.statement
-         roughSolutions = codingProblemDetails.roughSolutions
-         testCases = codingProblemDetails.testCases
-         prefilledCodes = codingProblemDetails.prefilledCodes
-         solutionApproach = codingProblemDetails.solutionApproach
-         cleanSolutions = codingProblemDetails.cleanSolutions
-         hints = codingProblemDetails.hints
+         this.statement = codingProblemDetails.statement
+         this.roughSolutions = codingProblemDetails.roughSolutions
+         this.testCases = codingProblemDetails.testCases
+         this.prefilledCodes = codingProblemDetails.prefilledCodes
+         this.solutionApproach = codingProblemDetails.solutionApproach
+         this.cleanSolutions = codingProblemDetails.cleanSolutions
+         this.hints = codingProblemDetails.hints
       }
       switch (this.selectedTabIndex) {
          case 1:
             return (
                <Statement
-                  statementDetails={statement}
+                  statementDetails={this.statement}
                   codingProblemsStore={codingProblemsStore}
                   onSelectTab={this.onSelectTab}
                   currentTabIndex={this.selectedTabIndex}
@@ -191,7 +226,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                <Wrapper>
                   <SectionWrapper>
                      <RoughSolution
-                        roughSolutions={roughSolutions}
+                        roughSolutions={this.roughSolutions}
                         key={ROUGH_SOLUTION}
                         tabName={ROUGH_SOLUTION}
                         codingProblemsStore={codingProblemsStore}
@@ -199,6 +234,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                         currentTabIndex={this.selectedTabIndex}
                         updateDataStatus={this.updateDataStatus}
                         showToastMessage={this.showToastMessage}
+                        resetRoughSolutions={this.resetRoughSolutions}
                      />
                   </SectionWrapper>
                </Wrapper>
@@ -209,9 +245,10 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                   <SectionWrapper>
                      <TestCases
                         codingProblemsStore={codingProblemsStore}
-                        testCases={testCases}
+                        testCases={this.testCases}
                         showToastMessage={this.showToastMessage}
                         updateDataStatus={this.updateDataStatus}
+                        resetTestCases={this.resetTestCases}
                      />
                   </SectionWrapper>
                </Wrapper>
@@ -221,7 +258,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                <Wrapper>
                   <SectionWrapper>
                      <RoughSolution
-                        roughSolutions={prefilledCodes}
+                        roughSolutions={this.prefilledCodes}
                         key={PREFILLED_CODE}
                         tabName={PREFILLED_CODE}
                         codingProblemsStore={codingProblemsStore}
@@ -229,6 +266,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                         currentTabIndex={this.selectedTabIndex}
                         updateDataStatus={this.updateDataStatus}
                         showToastMessage={this.showToastMessage}
+                        resetRoughSolutions={this.resetPrefilledCodes}
                      />
                   </SectionWrapper>
                </Wrapper>
@@ -237,7 +275,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
             return (
                <SolutionApproach
                   codingProblemsStore={codingProblemsStore}
-                  solutionApproach={solutionApproach}
+                  solutionApproach={this.solutionApproach}
                   onSelectTab={this.onSelectTab}
                   currentTabIndex={this.selectedTabIndex}
                   showToastMessage={this.showToastMessage}
@@ -250,11 +288,12 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                   <SectionWrapper>
                      <CleanSolution
                         codingProblemsStore={codingProblemsStore}
-                        cleanSolutions={cleanSolutions}
+                        cleanSolutions={this.cleanSolutions}
                         onSelectTab={this.onSelectTab}
                         currentTabIndex={this.selectedTabIndex}
                         showToastMessage={this.showToastMessage}
                         updateDataStatus={this.updateDataStatus}
+                        resetCleanSolutions={this.resetCleanSolutions}
                      />
                   </SectionWrapper>
                </Wrapper>
@@ -265,9 +304,10 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
                   <SectionWrapper>
                      <Hints
                         codingProblemsStore={codingProblemsStore}
-                        hints={hints}
+                        hints={this.hints}
                         showToastMessage={this.showToastMessage}
                         updateDataStatus={this.updateDataStatus}
+                        resetHints={this.resetHints}
                      />
                   </SectionWrapper>
                </Wrapper>
@@ -275,7 +315,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
          default:
             return (
                <Statement
-                  statementDetails={statement}
+                  statementDetails={this.statement}
                   codingProblemsStore={codingProblemsStore}
                   onSelectTab={this.onSelectTab}
                   currentTabIndex={this.selectedTabIndex}

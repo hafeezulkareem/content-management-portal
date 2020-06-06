@@ -16,6 +16,7 @@ type TestCasesProps = {
    testCases: any
    showToastMessage: any
    updateDataStatus: any
+   resetTestCases: any
 }
 
 @observer
@@ -28,6 +29,7 @@ class TestCases extends React.Component<TestCasesProps> {
    currentDeletingTestCaseUniqueId!: number | null
    currentSavingTestCaseUniqueId!: number | null
    previousTestCaseData: any
+   totalTestCasesSaved!: number
 
    constructor(props) {
       super(props)
@@ -38,6 +40,7 @@ class TestCases extends React.Component<TestCasesProps> {
       this.testCasesList = new ObservableMap(new Map())
       this.currentTestCaseNumber = 0
       this.currentDeletingTestCaseUniqueId = null
+      this.totalTestCasesSaved = 0
       this.initializeErrors()
    }
 
@@ -47,9 +50,26 @@ class TestCases extends React.Component<TestCasesProps> {
       this.scoreErrorMessage = null
    }
 
-   setTestCasesDataToList = testCases => {
+   setTestCasesDataToList = (testCases, isItPreviousData) => {
+      const { codingProblemsStore } = this.props
       testCases.forEach(testCase => {
-         this.testCasesList.set(testCase.uniqueId, testCase)
+         if (isItPreviousData) {
+            codingProblemsStore.postTestCaseAPIResponses.push(testCase)
+         }
+         this.testCasesList.set(
+            testCase.uniqueId,
+            new TestCaseModel({
+               uniqueId: testCase.uniqueId,
+               testCaseDetails: {
+                  input: testCase.input,
+                  output: testCase.output,
+                  is_hidden: testCase.isHidden,
+                  test_case_number: testCase.number,
+                  test_case_id: testCase.id,
+                  score: testCase.score
+               }
+            })
+         )
       })
       this.toggleActiveStates(testCases[0].uniqueId)
       this.currentTestCaseNumber = testCases.length
@@ -61,9 +81,9 @@ class TestCases extends React.Component<TestCasesProps> {
          codingProblemsStore: { postTestCaseAPIResponses }
       } = this.props
       if (postTestCaseAPIResponses.length > 0) {
-         this.setTestCasesDataToList(postTestCaseAPIResponses)
+         this.setTestCasesDataToList(postTestCaseAPIResponses, false)
       } else if (testCases.length > 0) {
-         this.setTestCasesDataToList(testCases)
+         this.setTestCasesDataToList(testCases, true)
       } else {
          this.generateNewTestCase()
       }
@@ -75,20 +95,17 @@ class TestCases extends React.Component<TestCasesProps> {
 
    updateTestCasesResponseData = () => {
       let { codingProblemsStore } = this.props
-      codingProblemsStore.postTestCaseAPIResponses = []
-      if (this.testCasesList.size > 0) {
-         this.testCasesList.forEach(testCase => {
-            if (testCase.id !== null) {
-               codingProblemsStore.postTestCaseAPIResponses.push(testCase)
-            }
-         })
-      } else {
-         codingProblemsStore.postTestCaseAPIResponses = []
-      }
+      const currentTestCase = this.testCasesList.get(
+         this.currentDeletingTestCaseUniqueId
+      )
+      codingProblemsStore.postTestCaseAPIResponses = codingProblemsStore.postTestCaseAPIResponses.filter(
+         testCase => testCase.id !== currentTestCase.id
+      )
    }
 
    componentWillUnmount() {
-      this.updateTestCasesResponseData()
+      const { resetTestCases } = this.props
+      resetTestCases()
    }
 
    isPreviousDataSameAsPresentData = () => {
@@ -174,6 +191,7 @@ class TestCases extends React.Component<TestCasesProps> {
          700,
          this.deleteTestCase
       )
+      this.updateTestCasesResponseData()
    }
 
    onFailureTestCaseDelete = () => {
@@ -227,7 +245,7 @@ class TestCases extends React.Component<TestCasesProps> {
       }
       this.testCasesList.delete(this.currentDeletingTestCaseUniqueId)
       this.currentTestCaseNumber = this.testCasesList.size
-      this.updateTestCasesResponseData()
+      this.totalTestCasesSaved -= 1
       this.rearrangeTestCasesOrder()
    }
 
@@ -307,6 +325,7 @@ class TestCases extends React.Component<TestCasesProps> {
       )
       const { postSuccessMessages } = i18n as any
       updateDataStatus(true)
+      this.totalTestCasesSaved += 1
       showToastMessage(postSuccessMessages.testCases, false, 700, () => {})
    }
 

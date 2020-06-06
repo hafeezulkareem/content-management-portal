@@ -21,14 +21,26 @@ class CodingProblemDetailsModel {
       this.codingProblemId = codingProblemDetails.question_id
       this.statement = new StatementModel(codingProblemDetails.statement)
       this.roughSolutions = codingProblemDetails.rough_solutions.map(
-         roughSolution => new RoughSolutionModel(roughSolution)
+         roughSolution => {
+            const uniqueId = Math.random().toString()
+            return new RoughSolutionModel({
+               uniqueId,
+               roughSolutionDetails: roughSolution
+            })
+         }
       )
       this.testCases = codingProblemDetails.test_cases.map(testCaseDetails => {
          const uniqueId = Math.random().toString()
          return new TestCaseModel({ uniqueId, testCaseDetails })
       })
       this.prefilledCodes = codingProblemDetails.prefilled_codes.map(
-         preFilledCode => new RoughSolutionModel(preFilledCode)
+         preFilledCode => {
+            const uniqueId = Math.random().toString()
+            return new RoughSolutionModel({
+               uniqueId,
+               roughSolutionDetails: preFilledCode
+            })
+         }
       )
       this.solutionApproach =
          codingProblemDetails.solution_approach !== null
@@ -40,7 +52,7 @@ class CodingProblemDetailsModel {
             return new CleanSolutionModel({ uniqueId, cleanSolutionDetails })
          }
       )
-      this.hints = codingProblemDetails.hints.map((hintDetails, index) => {
+      this.hints = codingProblemDetails.hints.map(hintDetails => {
          const uniqueId = Math.random().toString()
          return new HintModel({ uniqueId, hintDetails })
       })

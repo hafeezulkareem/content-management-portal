@@ -17,6 +17,7 @@ type HintsProps = {
    hints: any
    showToastMessage: any
    updateDataStatus: any
+   resetHints: any
 }
 
 @observer
@@ -47,9 +48,27 @@ class Hints extends React.Component<HintsProps> {
       this.descriptionErrorMessage = null
    }
 
-   setHintsDataToList = hints => {
+   setHintsDataToList = (hints, isItPreviousData) => {
+      const { codingProblemsStore } = this.props
       hints.forEach(hint => {
-         this.hintsList.set(hint.uniqueId, hint)
+         if (isItPreviousData) {
+            codingProblemsStore.postHintAPIResponses.push(hint)
+         }
+         this.hintsList.set(
+            hint.uniqueId,
+            new HintModel({
+               uniqueId: hint.uniqueId,
+               hintDetails: {
+                  title: hint.title,
+                  hint_id: hint.id,
+                  hint_number: hint.number,
+                  description: {
+                     content: hint.description.content,
+                     content_type: hint.description.contentType
+                  }
+               }
+            })
+         )
       })
       this.toggleActiveStates(hints[0].uniqueId)
       this.currentHintNumber = hints.length
@@ -61,9 +80,9 @@ class Hints extends React.Component<HintsProps> {
          codingProblemsStore: { postHintAPIResponses }
       } = this.props
       if (postHintAPIResponses.length > 0) {
-         this.setHintsDataToList(postHintAPIResponses)
+         this.setHintsDataToList(postHintAPIResponses, false)
       } else if (hints.length > 0) {
-         this.setHintsDataToList(hints)
+         this.setHintsDataToList(hints, true)
       } else {
          this.generateNewHint()
       }
@@ -77,21 +96,31 @@ class Hints extends React.Component<HintsProps> {
    }
 
    updateHintsResponseData = () => {
+      // let { codingProblemsStore } = this.props
+      // if (this.hintsList.size > 0) {
+      //    codingProblemsStore.postHintAPIResponses = codingProblemsStore.postHintAPIResponses.filter(
+      //       hint => hint.uniqueId !== this.currentDeletingHintUniqueId
+      //    )
+      //    this.hintsList.forEach(hint => {
+      //       if (hint.id !== null) {
+      //          codingProblemsStore.postHintAPIResponses.push(hint)
+      //       }
+      //    })
+      // } else {
+      //    codingProblemsStore.postHintAPIResponses = []
+      // }
       let { codingProblemsStore } = this.props
-      codingProblemsStore.postHintAPIResponses = []
-      if (this.hintsList.size > 0) {
-         this.hintsList.forEach(hint => {
-            if (hint.id !== null) {
-               codingProblemsStore.postHintAPIResponses.push(hint)
-            }
-         })
-      } else {
-         codingProblemsStore.postHintAPIResponses = []
-      }
+      const currentTestCase = this.hintsList.get(
+         this.currentDeletingHintUniqueId
+      )
+      codingProblemsStore.postHintAPIResponses = codingProblemsStore.postHintAPIResponses.filter(
+         hint => hint.id !== currentTestCase.id
+      )
    }
 
    componentWillUnmount() {
-      this.updateHintsResponseData()
+      const { resetHints } = this.props
+      resetHints()
    }
 
    isPreviousDataSameAsPresentData = () => {
@@ -200,6 +229,7 @@ class Hints extends React.Component<HintsProps> {
       )
       const { deleteSuccessMessages } = i18n
       updateDataStatus(true)
+      this.updateHintsResponseData()
       showToastMessage(deleteSuccessMessages.hint, false, 700, this.deleteHint)
    }
 
@@ -232,7 +262,6 @@ class Hints extends React.Component<HintsProps> {
       }
       this.hintsList.delete(this.currentDeletingHintUniqueId)
       this.currentHintNumber = this.hintsList.size
-      this.updateHintsResponseData()
       this.rearrangeTestCasesOrder()
    }
 

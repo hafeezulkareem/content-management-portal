@@ -5,8 +5,8 @@ import { observer } from 'mobx-react'
 import { CodeEditor } from '../../../Common/components/CodeEditor'
 
 import i18n from '../../i18n/strings.json'
-import { CodingEditorModel } from '../../stores/models/CodingEditorModel'
 import { ROUGH_SOLUTION, PREFILLED_CODE } from '../../constants/TabConstants'
+import { RoughSolutionModel } from '../../stores/models/RoughSolutionModel'
 
 import { AddAndSaveButtons } from '../AddAndSaveButtons'
 
@@ -24,6 +24,7 @@ type RoughSolutionProps = {
    roughSolutions: any
    tabName: string
    showToastMessage: any
+   resetRoughSolutions: any
 }
 
 @observer
@@ -39,17 +40,33 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
       this.tabName = props.tabName
    }
 
-   setRoughSolutionDataToList = roughSolutions => {
+   setRoughSolutionDataToList = (roughSolutions, isItPreviousData) => {
+      const { codingProblemsStore } = this.props
+      let idKey = 'rough_solution_id'
       roughSolutions.forEach(roughSolution => {
-         const randomId = this.getRandomId()
+         if (isItPreviousData) {
+            if (this.tabName === ROUGH_SOLUTION) {
+               codingProblemsStore.postRoughSolutionAPIResponse.push(
+                  roughSolution
+               )
+               idKey = 'rough_solution_id'
+            } else {
+               codingProblemsStore.postPrefilledCodeAPIResponse.push(
+                  roughSolution
+               )
+               idKey = 'prefilled_code_id'
+            }
+         }
          this.codeEditorsList.set(
-            randomId,
-            new CodingEditorModel({
-               id: randomId,
-               roughSolutionId: roughSolution.roughSolutionId,
-               programmingLanguage: roughSolution.language,
-               fileName: roughSolution.fileName,
-               content: roughSolution.solutionContent
+            roughSolution.uniqueId,
+            new RoughSolutionModel({
+               uniqueId: roughSolution.uniqueId,
+               roughSolutionDetails: {
+                  language: roughSolution.language,
+                  solution_content: roughSolution.solutionContent,
+                  file_name: roughSolution.fileName,
+                  [idKey]: roughSolution.id
+               }
             })
          )
       })
@@ -67,14 +84,14 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
          this.tabName === ROUGH_SOLUTION &&
          postRoughSolutionAPIResponse.length > 0
       ) {
-         this.setRoughSolutionDataToList(postRoughSolutionAPIResponse)
+         this.setRoughSolutionDataToList(postRoughSolutionAPIResponse, false)
       } else if (
          this.tabName === PREFILLED_CODE &&
          postPrefilledCodeAPIResponse.length > 0
       ) {
-         this.setRoughSolutionDataToList(postPrefilledCodeAPIResponse)
+         this.setRoughSolutionDataToList(postPrefilledCodeAPIResponse, false)
       } else if (roughSolutions.length > 0) {
-         this.setRoughSolutionDataToList(roughSolutions)
+         this.setRoughSolutionDataToList(roughSolutions, true)
       } else {
          this.setNewCodeEditor()
       }
@@ -84,18 +101,21 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
       })
    }
 
+   componentWillUnmount() {
+      const { resetRoughSolutions } = this.props
+      resetRoughSolutions()
+   }
+
    isPreviousDataSameAsPresentData = () => {
       for (const key in toJS(this.codeEditorsList)) {
          if (this.previousRoughSolutionsData.has(key)) {
             if (
-               this.previousRoughSolutionsData.get(key).content !==
-                  this.codeEditorsList.get(key).content ||
+               this.previousRoughSolutionsData.get(key).solutionContent !==
+                  this.codeEditorsList.get(key).solutionContent ||
                this.previousRoughSolutionsData
                   .get(key)
-                  .programmingLanguage.toLowerCase() !==
-                  this.codeEditorsList
-                     .get(key)
-                     .programmingLanguage.toLowerCase() ||
+                  .language.toLowerCase() !==
+                  this.codeEditorsList.get(key).language.toLowerCase() ||
                this.previousRoughSolutionsData.get(key).fileName !==
                   this.codeEditorsList.get(key).fileName
             ) {
@@ -103,8 +123,8 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
             }
          } else {
             if (
-               '' !== this.codeEditorsList.get(key).content ||
-               '' !== this.codeEditorsList.get(key).programmingLanguage ||
+               '' !== this.codeEditorsList.get(key).solutionContent ||
+               '' !== this.codeEditorsList.get(key).language ||
                '' !== this.codeEditorsList.get(key).fileName
             ) {
                return false
@@ -130,15 +150,21 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    }
 
    setNewCodeEditor = () => {
-      const randomId = this.getRandomId()
+      const uniqueId = this.getRandomId()
+      const idKey =
+         this.tabName === ROUGH_SOLUTION
+            ? 'rough_solution_id'
+            : 'prefilled_code_id'
       this.codeEditorsList.set(
-         randomId,
-         new CodingEditorModel({
-            id: randomId,
-            programmingLanguage: '',
-            fileName: '',
-            content: '',
-            roughSolutionId: null
+         uniqueId,
+         new RoughSolutionModel({
+            uniqueId,
+            roughSolutionDetails: {
+               language: '',
+               solution_content: '',
+               file_name: '',
+               [idKey]: null
+            }
          })
       )
    }
@@ -160,34 +186,23 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
 
    onChangeProgrammingLanguage = (updatedProgrammingLanguage, id) => {
       const currentCodeEditor = this.codeEditorsList.get(id)
-      currentCodeEditor.programmingLanguage = updatedProgrammingLanguage
+      currentCodeEditor.language = updatedProgrammingLanguage
       this.initializeErrors()
       this.updateDataStatus()
    }
 
    onChangeContent = (updatedContent, id) => {
       const currentCodeEditor = this.codeEditorsList.get(id)
-      currentCodeEditor.content = updatedContent
+      currentCodeEditor.solutionContent = updatedContent
       this.initializeErrors()
       this.updateDataStatus()
    }
 
    onSuccessDeleteRoughSolution = () => {
-      const { codingProblemsStore, showToastMessage } = this.props
+      const { showToastMessage } = this.props
       const { deleteSuccessMessages } = i18n as any
-      const currentCodeEditor = this.codeEditorsList.get(
-         this.currentCodeEditorId
-      )
+
       if (this.tabName === ROUGH_SOLUTION) {
-         if (this.codeEditorsList.size > 0) {
-            codingProblemsStore.postRoughSolutionAPIResponse = codingProblemsStore.postRoughSolutionAPIResponse.filter(
-               roughSolution =>
-                  roughSolution.roughSolutionId !==
-                  currentCodeEditor.roughSolutionId
-            )
-         } else {
-            codingProblemsStore.postRoughSolutionAPIResponse = []
-         }
          showToastMessage(
             deleteSuccessMessages.roughSolution,
             false,
@@ -195,15 +210,6 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
             this.deleteCodeEditor
          )
       } else {
-         if (this.codeEditorsList.size > 0) {
-            codingProblemsStore.postPrefilledCodeAPIResponse = codingProblemsStore.postPrefilledCodeAPIResponse.filter(
-               roughSolution =>
-                  roughSolution.roughSolutionId !==
-                  currentCodeEditor.roughSolutionId
-            )
-         } else {
-            codingProblemsStore.postPrefilledCodeAPIResponse = []
-         }
          showToastMessage(
             deleteSuccessMessages.prefilledCode,
             false,
@@ -223,6 +229,29 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    }
 
    deleteCodeEditor = () => {
+      const { codingProblemsStore } = this.props
+      const currentCodeEditor = this.codeEditorsList.get(
+         this.currentCodeEditorId
+      )
+      if (this.tabName === ROUGH_SOLUTION) {
+         if (this.codeEditorsList.size > 0) {
+            codingProblemsStore.postRoughSolutionAPIResponse = codingProblemsStore.postRoughSolutionAPIResponse.filter(
+               roughSolution => {
+                  return roughSolution.id !== currentCodeEditor.id
+               }
+            )
+         } else {
+            codingProblemsStore.postRoughSolutionAPIResponse = []
+         }
+      } else {
+         if (this.codeEditorsList.size > 0) {
+            codingProblemsStore.postPrefilledCodeAPIResponse = codingProblemsStore.postPrefilledCodeAPIResponse.filter(
+               roughSolution => roughSolution.id !== currentCodeEditor.id
+            )
+         } else {
+            codingProblemsStore.postPrefilledCodeAPIResponse = []
+         }
+      }
       this.initializeErrors()
       this.codeEditorsList.delete(this.currentCodeEditorId)
    }
@@ -268,8 +297,8 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
          (codeEditorDetails: any, index) => {
             if (
                !codeEditorDetails.fileName ||
-               !codeEditorDetails.programmingLanguage ||
-               !codeEditorDetails.content
+               !codeEditorDetails.language ||
+               !codeEditorDetails.solutionContent
             ) {
                const {
                   roughSolution: { errors },
@@ -283,17 +312,17 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
             } else {
                if (this.tabName === ROUGH_SOLUTION) {
                   roughSolutions.push({
-                     language: codeEditorDetails.programmingLanguage.toUpperCase(),
-                     solution_content: codeEditorDetails.content,
+                     language: codeEditorDetails.language.toUpperCase(),
+                     solution_content: codeEditorDetails.solutionContent,
                      file_name: codeEditorDetails.fileName,
-                     rough_solution_id: codeEditorDetails.roughSolutionId
+                     rough_solution_id: codeEditorDetails.id
                   })
                } else {
                   roughSolutions.push({
-                     language: codeEditorDetails.programmingLanguage.toUpperCase(),
-                     solution_content: codeEditorDetails.content,
+                     language: codeEditorDetails.language.toUpperCase(),
+                     solution_content: codeEditorDetails.solutionContent,
                      file_name: codeEditorDetails.fileName,
-                     prefilled_code_id: codeEditorDetails.roughSolutionId
+                     prefilled_code_id: codeEditorDetails.id
                   })
                }
             }
@@ -376,16 +405,16 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
       const codeEditors = Array.from(this.codeEditorsList.values())
       return codeEditors.map((codeEditor: any) => (
          <CodeEditor
-            key={codeEditor.id}
-            code={codeEditor.content}
-            programmingLanguage={codeEditor.programmingLanguage}
+            key={codeEditor.uniqueId}
+            code={codeEditor.solutionContent}
+            programmingLanguage={codeEditor.language}
             onChangeFileName={this.onChangeFileName}
-            codeEditorId={codeEditor.id}
+            codeEditorId={codeEditor.uniqueId}
             fileName={codeEditor.fileName}
             onChangeProgrammingLanguage={this.onChangeProgrammingLanguage}
             onChangeContent={this.onChangeContent}
             onClickDeleteButton={this.onClickDeleteButton}
-            roughSolutionId={codeEditor.roughSolutionId}
+            roughSolutionId={codeEditor.id}
          />
       ))
    }

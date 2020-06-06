@@ -1,16 +1,18 @@
 import { observable } from 'mobx'
 
 class RoughSolutionModel {
+   uniqueId
+   id: number
    @observable language: string
    @observable solutionContent: string
    @observable fileName: string
-   @observable roughSolutionId: number
 
-   constructor(roughSolutionDetails) {
+   constructor({ uniqueId, roughSolutionDetails }) {
+      this.uniqueId = uniqueId
       this.language = roughSolutionDetails.language
       this.solutionContent = roughSolutionDetails.solution_content
       this.fileName = roughSolutionDetails.file_name
-      this.roughSolutionId =
+      this.id =
          roughSolutionDetails.rough_solution_id !== undefined
             ? roughSolutionDetails.rough_solution_id
             : roughSolutionDetails.prefilled_code_id

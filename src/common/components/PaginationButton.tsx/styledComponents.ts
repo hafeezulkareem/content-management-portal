@@ -10,7 +10,7 @@ type ButtonElProps = {
 export const ButtonEl = styled.button`
     ${(props: ButtonElProps) =>
        props.isActive
-          ? `border-color: ${colors.darkBlueGrey}; color: ${colors.darkBlueGrey}`
+          ? `border-color: ${colors.darkBlueGrey}; color: ${colors.darkBlueGrey}; cursor: not-allowed;`
           : `border-color: ${colors.lightBlueGrey}; color: ${colors.steel};`}
     background-color: ${colors.lightBlueGrey}
     ${tw`

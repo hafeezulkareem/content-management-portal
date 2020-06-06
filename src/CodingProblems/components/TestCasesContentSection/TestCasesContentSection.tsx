@@ -2,7 +2,8 @@ import React from 'react'
 import { observer } from 'mobx-react'
 
 import { ContentEditor } from '../../../Common/components/ContentEditor'
-import { SaveButton } from '../../../Common/components/SaveButton'
+import { Button } from '../../../Common/components/Button'
+import colors from '../../../Common/themes/Colors'
 
 import i18n from '../../i18n/strings.json'
 
@@ -105,8 +106,10 @@ class TestCasesContentSection extends React.Component<
                <CheckboxLabel>{testCases.isHidden}</CheckboxLabel>
             </CheckboxContainer>
             <SaveButtonContainer>
-               <SaveButton
-                  onClickSaveButton={() => onClickSaveButton(uniqueId)}
+               <Button
+                  onClickButton={() => onClickSaveButton(uniqueId)}
+                  backgroundColor={colors.greenishTeal}
+                  textColor={colors.white}
                />
             </SaveButtonContainer>
          </TestCasesContentContainer>

@@ -8,8 +8,9 @@ import commonI18n from '../../../Common/i18n/strings.json'
 import { TextPreviewer } from '../../../Common/components/TextPreviewer'
 import { MarkdownPreviewer } from '../../../Common/components/MarkdownPreviewer'
 import { HtmlPreviewer } from '../../../Common/components/HtmlPreviewer'
-import { SaveButton } from '../../../Common/components/SaveButton'
+import { Button } from '../../../Common/components/Button'
 import { OverlayLoader } from '../../../Common/components/OverlayLoader'
+import colors from '../../../Common/themes/Colors'
 
 import i18n from '../../i18n/strings.json'
 
@@ -217,7 +218,11 @@ class Statement extends React.Component<StatementProps> {
                </StatementRightSection>
             </LeftAndRightSections>
             <SaveButtonContainer>
-               <SaveButton onClickSaveButton={this.onClickSaveButton} />
+               <Button
+                  onClickButton={this.onClickSaveButton}
+                  backgroundColor={colors.greenishTeal}
+                  textColor={colors.white}
+               />
             </SaveButtonContainer>
          </StatementContainer>
       )

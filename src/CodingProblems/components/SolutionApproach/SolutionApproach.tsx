@@ -9,8 +9,9 @@ import { ContentEditor } from '../../../Common/components/ContentEditor'
 import { TextPreviewer } from '../../../Common/components/TextPreviewer'
 import { HtmlPreviewer } from '../../../Common/components/HtmlPreviewer'
 import { MarkdownPreviewer } from '../../../Common/components/MarkdownPreviewer'
-import { SaveButton } from '../../../Common/components/SaveButton'
+import { Button } from '../../../Common/components/Button'
 import { OverlayLoader } from '../../../Common/components/OverlayLoader'
+import colors from '../../../Common/themes/Colors'
 
 import i18n from '../../i18n/strings.json'
 
@@ -314,7 +315,11 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
                </SolutionApproachRightSection>
             </LeftAndRightSections>
             <SaveButtonContainer>
-               <SaveButton onClickSaveButton={this.onClickSaveButton} />
+               <Button
+                  onClickButton={this.onClickSaveButton}
+                  backgroundColor={colors.greenishTeal}
+                  textColor={colors.white}
+               />
             </SaveButtonContainer>
          </SolutionApproachContainer>
       )

@@ -3,10 +3,11 @@ import { observer } from 'mobx-react'
 
 import { DropDown } from '../../../Common/components/DropDown'
 import commonI18n from '../../../Common/i18n/strings.json'
-import { SaveButton } from '../../../Common/components/SaveButton'
+import { Button } from '../../../Common/components/Button'
 import { TextPreviewer } from '../../../Common/components/TextPreviewer'
 import { HtmlPreviewer } from '../../../Common/components/HtmlPreviewer'
 import { MarkdownPreviewer } from '../../../Common/components/MarkdownPreviewer'
+import colors from '../../../Common/themes/Colors'
 
 import i18n from '../../i18n/strings.json'
 
@@ -110,8 +111,10 @@ class HintsContentSection extends React.Component<HintsContentSectionProps> {
                      )}
                   </HintsFormContainer>
                   <SaveButtonContainer>
-                     <SaveButton
-                        onClickSaveButton={() => onClickSaveButton(uniqueId)}
+                     <Button
+                        onClickButton={() => onClickSaveButton(uniqueId)}
+                        backgroundColor={colors.greenishTeal}
+                        textColor={colors.white}
                      />
                   </SaveButtonContainer>
                </FormWithSaveButton>

@@ -1,7 +1,8 @@
 import React from 'react'
 
 import { AddButton } from '../../../Common/components/AddButton'
-import { SaveButton } from '../../../Common/components/SaveButton'
+import { Button } from '../../../Common/components/Button'
+import colors from '../../../Common/themes/Colors'
 
 import { ButtonsContainer } from './styledComponents'
 
@@ -16,7 +17,11 @@ class AddAndSaveButtons extends React.Component<AddAndSaveButtonsProps> {
       return (
          <ButtonsContainer>
             <AddButton onClickAddButton={onClickAddButton} />
-            <SaveButton onClickSaveButton={onClickSaveButton} />
+            <Button
+               onClickButton={onClickSaveButton}
+               backgroundColor={colors.greenishTeal}
+               textColor={colors.white}
+            />
          </ButtonsContainer>
       )
    }

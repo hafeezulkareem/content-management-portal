@@ -1,12 +1,12 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
 
-import { SaveButton } from './SaveButton'
+import { Button } from './Button'
 
 export default {
    title: 'common/SaveButton'
 }
 
 export const saveButton = () => (
-   <SaveButton onClickSaveButton={action('Save button is clicked')} />
+   <Button onClickSaveButton={action('Save button is clicked')} />
 )

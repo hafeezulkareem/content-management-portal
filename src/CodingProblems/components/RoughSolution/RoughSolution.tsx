@@ -1,8 +1,10 @@
 import React from 'react'
 import { observable, toJS } from 'mobx'
 import { observer } from 'mobx-react'
+import { API_FETCHING } from '@ib/api-constants'
 
 import { CodeEditor } from '../../../Common/components/CodeEditor'
+import { OverlayLoader } from '../../../Common/components/OverlayLoader'
 
 import i18n from '../../i18n/strings.json'
 import { ROUGH_SOLUTION, PREFILLED_CODE } from '../../constants/TabConstants'
@@ -207,16 +209,17 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
             deleteSuccessMessages.roughSolution,
             false,
             700,
-            this.deleteCodeEditor
+            () => {}
          )
       } else {
          showToastMessage(
             deleteSuccessMessages.prefilledCode,
             false,
             700,
-            this.deleteCodeEditor
+            () => {}
          )
       }
+      setTimeout(this.deleteCodeEditor, 800)
    }
 
    onFailureDeleteRoughSolution = () => {
@@ -341,12 +344,8 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    onSuccessPostRoughSolutions = () => {
       const { showToastMessage } = this.props
       const { postSuccessMessages } = i18n as any
-      showToastMessage(
-         postSuccessMessages.roughSolutions,
-         false,
-         700,
-         this.moveToNextTab
-      )
+      showToastMessage(postSuccessMessages.roughSolutions, false, 700, () => {})
+      setTimeout(this.moveToNextTab, 800)
    }
 
    onFailurePostRoughSolutions = () => {
@@ -420,8 +419,22 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    }
 
    render() {
+      const {
+         codingProblemsStore: {
+            postRoughSolutionAPIStatus,
+            deleteRoughSolutionAPIStatus,
+            postPrefilledCodeAPIStatus,
+            deletePrefilledCodeAPIStatus
+         }
+      } = this.props
       return (
          <RoughSolutionContainer>
+            {postRoughSolutionAPIStatus === API_FETCHING ||
+            deleteRoughSolutionAPIStatus === API_FETCHING ||
+            postPrefilledCodeAPIStatus === API_FETCHING ||
+            deletePrefilledCodeAPIStatus === API_FETCHING ? (
+               <OverlayLoader />
+            ) : null}
             <RoughSolutionsWrapper>
                <CodeEditorsContainer>
                   {this.renderCodeEditors()}

@@ -1,6 +1,7 @@
 import React from 'react'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react'
+import { API_FETCHING } from '@ib/api-constants'
 
 import commonI18n from '../../../Common/i18n/strings.json'
 import { TextEditorHeader } from '../../../Common/components/TextEditorHeader'
@@ -9,6 +10,7 @@ import { TextPreviewer } from '../../../Common/components/TextPreviewer'
 import { HtmlPreviewer } from '../../../Common/components/HtmlPreviewer'
 import { MarkdownPreviewer } from '../../../Common/components/MarkdownPreviewer'
 import { SaveButton } from '../../../Common/components/SaveButton'
+import { OverlayLoader } from '../../../Common/components/OverlayLoader'
 
 import i18n from '../../i18n/strings.json'
 
@@ -197,8 +199,9 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
          postSuccessMessages.solutionApproach,
          false,
          700,
-         this.moveToNextTab
+         () => {}
       )
+      setTimeout(this.moveToNextTab, 800)
    }
 
    onFailurePostSolutionApproach = () => {
@@ -251,8 +254,14 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
 
    render() {
       const { solutionApproach } = i18n as any
+      const {
+         codingProblemsStore: { postSolutionApproachAPIStatus }
+      } = this.props
       return (
          <SolutionApproachContainer>
+            {postSolutionApproachAPIStatus === API_FETCHING ? (
+               <OverlayLoader />
+            ) : null}
             <LeftAndRightSections>
                <SolutionApproachLeftSection>
                   <TextLabel>{solutionApproach.title}</TextLabel>

@@ -1,6 +1,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { observable } from 'mobx'
+import { API_FETCHING } from '@ib/api-constants'
 
 import { TextEditor } from '../../../Common/components/TextEditor'
 import commonI18n from '../../../Common/i18n/strings.json'
@@ -8,6 +9,7 @@ import { TextPreviewer } from '../../../Common/components/TextPreviewer'
 import { MarkdownPreviewer } from '../../../Common/components/MarkdownPreviewer'
 import { HtmlPreviewer } from '../../../Common/components/HtmlPreviewer'
 import { SaveButton } from '../../../Common/components/SaveButton'
+import { OverlayLoader } from '../../../Common/components/OverlayLoader'
 
 import i18n from '../../i18n/strings.json'
 
@@ -116,12 +118,8 @@ class Statement extends React.Component<StatementProps> {
    onSuccessPostProblemStatement = () => {
       const { showToastMessage } = this.props
       const { postSuccessMessages } = i18n as any
-      showToastMessage(
-         postSuccessMessages.statement,
-         false,
-         500,
-         this.moveToNextTab
-      )
+      showToastMessage(postSuccessMessages.statement, false, 700, () => {})
+      setTimeout(this.moveToNextTab, 900)
    }
 
    onFailurePostProblemStatement = () => {
@@ -181,8 +179,12 @@ class Statement extends React.Component<StatementProps> {
 
    render() {
       const { statement } = i18n
+      const {
+         codingProblemsStore: { postStatementAPIStatus }
+      } = this.props
       return (
          <StatementContainer>
+            {postStatementAPIStatus === API_FETCHING ? <OverlayLoader /> : null}
             <LeftAndRightSections>
                <StatementLeftSection>
                   <LeftSectionContainer>

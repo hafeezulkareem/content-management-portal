@@ -1,6 +1,9 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { observable, ObservableMap, toJS } from 'mobx'
+import { API_FETCHING } from '@ib/api-constants'
+
+import { OverlayLoader } from '../../../Common/components/OverlayLoader'
 
 import i18n from '../../i18n/strings.json'
 import { CleanSolutionModel } from '../../stores/models/CleanSolutionModel'
@@ -182,8 +185,9 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
          deleteSuccessMessages.cleanSolution,
          false,
          700,
-         this.deleteCodeEditor
+         () => {}
       )
+      setTimeout(this.deleteCodeEditor, 800)
    }
 
    onFailureCleanSolutionDelete = () => {
@@ -260,12 +264,8 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
    onSuccessPostCleanSolutions = () => {
       const { showToastMessage } = this.props
       const { postSuccessMessages } = i18n
-      showToastMessage(
-         postSuccessMessages.cleanSolutions,
-         false,
-         700,
-         this.moveToNextTab
-      )
+      showToastMessage(postSuccessMessages.cleanSolutions, false, 700, () => {})
+      setTimeout(this.moveToNextTab, 800)
    }
 
    onFailurePostCleanSolutions = () => {
@@ -310,8 +310,18 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
 
    render() {
       const codeEditors = Array.from(this.codeEditorsList.values())
+      const {
+         codingProblemsStore: {
+            postCleanSolutionAPIStatus,
+            deleteCleanSolutionAPIStatus
+         }
+      } = this.props
       return (
          <CleanSolutionContainer>
+            {postCleanSolutionAPIStatus === API_FETCHING ||
+            deleteCleanSolutionAPIStatus === API_FETCHING ? (
+               <OverlayLoader />
+            ) : null}
             <CleanSolutionsWrapper>
                {codeEditors.map(codeEditor => (
                   <CleanSolutionCodeEditor

@@ -1,8 +1,10 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { observable, ObservableMap, toJS } from 'mobx'
+import { API_FETCHING } from '@ib/api-constants'
 
 import commonI18n from '../../../Common/i18n/strings.json'
+import { OverlayLoader } from '../../../Common/components/OverlayLoader'
 
 import { HintModel } from '../../stores/models/HintModel'
 import i18n from '../../i18n/strings.json'
@@ -230,7 +232,8 @@ class Hints extends React.Component<HintsProps> {
       const { deleteSuccessMessages } = i18n
       updateDataStatus(true)
       this.updateHintsResponseData()
-      showToastMessage(deleteSuccessMessages.hint, false, 700, this.deleteHint)
+      showToastMessage(deleteSuccessMessages.hint, false, 700, () => {})
+      setTimeout(this.deleteHint, 800)
    }
 
    onFailureHintDelete = () => {
@@ -366,8 +369,15 @@ class Hints extends React.Component<HintsProps> {
    }
 
    render() {
+      const {
+         codingProblemsStore: { postHintAPIStatus, deleteHintAPIStatus }
+      } = this.props
       return (
          <HintsContainer>
+            {postHintAPIStatus === API_FETCHING ||
+            deleteHintAPIStatus === API_FETCHING ? (
+               <OverlayLoader />
+            ) : null}
             <ButtonsContainer>
                <TestCasesAndHintsNavigation
                   buttonsList={this.hintsList}

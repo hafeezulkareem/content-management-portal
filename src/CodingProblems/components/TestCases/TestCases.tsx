@@ -1,6 +1,9 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { observable, ObservableMap, toJS } from 'mobx'
+import { API_FETCHING } from '@ib/api-constants'
+
+import { OverlayLoader } from '../../../Common/components/OverlayLoader'
 
 import { TestCaseModel } from '../../stores/models/TestCaseModel'
 import { NUMBER_REGEX } from '../../constants/RegexConstants'
@@ -185,12 +188,8 @@ class TestCases extends React.Component<TestCasesProps> {
    onSuccessTestCaseDelete = () => {
       const { showToastMessage } = this.props
       const { deleteSuccessMessages } = i18n as any
-      showToastMessage(
-         deleteSuccessMessages.testCase,
-         false,
-         700,
-         this.deleteTestCase
-      )
+      showToastMessage(deleteSuccessMessages.testCase, false, 700, () => {})
+      setTimeout(this.deleteTestCase, 800)
       this.updateTestCasesResponseData()
    }
 
@@ -370,8 +369,15 @@ class TestCases extends React.Component<TestCasesProps> {
    }
 
    render() {
+      const {
+         codingProblemsStore: { postTestCaseAPIStatus, deleteTestCaseAPIStatus }
+      } = this.props
       return (
          <TestCasesContainer>
+            {postTestCaseAPIStatus === API_FETCHING ||
+            deleteTestCaseAPIStatus === API_FETCHING ? (
+               <OverlayLoader />
+            ) : null}
             <ButtonsContainer>
                <TestCasesAndHintsNavigation
                   onClickAddButton={this.onClickAddTestCaseButton}

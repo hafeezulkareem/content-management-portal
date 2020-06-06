@@ -10,5 +10,6 @@ export default {
    greenishTeal: '#2dca73',
    steel_4: 'rgba(126, 133, 142, 0.04)',
    whiteTwo: '#fbfbfb',
-   neonRed_5: 'rgba(255, 11, 55, 0.05)'
+   neonRed_5: 'rgba(255, 11, 55, 0.05)',
+   lightBlack: 'rgba(0, 0, 0, 0.7)'
 }

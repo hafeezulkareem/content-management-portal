@@ -4,7 +4,7 @@ import { observer } from 'mobx-react'
 import { ContentEditor } from '../../../Common/components/ContentEditor'
 import { Button } from '../../../Common/components/Button'
 import colors from '../../../Common/themes/Colors'
-import commonI18n from '../../../Common/themes/Colors'
+import commonI18n from '../../../Common/i18n/strings.json'
 
 import i18n from '../../i18n/strings.json'
 
@@ -110,7 +110,7 @@ class TestCasesContentSection extends React.Component<
             <SaveButtonContainer>
                <Button
                   onClickButton={() => onClickSaveButton(uniqueId)}
-                  backgroundColor={colors.greenishTeal}
+                  backgroundColor={colors.brightBlue}
                   textColor={colors.white}
                   buttonText={commonComponents.save}
                />

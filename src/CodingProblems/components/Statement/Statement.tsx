@@ -221,7 +221,7 @@ class Statement extends React.Component<StatementProps> {
             <SaveButtonContainer>
                <Button
                   onClickButton={this.onClickSaveButton}
-                  backgroundColor={colors.greenishTeal}
+                  backgroundColor={colors.brightBlue}
                   textColor={colors.white}
                   buttonText={commonComponents.save}
                />

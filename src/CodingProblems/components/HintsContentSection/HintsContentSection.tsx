@@ -113,7 +113,7 @@ class HintsContentSection extends React.Component<HintsContentSectionProps> {
                   <SaveButtonContainer>
                      <Button
                         onClickButton={() => onClickSaveButton(uniqueId)}
-                        backgroundColor={colors.greenishTeal}
+                        backgroundColor={colors.brightBlue}
                         textColor={colors.white}
                         buttonText={commonComponents.save}
                      />

@@ -318,7 +318,7 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
             <SaveButtonContainer>
                <Button
                   onClickButton={this.onClickSaveButton}
-                  backgroundColor={colors.greenishTeal}
+                  backgroundColor={colors.brightBlue}
                   textColor={colors.white}
                   buttonText={commonComponents.save}
                />

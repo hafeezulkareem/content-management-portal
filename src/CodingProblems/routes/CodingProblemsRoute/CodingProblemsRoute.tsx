@@ -7,15 +7,18 @@ import { History } from 'history'
 import { CreatingFlow } from '../../components/CreatingFlow'
 import { CodingProblemsHome } from '../../components/CodingProblemsHome'
 import { CODING_LIST } from '../../../Common/constants/SectionConstants'
-import {
-   CODING_PROBLEMS_PATH,
-   SIGN_IN_PATH
-} from '../../../Common/constants/RouteConstants'
+import { CODING_PROBLEMS_PATH } from '../../../Common/constants/RouteConstants'
 
 import {
    CODING_PROBLEM_CREATE_PATH,
    CODING_PROBLEM_DETAILS_PATH
 } from '../../constants/RouteConstants'
+import {
+   goToSignInPage,
+   goToCodingProblemsHome,
+   goToCodingProblemCreatingFlow,
+   goToCodingProblemsDetailsPage
+} from '../../utils/NavigationUtils'
 
 type CodingProblemsRouteProps = {
    authStore: any
@@ -38,22 +41,22 @@ class CodingProblemsRoute extends React.Component<CodingProblemsRouteProps> {
 
    navigateToSignInPage = () => {
       const { history } = this.props
-      history.push(SIGN_IN_PATH)
+      goToSignInPage(history)
    }
 
    navigateToCodingProblemsHome = () => {
       const { history } = this.props
-      history.push(CODING_PROBLEMS_PATH)
+      goToCodingProblemsHome(history)
    }
 
    navigateToCodingProblemCreatingFlow = () => {
       const { history } = this.props
-      history.push(CODING_PROBLEM_CREATE_PATH)
+      goToCodingProblemCreatingFlow(history)
    }
 
    navigateToCodingProblemDetailsPage = codingProblemId => {
       const { history } = this.props
-      history.push(`${CODING_PROBLEMS_PATH}${codingProblemId}`)
+      goToCodingProblemsDetailsPage(history, codingProblemId)
    }
 
    render() {

@@ -3,19 +3,21 @@ import { createMemoryHistory } from 'history'
 import { Router, Switch, Route } from 'react-router-dom'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 
-import { CODING_PROBLEMS_PATH } from '../../../common/constants/RouteConstants'
+import { CODING_PROBLEMS_PATH } from '../../../Common/constants/RouteConstants'
+import { CODING_LIST } from '../../../Common/constants/SectionConstants'
 import {
    BUTTON_WITH_ICON_TEST_ID,
    LOADING_WRAPPER_TEST_ID
-} from '../../../common/constants/IdConstants'
-import { CODING_PROBLEM_ITEM_TEST_ID } from '../../constants/IdConstants'
+} from '../../../Common/constants/IdConstants'
 
+import { CODING_PROBLEM_ITEM_TEST_ID } from '../../constants/IdConstants'
 import { CODING_PROBLEM_CREATE_PATH } from '../../constants/RouteConstants'
 import { CodingProblemsAPI } from '../../services/CodingProblemsService/CodingProblemsAPI'
 import { CodingProblemsStore } from '../../stores/CodingProblemsStore'
 import getCodingProblemsResponse from '../../fixtures/getCodingProblemsResponse.json'
 
 import { CodingProblemsHome } from '.'
+import { goToCodingProblemCreatingFlow } from '../../utils/NavigationUtils'
 
 const TestingComponent = () => {
    return (
@@ -53,6 +55,12 @@ describe('CodingProblemsHome tests', () => {
                <Route exact path={CODING_PROBLEMS_PATH}>
                   <CodingProblemsHome
                      codingProblemsStore={codingProblemsStore}
+                     activeSection={CODING_LIST}
+                     navigateToCodingProblemCreatingFlow={() =>
+                        goToCodingProblemCreatingFlow(history)
+                     }
+                     navigateToCodingProblemDetailsPage={() => {}}
+                     onUserSignOut={() => {}}
                   />
                </Route>
             </Switch>
@@ -60,7 +68,6 @@ describe('CodingProblemsHome tests', () => {
       )
 
       const addQuestionsButton = getByTestId(BUTTON_WITH_ICON_TEST_ID)
-
       fireEvent.click(addQuestionsButton)
 
       await waitFor(() => {
@@ -72,7 +79,13 @@ describe('CodingProblemsHome tests', () => {
    it('should render loader while fetching coding problems', () => {
       const { getByTestId } = render(
          <Router history={createMemoryHistory()}>
-            <CodingProblemsHome codingProblemsStore={codingProblemsStore} />
+            <CodingProblemsHome
+               codingProblemsStore={codingProblemsStore}
+               activeSection={CODING_LIST}
+               navigateToCodingProblemCreatingFlow={() => {}}
+               navigateToCodingProblemDetailsPage={() => {}}
+               onUserSignOut={() => {}}
+            />
          </Router>
       )
 
@@ -89,12 +102,22 @@ describe('CodingProblemsHome tests', () => {
    it('should render error message on error occurred while fetching coding problems', async () => {
       const { getByText } = render(
          <Router history={createMemoryHistory()}>
-            <CodingProblemsHome codingProblemsStore={codingProblemsStore} />
+            <CodingProblemsHome
+               codingProblemsStore={codingProblemsStore}
+               activeSection={CODING_LIST}
+               navigateToCodingProblemCreatingFlow={() => {}}
+               navigateToCodingProblemDetailsPage={() => {}}
+               onUserSignOut={() => {}}
+            />
          </Router>
       )
 
       const mockLoadingPromise = new Promise((resolve, reject) => {
-         reject(new Error('Something went wrong'))
+         reject(
+            new Error(
+               "We're having some trouble completing your request. Please try again."
+            )
+         )
       })
       codingProblemsAPI.getCodingProblemsAPI = jest.fn(() => {
          return mockLoadingPromise
@@ -102,13 +125,23 @@ describe('CodingProblemsHome tests', () => {
 
       await codingProblemsStore.getCodingProblems()
 
-      expect(getByText(/something went wrong/i)).toBeInTheDocument()
+      expect(
+         getByText(
+            /We're having some trouble completing your request\. Please try again\./i
+         )
+      ).toBeInTheDocument()
    })
 
    it('should render coding problems list on success', async () => {
       const { getAllByTestId } = render(
          <Router history={createMemoryHistory()}>
-            <CodingProblemsHome codingProblemsStore={codingProblemsStore} />
+            <CodingProblemsHome
+               codingProblemsStore={codingProblemsStore}
+               activeSection={CODING_LIST}
+               navigateToCodingProblemCreatingFlow={() => {}}
+               navigateToCodingProblemDetailsPage={() => {}}
+               onUserSignOut={() => {}}
+            />
          </Router>
       )
 

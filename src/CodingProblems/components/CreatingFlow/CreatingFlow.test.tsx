@@ -3,16 +3,21 @@ import { createMemoryHistory } from 'history'
 import { Router, Switch, Route } from 'react-router-dom'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 
-import { CODING_PROBLEMS_PATH } from '../../../common/constants/RouteConstants'
+import { CODING_PROBLEMS_PATH } from '../../../Common/constants/RouteConstants'
 import {
    BUTTON_WITH_ICON_TEST_ID,
    PAGE_TITLE_TEST_ID
-} from '../../../common/constants/IdConstants'
+} from '../../../Common/constants/IdConstants'
 
-import { CODING_PROBLEM_CREATE_PATH } from '../../constants/RouteConstants'
+import {
+   CODING_PROBLEM_CREATE_PATH,
+   CODING_PROBLEM_DETAILS_PATH
+} from '../../constants/RouteConstants'
 import { CodingProblemsStore } from '../../stores/CodingProblemsStore'
 import { CodingProblemsAPI } from '../../services/CodingProblemsService/CodingProblemsAPI'
 import { ROUGH_SOLUTION, HINTS } from '../../constants/TabConstants'
+import getCodingProblemDetailsResponse from '../../fixtures/getCodingProblemDetailsResponse.json'
+import { goToCodingProblemsHome } from '../../utils/NavigationUtils'
 
 import { CreatingFlow } from '.'
 
@@ -42,8 +47,14 @@ describe('CreatingFlow tests', () => {
       const { getByTestId } = render(
          <Router history={history}>
             <Switch>
-               <Route exact path={CODING_PROBLEM_CREATE_PATH}>
-                  <CreatingFlow codingProblemsStore={codingProblemsStore} />
+               <Route exact path={CODING_PROBLEM_DETAILS_PATH}>
+                  <CreatingFlow
+                     codingProblemsStore={codingProblemsStore}
+                     navigateToCodingProblemsHome={() =>
+                        goToCodingProblemsHome(history)
+                     }
+                     onUserSignOut={() => {}}
+                  />
                </Route>
                <Route exact path={CODING_PROBLEMS_PATH}>
                   <TestingComponent />
@@ -53,7 +64,6 @@ describe('CreatingFlow tests', () => {
       )
 
       const backToHomeButton = getByTestId(BUTTON_WITH_ICON_TEST_ID)
-
       fireEvent.click(backToHomeButton)
 
       await waitFor(() => {
@@ -63,15 +73,28 @@ describe('CreatingFlow tests', () => {
    })
 
    it('should go to Statement tab by default', async () => {
-      const mockSuccessPromise = new Promise((resolve, reject) => {
-         resolve('Resolved')
+      const history = createMemoryHistory()
+      history.push(CODING_PROBLEM_CREATE_PATH)
+
+      const mockSuccessPromise = new Promise(resolve => {
+         resolve(getCodingProblemDetailsResponse)
       })
+
       codingProblemsAPI.getCodingProblemDetailsAPI = jest.fn(() => {
          return mockSuccessPromise
       })
+
       const { getByTestId, getByRole } = render(
-         <Router history={createMemoryHistory()}>
-            <CreatingFlow codingProblemsStore={codingProblemsStore} />
+         <Router history={history}>
+            <Switch>
+               <Route exact path={CODING_PROBLEM_DETAILS_PATH}>
+                  <CreatingFlow
+                     codingProblemsStore={codingProblemsStore}
+                     navigateToCodingProblemsHome={() => {}}
+                     onUserSignOut={() => {}}
+                  />
+               </Route>
+            </Switch>
          </Router>
       )
 
@@ -82,15 +105,28 @@ describe('CreatingFlow tests', () => {
    })
 
    it('should change the tab on click Rough solutions', async () => {
-      const mockSuccessPromise = new Promise((resolve, reject) => {
-         resolve('Resolved')
+      const history = createMemoryHistory()
+      history.push(CODING_PROBLEM_CREATE_PATH)
+
+      const mockSuccessPromise = new Promise(resolve => {
+         resolve(getCodingProblemDetailsResponse)
       })
+
       codingProblemsAPI.getCodingProblemDetailsAPI = jest.fn(() => {
          return mockSuccessPromise
       })
+
       const { getByTestId, getByRole } = render(
-         <Router history={createMemoryHistory()}>
-            <CreatingFlow codingProblemsStore={codingProblemsStore} />
+         <Router history={history}>
+            <Switch>
+               <Route exact path={CODING_PROBLEM_DETAILS_PATH}>
+                  <CreatingFlow
+                     codingProblemsStore={codingProblemsStore}
+                     navigateToCodingProblemsHome={() => {}}
+                     onUserSignOut={() => {}}
+                  />
+               </Route>
+            </Switch>
          </Router>
       )
 
@@ -106,15 +142,26 @@ describe('CreatingFlow tests', () => {
    })
 
    it('should change the tab on click Hints', async () => {
-      const mockSuccessPromise = new Promise((resolve, reject) => {
-         resolve('Resolved')
+      const history = createMemoryHistory()
+      history.push(CODING_PROBLEM_CREATE_PATH)
+
+      const mockSuccessPromise = new Promise(resolve => {
+         resolve(getCodingProblemDetailsResponse)
       })
       codingProblemsAPI.getCodingProblemDetailsAPI = jest.fn(() => {
          return mockSuccessPromise
       })
       const { getByTestId, getByRole } = render(
-         <Router history={createMemoryHistory()}>
-            <CreatingFlow codingProblemsStore={codingProblemsStore} />
+         <Router history={history}>
+            <Switch>
+               <Route exact path={CODING_PROBLEM_DETAILS_PATH}>
+                  <CreatingFlow
+                     codingProblemsStore={codingProblemsStore}
+                     navigateToCodingProblemsHome={() => {}}
+                     onUserSignOut={() => {}}
+                  />
+               </Route>
+            </Switch>
          </Router>
       )
 

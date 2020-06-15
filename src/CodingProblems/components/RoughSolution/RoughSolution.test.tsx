@@ -4,10 +4,11 @@ import { render, fireEvent, waitFor } from '@testing-library/react'
 import {
    ADD_BUTTON_TEST_ID,
    DELETE_ICON_TEST_ID
-} from '../../../common/constants/IdConstants'
+} from '../../../Common/constants/IdConstants'
 
 import { CodingProblemsAPI } from '../../services/CodingProblemsService/CodingProblemsAPI'
 import { CodingProblemsStore } from '../../stores/CodingProblemsStore'
+import { ROUGH_SOLUTION } from '../../constants/TabConstants'
 
 import { RoughSolution } from './RoughSolution'
 
@@ -19,19 +20,17 @@ describe('RoughSolution tests', () => {
       codingProblemsStore = new CodingProblemsStore(codingProblemsAPI)
    })
 
-   // afterEach(() => {
-   //    jest.resetAllMocks()
-   // })
-
    it('should add code editor on click add button', async () => {
       const { getByTestId, getAllByPlaceholderText } = render(
          <RoughSolution
-            roughSolutions={null}
-            codingProblemId={null}
+            roughSolutions={[]}
             codingProblemsStore={codingProblemsStore}
             onSelectTab={() => {}}
             currentTabIndex={2}
             updateDataStatus={() => {}}
+            tabName={ROUGH_SOLUTION}
+            showToastMessage={() => {}}
+            resetRoughSolutions={() => {}}
          />
       )
 
@@ -48,12 +47,14 @@ describe('RoughSolution tests', () => {
    it('should remove code editor on click remove button', async () => {
       const { getByTestId, queryByPlaceholderText } = render(
          <RoughSolution
-            roughSolutions={null}
-            codingProblemId={null}
+            roughSolutions={[]}
             codingProblemsStore={codingProblemsStore}
             onSelectTab={() => {}}
             currentTabIndex={2}
             updateDataStatus={() => {}}
+            tabName={ROUGH_SOLUTION}
+            showToastMessage={() => {}}
+            resetRoughSolutions={() => {}}
          />
       )
 
@@ -77,8 +78,8 @@ describe('RoughSolution tests', () => {
 
    //    const { getByTestId, getAllByPlaceholderText } = render(
    //       <RoughSolution
-   //          roughSolutions={null}
-   //          codingProblemId={null}
+   //          roughSolutions={[]}
+   //          codingProblemId={[]}
    //          codingProblemsStore={codingProblemsStore}
    //          onSelectTab={() => {}}
    //          currentTabIndex={2}
@@ -99,12 +100,14 @@ describe('RoughSolution tests', () => {
    it('should remove code editor on Delete API success', async () => {
       const { getByTestId, queryAllByPlaceholderText } = render(
          <RoughSolution
-            roughSolutions={null}
-            codingProblemId={null}
+            roughSolutions={[]}
             codingProblemsStore={codingProblemsStore}
             onSelectTab={() => {}}
             currentTabIndex={2}
             updateDataStatus={() => {}}
+            tabName={ROUGH_SOLUTION}
+            showToastMessage={() => {}}
+            resetRoughSolutions={() => {}}
          />
       )
 
@@ -128,12 +131,14 @@ describe('RoughSolution tests', () => {
    it('should render file name on change file name', async () => {
       const { getByPlaceholderText } = render(
          <RoughSolution
-            roughSolutions={null}
-            codingProblemId={null}
+            roughSolutions={[]}
             codingProblemsStore={codingProblemsStore}
             onSelectTab={() => {}}
             currentTabIndex={2}
             updateDataStatus={() => {}}
+            tabName={ROUGH_SOLUTION}
+            showToastMessage={() => {}}
+            resetRoughSolutions={() => {}}
          />
       )
 
@@ -148,14 +153,18 @@ describe('RoughSolution tests', () => {
    })
 
    it('should render error message on empty fields', async () => {
-      const { getByRole, getByText } = render(
+      const showToastMessageMockFunction = jest.fn()
+
+      const { getByRole } = render(
          <RoughSolution
-            roughSolutions={null}
-            codingProblemId={null}
+            roughSolutions={[]}
             codingProblemsStore={codingProblemsStore}
             onSelectTab={() => {}}
             currentTabIndex={2}
             updateDataStatus={() => {}}
+            tabName={ROUGH_SOLUTION}
+            showToastMessage={showToastMessageMockFunction}
+            resetRoughSolutions={() => {}}
          />
       )
 
@@ -163,7 +172,7 @@ describe('RoughSolution tests', () => {
       fireEvent.click(roughSolutionSaveButton)
 
       await waitFor(() => {
-         expect(getByText(/fill all the fields/i)).toBeInTheDocument()
+         expect(showToastMessageMockFunction).toBeCalled()
       })
    })
 })

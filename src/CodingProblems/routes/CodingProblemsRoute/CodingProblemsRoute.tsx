@@ -72,7 +72,7 @@ class CodingProblemsRoute extends React.Component<CodingProblemsRouteProps> {
                   }
                />
             </Route>
-            <Route exact path={CODING_PROBLEM_CREATE_PATH}>
+            {/* <Route exact path={CODING_PROBLEM_CREATE_PATH}>
                <CreatingFlow
                   onUserSignOut={this.userSignOut}
                   codingProblemsStore={codingProblemsStore}
@@ -80,7 +80,7 @@ class CodingProblemsRoute extends React.Component<CodingProblemsRouteProps> {
                      this.navigateToCodingProblemsHome
                   }
                />
-            </Route>
+            </Route> */}
             <Route exact path={CODING_PROBLEMS_PATH}>
                <CodingProblemsHome
                   onUserSignOut={this.userSignOut}

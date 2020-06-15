@@ -8,8 +8,13 @@ import {
 import { CodingProblemsAPI } from '../../services/CodingProblemsService/CodingProblemsAPI'
 import getCodingProblemsResponse from '../../fixtures/getCodingProblemsResponse.json'
 import getCodingProblemDetailsResponse from '../../fixtures/getCodingProblemDetailsResponse.json'
+import postStatementResponse from '../../fixtures/postProblemStatementResponse.json'
+import postRoughSolutionResponse from '../../fixtures/postProblemRoughSolutionResponse.json'
 import postTestCaseResponse from '../../fixtures/postProblemTestCaseResponse.json'
+import postPrefilledCodeResponse from '../../fixtures/postProblemPrefilledCodeResponse.json'
+import postCleanSolutionResponse from '../../fixtures/postProblemCleanSolutionResponse.json'
 import postSolutionSolutionApproachResponse from '../../fixtures/postProblemSolutionApproachResponse.json'
+import postHintResponse from '../../fixtures/postProblemHintResponse.json'
 
 import { CodingProblemsStore } from './CodingProblemsStore'
 
@@ -35,7 +40,7 @@ const roughSolutionsData = [
       language: 'JAVASCRIPT',
       solution_content: "console.log('Hello, World!')",
       file_name: 'sample.js',
-      rough_solution_id: 0
+      rough_solution_id: 1
    }
 ]
 
@@ -79,7 +84,11 @@ describe('CodingProblemsStore tests', () => {
 
    it('should test PostStatementAPI failure state', async () => {
       const mockFailurePromise = new Promise((resolve, reject) => {
-         reject(new Error('Something went wrong!'))
+         reject(
+            new Error(
+               "We're having some trouble completing your request. Please try again."
+            )
+         )
       })
       codingProblemsAPI.postProblemStatementAPI = jest.fn(() => {
          return mockFailurePromise
@@ -96,13 +105,13 @@ describe('CodingProblemsStore tests', () => {
 
       expect(codingProblemsStore.postStatementAPIStatus).toBe(API_FAILED)
       expect(codingProblemsStore.postStatementAPIError).toBe(
-         'Something went wrong!'
+         "We're having some trouble completing your request. Please try again."
       )
    })
 
    it('should test PostStatementAPI success state', async () => {
       const mockSuccessPromise = new Promise((resolve, reject) => {
-         resolve({ question_id: 0 })
+         resolve(postStatementResponse)
       })
       codingProblemsAPI.postProblemStatementAPI = jest.fn(() => {
          return mockSuccessPromise
@@ -118,7 +127,7 @@ describe('CodingProblemsStore tests', () => {
       )
 
       expect(codingProblemsStore.postStatementAPIStatus).toBe(API_SUCCESS)
-      expect(codingProblemsStore.codingProblemId).toBe(0)
+      expect(codingProblemsStore.codingProblemId).toBe(10)
    })
 
    it('should test PostRoughSolutionAPI initial state', () => {
@@ -146,7 +155,11 @@ describe('CodingProblemsStore tests', () => {
 
    it('should test PostRoughSolutionAPI failure state', async () => {
       const mockFailurePromise = new Promise((resolve, reject) => {
-         reject(new Error('Something went wrong!'))
+         reject(
+            new Error(
+               "We're having some trouble completing your request. Please try again."
+            )
+         )
       })
       codingProblemsAPI.postProblemRoughSolutionAPI = jest.fn(() => {
          return mockFailurePromise
@@ -163,13 +176,13 @@ describe('CodingProblemsStore tests', () => {
 
       expect(codingProblemsStore.postRoughSolutionAPIStatus).toBe(API_FAILED)
       expect(codingProblemsStore.postRoughSolutionAPIError).toBe(
-         'Something went wrong!'
+         "We're having some trouble completing your request. Please try again."
       )
    })
 
    it('should test PostRoughSolutionAPI success state', async () => {
       const mockSuccessPromise = new Promise((resolve, reject) => {
-         resolve(roughSolutionsData)
+         resolve(postRoughSolutionResponse)
       })
       codingProblemsAPI.postProblemRoughSolutionAPI = jest.fn(() => {
          return mockSuccessPromise
@@ -203,7 +216,6 @@ describe('CodingProblemsStore tests', () => {
 
       codingProblemsStore.deleteProblemRoughSolution(
          0,
-         0,
          mockSuccessFunction,
          mockFailureFunction
       )
@@ -215,7 +227,11 @@ describe('CodingProblemsStore tests', () => {
 
    it('should test DeleteRoughSolutionAPI failure state', async () => {
       const mockFailurePromise = new Promise((resolve, reject) => {
-         reject(new Error('Error while deleting'))
+         reject(
+            new Error(
+               "We're having some trouble completing your request. Please try again."
+            )
+         )
       })
       codingProblemsAPI.deleteRoughSolutionAPI = jest.fn(() => {
          return mockFailurePromise
@@ -226,14 +242,13 @@ describe('CodingProblemsStore tests', () => {
 
       await codingProblemsStore.deleteProblemRoughSolution(
          0,
-         0,
          mockSuccessFunction,
          mockFailureFunction
       )
 
       expect(codingProblemsStore.deleteRoughSolutionAPIStatus).toBe(API_FAILED)
       expect(codingProblemsStore.deleteRoughSolutionAPIError).toBe(
-         'Error while deleting'
+         "We're having some trouble completing your request. Please try again."
       )
    })
 
@@ -249,7 +264,6 @@ describe('CodingProblemsStore tests', () => {
       const mockFailureFunction = jest.fn()
 
       await codingProblemsStore.deleteProblemRoughSolution(
-         0,
          0,
          mockSuccessFunction,
          mockFailureFunction
@@ -283,7 +297,11 @@ describe('CodingProblemsStore tests', () => {
 
    it('should test PostTestCaseAPI failure state', async () => {
       const mockFailurePromise = new Promise((_, reject) => {
-         reject(new Error('Something went wrong!'))
+         reject(
+            new Error(
+               "We're having some trouble completing your request. Please try again."
+            )
+         )
       })
       codingProblemsAPI.postProblemTestCaseAPI = jest.fn(() => {
          return mockFailurePromise
@@ -300,7 +318,7 @@ describe('CodingProblemsStore tests', () => {
 
       expect(codingProblemsStore.postTestCaseAPIStatus).toBe(API_FAILED)
       expect(codingProblemsStore.postTestCaseAPIError).toBe(
-         'Something went wrong!'
+         "We're having some trouble completing your request. Please try again."
       )
    })
 
@@ -353,7 +371,11 @@ describe('CodingProblemsStore tests', () => {
 
    it('should test PostSolutionApproachAPI failure state', async () => {
       const mockFailurePromise = new Promise((_, reject) => {
-         reject(new Error('Something went wrong!'))
+         reject(
+            new Error(
+               "We're having some trouble completing your request. Please try again."
+            )
+         )
       })
       codingProblemsAPI.postSolutionApproachAPI = jest.fn(() => {
          return mockFailurePromise
@@ -370,7 +392,7 @@ describe('CodingProblemsStore tests', () => {
 
       expect(codingProblemsStore.postSolutionApproachAPIStatus).toBe(API_FAILED)
       expect(codingProblemsStore.postSolutionApproachAPIError).toBe(
-         'Something went wrong!'
+         "We're having some trouble completing your request. Please try again."
       )
    })
 
@@ -421,7 +443,11 @@ describe('CodingProblemsStore tests', () => {
 
    it('should test DeleteTestCaseAPI failure state', async () => {
       const mockFailurePromise = new Promise((_, reject) => {
-         reject(new Error('Error while deleting'))
+         reject(
+            new Error(
+               "We're having some trouble completing your request. Please try again."
+            )
+         )
       })
       codingProblemsAPI.deleteTestCaseAPI = jest.fn(() => {
          return mockFailurePromise
@@ -438,7 +464,7 @@ describe('CodingProblemsStore tests', () => {
 
       expect(codingProblemsStore.deleteTestCaseAPIStatus).toBe(API_FAILED)
       expect(codingProblemsStore.deleteTestCaseAPIError).toBe(
-         'Error while deleting'
+         "We're having some trouble completing your request. Please try again."
       )
    })
 
@@ -487,7 +513,11 @@ describe('CodingProblemsStore tests', () => {
 
    it('should test PostPrefilledCodeAPI failure state', async () => {
       const mockFailurePromise = new Promise((_, reject) => {
-         reject(new Error('Something went wrong!'))
+         reject(
+            new Error(
+               "We're having some trouble completing your request. Please try again."
+            )
+         )
       })
       codingProblemsAPI.postPrefilledCodeAPI = jest.fn(() => {
          return mockFailurePromise
@@ -504,13 +534,13 @@ describe('CodingProblemsStore tests', () => {
 
       expect(codingProblemsStore.postPrefilledCodeAPIStatus).toBe(API_FAILED)
       expect(codingProblemsStore.postPrefilledCodeAPIError).toBe(
-         'Something went wrong!'
+         "We're having some trouble completing your request. Please try again."
       )
    })
 
    it('should test PostPrefilledCodeAPI success state', async () => {
       const mockSuccessPromise = new Promise(resolve => {
-         resolve()
+         resolve(postPrefilledCodeResponse)
       })
       codingProblemsAPI.postPrefilledCodeAPI = jest.fn(() => {
          return mockSuccessPromise
@@ -528,7 +558,7 @@ describe('CodingProblemsStore tests', () => {
       expect(codingProblemsStore.postPrefilledCodeAPIStatus).toBe(API_SUCCESS)
    })
 
-   it('should test DletePrefilledCodeAPI initial state', () => {
+   it('should test DeletePrefilledCodeAPI initial state', () => {
       expect(codingProblemsStore.deletePrefilledCodeAPIStatus).toBe(API_INITIAL)
       expect(codingProblemsStore.deletePrefilledCodeAPIError).toBe(null)
    })
@@ -544,7 +574,6 @@ describe('CodingProblemsStore tests', () => {
 
       codingProblemsStore.deleteProblemPrefilledCode(
          0,
-         0,
          mockSuccessFunction,
          mockFailureFunction
       )
@@ -556,7 +585,11 @@ describe('CodingProblemsStore tests', () => {
 
    it('should test DeletePrefilledCodeAPI failure state', async () => {
       const mockFailurePromise = new Promise((_, reject) => {
-         reject(new Error('Error while deleting'))
+         reject(
+            new Error(
+               "We're having some trouble completing your request. Please try again."
+            )
+         )
       })
       codingProblemsAPI.deletePrefilledCodeAPI = jest.fn(() => {
          return mockFailurePromise
@@ -567,14 +600,13 @@ describe('CodingProblemsStore tests', () => {
 
       await codingProblemsStore.deleteProblemPrefilledCode(
          0,
-         0,
          mockSuccessFunction,
          mockFailureFunction
       )
 
       expect(codingProblemsStore.deletePrefilledCodeAPIStatus).toBe(API_FAILED)
       expect(codingProblemsStore.deletePrefilledCodeAPIError).toBe(
-         'Error while deleting'
+         "We're having some trouble completing your request. Please try again."
       )
    })
 
@@ -590,7 +622,6 @@ describe('CodingProblemsStore tests', () => {
       const mockFailureFunction = jest.fn()
 
       await codingProblemsStore.deleteProblemPrefilledCode(
-         0,
          0,
          mockSuccessFunction,
          mockFailureFunction
@@ -624,7 +655,11 @@ describe('CodingProblemsStore tests', () => {
 
    it('should test PostCleanSolutionAPI failure state', async () => {
       const mockFailurePromise = new Promise((_, reject) => {
-         reject(new Error('Something went wrong!'))
+         reject(
+            new Error(
+               "We're having some trouble completing your request. Please try again."
+            )
+         )
       })
       codingProblemsAPI.postCleanSolutionAPI = jest.fn(() => {
          return mockFailurePromise
@@ -641,13 +676,13 @@ describe('CodingProblemsStore tests', () => {
 
       expect(codingProblemsStore.postCleanSolutionAPIStatus).toBe(API_FAILED)
       expect(codingProblemsStore.postCleanSolutionAPIError).toBe(
-         'Something went wrong!'
+         "We're having some trouble completing your request. Please try again."
       )
    })
 
    it('should test PostCleanSolutionAPI success state', async () => {
       const mockSuccessPromise = new Promise(resolve => {
-         resolve()
+         resolve(postCleanSolutionResponse)
       })
       codingProblemsAPI.postCleanSolutionAPI = jest.fn(() => {
          return mockSuccessPromise
@@ -681,7 +716,6 @@ describe('CodingProblemsStore tests', () => {
 
       codingProblemsStore.deleteCleanSolution(
          0,
-         0,
          mockSuccessFunction,
          mockFailureFunction
       )
@@ -693,7 +727,11 @@ describe('CodingProblemsStore tests', () => {
 
    it('should test DeleteCleanSolutionAPI failure state', async () => {
       const mockFailurePromise = new Promise((_, reject) => {
-         reject(new Error('Error while deleting'))
+         reject(
+            new Error(
+               "We're having some trouble completing your request. Please try again."
+            )
+         )
       })
       codingProblemsAPI.deleteCleanSolutionAPI = jest.fn(() => {
          return mockFailurePromise
@@ -704,14 +742,13 @@ describe('CodingProblemsStore tests', () => {
 
       await codingProblemsStore.deleteCleanSolution(
          0,
-         0,
          mockSuccessFunction,
          mockFailureFunction
       )
 
       expect(codingProblemsStore.deleteCleanSolutionAPIStatus).toBe(API_FAILED)
       expect(codingProblemsStore.deleteCleanSolutionAPIError).toBe(
-         'Error while deleting'
+         "We're having some trouble completing your request. Please try again."
       )
    })
 
@@ -727,7 +764,6 @@ describe('CodingProblemsStore tests', () => {
       const mockFailureFunction = jest.fn()
 
       await codingProblemsStore.deleteCleanSolution(
-         0,
          0,
          mockSuccessFunction,
          mockFailureFunction
@@ -761,7 +797,11 @@ describe('CodingProblemsStore tests', () => {
 
    it('should test PostHintAPI failure state', async () => {
       const mockFailurePromise = new Promise((_, reject) => {
-         reject(new Error('Something went wrong!'))
+         reject(
+            new Error(
+               "We're having some trouble completing your request. Please try again."
+            )
+         )
       })
       codingProblemsAPI.postHintAPI = jest.fn(() => {
          return mockFailurePromise
@@ -777,12 +817,14 @@ describe('CodingProblemsStore tests', () => {
       )
 
       expect(codingProblemsStore.postHintAPIStatus).toBe(API_FAILED)
-      expect(codingProblemsStore.postHintAPIError).toBe('Something went wrong!')
+      expect(codingProblemsStore.postHintAPIError).toBe(
+         "We're having some trouble completing your request. Please try again."
+      )
    })
 
    it('should test PostHintAPI success state', async () => {
       const mockSuccessPromise = new Promise(resolve => {
-         resolve()
+         resolve(postHintResponse)
       })
       codingProblemsAPI.postHintAPI = jest.fn(() => {
          return mockSuccessPromise
@@ -816,7 +858,6 @@ describe('CodingProblemsStore tests', () => {
 
       codingProblemsStore.deleteProblemHint(
          0,
-         0,
          mockSuccessFunction,
          mockFailureFunction
       )
@@ -826,7 +867,11 @@ describe('CodingProblemsStore tests', () => {
 
    it('should test DeleteHintAPI failure state', async () => {
       const mockFailurePromise = new Promise((_, reject) => {
-         reject(new Error('Error while deleting'))
+         reject(
+            new Error(
+               "We're having some trouble completing your request. Please try again."
+            )
+         )
       })
       codingProblemsAPI.deleteHintAPI = jest.fn(() => {
          return mockFailurePromise
@@ -837,14 +882,13 @@ describe('CodingProblemsStore tests', () => {
 
       await codingProblemsStore.deleteProblemHint(
          0,
-         0,
          mockSuccessFunction,
          mockFailureFunction
       )
 
       expect(codingProblemsStore.deleteHintAPIStatus).toBe(API_FAILED)
       expect(codingProblemsStore.deleteHintAPIError).toBe(
-         'Error while deleting'
+         "We're having some trouble completing your request. Please try again."
       )
    })
 
@@ -860,7 +904,6 @@ describe('CodingProblemsStore tests', () => {
       const mockFailureFunction = jest.fn()
 
       await codingProblemsStore.deleteProblemHint(
-         0,
          0,
          mockSuccessFunction,
          mockFailureFunction
@@ -887,7 +930,11 @@ describe('CodingProblemsStore tests', () => {
 
    it('should test GetCodingProblemsAPI failure state', async () => {
       const mockFailurePromise = new Promise((resolve, reject) => {
-         reject(new Error('Something went wrong!'))
+         reject(
+            new Error(
+               "We're having some trouble completing your request. Please try again."
+            )
+         )
       })
       codingProblemsAPI.getCodingProblemsAPI = jest.fn(() => {
          return mockFailurePromise
@@ -897,7 +944,7 @@ describe('CodingProblemsStore tests', () => {
 
       expect(codingProblemsStore.getCodingProblemsAPIStatus).toBe(API_FAILED)
       expect(codingProblemsStore.getCodingProblemsAPIError).toBe(
-         'Something went wrong!'
+         "We're having some trouble completing your request. Please try again."
       )
    })
 
@@ -936,7 +983,11 @@ describe('CodingProblemsStore tests', () => {
 
    it('should test GetCodingProblemDetailsAPI failure state', async () => {
       const mockFailurePromise = new Promise((resolve, reject) => {
-         reject(new Error('Something went wrong!'))
+         reject(
+            new Error(
+               "We're having some trouble completing your request. Please try again."
+            )
+         )
       })
       codingProblemsAPI.getCodingProblemDetailsAPI = jest.fn(() => {
          return mockFailurePromise
@@ -948,7 +999,7 @@ describe('CodingProblemsStore tests', () => {
          API_FAILED
       )
       expect(codingProblemsStore.getCodingProblemDetailsAPIError).toBe(
-         'Something went wrong!'
+         "We're having some trouble completing your request. Please try again."
       )
    })
 

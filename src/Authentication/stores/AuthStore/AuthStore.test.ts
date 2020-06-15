@@ -71,7 +71,11 @@ describe('AuthStore tests', () => {
       const onFailure = jest.fn()
 
       const mockFailurePromise = new Promise(function(resolve, reject) {
-         reject(new Error('invalid username'))
+         reject(
+            new Error(
+               "We're having some trouble completing your request. Please try again."
+            )
+         )
       })
 
       const mockSignInAPI = jest.fn()
@@ -82,7 +86,9 @@ describe('AuthStore tests', () => {
       await authStore.userSignIn(requestObject, onSuccess, onFailure)
 
       expect(authStore.postSignInAPIStatus).toBe(API_FAILED)
-      expect(authStore.postSignInAPIError).toBe('invalid username')
+      expect(authStore.postSignInAPIError).toBe(
+         "We're having some trouble completing your request. Please try again."
+      )
       expect(onFailure).toBeCalled()
    })
 

@@ -3,14 +3,19 @@ import { createMemoryHistory } from 'history'
 import { Router, Switch, Route } from 'react-router-dom'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 
-import { CODING_PROBLEMS_PATH } from '../../../common/constants/RouteConstants'
+import { CODING_PROBLEMS_PATH } from '../../../Common/constants/RouteConstants'
 
 import { CodingProblemsStore } from '../../stores/CodingProblemsStore'
 import { CODING_PROBLEM_DETAILS_PATH } from '../../constants/RouteConstants'
 import { CODING_PROBLEM_ITEM_TEST_ID } from '../../constants/IdConstants'
 import { CodingProblemsFixture } from '../../services/CodingProblemsService/CodingProblemsFixture'
+import {
+   goToCodingProblemCreatingFlow,
+   goToCodingProblemsDetailsPage
+} from '../../utils/NavigationUtils'
 
 import { CodingProblemsHome } from '../CodingProblemsHome'
+import { CODING_LIST } from '../../../Common/constants/SectionConstants'
 
 const TestingComponent = () => {
    return (
@@ -23,7 +28,7 @@ const TestingComponent = () => {
    )
 }
 
-describe('CreatingFlow tests', () => {
+describe('CodingProblemItem tests', () => {
    let codingProblemsFixture, codingProblemsStore
 
    beforeEach(() => {
@@ -45,6 +50,14 @@ describe('CreatingFlow tests', () => {
                <Route exact path={CODING_PROBLEMS_PATH}>
                   <CodingProblemsHome
                      codingProblemsStore={codingProblemsStore}
+                     activeSection={CODING_LIST}
+                     navigateToCodingProblemCreatingFlow={() =>
+                        goToCodingProblemCreatingFlow(history)
+                     }
+                     navigateToCodingProblemDetailsPage={() =>
+                        goToCodingProblemsDetailsPage(history, 0)
+                     }
+                     onUserSignOut={() => {}}
                   />
                </Route>
                <Route exact path={CODING_PROBLEM_DETAILS_PATH}>
@@ -59,7 +72,6 @@ describe('CreatingFlow tests', () => {
       await waitFor(() => {
          codingProblemItems = getAllByTestId(CODING_PROBLEM_ITEM_TEST_ID)
       })
-
       fireEvent.click(codingProblemItems[0])
 
       await waitFor(() => {

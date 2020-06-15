@@ -91,11 +91,7 @@ class CodingProblemsFixture {
    }
 
    getCodingProblemDetailsAPI() {
-      return new Promise(resolve =>
-         setTimeout(() => {
-            resolve(codingProblemDetailsResponse)
-         }, 1000)
-      )
+      return new Promise(resolve => resolve(codingProblemDetailsResponse))
    }
 }
 

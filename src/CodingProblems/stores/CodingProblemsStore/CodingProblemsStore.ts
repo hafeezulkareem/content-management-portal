@@ -431,7 +431,7 @@ class CodingProblemsStore {
    setSolutionApproachAPIResponse(solutionApproachAPIResponse) {
       if (solutionApproachAPIResponse) {
          this.postSolutionApproachAPIResponse = new SolutionApproachModel(
-            solutionApproachAPIResponse.solution_approach
+            solutionApproachAPIResponse
          )
       }
    }

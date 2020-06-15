@@ -14,6 +14,7 @@ class Navigator extends React.Component<NavigatorProps> {
    onSelectTab = tabIndex => {
       const { onSelectTab } = this.props
       onSelectTab(tabIndex)
+      console.log('TabIndex', tabIndex)
    }
 
    renderTabs = () => {

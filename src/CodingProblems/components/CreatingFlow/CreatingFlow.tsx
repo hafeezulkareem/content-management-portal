@@ -205,7 +205,9 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
             }
          })
          this.isDataSaved = true
+         console.log('Moved')
       }
+      console.log('Not Moved')
    }
 
    renderRespectiveTabComponent = observer(() => {

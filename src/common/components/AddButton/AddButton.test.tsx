@@ -15,7 +15,7 @@ describe('AddButton tests', () => {
    it('should render plus icon', () => {
       const { getByAltText } = render(<AddButton onClickAddButton={() => {}} />)
 
-      expect(getByAltText(/plus image/i)).toBeInTheDocument()
+      expect(getByAltText(/plus icon/i)).toBeInTheDocument()
    })
 
    it('should invoke click function', () => {

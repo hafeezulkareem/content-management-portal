@@ -7,6 +7,7 @@ import problemCleanSolutionResponse from '../../fixtures/postProblemCleanSolutio
 import problemHintResponse from '../../fixtures/postProblemHintResponse.json'
 import codingProblemsResponse from '../../fixtures/getCodingProblemsResponse.json'
 import codingProblemDetailsResponse from '../../fixtures/getCodingProblemDetailsResponse.json'
+import { CODING_PROBLEMS_LIMIT_PER_PAGE } from '../../constants/APILimitConstants'
 
 class CodingProblemsFixture {
    postProblemStatementAPI() {
@@ -75,10 +76,16 @@ class CodingProblemsFixture {
       )
    }
 
-   getCodingProblemsAPI() {
+   getCodingProblemsAPI(offset) {
       return new Promise(resolve =>
          setTimeout(() => {
-            resolve(codingProblemsResponse)
+            resolve({
+               questions_list: codingProblemsResponse['questions_list'].slice(
+                  offset - 1,
+                  offset + CODING_PROBLEMS_LIMIT_PER_PAGE - 1
+               ),
+               total_questions: codingProblemsResponse['total_questions']
+            })
          }, 1000)
       )
    }

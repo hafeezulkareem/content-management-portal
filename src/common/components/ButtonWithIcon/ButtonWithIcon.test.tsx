@@ -13,6 +13,7 @@ describe('ButtonWithIcon tests', () => {
             onClickButton={() => {}}
             iconURL=''
             iconAltText=''
+            isDisabled={false}
          />
       )
 
@@ -26,6 +27,7 @@ describe('ButtonWithIcon tests', () => {
             onClickButton={() => {}}
             iconURL=''
             iconAltText='back button icon'
+            isDisabled={false}
          />
       )
 
@@ -41,6 +43,7 @@ describe('ButtonWithIcon tests', () => {
             onClickButton={mockClickFunction}
             iconURL=''
             iconAltText=''
+            isDisabled={false}
          />
       )
 

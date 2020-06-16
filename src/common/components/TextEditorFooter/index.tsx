@@ -1,1 +1,0 @@
-export { TextEditorFooter } from './TextEditorFooter'

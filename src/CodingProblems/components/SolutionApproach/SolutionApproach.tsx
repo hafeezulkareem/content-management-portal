@@ -210,7 +210,7 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
          codingProblemsStore: { postSolutionApproachAPIError },
          showToastMessage
       } = this.props
-      showToastMessage(postSolutionApproachAPIError, true, 1500, () => {})
+      showToastMessage(postSolutionApproachAPIError, true, 1500)
    }
 
    postSolutionApproach = solutionApproachData => {
@@ -249,7 +249,7 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
          const { updateDataStatus } = this.props
          updateDataStatus(true)
          const { firstCreateTheStatement } = i18n
-         showToastMessage(firstCreateTheStatement, true, 1500, () => {})
+         showToastMessage(firstCreateTheStatement, true, 1500)
       }
    }
 

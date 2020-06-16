@@ -181,7 +181,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
       toast.clearWaitingQueue()
    }
 
-   showToastMessage = (message, isError, duration, callback) => {
+   showToastMessage = (message, isError, duration) => {
       toast(<ToastMessage message={message} isError={isError} />, {
          position: 'bottom-center',
          autoClose: duration,
@@ -189,8 +189,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
          closeOnClick: true,
          pauseOnHover: true,
          draggable: true,
-         progress: undefined,
-         onClose: callback
+         progress: undefined
       })
    }
 

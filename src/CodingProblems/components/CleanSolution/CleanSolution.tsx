@@ -181,12 +181,7 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
          codingProblemsStore.postCleanSolutionAPIResponse = []
       }
       const { deleteSuccessMessages } = i18n
-      showToastMessage(
-         deleteSuccessMessages.cleanSolution,
-         false,
-         700,
-         () => {}
-      )
+      showToastMessage(deleteSuccessMessages.cleanSolution, false, 700)
       setTimeout(this.deleteCodeEditor, 800)
    }
 
@@ -195,7 +190,7 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
          codingProblemsStore: { deleteCleanSolutionAPIError },
          showToastMessage
       } = this.props
-      showToastMessage(deleteCleanSolutionAPIError, true, 1500, () => {})
+      showToastMessage(deleteCleanSolutionAPIError, true, 1500)
    }
 
    checkCodingProblemIdAndDelete = uniqueId => {
@@ -241,7 +236,7 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
                   errors.fillAllTheFieldsIn
                } ${codeEditor} ${index + 1}`
                const { showToastMessage } = this.props
-               showToastMessage(this.errorMessage, true, 1500, () => {})
+               showToastMessage(this.errorMessage, true, 1500)
             } else {
                cleanSolutions.push({
                   language: codeEditor.language.toUpperCase(),
@@ -265,7 +260,7 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
    onSuccessPostCleanSolutions = () => {
       const { showToastMessage } = this.props
       const { postSuccessMessages } = i18n
-      showToastMessage(postSuccessMessages.cleanSolutions, false, 700, () => {})
+      showToastMessage(postSuccessMessages.cleanSolutions, false, 700)
       setTimeout(this.moveToNextTab, 800)
    }
 
@@ -274,7 +269,7 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
          codingProblemsStore: { postCleanSolutionAPIError },
          showToastMessage
       } = this.props
-      showToastMessage(postCleanSolutionAPIError, true, 1500, () => {})
+      showToastMessage(postCleanSolutionAPIError, true, 1500)
    }
 
    postCleanSolutions = cleanSolutions => {
@@ -305,7 +300,7 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
          const { updateDataStatus } = this.props
          updateDataStatus(true)
          const { firstCreateTheStatement } = i18n
-         showToastMessage(firstCreateTheStatement, true, 1500, () => {})
+         showToastMessage(firstCreateTheStatement, true, 1500)
       }
    }
 

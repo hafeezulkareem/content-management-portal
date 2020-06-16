@@ -232,7 +232,7 @@ class Hints extends React.Component<HintsProps> {
       const { deleteSuccessMessages } = i18n
       updateDataStatus(true)
       this.updateHintsResponseData()
-      showToastMessage(deleteSuccessMessages.hint, false, 700, () => {})
+      showToastMessage(deleteSuccessMessages.hint, false, 700)
       setTimeout(this.deleteHint, 800)
    }
 
@@ -241,7 +241,7 @@ class Hints extends React.Component<HintsProps> {
          codingProblemsStore: { deleteHintAPIError },
          showToastMessage
       } = this.props
-      showToastMessage(deleteHintAPIError, true, 1500, () => {})
+      showToastMessage(deleteHintAPIError, true, 1500)
    }
 
    rearrangeTestCasesOrder = () => {
@@ -325,7 +325,7 @@ class Hints extends React.Component<HintsProps> {
       this.hintsList.set(this.currentSavingHintUniqueId, lastHintResponse)
       const { postSuccessMessages } = i18n
       updateDataStatus(true)
-      showToastMessage(postSuccessMessages.hints, false, 700, () => {})
+      showToastMessage(postSuccessMessages.hints, false, 700)
    }
 
    onFailurePostHint = () => {
@@ -334,7 +334,7 @@ class Hints extends React.Component<HintsProps> {
          codingProblemsStore: { postHintAPIError },
          showToastMessage
       } = this.props
-      showToastMessage(postHintAPIError, true, 1500, () => {})
+      showToastMessage(postHintAPIError, true, 1500)
    }
 
    onClickSaveButton = uniqueId => {
@@ -365,7 +365,7 @@ class Hints extends React.Component<HintsProps> {
          const { updateDataStatus } = this.props
          updateDataStatus(true)
          const { firstCreateTheStatement } = i18n
-         showToastMessage(firstCreateTheStatement, true, 1500, () => {})
+         showToastMessage(firstCreateTheStatement, true, 1500)
       }
    }
 

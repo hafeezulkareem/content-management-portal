@@ -205,19 +205,9 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
       const { deleteSuccessMessages } = i18n as any
 
       if (this.tabName === ROUGH_SOLUTION) {
-         showToastMessage(
-            deleteSuccessMessages.roughSolution,
-            false,
-            700,
-            () => {}
-         )
+         showToastMessage(deleteSuccessMessages.roughSolution, false, 700)
       } else {
-         showToastMessage(
-            deleteSuccessMessages.prefilledCode,
-            false,
-            700,
-            () => {}
-         )
+         showToastMessage(deleteSuccessMessages.prefilledCode, false, 700)
       }
       setTimeout(this.deleteCodeEditor, 800)
    }
@@ -228,7 +218,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
          this.tabName === ROUGH_SOLUTION
             ? codingProblemsStore.deleteRoughSolutionAPIError
             : codingProblemsStore.deletePrefilledCodeAPIError
-      showToastMessage(deleteRoughSolutionError, true, 1500, () => {})
+      showToastMessage(deleteRoughSolutionError, true, 1500)
    }
 
    deleteCodeEditor = () => {
@@ -312,7 +302,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
                   errors.fillAllTheFieldsIn
                } ${codeEditor} ${index + 1}`
                const { showToastMessage } = this.props
-               showToastMessage(this.errorMessage, true, 1500, () => {})
+               showToastMessage(this.errorMessage, true, 1500)
             } else {
                if (this.tabName === ROUGH_SOLUTION) {
                   roughSolutions.push({
@@ -345,7 +335,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
    onSuccessPostRoughSolutions = () => {
       const { showToastMessage } = this.props
       const { postSuccessMessages } = i18n as any
-      showToastMessage(postSuccessMessages.roughSolutions, false, 700, () => {})
+      showToastMessage(postSuccessMessages.roughSolutions, false, 700)
       setTimeout(this.moveToNextTab, 800)
    }
 
@@ -355,7 +345,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
          this.tabName === ROUGH_SOLUTION
             ? codingProblemsStore.postRoughSolutionAPIError
             : codingProblemsStore.postPrefilledCodeAPIError
-      showToastMessage(postRoughSolutionError, true, 1500, () => {})
+      showToastMessage(postRoughSolutionError, true, 1500)
    }
 
    postRoughSolutions = roughSolutions => {
@@ -397,7 +387,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
          const { updateDataStatus } = this.props
          updateDataStatus(true)
          const { firstCreateTheStatement } = i18n
-         showToastMessage(firstCreateTheStatement, true, 1500, () => {})
+         showToastMessage(firstCreateTheStatement, true, 1500)
       }
    }
 

@@ -188,7 +188,7 @@ class TestCases extends React.Component<TestCasesProps> {
    onSuccessTestCaseDelete = () => {
       const { showToastMessage } = this.props
       const { deleteSuccessMessages } = i18n as any
-      showToastMessage(deleteSuccessMessages.testCase, false, 700, () => {})
+      showToastMessage(deleteSuccessMessages.testCase, false, 700)
       setTimeout(this.deleteTestCase, 800)
       this.updateTestCasesResponseData()
    }
@@ -198,7 +198,7 @@ class TestCases extends React.Component<TestCasesProps> {
          codingProblemsStore: { deleteTestCaseAPIError },
          showToastMessage
       } = this.props
-      showToastMessage(deleteTestCaseAPIError, true, 1500, () => {})
+      showToastMessage(deleteTestCaseAPIError, true, 1500)
    }
 
    checkTestCaseNumberAndDelete = uniqueId => {
@@ -326,7 +326,7 @@ class TestCases extends React.Component<TestCasesProps> {
       const { postSuccessMessages } = i18n as any
       updateDataStatus(true)
       this.totalTestCasesSaved += 1
-      showToastMessage(postSuccessMessages.testCases, false, 700, () => {})
+      showToastMessage(postSuccessMessages.testCases, false, 700)
    }
 
    onFailurePostTestCase = () => {
@@ -335,7 +335,7 @@ class TestCases extends React.Component<TestCasesProps> {
          codingProblemsStore: { postTestCaseAPIError },
          showToastMessage
       } = this.props
-      showToastMessage(postTestCaseAPIError, true, 1500, () => {})
+      showToastMessage(postTestCaseAPIError, true, 1500)
    }
 
    onClickSaveButton = uniqueId => {
@@ -365,7 +365,7 @@ class TestCases extends React.Component<TestCasesProps> {
          const { updateDataStatus } = this.props
          updateDataStatus(true)
          const { firstCreateTheStatement } = i18n
-         showToastMessage(firstCreateTheStatement, true, 1500, () => {})
+         showToastMessage(firstCreateTheStatement, true, 1500)
       }
    }
 

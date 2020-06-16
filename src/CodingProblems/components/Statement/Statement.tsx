@@ -119,7 +119,7 @@ class Statement extends React.Component<StatementProps> {
    onSuccessPostProblemStatement = () => {
       const { showToastMessage } = this.props
       const { postSuccessMessages } = i18n as any
-      showToastMessage(postSuccessMessages.statement, false, 700, () => {})
+      showToastMessage(postSuccessMessages.statement, false, 700)
       setTimeout(this.moveToNextTab, 900)
    }
 

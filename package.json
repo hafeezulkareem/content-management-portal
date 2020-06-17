@@ -104,7 +104,9 @@
       "testEnvironment": "node",
       "collectCoverageFrom": [
          "!src/*.{ts,tsx,js,jsx}",
-         "!src/**/**/**/*.{stories.ts,stories.tsx,stories.js,stories.jsx}"
+         "!src/**/**/**/*.{stories.ts,stories.tsx,stories.js,stories.jsx}",
+         "!src/**/routes/index.tsx",
+         "!src/Common/stores/index.ts"
       ]
    }
 }

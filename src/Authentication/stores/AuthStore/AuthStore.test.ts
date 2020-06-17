@@ -8,7 +8,7 @@ import Cookie from 'js-cookie'
 
 import postUserSignInResponse from '../../fixtures/postUserSignInResponse.json'
 
-import { AuthAPI } from '../../services/AuthServices/AuthAPI'
+import { AuthFixture } from '../../services/AuthServices/AuthFixture'
 
 import { AuthStore } from '.'
 
@@ -21,7 +21,7 @@ describe('AuthStore tests', () => {
    let authAPI, authStore
 
    beforeEach(() => {
-      authAPI = new AuthAPI()
+      authAPI = new AuthFixture()
       authStore = new AuthStore(authAPI)
    })
 

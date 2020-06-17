@@ -1,7 +1,9 @@
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 
-import { CodingProblemsAPI } from '../../services/CodingProblemsService/CodingProblemsAPI'
+import { OVERLAY_LOADER_TEST_ID } from '../../../Common/constants/IdConstants'
+
+import { CodingProblemsFixture } from '../../services/CodingProblemsService/CodingProblemsFixture'
 import { CodingProblemsStore } from '../../stores/CodingProblemsStore'
 
 import { Statement } from './Statement'
@@ -10,7 +12,7 @@ describe('CreatingFlow tests', () => {
    let codingProblemsAPI, codingProblemsStore
 
    beforeEach(() => {
-      codingProblemsAPI = new CodingProblemsAPI()
+      codingProblemsAPI = new CodingProblemsFixture()
       codingProblemsStore = new CodingProblemsStore(codingProblemsAPI)
    })
 
@@ -22,11 +24,11 @@ describe('CreatingFlow tests', () => {
       const { getByRole, getByText } = render(
          <Statement
             statementDetails={null}
-            codingProblemId={null}
             codingProblemsStore={codingProblemsStore}
             onSelectTab={() => {}}
-            currentTabIndex={2}
+            currentTabIndex={1}
             updateDataStatus={() => {}}
+            showToastMessage={() => {}}
          />
       )
 
@@ -42,11 +44,11 @@ describe('CreatingFlow tests', () => {
       const { getByRole, getByPlaceholderText, getByText } = render(
          <Statement
             statementDetails={null}
-            codingProblemId={null}
             codingProblemsStore={codingProblemsStore}
             onSelectTab={() => {}}
-            currentTabIndex={2}
+            currentTabIndex={1}
             updateDataStatus={() => {}}
+            showToastMessage={() => {}}
          />
       )
 
@@ -65,39 +67,117 @@ describe('CreatingFlow tests', () => {
       })
    })
 
-   // it('should move to next tab on success', async () => {
-   //    const { getByRole, getByTestId, getByPlaceholderText, debug } = render(
-   //       <Router history={createMemoryHistory()}>
-   //          <CreatingFlow codingProblemsStore={codingProblemsStore} />
-   //       </Router>
-   //    )
+   it('should invoke data update status function', () => {
+      const updateDataStatusMockFunction = jest.fn()
 
-   //    const statementShortTextInputField = getByPlaceholderText(
-   //       /enter short text/i
-   //    )
-   //    fireEvent.change(statementShortTextInputField, {
-   //       target: { value: 'Testing text' }
-   //    })
+      const { getByPlaceholderText } = render(
+         <Statement
+            statementDetails={null}
+            codingProblemsStore={codingProblemsStore}
+            onSelectTab={() => {}}
+            currentTabIndex={1}
+            updateDataStatus={updateDataStatusMockFunction}
+            showToastMessage={() => {}}
+         />
+      )
 
-   //    const contentEditorContainer: HTMLDivElement = getByTestId(
-   //       CONTENT_EDITOR_TEST_ID
-   //    ) as HTMLDivElement
-   //    const contentEditor: HTMLTextAreaElement = contentEditorContainer
-   //       .querySelector('#ace-editor')
-   //       ?.querySelector('textarea.ace_text-input') as HTMLTextAreaElement
-   //    fireEvent.change(contentEditor, {
-   //       target: { value: 'This is testing text' }
-   //    })
+      const statementShortTextInputField = getByPlaceholderText(
+         /enter short text/i
+      )
+      fireEvent.change(statementShortTextInputField, {
+         target: { value: 'Testing text' }
+      })
 
-   //    const statementSaveButton = getByRole('button', { name: 'Save' })
-   //    fireEvent.click(statementSaveButton)
+      expect(updateDataStatusMockFunction).toBeCalled()
+   })
 
-   //    debug()
+   it('should render loader while saving the data', async () => {
+      const mockLoadingPromise = new Promise(() => {})
+      codingProblemsAPI.postProblemStatementAPI = jest.fn(() => {
+         return mockLoadingPromise
+      })
 
-   //    await waitFor(() => {
-   //       expect(getByTestId(PAGE_TITLE_TEST_ID)).toHaveTextContent(
-   //          'Rough Solution'
-   //       )
-   //    })
-   // })
+      const { getByRole, getByTestId } = render(
+         <Statement
+            statementDetails={{
+               shortText: 'Testing',
+               content: '# Sample content for testing',
+               contentType: 'MARKDOWN'
+            }}
+            codingProblemsStore={codingProblemsStore}
+            onSelectTab={() => {}}
+            currentTabIndex={1}
+            updateDataStatus={() => {}}
+            showToastMessage={() => {}}
+         />
+      )
+
+      const statementSaveButton = getByRole('button', { name: 'Save' })
+      fireEvent.click(statementSaveButton)
+
+      await waitFor(() => {
+         expect(getByTestId(OVERLAY_LOADER_TEST_ID)).toBeInTheDocument()
+      })
+   })
+
+   it('should show error message toast on failure', async () => {
+      const mockFailurePromise = new Promise((_, reject) => {
+         reject(new Error('Error while saving the data'))
+      })
+      codingProblemsAPI.postProblemStatementAPI = jest.fn(() => {
+         return mockFailurePromise
+      })
+
+      const showToastMessageMockFunction = jest.fn()
+
+      const { getByRole } = render(
+         <Statement
+            statementDetails={{
+               shortText: 'Testing',
+               content: '# Sample content for testing',
+               contentType: 'MARKDOWN'
+            }}
+            codingProblemsStore={codingProblemsStore}
+            onSelectTab={() => {}}
+            currentTabIndex={1}
+            updateDataStatus={() => {}}
+            showToastMessage={showToastMessageMockFunction}
+         />
+      )
+
+      const statementSaveButton = getByRole('button', { name: 'Save' })
+      fireEvent.click(statementSaveButton)
+
+      await waitFor(() => {
+         expect(showToastMessageMockFunction).toBeCalled()
+      })
+   })
+
+   it('should show success message toast on success and move to next tab', async () => {
+      const showToastMessageMockFunction = jest.fn()
+      const onSelectTabMockFunction = jest.fn()
+
+      const { getByRole } = render(
+         <Statement
+            statementDetails={{
+               shortText: 'Testing',
+               content: '# Sample content for testing',
+               contentType: 'MARKDOWN'
+            }}
+            codingProblemsStore={codingProblemsStore}
+            onSelectTab={onSelectTabMockFunction}
+            currentTabIndex={1}
+            updateDataStatus={() => {}}
+            showToastMessage={showToastMessageMockFunction}
+         />
+      )
+
+      const statementSaveButton = getByRole('button', { name: 'Save' })
+      fireEvent.click(statementSaveButton)
+
+      await waitFor(() => {
+         expect(showToastMessageMockFunction).toBeCalled()
+         expect(onSelectTabMockFunction).toBeCalled()
+      })
+   })
 })

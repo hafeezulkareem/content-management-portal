@@ -12,12 +12,11 @@ import {
 
 import { CODING_PROBLEM_ITEM_TEST_ID } from '../../constants/IdConstants'
 import { CODING_PROBLEM_CREATE_PATH } from '../../constants/RouteConstants'
-import { CodingProblemsAPI } from '../../services/CodingProblemsService/CodingProblemsAPI'
+import { CodingProblemsFixture } from '../../services/CodingProblemsService/CodingProblemsFixture'
 import { CodingProblemsStore } from '../../stores/CodingProblemsStore'
-import getCodingProblemsResponse from '../../fixtures/getCodingProblemsResponse.json'
+import { goToCodingProblemCreatingFlow } from '../../utils/NavigationUtils'
 
 import { CodingProblemsHome } from '.'
-import { goToCodingProblemCreatingFlow } from '../../utils/NavigationUtils'
 
 const TestingComponent = () => {
    return (
@@ -34,7 +33,7 @@ describe('CodingProblemsHome tests', () => {
    let codingProblemsAPI, codingProblemsStore
 
    beforeEach(() => {
-      codingProblemsAPI = new CodingProblemsAPI()
+      codingProblemsAPI = new CodingProblemsFixture()
       codingProblemsStore = new CodingProblemsStore(codingProblemsAPI)
    })
 
@@ -89,7 +88,7 @@ describe('CodingProblemsHome tests', () => {
          </Router>
       )
 
-      const mockLoadingPromise = new Promise((resolve, reject) => {})
+      const mockLoadingPromise = new Promise(() => {})
       codingProblemsAPI.getCodingProblemsAPI = jest.fn(() => {
          return mockLoadingPromise
       })
@@ -112,7 +111,7 @@ describe('CodingProblemsHome tests', () => {
          </Router>
       )
 
-      const mockLoadingPromise = new Promise((resolve, reject) => {
+      const mockFailurePromise = new Promise((_, reject) => {
          reject(
             new Error(
                "We're having some trouble completing your request. Please try again."
@@ -120,7 +119,7 @@ describe('CodingProblemsHome tests', () => {
          )
       })
       codingProblemsAPI.getCodingProblemsAPI = jest.fn(() => {
-         return mockLoadingPromise
+         return mockFailurePromise
       })
 
       await codingProblemsStore.getCodingProblems()
@@ -145,15 +144,39 @@ describe('CodingProblemsHome tests', () => {
          </Router>
       )
 
-      const mockLoadingPromise = new Promise((resolve, reject) => {
-         resolve(getCodingProblemsResponse)
+      await codingProblemsStore.getCodingProblems()
+
+      expect(getAllByTestId(CODING_PROBLEM_ITEM_TEST_ID)[0]).toBeInTheDocument()
+   })
+
+   it('should render no data view on success with no data', async () => {
+      const { getByText, getByAltText } = render(
+         <Router history={createMemoryHistory()}>
+            <CodingProblemsHome
+               codingProblemsStore={codingProblemsStore}
+               activeSection={CODING_LIST}
+               navigateToCodingProblemCreatingFlow={() => {}}
+               navigateToCodingProblemDetailsPage={() => {}}
+               onUserSignOut={() => {}}
+            />
+         </Router>
+      )
+
+      const mockSuccessPromise = new Promise(resolve => {
+         resolve({
+            total_questions: 0,
+            offset: 0,
+            limit: 10,
+            questions_list: []
+         })
       })
       codingProblemsAPI.getCodingProblemsAPI = jest.fn(() => {
-         return mockLoadingPromise
+         return mockSuccessPromise
       })
 
       await codingProblemsStore.getCodingProblems()
 
-      expect(getAllByTestId(CODING_PROBLEM_ITEM_TEST_ID)[0]).toBeInTheDocument()
+      expect(getByAltText(/empty image/i)).toBeInTheDocument()
+      expect(getByText(/no data found!/i)).toBeInTheDocument()
    })
 })

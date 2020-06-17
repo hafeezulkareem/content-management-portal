@@ -6,7 +6,8 @@ import { render, fireEvent, waitFor } from '@testing-library/react'
 import { CODING_PROBLEMS_PATH } from '../../../Common/constants/RouteConstants'
 import {
    BUTTON_WITH_ICON_TEST_ID,
-   PAGE_TITLE_TEST_ID
+   PAGE_TITLE_TEST_ID,
+   LOADING_WRAPPER_TEST_ID
 } from '../../../Common/constants/IdConstants'
 
 import {
@@ -14,7 +15,7 @@ import {
    CODING_PROBLEM_DETAILS_PATH
 } from '../../constants/RouteConstants'
 import { CodingProblemsStore } from '../../stores/CodingProblemsStore'
-import { CodingProblemsAPI } from '../../services/CodingProblemsService/CodingProblemsAPI'
+import { CodingProblemsFixture } from '../../services/CodingProblemsService/CodingProblemsFixture'
 import { ROUGH_SOLUTION, HINTS } from '../../constants/TabConstants'
 import getCodingProblemDetailsResponse from '../../fixtures/getCodingProblemDetailsResponse.json'
 import { goToCodingProblemsHome } from '../../utils/NavigationUtils'
@@ -36,7 +37,7 @@ describe('CreatingFlow tests', () => {
    let codingProblemsAPI, codingProblemsStore
 
    beforeEach(() => {
-      codingProblemsAPI = new CodingProblemsAPI()
+      codingProblemsAPI = new CodingProblemsFixture()
       codingProblemsStore = new CodingProblemsStore(codingProblemsAPI)
    })
 
@@ -170,6 +171,87 @@ describe('CreatingFlow tests', () => {
 
       await waitFor(() => {
          expect(getByTestId(PAGE_TITLE_TEST_ID)).toHaveTextContent('Hints')
+         expect(getByRole('button', { name: 'Save' })).toBeInTheDocument()
+      })
+   })
+
+   it('should render loader while fetching coding problem details', async () => {
+      const history = createMemoryHistory()
+      history.push(`${CODING_PROBLEMS_PATH}1`)
+
+      const mockFailurePromise = new Promise(() => {})
+      codingProblemsAPI.getCodingProblemDetailsAPI = jest.fn(() => {
+         return mockFailurePromise
+      })
+
+      const { getByTestId } = render(
+         <Router history={history}>
+            <Switch>
+               <Route exact path={CODING_PROBLEM_DETAILS_PATH}>
+                  <CreatingFlow
+                     codingProblemsStore={codingProblemsStore}
+                     navigateToCodingProblemsHome={() => {}}
+                     onUserSignOut={() => {}}
+                  />
+               </Route>
+            </Switch>
+         </Router>
+      )
+
+      await waitFor(() => {
+         expect(getByTestId(LOADING_WRAPPER_TEST_ID)).toBeInTheDocument()
+      })
+   })
+
+   it('should render error view on failure', async () => {
+      const history = createMemoryHistory()
+      history.push(`${CODING_PROBLEMS_PATH}1`)
+
+      const mockLoadingPromise = new Promise((_, reject) => {
+         reject(new Error('Error occurred while getting problem details'))
+      })
+      codingProblemsAPI.getCodingProblemDetailsAPI = jest.fn(() => {
+         return mockLoadingPromise
+      })
+
+      const { getByRole } = render(
+         <Router history={history}>
+            <Switch>
+               <Route exact path={CODING_PROBLEM_DETAILS_PATH}>
+                  <CreatingFlow
+                     codingProblemsStore={codingProblemsStore}
+                     navigateToCodingProblemsHome={() => {}}
+                     onUserSignOut={() => {}}
+                  />
+               </Route>
+            </Switch>
+         </Router>
+      )
+
+      await waitFor(() => {
+         expect(getByRole('button', { name: 'Retry' })).toBeInTheDocument()
+      })
+   })
+
+   it('should render success view on success', async () => {
+      const history = createMemoryHistory()
+      history.push(`${CODING_PROBLEMS_PATH}1`)
+
+      const { getByRole } = render(
+         <Router history={history}>
+            <Switch>
+               <Route exact path={CODING_PROBLEM_DETAILS_PATH}>
+                  <CreatingFlow
+                     codingProblemsStore={codingProblemsStore}
+                     navigateToCodingProblemsHome={() => {}}
+                     onUserSignOut={() => {}}
+                  />
+               </Route>
+            </Switch>
+         </Router>
+      )
+
+      await waitFor(() => {
          expect(getByRole('button', { name: 'Save' })).toBeInTheDocument()
       })
    })

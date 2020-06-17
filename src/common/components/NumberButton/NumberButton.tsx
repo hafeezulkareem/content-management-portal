@@ -2,6 +2,7 @@ import React from 'react'
 
 import images from '../../themes/Images'
 import i18n from '../../i18n/strings.json'
+import { NUMBER_BUTTON_TEST_ID } from '../../constants/IdConstants'
 
 import {
    NumberButtonEl,
@@ -30,6 +31,7 @@ class NumberButton extends React.Component<NumberButtonProps> {
       return (
          <NumberButtonContainer>
             <NumberButtonEl
+               data-testid={NUMBER_BUTTON_TEST_ID}
                onClick={() => onClickNumberButton(uniqueId)}
                isActive={isActive}
             >

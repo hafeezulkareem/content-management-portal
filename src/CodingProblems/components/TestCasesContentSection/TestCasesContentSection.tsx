@@ -7,6 +7,7 @@ import colors from '../../../Common/themes/Colors'
 import commonI18n from '../../../Common/i18n/strings.json'
 
 import i18n from '../../i18n/strings.json'
+import { TEST_CASES_CHECKBOX_TEST_ID } from '../../constants/IdConstants'
 
 import {
    TestCasesContentContainer,
@@ -101,6 +102,7 @@ class TestCasesContentSection extends React.Component<
             )}
             <CheckboxContainer>
                <Checkbox
+                  data-testid={TEST_CASES_CHECKBOX_TEST_ID}
                   type={testCases.checkboxType}
                   checked={isHidden}
                   onChange={event => onToggleIsHidden(event, uniqueId)}

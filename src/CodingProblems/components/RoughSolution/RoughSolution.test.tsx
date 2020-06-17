@@ -3,10 +3,11 @@ import { render, fireEvent, waitFor } from '@testing-library/react'
 
 import {
    ADD_BUTTON_TEST_ID,
-   DELETE_ICON_TEST_ID
+   DELETE_ICON_TEST_ID,
+   OVERLAY_LOADER_TEST_ID
 } from '../../../Common/constants/IdConstants'
 
-import { CodingProblemsAPI } from '../../services/CodingProblemsService/CodingProblemsAPI'
+import { CodingProblemsFixture } from '../../services/CodingProblemsService/CodingProblemsFixture'
 import { CodingProblemsStore } from '../../stores/CodingProblemsStore'
 import { ROUGH_SOLUTION } from '../../constants/TabConstants'
 
@@ -16,7 +17,7 @@ describe('RoughSolution tests', () => {
    let codingProblemsAPI, codingProblemsStore
 
    beforeEach(() => {
-      codingProblemsAPI = new CodingProblemsAPI()
+      codingProblemsAPI = new CodingProblemsFixture()
       codingProblemsStore = new CodingProblemsStore(codingProblemsAPI)
    })
 
@@ -152,7 +153,7 @@ describe('RoughSolution tests', () => {
       expect(fileNameInputField.value).toBe('This is testing filename')
    })
 
-   it('should render error message on empty fields', async () => {
+   it('should invoke show toast message to complete statement first', async () => {
       const showToastMessageMockFunction = jest.fn()
 
       const { getByRole } = render(
@@ -168,11 +169,177 @@ describe('RoughSolution tests', () => {
          />
       )
 
-      const roughSolutionSaveButton = getByRole('button', { name: 'Save' })
-      fireEvent.click(roughSolutionSaveButton)
+      const saveButton = getByRole('button', { name: 'Save' })
+      fireEvent.click(saveButton)
+
+      expect(showToastMessageMockFunction).toBeCalled()
+   })
+
+   it('should render error message on empty fields', async () => {
+      codingProblemsStore.codingProblemId = 10
+
+      const showToastMessageMockFunction = jest.fn()
+
+      const { getByRole } = render(
+         <RoughSolution
+            roughSolutions={[
+               {
+                  language: 'JAVA',
+                  solutionContent: "System.out.println('iB Hubs')",
+                  fileName: 'welcome.java',
+                  uniqueId: 0
+               },
+               {
+                  language: 'PYTHON',
+                  solutionContent: '',
+                  fileName: '',
+                  uniqueId: 1
+               }
+            ]}
+            codingProblemsStore={codingProblemsStore}
+            onSelectTab={() => {}}
+            currentTabIndex={2}
+            updateDataStatus={() => {}}
+            tabName={ROUGH_SOLUTION}
+            showToastMessage={showToastMessageMockFunction}
+            resetRoughSolutions={() => {}}
+         />
+      )
+
+      const saveButton = getByRole('button', { name: 'Save' })
+      fireEvent.click(saveButton)
 
       await waitFor(() => {
          expect(showToastMessageMockFunction).toBeCalled()
+      })
+   })
+
+   it('should render loader while saving data', async () => {
+      codingProblemsStore.codingProblemId = 10
+
+      const mockLoadingPromise = new Promise(() => {})
+      codingProblemsAPI.postProblemRoughSolutionAPI = jest.fn(() => {
+         return mockLoadingPromise
+      })
+
+      const { getByRole, getByTestId } = render(
+         <RoughSolution
+            roughSolutions={[
+               {
+                  language: 'JAVA',
+                  solutionContent: "System.out.println('iB Hubs')",
+                  fileName: 'welcome.java',
+                  uniqueId: 0
+               },
+               {
+                  language: 'PYTHON',
+                  solutionContent: 'import math',
+                  fileName: 'sample.py',
+                  uniqueId: 1
+               }
+            ]}
+            codingProblemsStore={codingProblemsStore}
+            onSelectTab={() => {}}
+            currentTabIndex={2}
+            updateDataStatus={() => {}}
+            tabName={ROUGH_SOLUTION}
+            showToastMessage={() => {}}
+            resetRoughSolutions={() => {}}
+         />
+      )
+
+      const saveButton = getByRole('button', { name: 'Save' })
+      fireEvent.click(saveButton)
+
+      await waitFor(() => {
+         expect(getByTestId(OVERLAY_LOADER_TEST_ID)).toBeInTheDocument()
+      })
+   })
+
+   it('should show error message toast on failure', async () => {
+      codingProblemsStore.codingProblemId = 10
+
+      const mockFailurePromise = new Promise((_, reject) => {
+         reject(new Error('Error while saving the data'))
+      })
+      codingProblemsAPI.postProblemRoughSolutionAPI = jest.fn(() => {
+         return mockFailurePromise
+      })
+
+      const showToastMessageMockFunction = jest.fn()
+
+      const { getByRole } = render(
+         <RoughSolution
+            roughSolutions={[
+               {
+                  language: 'JAVA',
+                  solutionContent: "System.out.println('iB Hubs')",
+                  fileName: 'welcome.java',
+                  uniqueId: 0
+               },
+               {
+                  language: 'PYTHON',
+                  solutionContent: 'import math',
+                  fileName: 'sample.py',
+                  uniqueId: 1
+               }
+            ]}
+            codingProblemsStore={codingProblemsStore}
+            onSelectTab={() => {}}
+            currentTabIndex={2}
+            updateDataStatus={() => {}}
+            tabName={ROUGH_SOLUTION}
+            showToastMessage={showToastMessageMockFunction}
+            resetRoughSolutions={() => {}}
+         />
+      )
+
+      const saveButton = getByRole('button', { name: 'Save' })
+      fireEvent.click(saveButton)
+
+      await waitFor(() => {
+         expect(showToastMessageMockFunction).toBeCalled()
+      })
+   })
+
+   it('should show success message toast and move to next tab on success', async () => {
+      codingProblemsStore.codingProblemId = 10
+
+      const showToastMessageMockFunction = jest.fn()
+      const onSelectTabMockFunction = jest.fn()
+
+      const { getByRole } = render(
+         <RoughSolution
+            roughSolutions={[
+               {
+                  language: 'JAVA',
+                  solutionContent: "System.out.println('iB Hubs')",
+                  fileName: 'welcome.java',
+                  uniqueId: 0
+               },
+               {
+                  language: 'PYTHON',
+                  solutionContent: 'import math',
+                  fileName: 'sample.py',
+                  uniqueId: 1
+               }
+            ]}
+            codingProblemsStore={codingProblemsStore}
+            onSelectTab={onSelectTabMockFunction}
+            currentTabIndex={2}
+            updateDataStatus={() => {}}
+            tabName={ROUGH_SOLUTION}
+            showToastMessage={showToastMessageMockFunction}
+            resetRoughSolutions={() => {}}
+         />
+      )
+
+      const saveButton = getByRole('button', { name: 'Save' })
+      fireEvent.click(saveButton)
+
+      await waitFor(() => {
+         expect(showToastMessageMockFunction).toBeCalled()
+         expect(onSelectTabMockFunction).toBeCalled()
       })
    })
 })

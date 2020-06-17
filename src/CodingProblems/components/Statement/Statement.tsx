@@ -125,12 +125,7 @@ class Statement extends React.Component<StatementProps> {
 
    onFailurePostProblemStatement = () => {
       const { showToastMessage, codingProblemsStore } = this.props
-      showToastMessage(
-         codingProblemsStore.postStatementAPIError,
-         true,
-         1500,
-         () => {}
-      )
+      showToastMessage(codingProblemsStore.postStatementAPIError, true, 1500)
    }
 
    postProblemStatement = () => {

@@ -1,6 +1,6 @@
 import { create } from 'apisauce'
 
-import { networkCallWithApisauce } from '../../../Common/utils/APIUtils'
+import { networkCallWithApisauceWithAccessToken } from '../../../Common/utils/APIUtils'
 import { apiMethods, BASE_URL } from '../../../Common/constants/APIConstants'
 
 import { CODING_PROBLEMS_LIMIT_PER_PAGE } from '../../constants/APILimitConstants'
@@ -17,7 +17,7 @@ class CodingProblemsAPI {
    }
 
    postProblemStatementAPI(statementData) {
-      return networkCallWithApisauce(
+      return networkCallWithApisauceWithAccessToken(
          this.api,
          endpoints.statement,
          statementData,
@@ -26,7 +26,7 @@ class CodingProblemsAPI {
    }
 
    postProblemRoughSolutionAPI(codingProblemId, roughSolutionsData) {
-      return networkCallWithApisauce(
+      return networkCallWithApisauceWithAccessToken(
          this.api,
          `/coding_questions/${codingProblemId}/rough_solutions/v1/`,
          roughSolutionsData,
@@ -35,7 +35,7 @@ class CodingProblemsAPI {
    }
 
    deleteRoughSolutionAPI(codingProblemId, roughSolutionId) {
-      return networkCallWithApisauce(
+      return networkCallWithApisauceWithAccessToken(
          this.api,
          `/coding_questions/${codingProblemId}/rough_solutions/${roughSolutionId}/v1/`,
          {},
@@ -44,7 +44,7 @@ class CodingProblemsAPI {
    }
 
    postProblemTestCaseAPI(codingProblemId, testCaseData) {
-      return networkCallWithApisauce(
+      return networkCallWithApisauceWithAccessToken(
          this.api,
          `/coding_questions/${codingProblemId}/test_cases/v1/`,
          testCaseData,
@@ -53,7 +53,7 @@ class CodingProblemsAPI {
    }
 
    deleteTestCaseAPI(codingProblemId, testCaseId) {
-      return networkCallWithApisauce(
+      return networkCallWithApisauceWithAccessToken(
          this.api,
          `/coding_questions/${codingProblemId}/test_cases/${testCaseId}/v1/`,
          {},
@@ -62,7 +62,7 @@ class CodingProblemsAPI {
    }
 
    postPrefilledCodeAPI(codingProblemId, preFilledData) {
-      return networkCallWithApisauce(
+      return networkCallWithApisauceWithAccessToken(
          this.api,
          `/coding_questions/${codingProblemId}/prefilled_codes/v1/`,
          preFilledData,
@@ -71,7 +71,7 @@ class CodingProblemsAPI {
    }
 
    deletePrefilledCodeAPI(codingProblemId, prefilledCodeId) {
-      return networkCallWithApisauce(
+      return networkCallWithApisauceWithAccessToken(
          this.api,
          `/coding_questions/${codingProblemId}/prefilled_codes/${prefilledCodeId}/v1/`,
          {},
@@ -80,7 +80,7 @@ class CodingProblemsAPI {
    }
 
    postSolutionApproachAPI(codingProblemId, solutionApproachData) {
-      return networkCallWithApisauce(
+      return networkCallWithApisauceWithAccessToken(
          this.api,
          `/coding_questions/${codingProblemId}/solution_approaches/v1/`,
          solutionApproachData,
@@ -89,7 +89,7 @@ class CodingProblemsAPI {
    }
 
    postCleanSolutionAPI(codingProblemId, cleanSolutionData) {
-      return networkCallWithApisauce(
+      return networkCallWithApisauceWithAccessToken(
          this.api,
          `/coding_questions/${codingProblemId}/clean_solutions/v1/`,
          cleanSolutionData,
@@ -98,7 +98,7 @@ class CodingProblemsAPI {
    }
 
    deleteCleanSolutionAPI(codingProblemId, cleanSolutionId) {
-      return networkCallWithApisauce(
+      return networkCallWithApisauceWithAccessToken(
          this.api,
          `/coding_questions/${codingProblemId}/clean_solutions/${cleanSolutionId}/v1/`,
          {},
@@ -107,7 +107,7 @@ class CodingProblemsAPI {
    }
 
    postHintAPI(codingProblemId, hintData) {
-      return networkCallWithApisauce(
+      return networkCallWithApisauceWithAccessToken(
          this.api,
          `/coding_questions/${codingProblemId}/hints/v1/`,
          hintData,
@@ -116,7 +116,7 @@ class CodingProblemsAPI {
    }
 
    deleteHintAPI(codingProblemId, hintId) {
-      return networkCallWithApisauce(
+      return networkCallWithApisauceWithAccessToken(
          this.api,
          `/coding_questions/${codingProblemId}/hints/${hintId}/v1/`,
          {},
@@ -125,7 +125,7 @@ class CodingProblemsAPI {
    }
 
    getCodingProblemsAPI(codingProblemsOffset) {
-      return networkCallWithApisauce(
+      return networkCallWithApisauceWithAccessToken(
          this.api,
          `${endpoints.codingProblems}?offset=${codingProblemsOffset}&limit=${CODING_PROBLEMS_LIMIT_PER_PAGE}`,
          {},
@@ -134,7 +134,7 @@ class CodingProblemsAPI {
    }
 
    getCodingProblemDetailsAPI(codingProblemId) {
-      return networkCallWithApisauce(
+      return networkCallWithApisauceWithAccessToken(
          this.api,
          `/coding_questions/${codingProblemId}/v1/`,
          {},

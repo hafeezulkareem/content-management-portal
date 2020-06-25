@@ -12,7 +12,7 @@ export const SignInPageWrapper = styled.div`
 export const SignInContainer = styled.div`
    width: 475px;
    ${tw`
-        flex flex-col text-center bg-white px-16 pt-2 pb-12 rounded
+        flex flex-col text-center bg-white px-16 pt-2 pb-12 rounded shadow
     `}
 `
 

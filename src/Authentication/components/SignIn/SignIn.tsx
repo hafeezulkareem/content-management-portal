@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent, FormEvent } from 'react'
 import { API_FETCHING } from '@ib/api-constants'
 import { observer } from 'mobx-react'
 
@@ -26,14 +26,14 @@ import {
    SignInErrorMessage
 } from './styledComponents'
 
-type SignInProps = {
+interface SignInProps {
    username: string
    password: string
    usernameError: string | null
    passwordError: string | null
-   onChangeUsername: (any) => void
-   onChangePassword: (any) => void
-   onSubmitSignInForm: (any) => void
+   onChangeUsername: (event: ChangeEvent<HTMLInputElement>) => void
+   onChangePassword: (event: ChangeEvent<HTMLInputElement>) => void
+   onSubmitSignInForm: (event: FormEvent<HTMLFormElement>) => void
    signInFailureError: string | null
    postSignInAPIStatus: number
 }

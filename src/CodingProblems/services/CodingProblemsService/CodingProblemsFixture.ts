@@ -1,3 +1,5 @@
+import { resolveWithTimeOut } from '../../../Common/utils/TestUtils'
+
 import problemStatementResponse from '../../fixtures/postProblemStatementResponse.json'
 import problemRoughSolutionResponse from '../../fixtures/postProblemRoughSolutionResponse.json'
 import problemTestCaseResponse from '../../fixtures/postProblemTestCaseResponse.json'
@@ -9,89 +11,71 @@ import codingProblemsResponse from '../../fixtures/getCodingProblemsResponse.jso
 import codingProblemDetailsResponse from '../../fixtures/getCodingProblemDetailsResponse.json'
 import { CODING_PROBLEMS_LIMIT_PER_PAGE } from '../../constants/APILimitConstants'
 
-class CodingProblemsFixture {
+import { CodingProblemsService } from '.'
+
+class CodingProblemsFixture implements CodingProblemsService {
    postProblemStatementAPI() {
-      return new Promise(resolve => resolve(problemStatementResponse))
+      return resolveWithTimeOut(problemStatementResponse)
    }
 
    postProblemRoughSolutionAPI(codingProblemId, roughSolutionData) {
-      return new Promise(resolve => resolve(problemRoughSolutionResponse))
+      return resolveWithTimeOut(problemRoughSolutionResponse)
    }
 
    deleteRoughSolutionAPI(codingProblemId, roughSolutionId) {
-      return new Promise(resolve => {
-         resolve('Rough solution is deleted')
-      })
+      return resolveWithTimeOut({})
    }
 
    postProblemTestCaseAPI(codingProblemId, testCaseData) {
-      return new Promise(resolve => {
-         resolve(problemTestCaseResponse)
-      })
+      return resolveWithTimeOut(problemTestCaseResponse)
    }
 
    deleteTestCaseAPI(codingProblemId, testCaseId) {
-      return new Promise(resolve => {
-         resolve('Test case is deleted')
-      })
+      return resolveWithTimeOut({})
    }
 
    postPrefilledCodeAPI(codingProblemId, prefilledCodeData) {
-      return new Promise(resolve => {
-         resolve(problemPrefilledCodeResponse)
-      })
+      return resolveWithTimeOut(problemPrefilledCodeResponse)
    }
 
    deletePrefilledCodeAPI(codingProblemId, prefilledCodeId) {
-      return new Promise(resolve => {
-         resolve('Prefilled code is deleted')
-      })
+      return resolveWithTimeOut({})
    }
 
    postSolutionApproachAPI(codingProblemId, solutionApproachData) {
-      return new Promise(resolve => {
-         resolve(problemSolutionApproachResponse)
-      })
+      return resolveWithTimeOut(problemSolutionApproachResponse)
    }
 
    postHintAPI(codingProblemId, hintData) {
-      return new Promise(resolve => {
-         resolve(problemHintResponse)
-      })
+      return resolveWithTimeOut(problemHintResponse)
    }
 
    deleteHintAPI(codingProblemId, hintId) {
-      return new Promise(resolve => {
-         resolve('Deleted successfully')
-      })
+      return resolveWithTimeOut({})
    }
 
    postCleanSolutionAPI(codingProblemId, cleanSolutionData) {
-      return new Promise(resolve => resolve(problemCleanSolutionResponse))
+      return resolveWithTimeOut(problemCleanSolutionResponse)
    }
 
    deleteCleanSolutionAPI(codingProblemId, cleanSolutionId) {
-      return new Promise(resolve =>
-         resolve('Clean solution deleted successfully')
-      )
+      return resolveWithTimeOut({})
    }
 
    getCodingProblemsAPI(offset) {
-      return new Promise(resolve =>
-         setTimeout(() => {
-            resolve({
-               questions_list: codingProblemsResponse['questions_list'].slice(
-                  offset - 1,
-                  offset + CODING_PROBLEMS_LIMIT_PER_PAGE - 1
-               ),
-               total_questions: codingProblemsResponse['total_questions']
-            })
-         }, 1000)
-      )
+      return resolveWithTimeOut({
+         total_questions: codingProblemsResponse['total_questions'],
+         offset,
+         limit: CODING_PROBLEMS_LIMIT_PER_PAGE,
+         questions_list: codingProblemsResponse['questions_list'].slice(
+            offset - 1,
+            offset + CODING_PROBLEMS_LIMIT_PER_PAGE - 1
+         )
+      })
    }
 
    getCodingProblemDetailsAPI() {
-      return new Promise(resolve => resolve(codingProblemDetailsResponse))
+      return resolveWithTimeOut(codingProblemDetailsResponse)
    }
 }
 

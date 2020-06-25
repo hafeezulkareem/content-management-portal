@@ -7,14 +7,14 @@ import commonI18n from '../../../Common/i18n/strings.json'
 
 import { ButtonsContainer } from './styledComponents'
 
-type AddAndSaveButtonsProps = {
-   onClickAddButton: (any) => void
-   onClickSaveButton: (any) => void
+interface AddAndSaveButtonsProps {
+   onClickAddButton: () => void
+   onClickSaveButton: () => void
 }
 
 class AddAndSaveButtons extends React.Component<AddAndSaveButtonsProps> {
    render() {
-      const { commonComponents } = commonI18n as any
+      const { commonComponents } = commonI18n
       const { onClickAddButton, onClickSaveButton } = this.props
       return (
          <ButtonsContainer>

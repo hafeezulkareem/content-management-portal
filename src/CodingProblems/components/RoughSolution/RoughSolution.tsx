@@ -9,6 +9,7 @@ import { OverlayLoader } from '../../../Common/components/OverlayLoader'
 import i18n from '../../i18n/strings.json'
 import { ROUGH_SOLUTION, PREFILLED_CODE } from '../../constants/TabConstants'
 import { RoughSolutionModel } from '../../stores/models/RoughSolutionModel'
+import { CodingProblemsStore } from '../../stores/CodingProblemsStore'
 
 import { AddAndSaveButtons } from '../AddAndSaveButtons'
 
@@ -18,31 +19,39 @@ import {
    RoughSolutionsWrapper
 } from './styledComponents'
 
-type RoughSolutionProps = {
-   codingProblemsStore: any
-   onSelectTab: any
+interface RoughSolutionProps {
+   codingProblemsStore: CodingProblemsStore
+   onSelectTab: (tabNumber: number) => void
    currentTabIndex: number
-   updateDataStatus: any
-   roughSolutions: any
+   updateDataStatus: (status: boolean) => void
+   roughSolutions: Array<RoughSolutionModel>
    tabName: string
-   showToastMessage: any
-   resetRoughSolutions: any
+   showToastMessage: (
+      message: string | null,
+      type: boolean,
+      time: number
+   ) => void
+   resetRoughSolutions: () => void
 }
 
 @observer
 class RoughSolution extends React.Component<RoughSolutionProps> {
-   @observable codeEditorsList: any = new Map()
+   @observable codeEditorsList: Map<string, any>
    errorMessage!: string | null
-   currentCodeEditorId
-   tabName
-   previousRoughSolutionsData
+   currentCodeEditorId!: string
+   tabName: string
+   previousRoughSolutionsData!: Map<string, any>
 
    constructor(props) {
       super(props)
+      this.codeEditorsList = new Map()
       this.tabName = props.tabName
    }
 
-   setRoughSolutionDataToList = (roughSolutions, isItPreviousData) => {
+   setRoughSolutionDataToList = (
+      roughSolutions: Array<RoughSolutionModel>,
+      isItPreviousData: boolean
+   ) => {
       const { codingProblemsStore } = this.props
       let idKey = 'rough_solution_id'
       roughSolutions.forEach(roughSolution => {
@@ -179,21 +188,24 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
       this.errorMessage = null
    }
 
-   onChangeFileName = (updatedValue, id) => {
+   onChangeFileName = (updatedValue: string, id: string) => {
       const currentCodeEditor = this.codeEditorsList.get(id)
       currentCodeEditor.fileName = updatedValue
       this.initializeErrors()
       this.updateDataStatus()
    }
 
-   onChangeProgrammingLanguage = (updatedProgrammingLanguage, id) => {
+   onChangeProgrammingLanguage = (
+      updatedProgrammingLanguage: string,
+      id: string
+   ) => {
       const currentCodeEditor = this.codeEditorsList.get(id)
       currentCodeEditor.language = updatedProgrammingLanguage
       this.initializeErrors()
       this.updateDataStatus()
    }
 
-   onChangeContent = (updatedContent, id) => {
+   onChangeContent = (updatedContent: string, id: string) => {
       const currentCodeEditor = this.codeEditorsList.get(id)
       currentCodeEditor.solutionContent = updatedContent
       this.initializeErrors()
@@ -202,7 +214,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
 
    onSuccessDeleteRoughSolution = () => {
       const { showToastMessage } = this.props
-      const { deleteSuccessMessages } = i18n as any
+      const { deleteSuccessMessages } = i18n
 
       if (this.tabName === ROUGH_SOLUTION) {
          showToastMessage(deleteSuccessMessages.roughSolution, false, 700)
@@ -276,7 +288,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
       }
    }
 
-   onClickDeleteButton = (codeEditorId, roughSolutionId) => {
+   onClickDeleteButton = (codeEditorId: string, roughSolutionId: number) => {
       this.currentCodeEditorId = codeEditorId
       this.checkCodingProblemIdAndDelete(roughSolutionId)
    }
@@ -334,7 +346,7 @@ class RoughSolution extends React.Component<RoughSolutionProps> {
 
    onSuccessPostRoughSolutions = () => {
       const { showToastMessage } = this.props
-      const { postSuccessMessages } = i18n as any
+      const { postSuccessMessages } = i18n
       showToastMessage(postSuccessMessages.roughSolutions, false, 700)
       setTimeout(this.moveToNextTab, 800)
    }

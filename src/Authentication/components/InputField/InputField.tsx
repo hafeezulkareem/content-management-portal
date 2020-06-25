@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 
 import images from '../../../Common/themes/Images'
 import commonI18n from '../../../Common/i18n/strings.json'
@@ -14,10 +14,10 @@ import {
    InputFieldErrorIcon
 } from './styledComponents'
 
-type InputFieldProps = {
+interface InputFieldProps {
    inputFieldType: string
    inputFieldValue: string
-   onChangeInput: (any) => void
+   onChangeInput: (event: ChangeEvent<HTMLInputElement>) => void
    error: string | null
 }
 

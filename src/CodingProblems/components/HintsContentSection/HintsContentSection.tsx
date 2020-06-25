@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { observer } from 'mobx-react'
 
 import { DropDown } from '../../../Common/components/DropDown'
@@ -28,17 +28,23 @@ import {
    HintsFormSection
 } from './styledComponents'
 
-type HintsContentSectionProps = {
+interface HintsContentSectionProps {
    uniqueId: string
    title: string
    onChangeTitle: any
    titleErrorMessage: string | null
    descriptionType: string
-   onChangeDescriptionType: any
+   onChangeDescriptionType: (
+      event: ChangeEvent<HTMLSelectElement>,
+      id: string
+   ) => void
    description: string
-   onChangeDescription: any
+   onChangeDescription: (
+      event: ChangeEvent<HTMLTextAreaElement>,
+      id: string
+   ) => void
    descriptionErrorMessage: string | null
-   onClickSaveButton: any
+   onClickSaveButton: (id: string) => void
 }
 
 @observer

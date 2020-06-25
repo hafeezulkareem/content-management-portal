@@ -32,6 +32,7 @@
       "title": "TITLE",
       "description": "DESCRIPTION",
       "complexityAnalysis": "COMPLEXITY ANALYSIS",
+      "titleInputFieldType": "text",
       "titleInputFieldPlaceholder": "Ex. Luke S.",
       "errors": {
          "titleError": "Title is required",

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { observer } from 'mobx-react'
 
 import i18n from '../../i18n/strings.json'
@@ -7,15 +7,15 @@ import { DropDown } from '../DropDown'
 
 import { HeaderContainer, HeaderSection } from './styledComponents'
 
-type TextEditorHeaderProps = {
-   onChangeTextType: any
+interface TextEditorHeaderProps {
+   onChangeTextType: (event: ChangeEvent<HTMLSelectElement>) => void
    selectedOption: string
 }
 
 @observer
 class TextEditorHeader extends React.Component<TextEditorHeaderProps> {
    render() {
-      const { textEditorTypes } = i18n as any
+      const { textEditorTypes } = i18n
       const { onChangeTextType, selectedOption } = this.props
       return (
          <HeaderContainer>

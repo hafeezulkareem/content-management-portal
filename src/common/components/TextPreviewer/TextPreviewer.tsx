@@ -3,7 +3,7 @@ import { observer } from 'mobx-react'
 
 import { TextPreviewerContainer, PreTag } from './styledComponents'
 
-type TextPreviewerProps = {
+interface TextPreviewerProps {
    text: string
 }
 

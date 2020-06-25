@@ -16,10 +16,10 @@ import { CONTENT_EDITOR_TEST_ID } from '../../constants/IdConstants'
 
 import { ContentEditorContainer } from './styledComponents'
 
-type ContentEditorProps = {
+interface ContentEditorProps {
    content: string
    contentType: string
-   onChangeContent: any
+   onChangeContent: (content: string) => void
 }
 
 class ContentEditor extends React.Component<ContentEditorProps> {

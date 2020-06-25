@@ -21,7 +21,7 @@ import {
    ErrorMessage
 } from './styledComponents'
 
-type TestCasesContentSectionProps = {
+interface TestCasesContentSectionProps {
    uniqueId: string
    input: string
    onChangeInput: any
@@ -65,8 +65,8 @@ class TestCasesContentSection extends React.Component<
          outputErrorMessage,
          scoreErrorMessage
       } = this.props
-      const { testCases } = i18n as any
-      const { commonComponents } = commonI18n as any
+      const { testCases } = i18n
+      const { commonComponents } = commonI18n
       return (
          <TestCasesContentContainer>
             <LabelAndEditorContainer>

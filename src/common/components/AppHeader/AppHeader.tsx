@@ -11,10 +11,10 @@ import {
    UserProfileAndSignOutButton
 } from './styledComponents'
 
-type AppHeaderProps = {
+interface AppHeaderProps {
    userProfilePicLink: string
    username: string
-   onClickSignOut: any
+   onClickSignOut: () => void
 }
 
 class AppHeader extends React.Component<AppHeaderProps> {

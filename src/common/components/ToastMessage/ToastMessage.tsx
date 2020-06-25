@@ -4,7 +4,12 @@ import images from '../../themes/Images'
 
 import { ToastMessageContainer, Message, Icon } from './styledComponents'
 
-function ToastMessage(props) {
+interface ToastMessageProps {
+   message: string | null
+   isError: boolean
+}
+
+function ToastMessage(props: ToastMessageProps) {
    const { message, isError } = props
    return (
       <>

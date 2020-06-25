@@ -8,7 +8,11 @@ const username = 'Chi lee'
 describe('AppHeader tests', () => {
    it('should render company logo', () => {
       const { getByAltText } = render(
-         <AppHeader userProfilePicLink='' username='' />
+         <AppHeader
+            userProfilePicLink=''
+            username=''
+            onClickSignOut={() => {}}
+         />
       )
 
       expect(getByAltText(/ib hubs logo/i)).toBeInTheDocument()
@@ -16,7 +20,11 @@ describe('AppHeader tests', () => {
 
    it('should render user profile pic', () => {
       const { getByAltText } = render(
-         <AppHeader userProfilePicLink='' username={username} />
+         <AppHeader
+            userProfilePicLink=''
+            username={username}
+            onClickSignOut={() => {}}
+         />
       )
       expect(getByAltText(/chi lee profile pic/i)).toBeInTheDocument()
    })

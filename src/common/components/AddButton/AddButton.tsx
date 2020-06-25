@@ -6,13 +6,13 @@ import images from '../../themes/Images'
 
 import { AddButtonEl, PlusImage } from './styledComponents'
 
-type AddButtonProps = {
-   onClickAddButton: (any) => void
+interface AddButtonProps {
+   onClickAddButton: () => void
 }
 
 class AddButton extends React.Component<AddButtonProps> {
    render() {
-      const { commonComponents, imageAlts } = i18n as any
+      const { commonComponents, imageAlts } = i18n
       const { onClickAddButton } = this.props
       return (
          <AddButtonEl

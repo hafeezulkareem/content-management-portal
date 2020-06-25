@@ -2,7 +2,7 @@ import React from 'react'
 
 import { HtmlPreviewerContainer, IFrame } from './styledComponents'
 
-type HtmlPreviewerProps = {
+interface HtmlPreviewerProps {
    htmlText: string
 }
 

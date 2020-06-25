@@ -13,14 +13,14 @@ import {
    PageDetails
 } from './styledComponents'
 
-type FooterNavigationProps = {
+interface FooterNavigationProps {
    buttonText: string
-   onClickAddButton: any
+   onClickAddButton: () => void
    currentCodingProblemsPage: number
    totalCodingProblemsPageCount: number
-   onClickPreviousPaginationButton: any
-   onClickPaginationNumberButton: any
-   onClickNextPaginationButton: any
+   onClickPreviousPaginationButton: () => void
+   onClickPaginationNumberButton: (pageNumber: number) => void
+   onClickNextPaginationButton: () => void
 }
 
 @observer
@@ -35,7 +35,7 @@ class FooterNavigation extends React.Component<FooterNavigationProps> {
          onClickPaginationNumberButton,
          onClickNextPaginationButton
       } = this.props
-      const { page, of, imageAlts } = i18n as any
+      const { page, of, imageAlts } = i18n
       return (
          <FooterNavigationContainer>
             <ButtonWithIcon

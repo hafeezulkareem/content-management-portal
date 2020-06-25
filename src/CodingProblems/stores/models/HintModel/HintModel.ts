@@ -1,12 +1,15 @@
 import { observable } from 'mobx'
 
 class HintModel {
-   uniqueId
-   id
-   @observable number
-   @observable title
-   @observable description
-   @observable isActive
+   uniqueId: string
+   id: number
+   @observable number: number
+   @observable title: string
+   @observable description: {
+      content: string
+      contentType: string
+   }
+   @observable isActive: boolean
 
    constructor({ uniqueId, hintDetails }) {
       this.uniqueId = uniqueId
@@ -20,7 +23,7 @@ class HintModel {
       this.isActive = true
    }
 
-   updateNumber(updatedNumber) {
+   updateNumber(updatedNumber: number) {
       this.number = updatedNumber
    }
 

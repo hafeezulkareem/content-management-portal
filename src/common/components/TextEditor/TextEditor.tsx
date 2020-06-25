@@ -1,15 +1,15 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 
 import { TextEditorHeader } from '../TextEditorHeader'
 import { ContentEditor } from '../ContentEditor'
 
 import { TextEditorContainer } from './styledComponents'
 
-type TextEditorProps = {
+interface TextEditorProps {
    text: string
    textType: string
-   onChangeDescription: any
-   onChangeTextType: any
+   onChangeDescription: (content: string) => void
+   onChangeTextType: (event: ChangeEvent<HTMLSelectElement>) => void
 }
 
 class TextEditor extends React.Component<TextEditorProps> {

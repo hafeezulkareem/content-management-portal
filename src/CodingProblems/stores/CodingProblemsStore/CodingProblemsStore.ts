@@ -1,6 +1,6 @@
-import { action, observable } from 'mobx'
+import { action, observable, ObservableMap } from 'mobx'
 import { bindPromiseWithOnSuccess } from '@ib/mobx-promise'
-import { API_INITIAL } from '@ib/api-constants'
+import { API_INITIAL, APIStatus } from '@ib/api-constants'
 
 import { getUserDisplayableErrorMessage } from '../../../Common/utils/APIUtils'
 
@@ -12,50 +12,54 @@ import { TestCaseModel } from '../models/TestCaseModel'
 import { SolutionApproachModel } from '../models/SolutionApproachModel'
 import { CleanSolutionModel } from '../models/CleanSolutionModel'
 import { HintModel } from '../models/HintModel'
+import { CodingProblemsService } from '../../services/CodingProblemsService'
 
 class CodingProblemsStore {
-   @observable postStatementAPIStatus
-   @observable postStatementAPIError
-   postStatementAPIResponse
-   @observable postRoughSolutionAPIStatus
-   @observable postRoughSolutionAPIError
-   postRoughSolutionAPIResponse
-   @observable deleteRoughSolutionAPIStatus
-   @observable deleteRoughSolutionAPIError
-   @observable postTestCaseAPIStatus
-   @observable postTestCaseAPIError
-   postTestCaseAPIResponses
-   @observable deleteTestCaseAPIStatus
-   @observable deleteTestCaseAPIError
-   @observable postPrefilledCodeAPIStatus
-   @observable postPrefilledCodeAPIError
-   postPrefilledCodeAPIResponse
-   @observable deletePrefilledCodeAPIStatus
-   @observable deletePrefilledCodeAPIError
-   @observable postSolutionApproachAPIStatus
-   @observable postSolutionApproachAPIError
-   postSolutionApproachAPIResponse
-   @observable postCleanSolutionAPIStatus
-   @observable postCleanSolutionAPIError
-   postCleanSolutionAPIResponse
-   @observable deleteCleanSolutionAPIStatus
-   @observable deleteCleanSolutionAPIError
-   @observable postHintAPIStatus
-   @observable postHintAPIError
-   postHintAPIResponses
-   @observable deleteHintAPIStatus
-   @observable deleteHintAPIError
-   @observable getCodingProblemsAPIStatus
-   @observable getCodingProblemsAPIError
-   codingProblemsOffset
-   totalCodingProblems
+   @observable postStatementAPIStatus!: APIStatus
+   @observable postStatementAPIError!: string | null
+   postStatementAPIResponse!: StatementModel | null
+   @observable postRoughSolutionAPIStatus!: APIStatus
+   @observable postRoughSolutionAPIError!: string | null
+   postRoughSolutionAPIResponse!: Array<RoughSolutionModel>
+   @observable deleteRoughSolutionAPIStatus!: APIStatus
+   @observable deleteRoughSolutionAPIError!: string | null
+   @observable postTestCaseAPIStatus!: APIStatus
+   @observable postTestCaseAPIError!: string | null
+   postTestCaseAPIResponses!: Array<TestCaseModel>
+   @observable deleteTestCaseAPIStatus!: APIStatus
+   @observable deleteTestCaseAPIError!: string | null
+   @observable postPrefilledCodeAPIStatus!: APIStatus
+   @observable postPrefilledCodeAPIError!: string | null
+   postPrefilledCodeAPIResponse!: Array<RoughSolutionModel>
+   @observable deletePrefilledCodeAPIStatus!: APIStatus
+   @observable deletePrefilledCodeAPIError!: string | null
+   @observable postSolutionApproachAPIStatus!: APIStatus
+   @observable postSolutionApproachAPIError!: string | null
+   postSolutionApproachAPIResponse!: SolutionApproachModel | null
+   @observable postCleanSolutionAPIStatus!: APIStatus
+   @observable postCleanSolutionAPIError!: string | null
+   postCleanSolutionAPIResponse!: Array<CleanSolutionModel>
+   @observable deleteCleanSolutionAPIStatus!: APIStatus
+   @observable deleteCleanSolutionAPIError!: string | null
+   @observable postHintAPIStatus!: APIStatus
+   @observable postHintAPIError!: string | null
+   postHintAPIResponses!: Array<HintModel>
+   @observable deleteHintAPIStatus!: APIStatus
+   @observable deleteHintAPIError!: string | null
+   @observable getCodingProblemsAPIStatus!: APIStatus
+   @observable getCodingProblemsAPIError!: string | null
+   codingProblemsOffset!: number
+   totalCodingProblems!: number
    @observable currentCodingProblemsPage
-   @observable getCodingProblemDetailsAPIStatus
-   @observable getCodingProblemDetailsAPIError
-   codingProblemsAPIService
-   codingProblemId
-   @observable codingProblemsList
-   @observable codingProblemDetails: object | undefined
+   @observable getCodingProblemDetailsAPIStatus!: APIStatus
+   @observable getCodingProblemDetailsAPIError!: string | null
+   codingProblemsAPIService: CodingProblemsService
+   codingProblemId!: number | null
+   @observable codingProblemsList!: ObservableMap<
+      string,
+      CodingProblemItemModel
+   >
+   @observable codingProblemDetails: CodingProblemDetailsModel | undefined
 
    constructor(service) {
       this.codingProblemsAPIService = service
@@ -96,7 +100,7 @@ class CodingProblemsStore {
       this.getCodingProblemDetailsAPIStatus = API_INITIAL
       this.getCodingProblemDetailsAPIError = null
       this.codingProblemId = null
-      this.codingProblemsList = new Map()
+      this.codingProblemsList = observable(new Map())
       this.codingProblemDetails = undefined
       this.initCodingProblemResponses()
    }
@@ -630,7 +634,7 @@ class CodingProblemsStore {
 
    @action.bound
    setCodingProblemsAPIResponse(codingProblemsAPIResponse) {
-      this.codingProblemsList = new Map()
+      this.codingProblemsList = observable(new Map())
       const {
          questions_list: codingProblems,
          total_questions: totalCodingProblems

@@ -15,11 +15,11 @@ import {
    ButtonsContainer
 } from './styledComponents'
 
-type TestCasesAndHintsNavigationProps = {
-   onClickAddButton: any
-   buttonsList: any
-   onClickNumberButton: any
-   onClickDeleteButton: any
+interface TestCasesAndHintsNavigationProps {
+   onClickAddButton: () => void
+   buttonsList: Map<string, any>
+   onClickNumberButton: (id: string) => void
+   onClickDeleteButton: (id: string) => void
 }
 
 @observer
@@ -27,9 +27,13 @@ class TestCasesAndHintsNavigation extends React.Component<
    TestCasesAndHintsNavigationProps
 > {
    renderButtons = () => {
-      let { buttonsList, onClickNumberButton, onClickDeleteButton } = this.props
-      buttonsList = Array.from(buttonsList.values())
-      return buttonsList.map((button, index) => (
+      const {
+         buttonsList,
+         onClickNumberButton,
+         onClickDeleteButton
+      } = this.props
+      const buttons = Array.from(buttonsList.values())
+      return buttons.map((button, index) => (
          <NumberButton
             key={button.uniqueId}
             number={index + 1}

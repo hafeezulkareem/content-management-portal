@@ -2,7 +2,7 @@ import { observable, action } from 'mobx'
 
 class CodingProblemItemModel {
    uniqueId: string
-   id: string
+   id: number
    problemStatement: string
    isRoughSolutionCompleted: boolean
    isTestCasesCompleted: boolean

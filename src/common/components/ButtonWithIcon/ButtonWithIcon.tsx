@@ -4,7 +4,7 @@ import { BUTTON_WITH_ICON_TEST_ID } from '../../constants/IdConstants'
 
 import { ButtonEl, ButtonIcon } from './styledComponents'
 
-type ButtonWithIconProps = {
+interface ButtonWithIconProps {
    buttonText: string
    onClickButton: () => void
    iconURL: string

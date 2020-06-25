@@ -1,8 +1,12 @@
 import postUserSignInResponse from '../../fixtures/postUserSignInResponse.json'
 
-class AuthFixture {
+import { resolveWithTimeOut } from '../../../Common/utils/TestUtils'
+
+import { AuthService } from '.'
+
+class AuthFixture implements AuthService {
    postSignInAPI(userDetails) {
-      return new Promise((resolve, reject) => resolve(postUserSignInResponse))
+      return resolveWithTimeOut(postUserSignInResponse)
    }
 }
 

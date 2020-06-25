@@ -4,8 +4,8 @@ import { PAGE_TITLE_TEST_ID } from '../../constants/IdConstants'
 
 import { PageTitleContainer, PageTitleEl } from './styledComponents'
 
-type PageTitleProps = {
-   title: any
+interface PageTitleProps {
+   title: string | undefined
 }
 
 class PageTitle extends React.Component<PageTitleProps> {

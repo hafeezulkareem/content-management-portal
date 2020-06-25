@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { observer } from 'mobx-react'
 import { observable, ObservableMap, toJS } from 'mobx'
 import { API_FETCHING } from '@ib/api-constants'
@@ -8,29 +8,34 @@ import { OverlayLoader } from '../../../Common/components/OverlayLoader'
 
 import { HintModel } from '../../stores/models/HintModel'
 import i18n from '../../i18n/strings.json'
+import { CodingProblemsStore } from '../../stores/CodingProblemsStore'
 
 import { TestCasesAndHintsNavigation } from '../TestCasesAndHintsNavigation'
 import { HintsContentSection } from '../HintsContentSection'
 
 import { HintsContainer, ButtonsContainer } from './styledComponents'
 
-type HintsProps = {
-   codingProblemsStore: any
-   hints: any
-   showToastMessage: any
-   updateDataStatus: any
-   resetHints: any
+interface HintsProps {
+   codingProblemsStore: CodingProblemsStore
+   hints: Array<HintModel>
+   showToastMessage: (
+      message: string | null,
+      type: boolean,
+      time: number
+   ) => void
+   updateDataStatus: (status: boolean) => void
+   resetHints: () => void
 }
 
 @observer
 class Hints extends React.Component<HintsProps> {
-   @observable hintsList!: ObservableMap<any, any>
+   @observable hintsList!: ObservableMap<string, any>
    @observable titleErrorMessage!: string | null
    @observable descriptionErrorMessage!: string | null
    currentHintNumber!: number
-   currentDeletingHintUniqueId!: number | null
-   currentSavingHintUniqueId!: string | null
-   previousHintsData: any
+   currentDeletingHintUniqueId!: string
+   currentSavingHintUniqueId!: string
+   previousHintsData!: Map<any, any>
 
    constructor(props) {
       super(props)
@@ -40,8 +45,8 @@ class Hints extends React.Component<HintsProps> {
    init = () => {
       this.hintsList = new ObservableMap(new Map())
       this.currentHintNumber = 0
-      this.currentDeletingHintUniqueId = null
-      this.currentSavingHintUniqueId = null
+      this.currentDeletingHintUniqueId = ''
+      this.currentSavingHintUniqueId = ''
       this.initErrors()
    }
 
@@ -50,7 +55,10 @@ class Hints extends React.Component<HintsProps> {
       this.descriptionErrorMessage = null
    }
 
-   setHintsDataToList = (hints, isItPreviousData) => {
+   setHintsDataToList = (
+      hints: Array<HintModel>,
+      isItPreviousData: boolean
+   ) => {
       const { codingProblemsStore } = this.props
       hints.forEach(hint => {
          if (isItPreviousData) {
@@ -98,19 +106,6 @@ class Hints extends React.Component<HintsProps> {
    }
 
    updateHintsResponseData = () => {
-      // let { codingProblemsStore } = this.props
-      // if (this.hintsList.size > 0) {
-      //    codingProblemsStore.postHintAPIResponses = codingProblemsStore.postHintAPIResponses.filter(
-      //       hint => hint.uniqueId !== this.currentDeletingHintUniqueId
-      //    )
-      //    this.hintsList.forEach(hint => {
-      //       if (hint.id !== null) {
-      //          codingProblemsStore.postHintAPIResponses.push(hint)
-      //       }
-      //    })
-      // } else {
-      //    codingProblemsStore.postHintAPIResponses = []
-      // }
       let { codingProblemsStore } = this.props
       const currentTestCase = this.hintsList.get(
          this.currentDeletingHintUniqueId
@@ -161,7 +156,7 @@ class Hints extends React.Component<HintsProps> {
       }
    }
 
-   toggleActiveStates = uniqueId => {
+   toggleActiveStates = (uniqueId: string) => {
       const hints = Array.from(this.hintsList.values())
       hints.map((hint: HintModel) => {
          return hint.uniqueId === uniqueId
@@ -196,25 +191,31 @@ class Hints extends React.Component<HintsProps> {
       this.generateNewHint()
    }
 
-   onClickNumberButton = uniqueId => {
+   onClickNumberButton = (uniqueId: string) => {
       this.toggleActiveStates(uniqueId)
    }
 
-   onChangeTitle = (event, uniqueId) => {
+   onChangeTitle = (event: ChangeEvent<HTMLInputElement>, uniqueId: string) => {
       const currentHint = this.hintsList.get(uniqueId)
       currentHint.title = event.target.value
       this.initErrors()
       this.updateDataStatus()
    }
 
-   onChangeDescription = (event, uniqueId) => {
+   onChangeDescription = (
+      event: ChangeEvent<HTMLTextAreaElement>,
+      uniqueId: string
+   ) => {
       const currentHint = this.hintsList.get(uniqueId)
       currentHint.description.content = event.target.value
       this.initErrors()
       this.updateDataStatus()
    }
 
-   onChangeDescriptionType = (event, uniqueId) => {
+   onChangeDescriptionType = (
+      event: ChangeEvent<HTMLSelectElement>,
+      uniqueId: string
+   ) => {
       const currentHint = this.hintsList.get(uniqueId)
       currentHint.description.contentType = event.target.value
       this.updateDataStatus()
@@ -269,7 +270,7 @@ class Hints extends React.Component<HintsProps> {
       this.rearrangeTestCasesOrder()
    }
 
-   checkTestCaseNumberAndDelete = uniqueId => {
+   checkTestCaseNumberAndDelete = (uniqueId: string) => {
       const hints = Array.from(this.hintsList.values())
       const currentHint = hints.find(
          (hint: HintModel) => hint.uniqueId === uniqueId
@@ -288,12 +289,12 @@ class Hints extends React.Component<HintsProps> {
       }
    }
 
-   onClickDeleteButton = uniqueId => {
+   onClickDeleteButton = (uniqueId: string) => {
       this.currentDeletingHintUniqueId = uniqueId
       this.checkTestCaseNumberAndDelete(uniqueId)
    }
 
-   areAllFieldsFilled = uniqueId => {
+   areAllFieldsFilled = (uniqueId: string) => {
       const {
          hints: { errors }
       } = i18n
@@ -329,7 +330,7 @@ class Hints extends React.Component<HintsProps> {
    }
 
    onFailurePostHint = () => {
-      this.currentSavingHintUniqueId = null
+      this.currentSavingHintUniqueId = ''
       const {
          codingProblemsStore: { postHintAPIError },
          showToastMessage
@@ -337,7 +338,7 @@ class Hints extends React.Component<HintsProps> {
       showToastMessage(postHintAPIError, true, 1500)
    }
 
-   onClickSaveButton = uniqueId => {
+   onClickSaveButton = (uniqueId: string) => {
       this.currentSavingHintUniqueId = uniqueId
       const {
          codingProblemsStore: { codingProblemId },

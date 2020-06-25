@@ -5,7 +5,7 @@ import 'github-markdown-css'
 
 import { PreviewerContainer } from './styledComponents'
 
-type MarkdownPreviewerProps = {
+interface MarkdownPreviewerProps {
    markdownText: string
 }
 

@@ -10,7 +10,7 @@ import {
 } from '../../../Common/constants/RouteConstants'
 
 import postUserSignInResponse from '../../fixtures/postUserSignInResponse.json'
-import { AuthAPI } from '../../services/AuthServices/AuthAPI'
+import { AuthFixture } from '../../services/AuthServices/AuthFixture'
 import { AuthStore } from '../../stores/AuthStore'
 import {
    SIGN_BUTTON_TEST_ID,
@@ -28,10 +28,10 @@ const username = 'test-user'
 const password = 'test-password'
 
 describe('SignInRoute tests', () => {
-   let authAPI, authStore
+   let authAPI: AuthFixture, authStore: AuthStore
 
    beforeEach(() => {
-      authAPI = new AuthAPI()
+      authAPI = new AuthFixture()
       authStore = new AuthStore(authAPI)
    })
 
@@ -99,7 +99,7 @@ describe('SignInRoute tests', () => {
       const mockLoadingPromise = new Promise(function(resolve, reject) {})
       const mockSignInAPI = jest.fn()
       mockSignInAPI.mockReturnValue(mockLoadingPromise)
-      authAPI.getLoginAPI = mockSignInAPI
+      authAPI.postSignInAPI = mockSignInAPI
 
       fireEvent.change(usernameField, { target: { value: username } })
       fireEvent.change(passwordField, { target: { value: password } })

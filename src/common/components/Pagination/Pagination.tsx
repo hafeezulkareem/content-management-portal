@@ -14,12 +14,12 @@ import {
    Dots
 } from './styledComponents'
 
-type PaginationProps = {
+interface PaginationProps {
    currentPageNumber: number
    totalPageCount: number
-   onClickPreviousButton: (event) => void
-   onClickNumberButton: (event) => void
-   onClickNextButton: (event) => void
+   onClickPreviousButton: () => void
+   onClickNumberButton: (pageNumber: number) => void
+   onClickNextButton: () => void
 }
 
 @observer

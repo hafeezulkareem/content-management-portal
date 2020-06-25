@@ -10,10 +10,10 @@ import {
    CodingProblemsButton
 } from './styledComponents'
 
-type CodingAndMCQsNavigatorProps = {
+interface CodingAndMCQsNavigatorProps {
    activeSection: string
-   onClickMCQsButton: any
-   onClickCodingButton: any
+   onClickMCQsButton: () => void
+   onClickCodingButton: () => void
 }
 
 class CodingAndMCQsNavigator extends React.Component<

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { observer } from 'mobx-react'
 
 import { FileNameInputField } from '../../../Common/components/FileNameInputField'
@@ -15,15 +15,15 @@ import {
    DropDownContainer
 } from './styledComponents'
 
-type CleanSolutionCodeEditorProps = {
+interface CleanSolutionCodeEditorProps {
    uniqueId: string
    fileName: string
-   onChangeFileName: any
+   onChangeFileName: (event: ChangeEvent<HTMLInputElement>, id: string) => void
    language: string
-   onChangeLanguage: any
+   onChangeLanguage: (event: ChangeEvent<HTMLSelectElement>, id: string) => void
    solutionContent: string
-   onChangeSolutionContent: any
-   onClickDeleteButton: any
+   onChangeSolutionContent: (content: string, id: string) => void
+   onClickDeleteButton: (id: string) => void
 }
 
 @observer

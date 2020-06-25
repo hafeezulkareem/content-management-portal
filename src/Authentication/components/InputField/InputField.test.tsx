@@ -21,7 +21,9 @@ describe('SignIn InputField Tests', () => {
          />
       )
 
-      expect(getByTestId(INPUT_FIELD_TEST_ID).value).toBe(testText)
+      expect((getByTestId(INPUT_FIELD_TEST_ID) as HTMLInputElement).value).toBe(
+         testText
+      )
    })
 
    it('should render error icon', () => {

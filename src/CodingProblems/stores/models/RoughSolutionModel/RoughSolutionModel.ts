@@ -1,7 +1,7 @@
 import { observable } from 'mobx'
 
 class RoughSolutionModel {
-   uniqueId
+   uniqueId: string
    id: number
    @observable language: string
    @observable solutionContent: string

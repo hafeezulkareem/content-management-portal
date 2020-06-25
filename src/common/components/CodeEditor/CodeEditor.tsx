@@ -6,21 +6,24 @@ import { ContentEditor } from '../ContentEditor'
 
 import { CodeEditorContainer } from './styledComponents'
 
-type CodeEditorProps = {
+interface CodeEditorProps {
    code: string
    programmingLanguage: string
-   onChangeFileName: any
+   onChangeFileName: (fileName: string, id: string) => void
    fileName: string
    codeEditorId: string
-   onChangeProgrammingLanguage: any
-   onChangeContent: any
-   onClickDeleteButton: any
-   roughSolutionId: any
+   onChangeProgrammingLanguage: (
+      programmingLanguage: string,
+      id: string
+   ) => void
+   onChangeContent: (content: string, id: string) => void
+   onClickDeleteButton: (editorId: string, roughSolutionId: number) => void
+   roughSolutionId: string
 }
 
 @observer
 class CodeEditor extends React.Component<CodeEditorProps> {
-   onChangeContent = updatedContent => {
+   onChangeContent = (updatedContent: string) => {
       const { onChangeContent, codeEditorId } = this.props
       onChangeContent(updatedContent, codeEditorId)
    }

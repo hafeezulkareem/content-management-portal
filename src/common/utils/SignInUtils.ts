@@ -1,5 +1,5 @@
 import { getAccessToken } from './StorageUtils'
 
-export const isSignedIn = () => {
+export const isSignedIn = (): boolean => {
    return getAccessToken() !== undefined
 }

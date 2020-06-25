@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { observer } from 'mobx-react'
 import { observable, ObservableMap, toJS } from 'mobx'
 import { API_FETCHING } from '@ib/api-constants'
@@ -11,27 +11,33 @@ import { CleanSolutionModel } from '../../stores/models/CleanSolutionModel'
 import { CleanSolutionCodeEditor } from '../CleanSolutionCodeEditor/CleanSolutionCodeEditor'
 import { AddAndSaveButtons } from '../AddAndSaveButtons'
 
+import { CodingProblemsStore } from '../../stores/CodingProblemsStore'
+
 import {
    CleanSolutionContainer,
    CleanSolutionsWrapper
 } from './styledComponents'
 
-type CleanSolutionProps = {
-   codingProblemsStore: any
-   cleanSolutions: any
-   onSelectTab: any
+interface CleanSolutionProps {
+   codingProblemsStore: CodingProblemsStore
+   cleanSolutions: Array<CleanSolutionModel>
+   onSelectTab: (tabNumber: number) => void
    currentTabIndex: number
-   showToastMessage: any
-   updateDataStatus: any
-   resetCleanSolutions: any
+   showToastMessage: (
+      message: string | null,
+      type: boolean,
+      time: number
+   ) => void
+   updateDataStatus: (status: boolean) => void
+   resetCleanSolutions: () => void
 }
 
 @observer
 class CleanSolution extends React.Component<CleanSolutionProps> {
-   @observable codeEditorsList!: ObservableMap<any, any>
+   @observable codeEditorsList!: ObservableMap<string, any>
    @observable errorMessage!: string | null
    codingProblemId!: number | null
-   currentCodeEditorId
+   currentCodeEditorId!: string
    previousCleanSolutionData: any
 
    constructor(props) {
@@ -42,7 +48,7 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
    init = () => {
       this.codeEditorsList = new ObservableMap(new Map())
       this.codingProblemId = null
-      this.currentCodeEditorId = null
+      this.currentCodeEditorId = ''
       this.initErrors()
    }
 
@@ -50,7 +56,10 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
       this.errorMessage = null
    }
 
-   setCleanSolutionDataToList = (cleanSolutions, isItPreviousData) => {
+   setCleanSolutionDataToList = (
+      cleanSolutions: Array<CleanSolutionModel>,
+      isItPreviousData: boolean
+   ) => {
       const { codingProblemsStore } = this.props
       cleanSolutions.forEach(cleanSolution => {
          if (isItPreviousData) {
@@ -147,21 +156,27 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
       )
    }
 
-   onChangeFileName = (event, uniqueId) => {
+   onChangeFileName = (
+      event: ChangeEvent<HTMLInputElement>,
+      uniqueId: string
+   ) => {
       const currentCodeEditor = this.codeEditorsList.get(uniqueId)
       currentCodeEditor.fileName = event.target.value
       this.initErrors()
       this.updateDataStatus()
    }
 
-   onChangeLanguage = (event, uniqueId) => {
+   onChangeLanguage = (
+      event: ChangeEvent<HTMLSelectElement>,
+      uniqueId: string
+   ) => {
       const currentCodeEditor = this.codeEditorsList.get(uniqueId)
       currentCodeEditor.language = event.target.value
       this.initErrors()
       this.updateDataStatus()
    }
 
-   onChangeSolutionContent = (solutionContent, uniqueId) => {
+   onChangeSolutionContent = (solutionContent: string, uniqueId: string) => {
       const currentCodeEditor = this.codeEditorsList.get(uniqueId)
       currentCodeEditor.solutionContent = solutionContent
       this.initErrors()
@@ -193,7 +208,7 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
       showToastMessage(deleteCleanSolutionAPIError, true, 1500)
    }
 
-   checkCodingProblemIdAndDelete = uniqueId => {
+   checkCodingProblemIdAndDelete = (uniqueId: string) => {
       const currentCodingEditor = this.codeEditorsList.get(uniqueId)
       if (currentCodingEditor.id !== null) {
          const {
@@ -214,7 +229,7 @@ class CleanSolution extends React.Component<CleanSolutionProps> {
       this.updateDataStatus()
    }
 
-   onClickDeleteButton = uniqueId => {
+   onClickDeleteButton = (uniqueId: string) => {
       this.currentCodeEditorId = uniqueId
       this.checkCodingProblemIdAndDelete(uniqueId)
    }

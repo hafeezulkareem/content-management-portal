@@ -1,10 +1,16 @@
 import { observable } from 'mobx'
 
 class SolutionApproachModel {
-   solutionApproachId
-   @observable title
-   @observable description
-   @observable complexityAnalysis
+   solutionApproachId: number
+   @observable title: string
+   @observable description: {
+      type: string
+      content: string
+   }
+   @observable complexityAnalysis: {
+      type: string
+      content: string
+   }
 
    constructor(solutionApproachDetails) {
       this.solutionApproachId = solutionApproachDetails.solution_approach_id

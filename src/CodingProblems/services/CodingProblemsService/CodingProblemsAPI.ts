@@ -7,8 +7,10 @@ import { CODING_PROBLEMS_LIMIT_PER_PAGE } from '../../constants/APILimitConstant
 
 import { endpoints } from '../endpoints'
 
-class CodingProblemsAPI {
-   api
+import { CodingProblemsService } from '.'
+
+class CodingProblemsAPI implements CodingProblemsService {
+   api: Record<string, any>
 
    constructor() {
       this.api = create({

@@ -5,8 +5,10 @@ import { apiMethods, BASE_URL } from '../../../Common/constants/APIConstants'
 
 import { endpoints } from '../endpoints'
 
-class AuthAPI {
-   api
+import { AuthService } from '.'
+
+class AuthAPI implements AuthService {
+   api: Record<string, any>
 
    constructor() {
       this.api = create({

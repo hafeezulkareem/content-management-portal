@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { observer } from 'mobx-react'
 
 import i18n from '../../i18n/strings.json'
@@ -15,29 +15,32 @@ import {
    DeleteIcon
 } from './styledComponents'
 
-type CodeEditorHeaderProps = {
-   onChangeFileName: any
+interface CodeEditorHeaderProps {
+   onChangeFileName: (fileName: string, id: string) => void
    fileName: string
    codeEditorId: string
-   onChangeProgrammingLanguage: any
+   onChangeProgrammingLanguage: (
+      programmingLanguage: string,
+      id: string
+   ) => void
    programmingLanguage: string
-   onClickDeleteButton: any
+   onClickDeleteButton: (editorId: string, roughSolutionId: number) => void
    roughSolutionId: any
 }
 
 @observer
 class CodeEditorHeader extends React.Component<CodeEditorHeaderProps> {
-   onChangeFileName = event => {
+   onChangeFileName = (event: ChangeEvent<HTMLInputElement>) => {
       const { onChangeFileName, codeEditorId } = this.props
       onChangeFileName(event.target.value, codeEditorId)
    }
 
-   onChangeProgrammingLanguage = event => {
+   onChangeProgrammingLanguage = (event: ChangeEvent<HTMLSelectElement>) => {
       const { onChangeProgrammingLanguage, codeEditorId } = this.props
       onChangeProgrammingLanguage(event.target.value, codeEditorId)
    }
 
-   onClickDeleteButton = event => {
+   onClickDeleteButton = () => {
       const { onClickDeleteButton, codeEditorId, roughSolutionId } = this.props
       onClickDeleteButton(codeEditorId, roughSolutionId)
    }

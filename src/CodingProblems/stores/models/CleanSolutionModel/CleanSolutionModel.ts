@@ -1,11 +1,11 @@
 import { observable } from 'mobx'
 
 class CleanSolutionModel {
-   uniqueId
-   id
-   @observable fileName
-   @observable language
-   @observable solutionContent
+   uniqueId: string
+   id: number
+   @observable fileName: string
+   @observable language: string
+   @observable solutionContent: string
 
    constructor({ uniqueId, cleanSolutionDetails }) {
       this.uniqueId = uniqueId

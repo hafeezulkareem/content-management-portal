@@ -9,12 +9,12 @@ describe('CodeEditor Tests', () => {
          <CodeEditor
             code={''}
             programmingLanguage={'JAVASCRIPT'}
-            onChangeFileName={''}
+            onChangeFileName={() => {}}
             fileName={''}
             codeEditorId={''}
-            onChangeProgrammingLanguage={''}
-            onChangeContent={''}
-            onClickDeleteButton={''}
+            onChangeProgrammingLanguage={() => {}}
+            onChangeContent={() => {}}
+            onClickDeleteButton={() => {}}
             roughSolutionId={''}
          />
       )
@@ -27,18 +27,20 @@ describe('CodeEditor Tests', () => {
          <CodeEditor
             code={''}
             programmingLanguage={''}
-            onChangeFileName={''}
+            onChangeFileName={() => {}}
             fileName={'sample.js'}
             codeEditorId={''}
-            onChangeProgrammingLanguage={''}
-            onChangeContent={''}
-            onClickDeleteButton={''}
+            onChangeProgrammingLanguage={() => {}}
+            onChangeContent={() => {}}
+            onClickDeleteButton={() => {}}
             roughSolutionId={''}
          />
       )
 
-      expect(getByPlaceholderText(/file name include extension/i).value).toBe(
-         'sample.js'
-      )
+      expect(
+         (getByPlaceholderText(
+            /file name include extension/i
+         ) as HTMLInputElement).value
+      ).toBe('sample.js')
    })
 })

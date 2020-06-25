@@ -43,7 +43,9 @@ describe('SignIn Tests', () => {
          />
       )
 
-      const inputFields = getAllByTestId(INPUT_FIELD_TEST_ID)
+      const inputFields = getAllByTestId(INPUT_FIELD_TEST_ID) as Array<
+         HTMLInputElement
+      >
 
       expect(inputFields[0].value).toBe(testUsername)
       expect(inputFields[1].value).toBe(testPassword)

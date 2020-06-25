@@ -21,9 +21,9 @@ import {
    QuestionsTitle
 } from './styledComponents'
 
-type CodingProblemsListProps = {
-   codingProblemsList: any
-   navigateToCodingProblemDetailsPage: any
+interface CodingProblemsListProps {
+   codingProblemsList: Array<any>
+   navigateToCodingProblemDetailsPage: (id: number) => void
 }
 
 @observer

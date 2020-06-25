@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { observer } from 'mobx-react'
 
 import i18n from '../../i18n/strings.json'
 
 import { InputField } from './styledComponents'
 
-type FileNameInputFieldProps = {
+interface FileNameInputFieldProps {
    fileName: string
-   onChangeFileName: any
+   onChangeFileName: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
 @observer

@@ -1,18 +1,19 @@
-import React from 'react'
+import React, { ChangeEvent, FormEvent } from 'react'
 import { observable } from 'mobx'
 import { observer, inject } from 'mobx-react'
-import { withRouter, Redirect } from 'react-router-dom'
-import { History } from 'history'
+import { withRouter, Redirect, RouteComponentProps } from 'react-router-dom'
 
 import { CODING_PROBLEMS_PATH } from '../../../Common/constants/RouteConstants'
 import { isSignedIn } from '../../../Common/utils/SignInUtils'
 
 import { SignIn } from '../../components/SignIn'
 import i18n from '../../i18n/strings.json'
+import { AuthStore } from '../../stores/AuthStore'
 
-type SignInRouteProps = {
-   authStore: any
-   history: History
+interface SignInRouteProps extends RouteComponentProps {}
+
+interface InjectedProps extends SignInRouteProps {
+   authStore: AuthStore
 }
 
 @inject('authStore')
@@ -24,7 +25,7 @@ class SignInRoute extends React.Component<SignInRouteProps> {
    @observable passwordError: string | null
    @observable signInFailureError: string | null
 
-   constructor(props) {
+   constructor(props: SignInRouteProps) {
       super(props)
       this.username = ''
       this.password = ''
@@ -33,12 +34,18 @@ class SignInRoute extends React.Component<SignInRouteProps> {
       this.signInFailureError = null
    }
 
-   onChangeUsername = event => {
+   getInjectedProps = () => this.props as InjectedProps
+
+   get authStore() {
+      return this.getInjectedProps().authStore
+   }
+
+   onChangeUsername = (event: ChangeEvent<HTMLInputElement>) => {
       this.username = event.target.value.trim()
       this.usernameError = null
    }
 
-   onChangePassword = event => {
+   onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
       this.password = event.target.value.trim()
       this.passwordError = null
    }
@@ -49,20 +56,18 @@ class SignInRoute extends React.Component<SignInRouteProps> {
    }
 
    onFailureUserSingIn = () => {
-      const { authStore } = this.props
-      this.signInFailureError = authStore.postSignInAPIError
+      this.signInFailureError = this.authStore.postSignInAPIError
    }
 
    getUserAccessToken = () => {
-      const { authStore } = this.props
-      authStore.userSignIn(
+      this.authStore.userSignIn(
          { username: this.username, password: this.password },
          this.onSuccessUserSignIn,
          this.onFailureUserSingIn
       )
    }
 
-   onSubmitSignInForm = event => {
+   onSubmitSignInForm = (event: FormEvent<HTMLFormElement>) => {
       const { signInErrors } = i18n
       event.preventDefault()
       if (this.username === '' || this.username === undefined) {
@@ -75,8 +80,7 @@ class SignInRoute extends React.Component<SignInRouteProps> {
    }
 
    render() {
-      const { authStore } = this.props
-      const { postSignInAPIStatus } = authStore
+      const { postSignInAPIStatus } = this.authStore
       if (isSignedIn()) {
          return <Redirect to={CODING_PROBLEMS_PATH} />
       }

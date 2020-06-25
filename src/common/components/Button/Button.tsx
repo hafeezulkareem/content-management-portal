@@ -2,11 +2,11 @@ import React from 'react'
 
 import { ButtonEl } from './styledComponents'
 
-type ButtonProps = {
+interface ButtonProps {
    backgroundColor: string
    textColor: string
    buttonText: string
-   onClickButton: (any) => void
+   onClickButton: () => void
 }
 
 class Button extends React.Component<ButtonProps> {

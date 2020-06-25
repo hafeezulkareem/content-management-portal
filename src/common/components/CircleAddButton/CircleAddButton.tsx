@@ -6,7 +6,7 @@ import i18n from '../../i18n/strings.json'
 
 import { CircleAddButtonEl, PlusImage } from './styledComponents'
 
-type CircleAddButtonProps = {
+interface CircleAddButtonProps {
    onClickCircleAddButton: () => void
 }
 

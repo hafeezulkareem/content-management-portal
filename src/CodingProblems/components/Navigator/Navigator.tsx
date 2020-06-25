@@ -3,15 +3,15 @@ import { observer } from 'mobx-react'
 
 import { NavigatorContainer, NavigationButton } from './styledComponents'
 
-type NavigatorProps = {
-   tabDetails: Array<any>
-   onSelectTab: (string) => void
+interface NavigatorProps {
+   tabDetails: Array<{ tabIndex: number; tabName: string; isSelected: boolean }>
+   onSelectTab: (tabNumber: number) => void
    areButtonsDisabled: boolean
 }
 
 @observer
 class Navigator extends React.Component<NavigatorProps> {
-   onSelectTab = tabIndex => {
+   onSelectTab = (tabIndex: number) => {
       const { onSelectTab } = this.props
       onSelectTab(tabIndex)
    }

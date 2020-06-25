@@ -6,16 +6,16 @@ import images from '../../themes/Images'
 
 import { SelectContainer, SelectIcon, SelectLabel } from './styledComponents'
 
-type SelectListProps = {
+interface SelectListProps {
    isSelected: boolean
-   onSelect: any
+   onSelect: () => void
 }
 
 @observer
 class SelectList extends React.Component<SelectListProps> {
    render() {
       const { isSelected, onSelect } = this.props
-      const { selectAll, imageAlts } = i18n as any
+      const { selectAll, imageAlts } = i18n
       return (
          <SelectContainer>
             <SelectIcon

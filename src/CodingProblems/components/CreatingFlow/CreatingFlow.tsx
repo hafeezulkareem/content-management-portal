@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { observable } from 'mobx'
-import { withRouter } from 'react-router-dom'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { ToastContainer, toast, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { API_FETCHING, API_SUCCESS, API_FAILED } from '@ib/api-constants'
@@ -24,6 +24,13 @@ import {
    SOLUTION_APPROACH
 } from '../../constants/TabConstants'
 import i18n from '../../i18n/strings.json'
+import { CodingProblemsStore } from '../../stores/CodingProblemsStore'
+import { StatementModel } from '../../stores/models/StatementModel'
+import { RoughSolutionModel } from '../../stores/models/RoughSolutionModel'
+import { TestCaseModel } from '../../stores/models/TestCaseModel'
+import { SolutionApproachModel } from '../../stores/models/SolutionApproachModel'
+import { CleanSolutionModel } from '../../stores/models/CleanSolutionModel'
+import { HintModel } from '../../stores/models/HintModel'
 
 import { Navigator } from '../Navigator'
 import { Statement } from '../Statement'
@@ -42,11 +49,14 @@ import {
    LoadingWrapperWithStatement
 } from './styledComponents'
 
-type CreatingFlowProps = {
-   codingProblemsStore: any
-   navigateToCodingProblemsHome: any
-   match: any
-   onUserSignOut: any
+interface MatchProps {
+   codingProblemId: string | undefined
+}
+
+interface CreatingFlowProps extends RouteComponentProps<MatchProps> {
+   codingProblemsStore: CodingProblemsStore
+   navigateToCodingProblemsHome: () => void
+   onUserSignOut: () => void
 }
 
 @observer
@@ -90,13 +100,13 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
       }
    ]
    isDataSaved: boolean = true
-   statement
-   roughSolutions
-   testCases
-   prefilledCodes
-   solutionApproach
-   cleanSolutions
-   hints
+   statement: StatementModel | null
+   roughSolutions: Array<RoughSolutionModel>
+   testCases: Array<TestCaseModel>
+   prefilledCodes: Array<RoughSolutionModel>
+   solutionApproach: SolutionApproachModel | null
+   cleanSolutions: Array<CleanSolutionModel>
+   hints: Array<HintModel>
 
    constructor(props) {
       super(props)
@@ -161,7 +171,7 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
             params: { codingProblemId }
          }
       } = this.props
-      const { create } = i18n as any
+      const { create } = i18n
       const { codingProblemsStore } = this.props
       if (codingProblemId !== create) {
          codingProblemsStore.getCodingProblemDetails(codingProblemId)
@@ -181,7 +191,11 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
       toast.clearWaitingQueue()
    }
 
-   showToastMessage = (message, isError, duration) => {
+   showToastMessage = (
+      message: string | null,
+      isError: boolean,
+      duration: number
+   ) => {
       toast(<ToastMessage message={message} isError={isError} />, {
          position: 'bottom-center',
          autoClose: duration,

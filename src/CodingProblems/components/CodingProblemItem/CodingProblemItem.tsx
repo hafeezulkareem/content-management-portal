@@ -15,6 +15,8 @@ import {
    SixthColumn
 } from '../CodingProblemsList/styledComponents'
 
+import { CodingProblemItemModel } from '../../stores/models/CodingProblemItemModel'
+
 import {
    CodingQuestionItem,
    DummyCheckbox,
@@ -22,9 +24,9 @@ import {
    QuestionText
 } from './styledComponents'
 
-type CodingProblemItemProps = {
-   codingProblem: any
-   navigateToCodingProblemDetailsPage: any
+interface CodingProblemItemProps {
+   codingProblem: CodingProblemItemModel
+   navigateToCodingProblemDetailsPage: (id: number) => void
 }
 
 @observer

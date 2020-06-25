@@ -11,9 +11,11 @@ describe('FileNameInputField tests', () => {
          <FileNameInputField fileName={fileName} onChangeFileName={() => {}} />
       )
 
-      expect(getByPlaceholderText(/file name include extension/i).value).toBe(
-         fileName
-      )
+      expect(
+         (getByPlaceholderText(
+            /file name include extension/i
+         ) as HTMLInputElement).value
+      ).toBe(fileName)
    })
 
    it('should invoke text change method on text change', () => {

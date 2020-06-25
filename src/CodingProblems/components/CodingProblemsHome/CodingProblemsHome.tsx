@@ -1,6 +1,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { observable, reaction } from 'mobx'
+import { API_SUCCESS } from '@ib/api-constants'
 
 import { AppHeader } from '../../../Common/components/AppHeader'
 import { CodingAndMCQsNavigator } from '../../../Common/components/CodingAndMCQsNavigator'
@@ -14,6 +15,8 @@ import commonI18n from '../../../Common/i18n/strings.json'
 
 import i18n from '../../i18n/strings.json'
 import { CODING_PROBLEMS_LIMIT_PER_PAGE } from '../../constants/APILimitConstants'
+import { CodingProblemsStore } from '../../stores/CodingProblemsStore'
+import { CodingProblemItemModel } from '../../stores/models/CodingProblemItemModel'
 
 import { CodingProblemsList } from '../CodingProblemsList'
 
@@ -22,14 +25,13 @@ import {
    LoadingWrapperAndProblemsList,
    DeleteButtonContainer
 } from './styledComponents'
-import { API_SUCCESS } from '@ib/api-constants'
 
-type CodingProblemsHomeProps = {
-   codingProblemsStore: any
+interface CodingProblemsHomeProps {
+   codingProblemsStore: CodingProblemsStore
    activeSection: string
-   navigateToCodingProblemCreatingFlow: any
-   navigateToCodingProblemDetailsPage: any
-   onUserSignOut: any
+   navigateToCodingProblemCreatingFlow: () => void
+   navigateToCodingProblemDetailsPage: (id: number) => void
+   onUserSignOut: () => void
 }
 
 @observer
@@ -78,7 +80,7 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
       codingProblemsStore.incrementPageNumber(CODING_PROBLEMS_LIMIT_PER_PAGE)
    }
 
-   onClickPaginationNumberButton = pageNumber => {
+   onClickPaginationNumberButton = (pageNumber: number) => {
       const { codingProblemsStore } = this.props
       codingProblemsStore.updateCodingProblemsOffsetValue(
          pageNumber,
@@ -107,12 +109,14 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
                codingProblemsStore: { codingProblemsList: codingProblems }
             } = this.props
             return Array.from(codingProblems.values()).filter(
-               (codingProblem: any) => codingProblem.isSelected
+               (codingProblem: CodingProblemItemModel) =>
+                  codingProblem.isSelected
             )
          },
          selectedCodingProblems => {
             this.selectedCodingProblems = selectedCodingProblems.map(
-               (selectedCodingProblem: any) => selectedCodingProblem.id
+               (selectedCodingProblem: CodingProblemItemModel) =>
+                  selectedCodingProblem.id
             )
          }
       )
@@ -133,12 +137,12 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
          totalCodingProblems,
          currentCodingProblemsPage
       } = codingProblemsStore
-      const { addCodingQuestions } = i18n as any
+      const { addCodingQuestions } = i18n
       const totalCodingProblemsPageCount =
          totalCodingProblems > 0
             ? Math.ceil(totalCodingProblems / CODING_PROBLEMS_LIMIT_PER_PAGE)
             : 0
-      const { commonComponents } = commonI18n as any
+      const { commonComponents } = commonI18n
       return (
          <AppContainer>
             <AppHeader

@@ -3,10 +3,10 @@ import { observer } from 'mobx-react'
 
 import { ButtonEl } from './styledComponents'
 
-type PaginationButtonProps = {
+interface PaginationButtonProps {
    pageNumber: number
    isActive: boolean
-   onClickButton: any
+   onClickButton: () => void
 }
 
 @observer

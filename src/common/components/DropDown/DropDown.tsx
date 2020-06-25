@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 
 import { DROP_DOWN_SELECT_TEST_ID } from '../../constants/IdConstants'
 import images from '../../themes/Images'
@@ -11,10 +11,10 @@ import {
    DropDownArrow
 } from './styledComponents'
 
-type DropDownProps = {
+interface DropDownProps {
    options: Array<{ optionText: string; id: string; value: string }>
    defaultOption: string
-   onChangeType: any
+   onChangeType: (event: ChangeEvent<HTMLSelectElement>) => void
    selectedOption: string
 }
 

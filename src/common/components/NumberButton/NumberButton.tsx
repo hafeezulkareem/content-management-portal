@@ -10,9 +10,9 @@ import {
    NumberButtonRemoveIcon
 } from './styledComponent'
 
-type NumberButtonProps = {
-   onClickNumberButton: any
-   onClickRemoveIcon: any
+interface NumberButtonProps {
+   onClickNumberButton: (uniqueId: string) => void
+   onClickRemoveIcon: (uniqueId: string) => void
    number: number
    isActive: boolean
    uniqueId: string

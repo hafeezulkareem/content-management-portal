@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { observer } from 'mobx-react'
 import { observable } from 'mobx'
 import { API_FETCHING } from '@ib/api-constants'
@@ -13,6 +13,8 @@ import { OverlayLoader } from '../../../Common/components/OverlayLoader'
 import colors from '../../../Common/themes/Colors'
 
 import i18n from '../../i18n/strings.json'
+import { CodingProblemsStore } from '../../stores/CodingProblemsStore'
+import { StatementModel } from '../../stores/models/StatementModel'
 
 import {
    StatementContainer,
@@ -26,26 +28,30 @@ import {
    ErrorMessage
 } from './styledComponents'
 
-type StatementProps = {
-   codingProblemsStore: any
-   onSelectTab: any
+interface StatementProps {
+   codingProblemsStore: CodingProblemsStore
+   onSelectTab: (tabNumber: number) => void
    currentTabIndex: number
-   updateDataStatus: any
-   statementDetails: any
-   showToastMessage: any
+   updateDataStatus: (status: boolean) => void
+   statementDetails: StatementModel | null
+   showToastMessage: (
+      message: string | null,
+      type: boolean,
+      time: number
+   ) => void
 }
 
 @observer
 class Statement extends React.Component<StatementProps> {
-   @observable shortText: string = ''
-   @observable text: string = ''
+   @observable shortText!: string
+   @observable text!: string
    @observable
-   textType: string = commonI18n.textEditorTypes[0].optionText.toLowerCase()
-   @observable shortTextError: string | null = null
-   @observable descriptionError: string | null = null
-   previousShortText
-   previousText
-   previousTextType
+   textType!: string
+   @observable shortTextError!: string | null
+   @observable descriptionError!: string | null
+   previousShortText!: string
+   previousText!: string
+   previousTextType!: string
 
    constructor(props) {
       super(props)
@@ -56,9 +62,11 @@ class Statement extends React.Component<StatementProps> {
       this.shortText = ''
       this.text = ''
       this.textType = commonI18n.textEditorTypes[0].optionText.toLowerCase()
+      this.shortTextError = null
+      this.descriptionError = null
    }
 
-   setStatementData = statementDetails => {
+   setStatementData = (statementDetails: StatementModel) => {
       this.shortText = statementDetails.shortText
       this.text = statementDetails.content
       this.textType = statementDetails.contentType
@@ -92,19 +100,19 @@ class Statement extends React.Component<StatementProps> {
       }
    }
 
-   onChangeShortText = event => {
+   onChangeShortText = (event: ChangeEvent<HTMLInputElement>) => {
       this.shortTextError = null
       this.shortText = event.target.value
       this.updateDataStatus()
    }
 
-   onChangeDescription = updatedValue => {
+   onChangeDescription = (updatedValue: string) => {
       this.descriptionError = null
       this.text = updatedValue
       this.updateDataStatus()
    }
 
-   onChangeTextType = event => {
+   onChangeTextType = (event: ChangeEvent<HTMLSelectElement>) => {
       this.textType = event.target.value
       this.updateDataStatus()
    }
@@ -118,7 +126,7 @@ class Statement extends React.Component<StatementProps> {
 
    onSuccessPostProblemStatement = () => {
       const { showToastMessage } = this.props
-      const { postSuccessMessages } = i18n as any
+      const { postSuccessMessages } = i18n
       showToastMessage(postSuccessMessages.statement, false, 700)
       setTimeout(this.moveToNextTab, 900)
    }
@@ -147,7 +155,7 @@ class Statement extends React.Component<StatementProps> {
       )
    }
 
-   onClickSaveButton = event => {
+   onClickSaveButton = () => {
       if (this.shortText && this.text) {
          this.postProblemStatement()
       } else {
@@ -175,7 +183,7 @@ class Statement extends React.Component<StatementProps> {
 
    render() {
       const { statement } = i18n
-      const { commonComponents } = commonI18n as any
+      const { commonComponents } = commonI18n
       const {
          codingProblemsStore: { postStatementAPIStatus }
       } = this.props

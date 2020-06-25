@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react'
 import { API_FETCHING } from '@ib/api-constants'
@@ -14,6 +14,8 @@ import { OverlayLoader } from '../../../Common/components/OverlayLoader'
 import colors from '../../../Common/themes/Colors'
 
 import i18n from '../../i18n/strings.json'
+import { CodingProblemsStore } from '../../stores/CodingProblemsStore'
+import { SolutionApproachModel } from '../../stores/models/SolutionApproachModel'
 
 import {
    SolutionApproachLeftSection,
@@ -27,13 +29,17 @@ import {
    ErrorMessage
 } from './styledComponents'
 
-type SolutionApproachProps = {
-   codingProblemsStore: any
-   solutionApproach: any
-   onSelectTab: any
+interface SolutionApproachProps {
+   codingProblemsStore: CodingProblemsStore
+   solutionApproach: SolutionApproachModel | null
+   onSelectTab: (tabNumber: number) => void
    currentTabIndex: number
-   showToastMessage: any
-   updateDataStatus: any
+   showToastMessage: (
+      message: string | null,
+      type: boolean,
+      time: number
+   ) => void
+   updateDataStatus: (status: boolean) => void
 }
 
 @observer
@@ -46,7 +52,11 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
    @observable complexityAnalysisErrorMessage!: string | null
    @observable writingField!: string
    solutionApproachId!: number | null
-   previousSolutionApproachData: any
+   previousSolutionApproachData!: {
+      title: string
+      description: { content: string; type: string }
+      complexityAnalysis: { content: string; type: string }
+   }
 
    constructor(props) {
       super(props)
@@ -74,7 +84,7 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
       this.complexityAnalysisErrorMessage = null
    }
 
-   setSolutionApproachData(solutionApproach) {
+   setSolutionApproachData(solutionApproach: SolutionApproachModel) {
       this.title = solutionApproach.title
       this.description = { ...solutionApproach.description }
       this.complexityAnalysis = { ...solutionApproach.complexityAnalysis }
@@ -138,30 +148,30 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
       }
    }
 
-   onChangeTitle = event => {
+   onChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
       this.title = event.target.value
       this.initErrors()
       this.updateDataStatus()
    }
 
-   onChangeDescriptionType = event => {
+   onChangeDescriptionType = (event: ChangeEvent<HTMLSelectElement>) => {
       this.description.type = event.target.value
       this.updateDataStatus()
    }
 
-   onChangeDescriptionContent = updatedContent => {
+   onChangeDescriptionContent = (updatedContent: string) => {
       this.writingField = i18n.solutionApproach.description
       this.description.content = updatedContent
       this.initErrors()
       this.updateDataStatus()
    }
 
-   onChangeComplexityAnalysisType = event => {
+   onChangeComplexityAnalysisType = (event: ChangeEvent<HTMLSelectElement>) => {
       this.complexityAnalysis.type = event.target.value
       this.updateDataStatus()
    }
 
-   onChangeComplexityAnalysisContent = updatedContent => {
+   onChangeComplexityAnalysisContent = (updatedContent: string) => {
       this.writingField = i18n.solutionApproach.complexityAnalysis
       this.complexityAnalysis.content = updatedContent
       this.initErrors()
@@ -196,12 +206,7 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
    onSuccessPostSolutionApproach = () => {
       const { showToastMessage } = this.props
       const { postSuccessMessages } = i18n
-      showToastMessage(
-         postSuccessMessages.solutionApproach,
-         false,
-         700,
-         () => {}
-      )
+      showToastMessage(postSuccessMessages.solutionApproach, false, 700)
       setTimeout(this.moveToNextTab, 800)
    }
 
@@ -254,7 +259,7 @@ class SolutionApproach extends React.Component<SolutionApproachProps> {
    }
 
    render() {
-      const { solutionApproach } = i18n as any
+      const { solutionApproach } = i18n
       const { commonComponents } = commonI18n
       const {
          codingProblemsStore: { postSolutionApproachAPIStatus }

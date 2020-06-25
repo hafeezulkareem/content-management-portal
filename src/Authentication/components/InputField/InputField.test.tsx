@@ -1,10 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 
-import {
-   INPUT_FIELD_TEST_ID,
-   ERROR_ICON_TEST_ID
-} from '../../constants/IdConstants'
+import { ERROR_ICON_TEST_ID } from '../../constants/IdConstants'
 
 import { InputField } from './InputField'
 
@@ -12,16 +9,17 @@ const testText = 'test-text'
 
 describe('SignIn InputField Tests', () => {
    it('should render given text', () => {
-      const { getByTestId } = render(
+      const { getByDisplayValue } = render(
          <InputField
             inputFieldType='text'
             onChangeInput={() => {}}
             inputFieldValue={testText}
             error={null}
+            id={'TESTING'}
          />
       )
 
-      expect((getByTestId(INPUT_FIELD_TEST_ID) as HTMLInputElement).value).toBe(
+      expect((getByDisplayValue(/test-text/i) as HTMLInputElement).value).toBe(
          testText
       )
    })
@@ -33,6 +31,7 @@ describe('SignIn InputField Tests', () => {
             onChangeInput={() => {}}
             inputFieldValue='error'
             error='error'
+            id={'TESTING'}
          />
       )
 

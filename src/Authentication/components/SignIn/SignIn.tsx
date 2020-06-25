@@ -1,12 +1,13 @@
 import React, { ChangeEvent, FormEvent } from 'react'
-import { API_FETCHING } from '@ib/api-constants'
 import { observer } from 'mobx-react'
+import { observable } from 'mobx'
+
+import { API_FETCHING } from '@ib/api-constants'
 
 import images from '../../../Common/themes/Images'
 import commonI18n from '../../../Common/i18n/strings.json'
 
 import i18n from '../../i18n/strings.json'
-import { SIGN_BUTTON_TEST_ID } from '../../constants/IdConstants'
 
 import { InputField } from '../InputField'
 import { LoadingView } from '../LoadingView'
@@ -27,66 +28,92 @@ import {
 } from './styledComponents'
 
 interface SignInProps {
-   username: string
-   password: string
-   usernameError: string | null
-   passwordError: string | null
-   onChangeUsername: (event: ChangeEvent<HTMLInputElement>) => void
-   onChangePassword: (event: ChangeEvent<HTMLInputElement>) => void
-   onSubmitSignInForm: (event: FormEvent<HTMLFormElement>) => void
+   getUserAccessToken: (username: string, password: string) => void
    signInFailureError: string | null
    postSignInAPIStatus: number
 }
 
 @observer
 class SignIn extends React.Component<SignInProps> {
+   @observable username: string
+   @observable password: string
+   @observable usernameError: string | null
+   @observable passwordError: string | null
+
+   constructor(props) {
+      super(props)
+      this.username = ''
+      this.password = ''
+      this.usernameError = null
+      this.passwordError = null
+   }
+
+   onChangeUsername = (event: ChangeEvent<HTMLInputElement>) => {
+      this.username = event.target.value.trim()
+      this.usernameError = null
+   }
+
+   onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
+      this.password = event.target.value.trim()
+      this.passwordError = null
+   }
+
+   onSubmitSignInForm = (event: FormEvent<HTMLFormElement>) => {
+      const { getUserAccessToken } = this.props
+      const { signInErrors } = i18n
+      event.preventDefault()
+      if (this.username === '' || this.username === undefined) {
+         this.usernameError = signInErrors.pleasEnterUsername
+      } else if (this.password === '' || this.password === undefined) {
+         this.passwordError = signInErrors.pleaseEnterPassword
+      } else {
+         getUserAccessToken(this.username, this.password)
+      }
+   }
+
    render() {
-      const {
-         username,
-         password,
-         usernameError,
-         passwordError,
-         onChangeUsername,
-         onChangePassword,
-         onSubmitSignInForm,
-         signInFailureError,
-         postSignInAPIStatus
-      } = this.props
+      const { signInFailureError, postSignInAPIStatus } = this.props
       const { signUpMessages } = i18n
       const { imageAlts } = commonI18n
       return (
          <SignInPageWrapper>
             <SignInContainer>
                <SignInLogo alt={imageAlts.iBHubsLogo} src={images.ibHubsLogo} />
-               <SignInTitle>Hi there, login</SignInTitle>
-               <SignInForm onSubmit={onSubmitSignInForm}>
+               <SignInTitle>{i18n.hiThereLogin}</SignInTitle>
+               <SignInForm onSubmit={this.onSubmitSignInForm}>
                   <FieldWrapper>
-                     <TextLabel>{i18n.username}</TextLabel>
+                     <TextLabel htmlFor={i18n.username}>
+                        {i18n.username}
+                     </TextLabel>
                      <InputField
-                        inputFieldValue={username}
-                        onChangeInput={onChangeUsername}
+                        inputFieldValue={this.username}
+                        onChangeInput={this.onChangeUsername}
                         inputFieldType='text'
-                        error={usernameError}
+                        error={this.usernameError}
+                        id={i18n.username}
                      />
-                     {usernameError && (
-                        <ErrorMessage>{usernameError}</ErrorMessage>
+                     {this.usernameError && (
+                        <ErrorMessage>{this.usernameError}</ErrorMessage>
                      )}
                   </FieldWrapper>
                   <FieldWrapper>
-                     <TextLabel>{i18n.password}</TextLabel>
+                     <TextLabel htmlFor={i18n.password}>
+                        {i18n.password}
+                     </TextLabel>
                      <InputField
-                        inputFieldValue={password}
-                        onChangeInput={onChangePassword}
+                        inputFieldValue={this.password}
+                        onChangeInput={this.onChangePassword}
                         inputFieldType='password'
-                        error={passwordError}
+                        error={this.passwordError}
+                        id={i18n.password}
                      />
-                     {passwordError && (
-                        <ErrorMessage>{passwordError}</ErrorMessage>
+                     {this.passwordError && (
+                        <ErrorMessage>{this.passwordError}</ErrorMessage>
                      )}
                   </FieldWrapper>
                   <SignInButton
-                     data-testid={SIGN_BUTTON_TEST_ID}
                      disabled={postSignInAPIStatus === API_FETCHING}
+                     isDisabled={postSignInAPIStatus === API_FETCHING}
                   >
                      {postSignInAPIStatus !== API_FETCHING ? (
                         `${i18n.login.toUpperCase()}`

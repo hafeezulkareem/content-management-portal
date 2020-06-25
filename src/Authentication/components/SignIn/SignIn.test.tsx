@@ -1,7 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
-
-import { INPUT_FIELD_TEST_ID } from '../../constants/IdConstants'
+import { render, fireEvent } from '@testing-library/react'
 
 import { SignIn } from './SignIn'
 
@@ -12,13 +10,7 @@ describe('SignIn Tests', () => {
    it('should render labels for two fields', () => {
       const { getByText } = render(
          <SignIn
-            username=''
-            password=''
-            usernameError={null}
-            passwordError={null}
-            onChangeUsername={() => {}}
-            onChangePassword={() => {}}
-            onSubmitSignInForm={() => {}}
+            getUserAccessToken={() => {}}
             signInFailureError={null}
             postSignInAPIStatus={0}
          />
@@ -29,74 +21,62 @@ describe('SignIn Tests', () => {
    })
 
    it('should render given username & password', () => {
-      const { getAllByTestId } = render(
+      const { getByLabelText } = render(
          <SignIn
-            username={testUsername}
-            password={testPassword}
-            usernameError={null}
-            passwordError={null}
-            onChangeUsername={() => {}}
-            onChangePassword={() => {}}
-            onSubmitSignInForm={() => {}}
+            getUserAccessToken={() => {}}
             signInFailureError={null}
             postSignInAPIStatus={0}
          />
       )
 
-      const inputFields = getAllByTestId(INPUT_FIELD_TEST_ID) as Array<
-         HTMLInputElement
-      >
+      const usernameInputField = getByLabelText('USERNAME') as HTMLInputElement
+      const passwordInputField = getByLabelText('PASSWORD') as HTMLInputElement
 
-      expect(inputFields[0].value).toBe(testUsername)
-      expect(inputFields[1].value).toBe(testPassword)
+      fireEvent.change(usernameInputField, { target: { value: testUsername } })
+      fireEvent.change(passwordInputField, { target: { value: testPassword } })
+
+      expect(usernameInputField.value).toBe(testUsername)
+      expect(passwordInputField.value).toBe(testPassword)
    })
 
    it('should render username error', () => {
-      const { getByText } = render(
+      const { getByText, getByRole } = render(
          <SignIn
-            username={testUsername}
-            password={testPassword}
-            usernameError={'Please fill the username'}
-            passwordError={null}
-            onChangeUsername={() => {}}
-            onChangePassword={() => {}}
-            onSubmitSignInForm={() => {}}
+            getUserAccessToken={() => {}}
             signInFailureError={null}
             postSignInAPIStatus={0}
          />
       )
 
-      expect(getByText(/please fill the username/i)).toBeInTheDocument()
+      const signInButton = getByRole('button', { name: 'LOGIN' })
+
+      fireEvent.click(signInButton)
+
+      expect(getByText(/please enter username/i)).toBeInTheDocument()
    })
 
    it('should render password error', () => {
-      const { getByText } = render(
+      const { getByText, getByLabelText, getByRole } = render(
          <SignIn
-            username={testUsername}
-            password={testPassword}
-            usernameError={null}
-            passwordError={'Please fill the password'}
-            onChangeUsername={() => {}}
-            onChangePassword={() => {}}
-            onSubmitSignInForm={() => {}}
+            getUserAccessToken={() => {}}
             signInFailureError={null}
             postSignInAPIStatus={0}
          />
       )
 
-      expect(getByText(/please fill the password/i)).toBeInTheDocument()
+      const usernameInputField = getByLabelText('USERNAME')
+      const signInButton = getByRole('button', { name: 'LOGIN' })
+
+      fireEvent.change(usernameInputField, { target: { value: testUsername } })
+      fireEvent.click(signInButton)
+
+      expect(getByText(/please enter password/i)).toBeInTheDocument()
    })
 
    it('should render signInFailureError', () => {
       const { getByText } = render(
          <SignIn
-            username={testUsername}
-            password={testPassword}
-            usernameError={null}
-            passwordError={null}
-            onChangeUsername={() => {}}
-            onChangePassword={() => {}}
-            onSubmitSignInForm={() => {}}
+            getUserAccessToken={() => {}}
             signInFailureError={'Something went wrong!'}
             postSignInAPIStatus={0}
          />

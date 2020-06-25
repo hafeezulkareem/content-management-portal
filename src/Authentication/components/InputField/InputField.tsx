@@ -3,10 +3,7 @@ import React, { ChangeEvent } from 'react'
 import images from '../../../Common/themes/Images'
 import commonI18n from '../../../Common/i18n/strings.json'
 
-import {
-   INPUT_FIELD_TEST_ID,
-   ERROR_ICON_TEST_ID
-} from '../../constants/IdConstants'
+import { ERROR_ICON_TEST_ID } from '../../constants/IdConstants'
 
 import {
    InputFieldWrapper,
@@ -19,6 +16,7 @@ interface InputFieldProps {
    inputFieldValue: string
    onChangeInput: (event: ChangeEvent<HTMLInputElement>) => void
    error: string | null
+   id: string
 }
 
 class InputField extends React.Component<InputFieldProps> {
@@ -28,16 +26,17 @@ class InputField extends React.Component<InputFieldProps> {
          inputFieldType,
          onChangeInput,
          inputFieldValue,
-         error
+         error,
+         id
       } = this.props
       return (
          <InputFieldWrapper error={error}>
             <InputFieldEl
-               data-testid={INPUT_FIELD_TEST_ID}
                value={inputFieldValue}
                onChange={onChangeInput}
                type={inputFieldType}
                error={error}
+               id={id}
             />
             {error && (
                <InputFieldErrorIcon

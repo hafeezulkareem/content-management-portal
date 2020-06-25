@@ -41,7 +41,7 @@ export const SignInForm = styled.form`
     `}
 `
 
-export const TextLabel = styled.span`
+export const TextLabel = styled.label`
    color: ${colors.steel};
    ${tw`
         text-xs
@@ -55,11 +55,17 @@ export const ErrorMessage = styled.span`
     `}
 `
 
+interface SignInButtonProps {
+   isDisabled: boolean
+}
+
 export const SignInButton = styled.button`
    background-color: ${colors.brightBlue};
    ${tw`
         text-white font-bold py-3 mt-8 mb-4 rounded text-sm focus:outline-none
     `};
+   ${(props: SignInButtonProps) =>
+      props.isDisabled ? `opacity: .75; cursor: not-allowed;` : ``}
 `
 
 export const SignUpMessage = styled.p`

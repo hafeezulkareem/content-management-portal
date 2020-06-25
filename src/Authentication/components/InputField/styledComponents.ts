@@ -8,6 +8,10 @@ type InputProps = {
 }
 
 export const InputFieldWrapper = styled.div`
+   &:focus-within {
+      ${(props: InputProps) =>
+         !props.error ? `border-color: ${colors.brightBlue};` : ''}
+   }
    ${(props: InputProps) =>
       props.error
          ? `border-color: ${colors.neonRed}; background-color: ${colors.neonRed_5};`
@@ -20,7 +24,7 @@ export const InputFieldEl = styled.input`
       props.error ? `background-color: ${colors.neonRed_5}; opacity: .25;` : ''}
    ${tw`
         w-full mr-2 focus:outline-none
-    `}
+   `}
 `
 
 export const InputFieldErrorIcon = styled.img`

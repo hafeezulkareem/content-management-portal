@@ -1,4 +1,5 @@
 import { observable, action } from 'mobx'
+
 import { API_INITIAL, APIStatus } from '@ib/api-constants'
 import { bindPromiseWithOnSuccess } from '@ib/mobx-promise'
 
@@ -29,8 +30,9 @@ class AuthStore {
    }
 
    @action.bound
-   clearStore() {
-      this.init()
+   userSignOut() {
+      clearUserSession()
+      this.clearStore()
    }
 
    @action.bound
@@ -39,16 +41,16 @@ class AuthStore {
    }
 
    @action.bound
-   setLoginAPIError(signInAPIError: Error | null) {
-      this.postSignInAPIError = getUserDisplayableErrorMessage(signInAPIError)
-   }
-
-   @action.bound
    setSignInAPIResponse(signInAPIResponse: SignInResponse | null) {
       if (signInAPIResponse) {
          const { access_token: accessToken } = signInAPIResponse
          setAccessToken(accessToken)
       }
+   }
+
+   @action.bound
+   setLoginAPIError(signInAPIError: Error | null) {
+      this.postSignInAPIError = getUserDisplayableErrorMessage(signInAPIError)
    }
 
    @action.bound
@@ -70,9 +72,8 @@ class AuthStore {
    }
 
    @action.bound
-   userSignOut() {
-      clearUserSession()
-      this.clearStore()
+   clearStore() {
+      this.init()
    }
 }
 

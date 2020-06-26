@@ -1,21 +1,21 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import { observable, reaction } from 'mobx'
-import { API_SUCCESS } from '@ib/api-constants'
+import { observable, reaction, ObservableMap } from 'mobx'
+
+import { API_SUCCESS, APIStatus } from '@ib/api-constants'
 
 import { AppHeader } from '../../../Common/components/AppHeader'
 import { CodingAndMCQsNavigator } from '../../../Common/components/CodingAndMCQsNavigator'
 import { FooterNavigation } from '../../../Common/components/FooterNavigation'
 import { SelectList } from '../../../Common/components/SelectList'
 import LoadingWrapperWithFailure from '../../../Common/components/LoadingWrapperWithFailure'
-import images from '../../../Common/themes/Images'
 import { Button } from '../../../Common/components/Button'
+import images from '../../../Common/themes/Images'
 import colors from '../../../Common/themes/Colors'
 import commonI18n from '../../../Common/i18n/strings.json'
 
 import i18n from '../../i18n/strings.json'
 import { CODING_PROBLEMS_LIMIT_PER_PAGE } from '../../constants/APILimitConstants'
-import { CodingProblemsStore } from '../../stores/CodingProblemsStore'
 import { CodingProblemItemModel } from '../../stores/models/CodingProblemItemModel'
 
 import { CodingProblemsList } from '../CodingProblemsList'
@@ -27,7 +27,15 @@ import {
 } from './styledComponents'
 
 interface CodingProblemsHomeProps {
-   codingProblemsStore: CodingProblemsStore
+   getCodingProblems: () => void
+   getCodingProblemsAPIStatus: APIStatus
+   getCodingProblemsAPIError: string | null
+   codingProblemsList: ObservableMap<string, CodingProblemItemModel>
+   totalCodingProblems: number
+   currentCodingProblemsPage: number
+   decrementPageNumber: (limit: number) => void
+   incrementPageNumber: (limit: number) => void
+   updateCodingProblemsOffsetValue: (pageNumber: number, limit: number) => void
    activeSection: string
    navigateToCodingProblemCreatingFlow: () => void
    navigateToCodingProblemDetailsPage: (id: number) => void
@@ -44,20 +52,12 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
    }
 
    componentDidMount() {
-      const { codingProblemsStore } = this.props
-      codingProblemsStore.getCodingProblems()
-   }
-
-   getCodingProblemsStore = () => {
-      return this.props.codingProblemsStore
-   }
-
-   getCodingProblems = () => {
-      this.getCodingProblemsStore().getCodingProblems()
+      const { getCodingProblems } = this.props
+      getCodingProblems()
    }
 
    renderSuccessUI = () => {
-      const { codingProblemsList } = this.getCodingProblemsStore()
+      const { codingProblemsList } = this.props
       const { navigateToCodingProblemDetailsPage } = this.props
       let codingProblemsListArray = Array.from(codingProblemsList.values())
       return (
@@ -71,18 +71,18 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
    }
 
    onClickPreviousPaginationButton = () => {
-      const { codingProblemsStore } = this.props
-      codingProblemsStore.decrementPageNumber(CODING_PROBLEMS_LIMIT_PER_PAGE)
+      const { decrementPageNumber } = this.props
+      decrementPageNumber(CODING_PROBLEMS_LIMIT_PER_PAGE)
    }
 
    onClickNextPaginationButton = () => {
-      const { codingProblemsStore } = this.props
-      codingProblemsStore.incrementPageNumber(CODING_PROBLEMS_LIMIT_PER_PAGE)
+      const { incrementPageNumber } = this.props
+      incrementPageNumber(CODING_PROBLEMS_LIMIT_PER_PAGE)
    }
 
    onClickPaginationNumberButton = (pageNumber: number) => {
-      const { codingProblemsStore } = this.props
-      codingProblemsStore.updateCodingProblemsOffsetValue(
+      const { updateCodingProblemsOffsetValue } = this.props
+      updateCodingProblemsOffsetValue(
          pageNumber,
          CODING_PROBLEMS_LIMIT_PER_PAGE
       )
@@ -90,9 +90,7 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
 
    onChangeGetCodingProblemsAPIStatus = reaction(
       () => {
-         const {
-            codingProblemsStore: { getCodingProblemsAPIStatus }
-         } = this.props
+         const { getCodingProblemsAPIStatus } = this.props
          return getCodingProblemsAPIStatus
       },
       getCodingProblemsAPIStatus => {
@@ -105,10 +103,8 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
    onChangeSelectedCodingProblems = () => {
       reaction(
          () => {
-            const {
-               codingProblemsStore: { codingProblemsList: codingProblems }
-            } = this.props
-            return Array.from(codingProblems.values()).filter(
+            const { codingProblemsList } = this.props
+            return Array.from(codingProblemsList.values()).filter(
                (codingProblem: CodingProblemItemModel) =>
                   codingProblem.isSelected
             )
@@ -126,17 +122,15 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
 
    render() {
       const {
-         codingProblemsStore,
+         getCodingProblems,
+         getCodingProblemsAPIStatus,
+         getCodingProblemsAPIError,
+         totalCodingProblems,
+         currentCodingProblemsPage,
          activeSection,
          navigateToCodingProblemCreatingFlow,
          onUserSignOut
       } = this.props
-      const {
-         getCodingProblemsAPIStatus,
-         getCodingProblemsAPIError,
-         totalCodingProblems,
-         currentCodingProblemsPage
-      } = codingProblemsStore
       const { addCodingQuestions } = i18n
       const totalCodingProblemsPageCount =
          totalCodingProblems > 0
@@ -160,7 +154,7 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
                <LoadingWrapperWithFailure
                   apiStatus={getCodingProblemsAPIStatus}
                   apiError={getCodingProblemsAPIError}
-                  onRetryClick={this.getCodingProblems}
+                  onRetryClick={getCodingProblems}
                   renderSuccessUI={this.renderSuccessUI}
                />
             </LoadingWrapperAndProblemsList>

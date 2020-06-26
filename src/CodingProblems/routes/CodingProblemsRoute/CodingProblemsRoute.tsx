@@ -8,11 +8,12 @@ import {
    RouteComponentProps
 } from 'react-router-dom'
 
-import { CreatingFlow } from '../../components/CreatingFlow'
-import { CodingProblemsHome } from '../../components/CodingProblemsHome'
 import { CODING_LIST } from '../../../Common/constants/SectionConstants'
 import { CODING_PROBLEMS_PATH } from '../../../Common/constants/RouteConstants'
+import { AuthStore } from '../../../Authentication/stores/AuthStore'
 
+import { CreatingFlow } from '../../components/CreatingFlow'
+import { CodingProblemsHome } from '../../components/CodingProblemsHome'
 import { CODING_PROBLEM_DETAILS_PATH } from '../../constants/RouteConstants'
 import {
    goToSignInPage,
@@ -21,7 +22,6 @@ import {
    goToCodingProblemsDetailsPage
 } from '../../utils/NavigationUtils'
 import { CodingProblemsStore } from '../../stores/CodingProblemsStore'
-import { AuthStore } from '../../../Authentication/stores/AuthStore'
 
 interface CodingProblemsRouteProps extends RouteComponentProps {}
 
@@ -34,6 +34,10 @@ interface InjectedProps extends CodingProblemsRouteProps {
 @observer
 class CodingProblemsRoute extends React.Component<CodingProblemsRouteProps> {
    @observable activeSection: string = CODING_LIST
+
+   getCodingProblems = () => {
+      this.codingProblemsStore.getCodingProblems()
+   }
 
    getInjectedProps = () => this.props as InjectedProps
 
@@ -72,6 +76,16 @@ class CodingProblemsRoute extends React.Component<CodingProblemsRouteProps> {
    }
 
    render() {
+      const {
+         codingProblemsList,
+         getCodingProblemsAPIStatus,
+         getCodingProblemsAPIError,
+         totalCodingProblems,
+         currentCodingProblemsPage,
+         decrementPageNumber,
+         incrementPageNumber,
+         updateCodingProblemsOffsetValue
+      } = this.codingProblemsStore
       return (
          <Switch>
             <Route exact path={CODING_PROBLEM_DETAILS_PATH}>
@@ -85,8 +99,18 @@ class CodingProblemsRoute extends React.Component<CodingProblemsRouteProps> {
             </Route>
             <Route exact path={CODING_PROBLEMS_PATH}>
                <CodingProblemsHome
+                  getCodingProblems={this.getCodingProblems}
+                  getCodingProblemsAPIStatus={getCodingProblemsAPIStatus}
+                  getCodingProblemsAPIError={getCodingProblemsAPIError}
+                  codingProblemsList={codingProblemsList}
+                  totalCodingProblems={totalCodingProblems}
+                  currentCodingProblemsPage={currentCodingProblemsPage}
+                  decrementPageNumber={decrementPageNumber}
+                  incrementPageNumber={incrementPageNumber}
+                  updateCodingProblemsOffsetValue={
+                     updateCodingProblemsOffsetValue
+                  }
                   onUserSignOut={this.userSignOut}
-                  codingProblemsStore={this.codingProblemsStore}
                   activeSection={this.activeSection}
                   navigateToCodingProblemCreatingFlow={
                      this.navigateToCodingProblemCreatingFlow

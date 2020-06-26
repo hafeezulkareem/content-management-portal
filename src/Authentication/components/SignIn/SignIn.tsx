@@ -54,7 +54,7 @@ class SignIn extends React.Component<SignInProps> {
    }
 
    onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
-      this.password = event.target.value.trim()
+      this.password = event.target.value
       this.passwordError = null
    }
 
@@ -80,7 +80,10 @@ class SignIn extends React.Component<SignInProps> {
             <SignInContainer>
                <SignInLogo alt={imageAlts.iBHubsLogo} src={images.ibHubsLogo} />
                <SignInTitle>{i18n.hiThereLogin}</SignInTitle>
-               <SignInForm onSubmit={this.onSubmitSignInForm}>
+               <SignInForm
+                  onSubmit={this.onSubmitSignInForm}
+                  autoComplete='off'
+               >
                   <FieldWrapper>
                      <TextLabel htmlFor={i18n.username}>
                         {i18n.username}

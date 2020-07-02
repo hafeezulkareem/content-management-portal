@@ -20,6 +20,13 @@ interface InputFieldProps {
 }
 
 class InputField extends React.Component<InputFieldProps> {
+   inputFieldRef: React.RefObject<HTMLInputElement>
+
+   constructor(props) {
+      super(props)
+      this.inputFieldRef = React.createRef()
+   }
+
    render() {
       const { imageAlts } = commonI18n
       const {
@@ -37,6 +44,7 @@ class InputField extends React.Component<InputFieldProps> {
                type={inputFieldType}
                error={error}
                id={id}
+               ref={this.inputFieldRef}
             />
             {error && (
                <InputFieldErrorIcon

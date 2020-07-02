@@ -61,8 +61,9 @@ interface SignInButtonProps {
 
 export const SignInButton = styled.button`
    background-color: ${colors.brightBlue};
+   border-color: ${colors.brightBlue};
    ${tw`
-        text-white font-bold py-3 mt-8 mb-4 rounded text-sm focus:outline-none
+        text-white font-bold py-3 mt-8 mb-4 rounded text-sm focus:outline-none border-2 focus:border-blue-300
     `};
    ${(props: SignInButtonProps) =>
       props.isDisabled ? `opacity: .75; cursor: not-allowed;` : ``}

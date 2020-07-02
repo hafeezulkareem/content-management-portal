@@ -39,6 +39,8 @@ class SignIn extends React.Component<SignInProps> {
    @observable password: string
    @observable usernameError: string | null
    @observable passwordError: string | null
+   @observable usernameRef: React.RefObject<InputField>
+   @observable passwordRef: React.RefObject<InputField>
 
    constructor(props) {
       super(props)
@@ -46,6 +48,17 @@ class SignIn extends React.Component<SignInProps> {
       this.password = ''
       this.usernameError = null
       this.passwordError = null
+      this.usernameRef = React.createRef()
+      this.passwordRef = React.createRef()
+   }
+
+   componentDidMount() {
+      this.focusInputField(this.usernameRef)
+   }
+
+   focusInputField = (ref: React.RefObject<InputField>) => {
+      const inputFieldRef = ref.current?.inputFieldRef
+      inputFieldRef?.current?.focus()
    }
 
    onChangeUsername = (event: ChangeEvent<HTMLInputElement>) => {
@@ -63,8 +76,10 @@ class SignIn extends React.Component<SignInProps> {
       const { signInErrors } = i18n
       event.preventDefault()
       if (this.username === '' || this.username === undefined) {
+         this.focusInputField(this.usernameRef)
          this.usernameError = signInErrors.pleasEnterUsername
       } else if (this.password === '' || this.password === undefined) {
+         this.focusInputField(this.passwordRef)
          this.passwordError = signInErrors.pleaseEnterPassword
       } else {
          getUserAccessToken(this.username, this.password)
@@ -94,6 +109,7 @@ class SignIn extends React.Component<SignInProps> {
                         inputFieldType='text'
                         error={this.usernameError}
                         id={i18n.username}
+                        ref={this.usernameRef}
                      />
                      {this.usernameError && (
                         <ErrorMessage>{this.usernameError}</ErrorMessage>
@@ -109,6 +125,7 @@ class SignIn extends React.Component<SignInProps> {
                         inputFieldType='password'
                         error={this.passwordError}
                         id={i18n.password}
+                        ref={this.passwordRef}
                      />
                      {this.passwordError && (
                         <ErrorMessage>{this.passwordError}</ErrorMessage>

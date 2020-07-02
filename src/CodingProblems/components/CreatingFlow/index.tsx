@@ -1,1 +1,5 @@
-export { CreatingFlowWithRouter as CreatingFlow } from './CreatingFlow'
+import { lazy } from 'react'
+
+const CreatingFlow = lazy(() => import('./CreatingFlow'))
+
+export { CreatingFlow }

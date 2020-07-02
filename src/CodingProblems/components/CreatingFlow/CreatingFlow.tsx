@@ -424,6 +424,4 @@ class CreatingFlow extends React.Component<CreatingFlowProps> {
    }
 }
 
-const CreatingFlowWithRouter = withRouter(CreatingFlow)
-
-export { CreatingFlowWithRouter }
+export default withRouter(CreatingFlow)

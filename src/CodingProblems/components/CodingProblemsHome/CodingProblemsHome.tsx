@@ -186,4 +186,4 @@ class CodingProblemsHome extends React.Component<CodingProblemsHomeProps> {
    }
 }
 
-export { CodingProblemsHome }
+export default CodingProblemsHome

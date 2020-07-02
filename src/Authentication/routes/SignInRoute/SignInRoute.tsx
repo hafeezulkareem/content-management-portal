@@ -63,6 +63,4 @@ class SignInRoute extends React.Component<SignInRouteProps> {
    }
 }
 
-const SignInRouteWithRouter = withRouter(SignInRoute)
-
-export { SignInRouteWithRouter }
+export default withRouter(SignInRoute)

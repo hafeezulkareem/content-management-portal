@@ -1,1 +1,5 @@
-export { CodingProblemsRouteWithRouter as CodingProblemsRoute } from './CodingProblemsRoute'
+import { lazy } from 'react'
+
+const CodingProblemsRoute = lazy(() => import('./CodingProblemsRoute'))
+
+export { CodingProblemsRoute }

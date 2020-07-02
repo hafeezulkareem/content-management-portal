@@ -1,1 +1,5 @@
-export { SignInRouteWithRouter as SignInRoute } from './SignInRoute'
+import { lazy } from 'react'
+
+const SignInRoute = lazy(() => import('./SignInRoute'))
+
+export { SignInRoute }

@@ -125,6 +125,4 @@ class CodingProblemsRoute extends React.Component<CodingProblemsRouteProps> {
    }
 }
 
-const CodingProblemsRouteWithRouter = withRouter(CodingProblemsRoute)
-
-export { CodingProblemsRouteWithRouter }
+export default withRouter(CodingProblemsRoute)
